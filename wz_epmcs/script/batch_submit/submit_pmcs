@@ -1,0 +1,1062 @@
+#!/bin/bash
+#
+# A script to run CAF jobs in the clued0 and CAB batch system
+# including support for parallel SAM jobs.
+#
+# Usage:
+#
+#    runcafe [ options ] [ -- arguments ]
+#
+# options:
+#
+#    -help|-h|--help           [ print help message ]
+#
+#    -dest=<clued0|cabsrv1|cabsrv2>[ required ]
+#
+#    -def=<SAM_DEFINITION>     [ one of -def= or -filelist= is required ]
+#    -defname=<SAM_DEFINITION> [ same as -def= ]
+#    -filelist=<filelist.lst>  [ one of -def= or -filelist= is required ]
+#    -jobs=<NUM>               [ default: 1 ]
+#    -eventtype=<TYPE>         [ one of zresbos, wresbos, zpythia, wpythia ]
+#    -simtype=<TYPE>           [ one of wen/zee/znunu ]
+#    -n=<NUM>                  [ default: 0 (all files) ]
+#    -rseed=<NUM>              [ default: random ]
+#    -outhost=<HOST>           [ default: `hostname` ]
+#    -outdir=<DIR>             [ default: `pwd` ]
+#    -outfiles='...'           [ default: "" ]
+#    -inputdir=<DIR>           [ default: `pwd` ]
+#    -inputfiles='...'         [ default: "" ]
+#    -exec=<EXECUTABLE>        [ default: cafe]
+#    -project=<PROJECT>        [ default: $USER_`date` ]
+#    -name=<NAME>              [ default: ${EXECUTABLE}_`date` ]
+#    -jobname=<NAME>           [ default: "run_job.sh" ]
+#    -batch-flags='...'        [ default: "" ] 
+#    -filecut=<NUMBER>         [ default: "", i.e. no file cut ]
+#    -cput=...                 [ default: not set ]
+#    -mem=...                  [ default: not set ]
+#    -exclude='FILE/DIR'       [ default: 'cafe_2* tmp bin lib' ]
+#    -group=<GROUP>            [ default: "dzero" ]
+#
+#    -queue=<QUEUE>            [ default: depends on destination ]
+#
+#    all command line parameter after the  -- are assumed
+#    to be arguments to the executable (default 'cafe')
+#
+
+if [ -z "${SRT_BASE_RELEASE}" ]; then
+    echo "You must setup a D0RunII release first."
+    exit 1
+fi
+
+#export CAF_SCRIPTS=${CAF_TOOLS_DIR}/scripts
+
+###############################
+# Default values
+###############################
+export SAM_WORKGROUP=""
+export CLUSTER=""
+export SAM_DEFINITION="" 
+export LIB_DEFINITION="" 
+export SAM_FILECUT=""
+export FILELIST=""
+export STAGEINLIST=""
+export NUM_JOBS=1
+export EXECUTABLE=./run_pmcs
+export ARGUMENTS=""
+
+export NAME="" 
+export JOBNAME=""
+export OUTPUT_HOST=`hostname`
+export OUTPUT_DIR=""
+export OUTPUT_FILES='result*.root'
+
+export QUEUE=""
+
+export INPUT_HOST=$(hostname)
+export INPUT_DIR=`pwd`
+export INPUT_FILES=""
+export INPUT_TAR=""
+
+export SCRIPT_INIT=""
+export SCRIPT_SOURCE=""
+export SCRIPT_FINISH=""
+
+export RSYNC_OPTIONS="-l "
+export EXCLUDE=""
+export TAR_OPTIONS=""
+
+export DEBUG=""
+export DRYRUN=no
+
+export SKIPCOPY=no
+
+# for clued0 batch system
+CPUT=""
+MEM=""
+
+export BATCH_FLAGS=""
+
+export SAM_PROJECT
+
+# Maximum number for parallel SAM job.
+MAX_NUM_JOBS=250
+
+######################################################
+# Customization for different batch systems
+#
+# Every target batch system must have two functions:
+#
+#  submit_${CLUSTER}
+#  default_queue_${CLUSTER}
+#####################################################
+export VALID_CLUSTERS="clued0 cabsrv1 cabsrv2"
+
+##to impose usage of tar file for those clusters
+export CLUSTER_FORCED_TO_USE_TARFILE="cabsrv1 cabsrv2"
+
+################################################
+# The list of variables passed to the batch job
+################################################
+#VARIABLE_LIST="SAM_DEFINITION,SAM_PROJECT,SAM_FILECUT,FILELIST,STAGEINLIST,NUM_JOBS,JOB_INDEX,EXECUTABLE,ARGUMENTS,NAME,OUTPUT_HOST,OUTPUT_DIR,OUTPUT_FILES,INPUT_HOST,INPUT_DIR,INPUT_FILES,INPUT_TAR,CLUSTER,SRT_BASE_RELEASE,SRT_QUAL,SCRIPT_FINISH,SCRIPT_INIT,SCRIPT_SOURCE,RSYNC_OPTIONS,EXCLUDE,MBLibraryRootPath,ZBLibraryRootPath,TBLibraryRootPath,SETUP_LHAPDF,SETUP_ROOT,SETUP_GCC"
+VARIABLE_LIST="SAM_DEFINITION,SAM_PROJECT,SAM_FILECUT,SAM_WORKGROUP,FILELIST,STAGEINLIST,NUM_JOBS,JOB_INDEX,EXECUTABLE,ARGUMENTS,NAME,OUTPUT_HOST,OUTPUT_DIR,OUTPUT_FILES,INPUT_HOST,INPUT_DIR,INPUT_FILES,INPUT_TAR,CLUSTER,SRT_BASE_RELEASE,SRT_QUAL,SCRIPT_FINISH,SCRIPT_INIT,SCRIPT_SOURCE,RSYNC_OPTIONS,EXCLUDE,MBLibraryRootPath,ZBLibraryRootPath,TBLibraryRootPath,HRLibraryRootPath,SKIPCOPY,LIB_DEFINITION"
+
+tarcafe()
+{
+    if [ -z "${SRT_PRIVATE_CONTEXT}" ]; then
+	echo "tarcafe: No D0RunII release"
+	exit 1
+#    elif [ "${SRT_PRIVATE_CONTEXT}" = "." ]; then
+#	echo "tarcafe: Work area not initialized (run d0setwa)"
+#	exit 1
+    fi
+    
+    if [ $# -gt 1 ]; then
+	OUT=${SRT_PRIVATE_CONTEXT}/../`basename ${SRT_PRIVATE_CONTEXT}`.tar.bz2
+    else
+	OUT=$1
+    fi
+    
+    #This is for when we are called standalone, rather than by runcafe
+    
+#    if [ -z "${EXCLUDE}" ]; then
+#	shopt -s nullglob
+#	for dir in core core.* cafe_2* tmp bin lib include rcpdb
+#	do
+#	    EXCLUDE="${EXCLUDE} --exclude=${dir} "
+#	done
+#    fi
+    
+    #This is for people who want to put the tar file in the dir they are taring up...
+    EXCLUDE="${EXCLUDE} --exclude=$(basename $OUT) --exclude=results"
+
+    cd ${SRT_PRIVATE_CONTEXT}
+    
+    case ${OUT} in
+	*.tar)
+	    COMPRESS_OPTION=
+	    ;;
+	*.gz)
+	    COMPRESS_OPTION=z
+	    ;;
+	*.bz2)
+	    COMPRESS_OPTION=j
+	    ;;
+	*)
+	    ;;
+    esac
+    
+    tar ${EXCLUDE} ${TAR_OPTIONS} -c${COMPRESS_OPTION}f ${OUT} .
+}
+
+###########
+# ClueD0
+###########
+submit_clued0()
+{
+    if [ -z "${SAM_PROJECT}" ]; then
+	/usr/local/bin/qsub -q ${QUEUE} -N ${JOBNAME} ${BATCH_FLAGS} -v ${VARIABLE_LIST} $* 
+    else
+	/usr/local/bin/qsub -q ${QUEUE} -N ${JOBNAME} -l nodes=1:sam ${BATCH_FLAGS} -v ${VARIABLE_LIST} $* 
+    fi
+}
+
+default_queue_clued0()
+{
+    echo "GENERAL"
+}
+
+###########
+# CABSRV1
+###########
+submit_cabsrv1()
+{
+    /usr/bin/qsub -q ${QUEUE}@d0cabsrv1 -k oe -m ae -M ${USER}@fnal.gov -l nodes=1 -N ${JOBNAME} ${BATCH_FLAGS} -v ${VARIABLE_LIST} $*
+}
+
+default_queue_cabsrv1()
+{
+    if [ -z "${SAM_PROJECT}" ]; then
+	echo "medium"
+    else
+	echo "sam_lo"
+    fi
+}
+
+###########
+# CABSRV2
+###########
+submit_cabsrv2()
+{
+    /usr/bin/qsub -q ${QUEUE}@d0cabsrv2 -k oe -m ae -M ${USER}@fnal.gov -N ${JOBNAME} ${BATCH_FLAGS} -v ${VARIABLE_LIST} $*
+}
+
+
+default_queue_cabsrv2()
+{
+    if [ -z "${SAM_PROJECT}" ]; then
+	echo "medium"
+    else
+	echo "sam_lo"
+    fi
+}
+
+
+###########################
+# Generic batch functions
+###########################
+submit()
+{
+    submit_${CLUSTER} $*
+}
+
+default_queue()
+{
+    default_queue_${CLUSTER}
+}
+
+##############################
+# End of batch customization
+##############################
+
+######################
+# print help message
+######################
+usage()
+{
+    echo "usage: $0 [ options ] [ -- arguments ]"
+    echo "where options are:"
+    echo "   -help|-h|--help          print this help"
+    echo "   -dest=<CLUSTER>          submit job to destination [ required ]"
+    echo "                            currently: clued0, cabsrv1, cabsrv2, cabsrv3, cabsrv4"
+    echo "   -clued0                  short cut for -dest=clued0"
+    echo "   -cabsrv1                 short cut for -dest=cabsrv1"
+    echo "   -cabsrv2                 short cut for -dest=cabsrv2"
+    echo "   -def=<DEFINITION>        SAM dataset definition [ required or -filelist ]"
+    echo "   -libdef=<DEFINITION>     SAM library dataset [ required of -libdata/-libmc ]"
+    echo "   -filecut=<NUMBER>        Maximum number of files for this project [ default: all files ]"
+    echo "   -filelist=<LISTFILE>     Listfile [ required or -def ]"
+    echo "   -eventtype=<EVENTTYPE>   Event type: zresbos, wresbos, zpythia, wpythia"
+    echo "   -n=<NUM_EVENTS>          Number os events processed per file"
+    echo "   -rseed=<NUM>             Random number generator seed"
+    echo "   -stagein=<LISTFILE>      Listfile; don't forget cafe.Stager: and cafe.Host: "
+    echo "   -project=<NAME>          SAM project name [ default: ${USER}_[date] ] "
+    echo "   -jobs=<NUMBER>           number of parallel SAM jobs [ default: 1 ]"
+    echo "   -exec=<EXECUTABLE>       name of executable [ default: ${EXECUTABLE} ] "
+    echo "   -exe=<EXECUTABLE>        name of executable [ default: ${EXECUTABLE} ] "
+    echo "   -name=<NAME>             name of result directory [ default: cafe_${DATE} ]"
+    echo "   -jobname=<NAME>          name of job in batch system [ default: ${NAME} ]"
+    echo "   -outhost=<HOSTNAME>      name of output host [ default: hostname ]"
+    echo "   -outdir=<DIRECTORY>      name of output directory [ default: pwd ]"
+    echo "   -outfiles='...'          list of files/directories to copy back as result"
+    echo "   -no-outdir-check         don't use ssh to check the output host/dir"
+    echo "   -inhost=<hostname>       name of input host [ default: hostname ]"
+    echo "   -inputdir=<DIRECTORY>    name of input directory [ default: pwd ]"
+    echo "   -infiles='...'           list of input files/directories to copy in"
+    echo "   -tar=<tar.gz>            tar.gz file instead of input directory"
+    echo "   -notar                   don't use a tar file"
+    echo "   -skipcopy                don't copy the configuration file"
+    echo "   -queue=<QUEUE>           name of queue in batch system"
+    echo "   -cput=HH:MM:SS           CPU time for ClueD0 batch system"
+    echo "   -mem=NNNmb               Memory requested for ClueD0 batch system"
+    echo "   -batch-flags='...'       any flags for the batch system (e.g. -cput=.. -mem=...) '"
+    echo "   -source=<SCRIPT>         script to be sourced before main executable"
+    echo "   -init=<SCRIPT>           script to be run before main executable"
+    echo "   -finish=<SCRIPT>         script to be run after main executable"
+    echo "   -copylinks               copy files/directories that symbolic links point to"
+    echo "   -no-copylinks            do not copy files/directories that symbolic links point to (default)"
+    echo "   -exclude='<FILE/DIR>'    exclude these files/directories from tar file [default: tmp bin lib cafe_2*]"
+    echo "   -debug                   print out debug statements of script"
+    echo "   -group=<SAM_WORKGROUP>   SAM work group"
+    echo
+    echo "   All command line parameter after the  -- are assumed"
+    echo "   to be arguments to the executable."
+    echo
+}
+
+debug()
+{
+    if [ ! -z "${DEBUG}" ]; then
+	echo "CLUSTER        = ${CLUSTER}"
+	echo "SAM_DEFINITION = ${SAM_DEFINITION}"
+	echo "LIB_DEFINITION = ${LIB_DEFINITION}"
+	echo "FILELIST       = ${FILELIST}"
+	echo "STAGEINLIST    = ${STAGEINLIST}"
+	echo "SAM_PROJECT    = ${SAM_PROJECT}"
+	echo "SAM_FILECUT    = ${SAM_FILECUT}"
+	echo "NUM_JOBS       = ${NUM_JOBS}"
+	echo "EXECUTABLE     = ${EXECUTABLE}"
+	echo "ARGUMENTS      = ${ARGUMENTS}"
+	echo "NAME           = ${NAME}"
+	echo "OUTPUT_HOST    = ${OUTPUT_HOST}"
+	echo "OUTPUT_DIR     = ${OUTPUT_DIR}"
+	echo "OUTPUT_FILES   = ${OUTPUT_FILES}"
+	echo "QUEUE          = ${QUEUE}"
+	echo "INPUT_HOST     = ${INPUT_HOST}"
+	echo "INPUT_DIR      = ${INPUT_DIR}"
+	echo "INPUT_FILES    = ${INPUT_FILES}"
+	echo "INPUT_TAR      = ${INPUT_TAR}"
+	echo "CPUT           = ${CPUT}"
+	echo "MEM            = ${MEM}"
+	echo "BATCH_FLAGS    = ${BATCH_FLAGS}"
+	echo "SCRIPT_INIT    = ${SCRIPT_INIT}"
+	echo "SCRIPT_SOURCE  = ${SCRIPT_SOURCE}"
+	echo "SCRIPT_FINISH  = ${SCRIPT_FINISH}"
+	echo "RSYNC_OPTIONS  = ${RSYNC_OPTIONS}"
+	echo "EXCLUDE        = ${EXCLUDE}"
+	echo "TAR_OPTIONS    = ${TAR_OPTIONS}"
+	echo "EVENTTYPE      = ${EVENTTYPE}"
+	echo "SIMTYPE        = ${SIMTYPE}"
+	echo "NUMEVTS        = ${NUMEVTS}"
+	echo "SAM_WORKGROUP  = ${SAM_WORKGROUP}"
+    fi
+}
+
+####################################
+# Return the full local path to $1
+####################################
+fullpath()
+{
+    if echo ${1} | grep -q '^/'
+    then
+       echo ${1}
+    else
+	echo `pwd`/${1}
+    fi
+}
+
+gethost()
+{
+    local mountpoint
+    mountpoint=`df -P ${1} | tail -1 | cut -d' ' -f1`
+    if echo "${mountpoint}" | grep -q ':'; then
+	if echo "$mountpoint" | grep -q -E '(fermi|d0)-nas'; then
+	    echo "NFS"
+	else
+	    echo ${mountpoint%%:*}
+	fi
+    else
+	echo $(hostname)
+    fi
+}
+
+##########################
+# Gets MB/ZB/TB libraries
+##########################
+prepare_config()
+{
+
+    awk '{ if ($1 == "ZBLibrary_file:" || $1 == "ZBLibrary_file_Run34:" || $1 == "ZBLibrary_file_Run3:" || $1 == "ZBLibrary_file_Run4:"  || $1 == "MBLibrary_file:" || $1 == "MBLibrary_file_Run3:" || $1 == "MBLibrary_file_Run4:" || $1 == "HardRecoil_FileName:" || $1 == "HardRecoil_FileName_run4:") { printf "%s", $1; for(i=2; i<=NF; i++) { n=split($i,a,"/"); printf " %s", a[n] }; printf "\n" } else {print} }' < ${1} > ${1##*/}_${2}
+
+}
+
+read_libraries()
+{
+    MBLibrary=`cat ${1} | awk '/^MBLibrary_file:/ {print}'`
+    MBLibrary=${MBLibrary#"MBLibrary_file:"}
+    for fn in $MBLibrary
+    do
+      if [ -e "${MBLibraryRootPath}/${fn}" ]; then
+	  INPUT_FILES="${INPUT_FILES} ${MBLibraryRootPath}/${fn}"
+      else
+	  echo "MB library ${MBLibraryRootPath}/${fn} not found" 
+	  exit 1
+      fi
+    done
+
+    MBLibrary3=`cat ${1} | awk '/^MBLibrary_file_Run3:/ {print}'`
+    MBLibrary3=${MBLibrary3#"MBLibrary_file_Run3:"}
+    for fn in $MBLibrary3
+    do
+      if [ -e "${MBLibraryRootPath}/${fn}" ]; then
+	  INPUT_FILES="${INPUT_FILES} ${MBLibraryRootPath}/${fn}"
+      else
+	  echo "MB library for RunIIb3 ${MBLibraryRootPath}/${fn} not found" 
+	  exit 1
+      fi
+    done
+
+    MBLibrary4=`cat ${1} | awk '/^MBLibrary_file_Run4:/ {print}'`
+    MBLibrary4=${MBLibrary4#"MBLibrary_file_Run4:"}
+    for fn in $MBLibrary4
+    do
+      if [ -e "${MBLibraryRootPath}/${fn}" ]; then
+	  INPUT_FILES="${INPUT_FILES} ${MBLibraryRootPath}/${fn}"
+      else
+	  echo "MB library for RunIIb4 ${MBLibraryRootPath}/${fn} not found" 
+	  exit 1
+      fi
+    done
+
+    ZBLibrary34=`cat ${1} | awk '/^ZBLibrary_file_Run34:/ {print}'`
+    ZBLibrary34=${ZBLibrary34#"ZBLibrary_file_Run34:"}
+    ZBLibrary3=`cat ${1} | awk '/^ZBLibrary_file_Run3:/ {print}'`
+    ZBLibrary3=${ZBLibrary3#"ZBLibrary_file_Run3:"}
+    ZBLibrary4=`cat ${1} | awk '/^ZBLibrary_file_Run4:/ {print}'`
+    ZBLibrary4=${ZBLibrary4#"ZBLibrary_file_Run4:"}
+    for fn in $ZBLibrary34
+    do
+      if [ -e "${ZBLibraryRootPath}/${fn}" ]; then
+	  INPUT_FILES="${INPUT_FILES} ${ZBLibraryRootPath}/${fn}"
+      else
+ 	  echo "ZB library for RunIIb34 ${ZBLibraryRootPath}/${fn} not found" 
+ 	  exit 1
+      fi
+    done
+    for fn in $ZBLibrary3
+    do
+      if [ -e "${ZBLibraryRootPath}/${fn}" ]; then
+	  INPUT_FILES="${INPUT_FILES} ${ZBLibraryRootPath}/${fn}"
+      else
+ 	  echo "ZB library for RunIIb3 ${ZBLibraryRootPath}/${fn} not found" 
+ 	  exit 1
+      fi
+    done
+    for fn in $ZBLibrary4
+    do
+      if [ -e "${ZBLibraryRootPath}/${fn}" ]; then
+	  INPUT_FILES="${INPUT_FILES} ${ZBLibraryRootPath}/${fn}"
+      else
+ 	  echo "ZB library for RunIIb4 ${ZBLibraryRootPath}/${fn} not found" 
+ 	  exit 1
+      fi
+    done
+
+    HRLibrary=`cat ${1} | awk '/^HardRecoil_FileName:/ {print}'`
+    HRLibrary=${HRLibrary#"HardRecoil_FileName:"}
+    HRLibrary4=`cat ${1} | awk '/^HardRecoil_FileName_run4:/ {print}'`
+    HRLibrary4=${HRLibrary4#"HardRecoil_FileName_run4:"}
+    for fn in $HRLibrary
+    do
+      if [ -e "${HRLibraryRootPath}/${fn}" ]; then
+	  INPUT_FILES="${INPUT_FILES} ${HRLibraryRootPath}/${fn}"
+      else
+	  echo "HR library ${HRLibraryRootPath}/${fn} not found" 
+	  exit 1
+      fi
+    done
+    for fn in $HRLibrary4
+    do
+      if [ -e "${HRLibraryRootPath}/${fn}" ]; then
+	  INPUT_FILES="${INPUT_FILES} ${HRLibraryRootPath}/${fn}"
+      else
+	  echo "HR library ${HRLibraryRootPath}/${fn} not found" 
+	  exit 1
+      fi
+    done
+
+    echo ${INPUT_FILES}
+
+    prepare_config ${1} ${2}
+
+}
+
+
+############################################
+# Default location of MB/ZB/TB libraries
+############################################
+
+if [ -z "${MBLibraryRootPath}" ]; then
+    export MBLibraryRootPath="/rooms/wmass/jenny/MC/MBZBLibrary/"
+fi
+if [ -z "${ZBLibraryRootPath}" ]; then
+    export ZBLibraryRootPath="/rooms/wmass/jenny/MC/MBZBLibrary/"
+fi
+if [ -z "${HRLibraryRootPath}" ]; then
+    export HRLibraryRootPath="/rooms/wmass/jenny/MC/HRLibrary/"
+fi
+
+############################################
+# Definitions with the libraries
+############################################
+
+export LIBS_MC="wzepmcs_geant_libs_20140220"
+export LIBS_MC_LUMI02="wzepmcs_geant_libs_20140220_lumi02"
+export LIBS_MC_LUMI24="wzepmcs_geant_libs_20140220_lumi24"
+export LIBS_MC_LUMI46="wzepmcs_geant_libs_20140220_lumi46"
+export LIBS_MC_LUMI6up="wzepmcs_geant_libs_20140220_lumi6up"
+
+export LIBS_DATA="wzepmcs_data_libs_20140220"
+export LIBS_DATA_LUMI02="wzepmcs_data_libs_20140220_lumi02"
+export LIBS_DATA_LUMI24="wzepmcs_data_libs_20140220_lumi24"
+export LIBS_DATA_LUMI46="wzepmcs_data_libs_20140220_lumi46"
+export LIBS_DATA_LUMI6up="wzepmcs_data_libs_20140220_lumi6up"
+
+#######################
+# Parse arguments
+#######################
+while [ $# -gt 0 ]
+  do
+  case $1 in
+      -help|-h|--help)
+	  usage
+	  exit 0
+	  ;;
+      -dest=*)
+	  CLUSTER=${1#-dest=}
+	  ;;
+      -project=*)
+	  SAM_PROJECT=${1#-project=}
+	  ;;
+      -def=*)
+	  SAM_DEFINITION=${1#-def=}
+	  ;;
+      -defname=*)
+	  SAM_DEFINITION=${1#-defname=}
+	  ;;
+      -libdef=*)
+	  LIB_DEFINITION=${1#-libdef=}
+	  ;;
+      -libmc)
+	  LIB_DEFINITION=${LIBS_MC}
+	  ;;
+      -libMC)
+	  LIB_DEFINITION=${LIBS_MC}
+	  ;;
+      -libmc02)
+	  LIB_DEFINITION=${LIBS_MC_LUMI02}
+	  ;;
+      -libMC02)
+	  LIB_DEFINITION=${LIBS_MC_LUMI02}
+	  ;;
+      -libmc24)
+	  LIB_DEFINITION=${LIBS_MC_LUMI24}
+	  ;;
+      -libMC24)
+	  LIB_DEFINITION=${LIBS_MC_LUMI24}
+	  ;;
+      -libmc46)
+	  LIB_DEFINITION=${LIBS_MC_LUMI46}
+	  ;;
+      -libMC46)
+	  LIB_DEFINITION=${LIBS_MC_LUMI46}
+	  ;;
+      -libmc6up)
+	  LIB_DEFINITION=${LIBS_MC_LUMI6up}
+	  ;;
+      -libMC6up)
+	  LIB_DEFINITION=${LIBS_MC_LUMI6up}
+	  ;;
+      -libdata)
+	  LIB_DEFINITION=${LIBS_DATA}
+	  ;;
+      -libdata02)
+	  LIB_DEFINITION=${LIBS_DATA_LUMI02}
+	  ;;
+      -libdata24)
+	  LIB_DEFINITION=${LIBS_DATA_LUMI24}
+	  ;;
+      -libdata46)
+	  LIB_DEFINITION=${LIBS_DATA_LUMI46}
+	  ;;
+      -libdata6up)
+	  LIB_DEFINITION=${LIBS_DATA_LUMI6up}
+	  ;;
+      -filelist=*)
+	  FILELIST=${1#-filelist=}
+	  INPUT_FILES="${INPUT_FILES} `fullpath ${FILELIST}`"
+	  ;;
+      -listfile=*)
+	  FILELIST=${1#-listfile=}
+	  INPUT_FILES="${INPUT_FILES} `fullpath ${FILELIST}`"
+	  ;;
+      -eventtype=*)
+          EVENTTYPE=${1#-eventtype=}
+	  ;;
+      -simtype=*)
+          SIMTYPE=${1#-simtype=}
+	  ;;
+      -n=*)
+	  NUMEVTS=${1#-n=}
+	  ;;
+      -rseed=*)
+	  RSEED=${1#-rseed=}
+	  ;;
+      -stagein=*)
+	  STAGEINLIST=${1#-stagein=}
+	  INPUT_FILES="${INPUT_FILES} `fullpath ${STAGEINLIST}`"
+	  ;;
+      -filecut=*)
+	  SAM_FILECUT="--fileCut=${1#-filecut=}"
+	  ;;
+      -jobs=*)
+	  NUM_JOBS=${1#-jobs=}
+	  ;;
+      -exec=*)
+	  EXECUTABLE=${1#-exec=}
+	  ;;
+      -exe=*)
+	  EXECUTABLE=${1#-exe=}
+	  ;;
+      -name=*)
+	  NAME=${1#-name=}
+	  ;;
+      -jobname=*)
+	  JOBNAME=${1#-jobname=}
+	  ;;
+      -group=*)
+	  SAM_WORKGROUP=${1#-group=}
+	  ;;
+      -outhost=*)
+	  OUTPUT_HOST=${1#-outhost=}
+	  ;;
+      -outdir=*)
+	  OUTPUT_DIR=${1#-outdir=}
+	  ;;
+      -outfiles=*)
+	  OUTPUT_FILES=${1#-outfiles=}
+	  ;;
+      -no-outdir-check)
+	  NO_OUTDIR_CHECK=yes
+	  ;;
+      -inhost=*)
+          INPUT_HOST=${1#-inhost=}
+	  ;;
+      -inputdir=*)
+	  INPUT_DIR=${1#-inputdir=}
+	  ;;
+      -infiles=*)
+	  INPUT_FILES=${1#-infiles=}
+	  ;;
+      -tar=*)
+	  INPUT_TAR=${1#-tar=}
+	  ;;
+      -notar)
+          NOTAR=yes
+	  ;;
+      -queue=*)
+	  QUEUE=${1#-queue=}
+	  ;;
+      -cput=*)
+	  CPUT=${1#-cput=}
+	  BATCH_FLAGS="${BATCH_FLAGS} -l cput=${CPUT}"
+	  ;;
+      -mem=*)
+	  MEM=${1#-mem=}
+	  BATCH_FLAGS="${BATCH_FLAGS} -l mem=${MEM},pmem=${MEM},pvmem=${MEM}"
+	  ;;
+      -batch-flags=*)
+	  BATCH_FLAGS="${BATCH_FLAGS} ${1#-batch-flags=}"
+	  ;;
+      -delay=*)
+          # obsolete, but left in to avoid annoying anybody using it
+	  ;;
+      -source=*)
+	  SCRIPT_SOURCE=${1#-source=}
+	  ;;
+      -init=*)
+	  SCRIPT_INIT=${1#-init=}
+	  ;;
+      -finish=*)
+	  SCRIPT_FINISH=${1#-finish=}
+	  ;;
+      -copylinks)
+	  RSYNC_OPTIONS="-L --copy-unsafe-links "
+	  TAR_OPTIONS="-h "
+	  ;;
+      -no-copylinks)
+	  RSYNC_OPTIONS="-l "
+	  TAR_OPTIONS=""
+	  ;;
+      -exclude=*)
+	  EXCLUDE="${EXCLUDE} --exclude=${1#-exclude=} "
+	  ;;
+      -debug)
+	  DEBUG=yes
+	  ;;
+      -dry-run)
+	  DRYRUN=yes
+	  ;;
+      -skipcopy)
+	  SKIPCOPY=yes
+	  ;;
+      --)
+	  shift
+	  NOWSTRING=$(date +%Y%m%d%H%M%S)
+	  if [ "${SKIPCOPY}" = "no" ]; then
+	      if [ -z ${LIB_DEFINITION} ]; then
+		  read_libraries $1 $NOWSTRING
+	      else
+		  prepare_config $1 $NOWSTRING
+	      fi
+	      INPUT_FILES="${INPUT_FILES} `fullpath ${1##*/}_$NOWSTRING`"
+	      ARGUMENTS="${ARGUMENTS} -c ${1##*/}_${NOWSTRING}"
+	      OUTPUT_FILES="${OUTPUT_FILES} ${1##*/}_${NOWSTRING}"
+	  else
+	      if  [ -z ${LIB_DEFINITION} ]; then
+		  echo "You told me not to copy things over, so you have to provide a SAM definition for the libraries"
+		  exit 1
+	      fi
+	      ARGUMENTS="${ARGUMENTS} -c ${1##*/}"
+	      OUTPUT_FILES="${OUTPUT_FILES} ${1##*/}"
+	  fi
+	  export MBLibraryRootPath="./"
+	  export ZBLibraryRootPath="./"
+	  export HRLibraryRootPath="./"
+	  echo ${ARGUMENTS}
+	  shift $#
+	  ;;
+      -*)
+	  arg=${1#-}
+	  for d in ${VALID_CLUSTERS}
+	    do
+	    if [ "${arg}" = "${d}" ]; then
+		CLUSTER=${arg}
+		arg=found
+		break
+	    fi
+	  done
+
+	  if [ "${arg}" != "found" ]; then
+	      echo "Invalid option: $1"
+	      echo
+	      usage
+	      exit 1
+	  fi
+	  ;;
+      *)
+	  echo "Invalid option: $1"
+	  exit 1
+	  ;;
+  esac
+  shift
+done
+
+###################
+# Check arguments
+###################
+
+############################################
+# A destination cluster must be specified
+############################################
+if [ -z "${CLUSTER}" ]; then
+    echo "Destination must be specified, use -dest=[clued0|cabsrv1|cabsrv2] option"
+    echo
+    usage
+    exit 1
+fi
+
+if [[ ! -z "${SIMTYPE}" && -z "${EVENTTYPE}" ]]; then
+    case "${SIMTYPE}" in
+	zee)
+	    ARGUMENTS="${ARGUMENTS} -t 0"
+	    ;;
+	wen)
+	    ARGUMENTS="${ARGUMENTS} -t 1"
+	    ;;
+	znunu)
+	    ARGUMENTS="${ARGUMENTS} -t 2"
+	    ;;
+    esac
+fi    
+
+# but only one of them...
+if [[ "${SAM_DEFINITION}" == "" && "${FILELIST}" == "" ]]; then
+
+    if [ -n "${EVENTTYPE}" ]; then
+	case "${EVENTTYPE}" in
+	    zresbos)
+		SAM_DEFINITION=resbos_020811_zee_cteq66_112310
+		ARGUMENTS="${ARGUMENTS} -t 0"
+		SAM_WORKGROUP="wmass"
+		echo "Using resbos_020811_zee_cteq66_112310 as SAM definition"
+		;;
+	    wresbos)
+		SAM_DEFINITION=resbos_020811_wen_cteq66_112310
+		ARGUMENTS="${ARGUMENTS} -t 1"
+		SAM_WORKGROUP="wmass"
+		echo "Using resbos_020811_wen_cteq66_112310 as SAM definition"
+		;;
+	    zpythia)
+		SAM_DEFINITION=WMass_pythia_zee_6409ta_v1
+		ARGUMENTS="${ARGUMENTS} -t 0"
+		SAM_WORKGROUP="wmass"
+		echo "Using WMass_pythia_zee_6409ta_v1 as SAM definition"
+		;;
+	    wpythia)
+		SAM_DEFINITION=WMass_pythia_wenu_6409ta_v1
+		ARGUMENTS="${ARGUMENTS} -t 1"
+		SAM_WORKGROUP="wmass"
+		echo "Using WMass_pythia_wenu_6409ta_v1 as SAM definition"
+		;;
+	    znunupythia)
+		SAM_DEFINITION=wmass_dzero_v010259_pythia_6_409_tuneA-z_nunu_sm.nompi
+		ARGUMENTS="${ARGUMENTS} -t 4"
+		SAM_WORKGROUP="dzero"
+		echo "Using wmass_dzero_v010259_pythia_6_409_tuneA-z_nunu_sm.nompi as SAM definition"
+		;;
+	esac
+    else
+	echo "You have to supply a FILELIST or exclusively a SAM definition. You can also set EVENTTYPE. "
+	echo
+	usage
+	exit 1
+    fi
+fi
+
+if [ -z "${SAM_WORKGROUP}" ]; then
+    SAM_WORKGROUP=dzero
+fi
+
+DANGEROUS="WMass_pythia_wenu_6409ta_v1,WMass_pythia_zee_6409ta_v1,resbos_020811_wen_cteq66_112310,resbos_020811_zee_cteq66_112310,wmass_dzero_v010100_pythia_6_409_tuneA_gam-z_ee_sm"
+if [[ $DANGEROUS =~ $SAM_DEFINITION && "${SAM_WORKGROUP}" == "dzero" ]]; then
+    echo "You are trying to use the definition ${SAM_DEFINITION} with the ${SAM_WORKGROUP}? Jan will complain... don't do that."
+    echo "If you know what you are doing, you know how to avoid this message."
+    exit 1
+fi
+
+if [[ ! $DANGEROUS =~ $SAM_DEFINITION && "${SAM_WORKGROUP}" == "wmass" ]]; then
+    echo "You are trying to use the definition ${SAM_DEFINITION} with the ${SAM_WORKGROUP}? Jan will complain... don't do that."
+    echo "If you know what you are doing, you know how to avoid this message."
+    exit 1
+fi
+
+if [ ! -z "${NUMEVTS}" ]; then
+    ARGUMENTS="${ARGUMENTS} -n ${NUMEVTS}"
+fi
+
+if [ ! -z "${RSEED}" ]; then
+    ARGUMENTS="${ARGUMENTS} -r ${RSEED}"
+fi
+
+###############################
+# Set name of output directory
+###############################
+if [ -z "${NAME}" ]; then
+    NAME="$(basename ${EXECUTABLE})_$(date +%Y%m%d%H%M%S)"
+else
+    if [ -z "${JOBNAME}" ]; then
+	JOBNAME="${NAME}"
+    fi
+    NAME="${NAME}_`date +%Y%m%d%H%M%S`"
+fi
+
+###############################
+# Set job name
+###############################
+if [ -z "${JOBNAME}" ]; then
+    JOBNAME="run_pmcs"
+fi
+
+##################################
+# User must set output directory
+##################################
+if [ -z "${OUTPUT_DIR}" ]; then
+    OUTPUT_DIR=`pwd`
+fi
+
+####################################
+# Check if output directory exists
+####################################
+
+
+if echo ${OUTPUT_HOST} | grep -q d0mino; then
+    echo "The Interactive Login Pool (d0mino0x) machines are not suitable output hosts"
+    exit 1
+fi
+
+
+if [ ${OUTPUT_HOST} = `hostname` ]; then
+    if [ ! -w ${OUTPUT_DIR} ]; then
+        echo "problem number 1"
+	echo "Output directory does not exist or is not writable: ${OUTPUT_DIR}"
+	exit 1
+    fi 
+    OUTPUT_HOST=`gethost ${OUTPUT_DIR}`
+fi
+
+if [ -z "${NO_OUTDIR_CHECK}" ] && [ ${OUTPUT_HOST} != "NFS" ]; then
+    if ! ssh ${OUTPUT_HOST} test -w ${OUTPUT_DIR}
+        then
+        echo "Problem ssh on $OUTPUT_HOST"
+	echo "Output directory does not exist or is not writable: ${OUTPUT_HOST}:${OUTPUT_DIR}"
+	exit 1
+    fi
+fi
+
+
+#################################
+# Check number of parallel jobs
+#################################
+if [ ${NUM_JOBS} -lt 1 ]; then
+    echo "Invalid number of jobs: $NUM_JOBS"
+    exit 1
+fi
+
+if [ ${NUM_JOBS} -gt ${MAX_NUM_JOBS} ]; then
+    echo "Number of parallel jobs set to ${MAX_NUM_JOBS}"
+    NUM_JOBS=${MAX_NUM_JOBS}
+fi
+
+
+########################################
+# Create SAM project name, if necessary
+########################################
+if [ -z "${SAM_DEFINITION}" ]; then
+    export SAM_PROJECT=""
+elif [ -z "${SAM_PROJECT}" ]; then
+    export SAM_PROJECT="${USER}_${RANDOM}_`date +%Y%m%d%H%M%S`"
+# else assume it has been set by -project= or externally
+fi
+
+########################
+# Set batch queue
+########################
+if [ -z "${QUEUE}" ]; then
+    QUEUE=`default_queue`
+fi
+
+
+############################
+# Force the usage of tarfile
+############################
+if [ -z "${INPUT_TAR}" ]; then
+    for d in ${CLUSTER_FORCED_TO_USE_TARFILE}
+      do
+      if [ "${CLUSTER}" = "${d}" ]; then
+	if [ -z "$NOTAR" ]; then
+	  INPUT_TAR=${OUTPUT_DIR}/${NAME}.tar.gz	
+	elif [ "$NUM_JOBS" -gt 1 ]; then
+	  echo "The -notar option cannot be used with parallel jobs"
+	  exit 1
+	fi
+	break
+      fi
+    done
+fi
+
+########################################
+# create tar file if it does not exist
+########################################
+if [ ! -z "${INPUT_TAR}" ]; then
+    if [ ! -f "${INPUT_TAR}" ]; then
+	echo "Creating tar file for you, since it does not exist: ${INPUT_TAR}"
+	tarcafe ${INPUT_TAR} || exit 1
+#### add the path if it does not exist
+	DIR_TAR="`dirname  ${INPUT_TAR}`";
+	DIR_TAR="`cd $DIR_TAR ; pwd`"
+	INPUT_TAR="$DIR_TAR/`basename  ${INPUT_TAR}`"
+    else
+#### add the path if it does not exist
+	DIR_TAR="`dirname  ${INPUT_TAR}`";
+	DIR_TAR="`cd $DIR_TAR ; pwd`"
+	INPUT_TAR="$DIR_TAR/`basename  ${INPUT_TAR}`"
+	echo "Using existing tar file: ${INPUT_TAR}"
+    fi
+## set the input host if required
+    if [ ${INPUT_HOST} = `hostname` ]; then
+	INPUT_HOST=`gethost ${INPUT_TAR}`
+    fi
+else
+    if [ ${INPUT_HOST} = `hostname` ]; then
+	INPUT_HOST=`gethost ${INPUT_DIR}`
+    fi
+fi
+
+############################################
+# dry-run: only print out what you would do
+############################################
+if [ "${DRYRUN}" = "yes" ]; then
+    echo "Would submit ${NUM_JOBS} job(s) to ${CLUSTER}"
+    DEBUG=yes debug
+    exit 0
+fi
+
+########################################
+# Submit worker job 
+# with dependency on start if necessary
+########################################
+
+cleanup_submitted_jobs()
+{
+    if [ ${#WORKER_JOBS[@]} -gt 0 ]; then
+	echo "Removing any submitted jobs"
+	qdel ${WORKER_JOBS[@]} ${STOP_JOB}
+    fi
+}
+
+export JOB_INDEX=0
+
+trap "trap '' 2; echo Interrupted; cleanup_submitted_jobs; exit 1" SIGINT
+
+echo -n "Submitting"
+while [ ${JOB_INDEX} -lt ${NUM_JOBS} ]; do
+    if [ ${NUM_JOBS} -eq 1 ] || [ -z "${SAM_DEFINITION}" ]; then
+	WORKER_JOB=$(submit ./run_job.sh)
+    else
+	WORKER_JOB=$(submit -W depend=on:1 ./run_job.sh)
+    fi
+    if [ $? -ne 0 ]; then
+	echo "Error in submitting worker job"
+	cleanup_submitted_jobs
+	exit 1
+    fi
+    WORKER_JOBS[$JOB_INDEX]="${WORKER_JOB}"
+    (( JOB_INDEX++ ))
+    echo -n "."
+done
+
+###################
+# Submit stop job
+###################
+if [ ${NUM_JOBS} -gt 1 ] && [ "${SAM_DEFINITION}" ]; then
+
+    IFS=:
+    JOB_DEPENDENCY_LIST="${WORKER_JOBS[*]}"
+    unset IFS
+
+    ORIG_JOBNAME="$JOBNAME"
+    JOBNAME="stop_${ORIG_JOBNAME}"
+    STOP_JOB=$(submit -W depend=afterany:${JOB_DEPENDENCY_LIST} ./stop_project.sh)
+    if [ $? -ne 0 ]; then
+	echo "Error in submitting stop project job"
+	cleanup_submitted_jobs
+	exit 1
+    fi
+    echo -n "."
+
+    JOBNAME="start_${ORIG_JOBNAME}"
+    START_JOB=$(submit -W depend=beforeok:${JOB_DEPENDENCY_LIST} ./start_project.sh)
+    if [ $? -ne 0 ]; then
+	echo "Error in submitting start project job"
+	cleanup_submitted_jobs
+	exit 1
+    fi
+    echo -n "."
+    echo "${START_JOB} : starts your SAM project."
+    JOBNAME="${ORIG_JOBNAME}"
+fi
+
+trap - SIGINT
+
+echo
+
+for job in ${WORKER_JOBS[@]}; do
+    echo "${job}"
+done
+
+if [ ${NUM_JOBS} -gt 1 ] && [ "${SAM_DEFINITION}" ]; then
+    echo "${STOP_JOB} : stops your SAM project."
+fi
+
+
+debug

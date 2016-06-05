@@ -1,0 +1,16 @@
+uparalt0_lumi02 lumi>0&&lumi<72&&wcandupara<0 39736
+uparalt0_lumi24 lumi>72&&lumi<144&&wcandupara<0 223429
+uparalt0_lumi46 lumi>144&&lumi<216&&wcandupara<0 134951
+uparalt0_lumi6up lumi>216&&lumi<10000&&wcandupara<0 78428
+uparagt0_lumi02 lumi>0&&lumi<72&&wcandupara>0 32360
+uparagt0_lumi24 lumi>72&&lumi<144&&wcandupara>0 182782
+uparagt0_lumi46 lumi>144&&lumi<216&&wcandupara>0 110348
+uparagt0_lumi6up lumi>216&&lumi<10000&&wcandupara>0 61748
+ept3540 e_pt>35&&e_pt<40 293405
+ept2530 e_pt>25&&e_pt<30 112933
+ept3035 e_pt>30&&e_pt<35 226196
+ept4045 e_pt>40&&e_pt<45 170323
+ept4550 e_pt>45&&e_pt<50 43550
+ept5060 e_pt>50&&e_pt<60 14010
+ept6070 e_pt>60&&e_pt<70 1817
+ept70up e_pt>70&&e_pt<10000 1044

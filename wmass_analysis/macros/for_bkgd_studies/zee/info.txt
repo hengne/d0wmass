@@ -1,0 +1,6 @@
+The zee background can be calculated by running runzee.C with a root file made from the EMMET data skim. Running this macro will give the numbers needed for the equation: 
+
+Total predicted Zee events = # of events with 2nd object in ICD/ (object efficiency * mass window acceptance)
+
+Need to update wenucomp.cpp and plot_util with a new background roottuple and a background fraction, respectively
+

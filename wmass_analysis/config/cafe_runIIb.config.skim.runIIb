@@ -1,0 +1,26 @@
+#!/usr/bin/env cafe
+
+# Specify input file:
+cafe.Input: listfile:file.list
+cafe.Events:1000
+
+# dependence
+cafe.Packages:  dq_util caf_dq wmass_util wmass_blinding_util wmass_analysis 
+
+# Tell cafe what to run and in what order:
+cafe.Run: Select(goodem) Write(myoutput)
+
+# if you want to only skim the events with certain run number and event number
+# cafe.Run: SkimEvents(goodEvents) Write(myoutput)
+goodEvents.eventlist: events.txt
+
+# selection requirements
+goodem.Select:((EMscone[0].Pt()>25) && (EMscone[1].Pt()>25) && EMscone[0].iso()<0.15 && EMscone[1].iso()<0.15 && EMscone[0].emfrac()>0.9 && EMscone[1].emfrac()>0.9)
+
+# only write out certain branches    
+myoutput.Branches: Global EMscone JCCA JCCB Cps Fps Met EMcnn
+
+# output files
+myoutput.File: test.root
+
+

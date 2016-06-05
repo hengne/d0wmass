@@ -1,0 +1,582 @@
+Comments : cosmic veto applied 
+EffMethod : TagAndProbe 
+EffName : eff 
+EffType : Binned 
+EffVarNames : z cfteta 
+EffVersion : 5 
+ObjQuality : l3trk5h10 
+ObjRelativeTo : trackloose_l1trk5 
+ObjType : Muon 
+ObjVersion : 1 
+RunRangeHigh : 216000 
+RunRangeLow : 171000 
+TriggerVersionHigh : 12.99 
+TriggerVersionLow : 8 
+BinEdgesX : -100 -39 -10 10 39 100 
+BinEdgesY : -3 -2.8 -2.6 -2.4 -2.2 -2 -1.8 -1.6 -1.4 -1.2 -1 -0.8 -0.6 -0.4 -0.2 0 0.2 0.4 0.6 0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6 2.8 3 
+BinVal : 0 0 0 0 0
+BinVal : 0 1 0 0 0
+BinVal : 0 2 0 0 0
+BinVal : 0 3 0 0 0
+BinVal : 0 4 0 0 0
+BinVal : 0 5 0 0 0
+BinVal : 0 6 0 0 0
+BinVal : 0 7 0 0 0
+BinVal : 0 8 0 0 0
+BinVal : 0 9 0 0 0
+BinVal : 0 10 0 0 0
+BinVal : 0 11 0 0 0
+BinVal : 0 12 0 0 0
+BinVal : 0 13 0 0 0
+BinVal : 0 14 0 0 0
+BinVal : 0 15 0 0 0
+BinVal : 0 16 0 0 0
+BinVal : 0 17 0 0 0
+BinVal : 0 18 0 0 0
+BinVal : 0 19 0 0 0
+BinVal : 0 20 0 0 0
+BinVal : 0 21 0 0 0
+BinVal : 0 22 0 0 0
+BinVal : 0 23 0 0 0
+BinVal : 0 24 0 0 0
+BinVal : 0 25 0 0 0
+BinVal : 0 26 0 0 0
+BinVal : 0 27 0 0 0
+BinVal : 0 28 0 0 0
+BinVal : 0 29 0 0 0
+BinVal : 1 0 0 0 0
+BinVal : 1 1 0 0 0
+BinVal : 1 2 0 0 0
+BinVal : 1 3 0 0 0
+BinVal : 1 4 0 0 0
+BinVal : 1 5 0 0 0
+BinVal : 1 6 0 0 0
+BinVal : 1 7 0 0 0
+BinVal : 1 8 0 0 0
+BinVal : 1 9 0 0 0
+BinVal : 1 10 0 0 0
+BinVal : 1 11 0 0 0
+BinVal : 1 12 0 0 0
+BinVal : 1 13 0 0 0
+BinVal : 1 14 0 0 0
+BinVal : 1 15 0 0 0
+BinVal : 1 16 0 0 0
+BinVal : 1 17 0 0 0
+BinVal : 1 18 0 0 0
+BinVal : 1 19 0 0 0
+BinVal : 1 20 0 0 0
+BinVal : 1 21 0 0 0
+BinVal : 1 22 0 0 0
+BinVal : 1 23 0 0 0
+BinVal : 1 24 0 0 0
+BinVal : 1 25 0 0 0
+BinVal : 1 26 0 0 0
+BinVal : 1 27 0 0 0
+BinVal : 1 28 0 0 0
+BinVal : 1 29 0 0 0
+BinVal : 2 0 0 0 0
+BinVal : 2 1 0 0 0
+BinVal : 2 2 0 0 0
+BinVal : 2 3 0 0 0
+BinVal : 2 4 0 0 0
+BinVal : 2 5 0 0 0
+BinVal : 2 6 0 0 0
+BinVal : 2 7 0 0 0
+BinVal : 2 8 0 0 0
+BinVal : 2 9 0 0 0
+BinVal : 2 10 0 0 0
+BinVal : 2 11 0 0 0
+BinVal : 2 12 0 0 0
+BinVal : 2 13 0 0 0
+BinVal : 2 14 0 0 0
+BinVal : 2 15 0 0 0
+BinVal : 2 16 0 0 0
+BinVal : 2 17 0 0 0
+BinVal : 2 18 0 0 0
+BinVal : 2 19 0 0 0
+BinVal : 2 20 0 0 0
+BinVal : 2 21 0 0 0
+BinVal : 2 22 0 0 0
+BinVal : 2 23 0 0 0
+BinVal : 2 24 0 0 0
+BinVal : 2 25 0 0 0
+BinVal : 2 26 0 0 0
+BinVal : 2 27 0 0 0
+BinVal : 2 28 0 0 0
+BinVal : 2 29 0 0 0
+BinVal : 3 0 0 0 0
+BinVal : 3 1 0 0 0
+BinVal : 3 2 0 0 0
+BinVal : 3 3 0 0 0
+BinVal : 3 4 0 0 0
+BinVal : 3 5 0 0 0
+BinVal : 3 6 0 0 0
+BinVal : 3 7 0 0 0
+BinVal : 3 8 0 0 0
+BinVal : 3 9 0 0 0
+BinVal : 3 10 0 0 0
+BinVal : 3 11 0 0 0
+BinVal : 3 12 0 0 0
+BinVal : 3 13 0 0 0
+BinVal : 3 14 0 0 0
+BinVal : 3 15 0 0 0
+BinVal : 3 16 0 0 0
+BinVal : 3 17 0 0 0
+BinVal : 3 18 0 0 0
+BinVal : 3 19 0 0 0
+BinVal : 3 20 0 0 0
+BinVal : 3 21 0 0 0
+BinVal : 3 22 0 0 0
+BinVal : 3 23 0 0 0
+BinVal : 3 24 0 0 0
+BinVal : 3 25 0 0 0
+BinVal : 3 26 0 0 0
+BinVal : 3 27 0 0 0
+BinVal : 3 28 0 0 0
+BinVal : 3 29 0 0 0
+BinVal : 4 0 0 0 0
+BinVal : 4 1 0 0 0
+BinVal : 4 2 0 0 0
+BinVal : 4 3 0 0 0
+BinVal : 4 4 0 0 0
+BinVal : 4 5 0 0 0
+BinVal : 4 6 0 0 0
+BinVal : 4 7 0 0 0
+BinVal : 4 8 0 0 0
+BinVal : 4 9 0 0 0
+BinVal : 4 10 0 0 0
+BinVal : 4 11 0 0 0
+BinVal : 4 12 0 0 0
+BinVal : 4 13 0 0 0
+BinVal : 4 14 0 0 0
+BinVal : 4 15 0 0 0
+BinVal : 4 16 0 0 0
+BinVal : 4 17 0 0 0
+BinVal : 4 18 0 0 0
+BinVal : 4 19 0 0 0
+BinVal : 4 20 0 0 0
+BinVal : 4 21 0 0 0
+BinVal : 4 22 0 0 0
+BinVal : 4 23 0 0 0
+BinVal : 4 24 0 0 0
+BinVal : 4 25 0 0 0
+BinVal : 4 26 0 0 0
+BinVal : 4 27 0 0 0
+BinVal : 4 28 0 0 0
+BinVal : 4 29 0 0 0
+
+
+Comments : cosmic veto applied 
+EffMethod : TagAndProbe 
+EffName : eff 
+EffType : Binned 
+EffVarNames : z cfteta 
+EffVersion : 5 
+ObjQuality : l3trk5h10 
+ObjRelativeTo : trackloose_l1trk5 
+ObjType : Muon 
+ObjVersion : 1 
+RunRangeHigh : 216000 
+RunRangeLow : 171000 
+TriggerVersionHigh : 13.99 
+TriggerVersionLow : 13 
+BinEdgesX : -100 -39 -10 10 39 100 
+BinEdgesY : -3 -2.8 -2.6 -2.4 -2.2 -2 -1.8 -1.6 -1.4 -1.2 -1 -0.8 -0.6 -0.4 -0.2 0 0.2 0.4 0.6 0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6 2.8 3 
+BinVal : 0 0 0 0 0
+BinVal : 0 1 0 0 0
+BinVal : 0 2 0 0 0
+BinVal : 0 3 0 0 0
+BinVal : 0 4 0 0 0
+BinVal : 0 5 0 0 0
+BinVal : 0 6 0 0 0
+BinVal : 0 7 0.1 0.0948683 0.0948683
+BinVal : 0 8 0 0 0
+BinVal : 0 9 0 0 0
+BinVal : 0 10 0 0 0
+BinVal : 0 11 0.0571429 0.0392347 0.0392347
+BinVal : 0 12 0.0967742 0.0531003 0.0531003
+BinVal : 0 13 0.5 0.102062 0.102062
+BinVal : 0 14 0.55 0.111243 0.111243
+BinVal : 0 15 0.46875 0.0882155 0.0882155
+BinVal : 0 16 0.714286 0.0853735 0.0853735
+BinVal : 0 17 0.631579 0.110665 0.110665
+BinVal : 0 18 0.761905 0.0929429 0.0929429
+BinVal : 0 19 0.7 0.144914 0.144914
+BinVal : 0 20 1 0.0266185 0.0266185
+BinVal : 0 21 1 0.0293374 0.0293374
+BinVal : 0 22 0.896552 0.0565523 0.0565523
+BinVal : 0 23 0.6 0.219089 0.219089
+BinVal : 0 24 0 0 0
+BinVal : 0 25 0 0 0
+BinVal : 0 26 0 0 0
+BinVal : 0 27 0 0 0
+BinVal : 0 28 0 0 0
+BinVal : 0 29 0 0 0
+BinVal : 1 0 0 0 0
+BinVal : 1 1 0 0 0
+BinVal : 1 2 0 0 0
+BinVal : 1 3 0 0 0
+BinVal : 1 4 0 0 0
+BinVal : 1 5 0 0 0
+BinVal : 1 6 0.419355 0.0886269 0.0886269
+BinVal : 1 7 0.654275 0.0289981 0.0289981
+BinVal : 1 8 0.770642 0.0232493 0.0232493
+BinVal : 1 9 0.747774 0.0236573 0.0236573
+BinVal : 1 10 0.782609 0.0215015 0.0215015
+BinVal : 1 11 0.726131 0.0223531 0.0223531
+BinVal : 1 12 0.778338 0.0208466 0.0208466
+BinVal : 1 13 0.692105 0.0236807 0.0236807
+BinVal : 1 14 0.768856 0.0207942 0.0207942
+BinVal : 1 15 0.757979 0.0220883 0.0220883
+BinVal : 1 16 0.813115 0.022321 0.022321
+BinVal : 1 17 0.823755 0.0235851 0.0235851
+BinVal : 1 18 0.865517 0.0200342 0.0200342
+BinVal : 1 19 0.817164 0.0236112 0.0236112
+BinVal : 1 20 0.836364 0.0249417 0.0249417
+BinVal : 1 21 0.829596 0.025178 0.025178
+BinVal : 1 22 0.848039 0.0251338 0.0251338
+BinVal : 1 23 0.642857 0.0640301 0.0640301
+BinVal : 1 24 0.25 0.216506 0.216506
+BinVal : 1 25 0 0 0
+BinVal : 1 26 0 0 0
+BinVal : 1 27 0 0 0
+BinVal : 1 28 0 0 0
+BinVal : 1 29 0 0 0
+BinVal : 2 0 0 0 0
+BinVal : 2 1 0 0 0
+BinVal : 2 2 0 0 0
+BinVal : 2 3 0 0 0
+BinVal : 2 4 0 0 0
+BinVal : 2 5 0.285714 0.170747 0.170747
+BinVal : 2 6 0.5 0.0771517 0.0771517
+BinVal : 2 7 0.852234 0.0208027 0.0208027
+BinVal : 2 8 0.857143 0.0201695 0.0201695
+BinVal : 2 9 0.847953 0.0194161 0.0194161
+BinVal : 2 10 0.835165 0.0194473 0.0194473
+BinVal : 2 11 0.783582 0.0205388 0.0205388
+BinVal : 2 12 0.751861 0.0215161 0.0215161
+BinVal : 2 13 0.716667 0.0219879 0.0219879
+BinVal : 2 14 0.751174 0.0209466 0.0209466
+BinVal : 2 15 0.75179 0.0211033 0.0211033
+BinVal : 2 16 0.761161 0.0201443 0.0201443
+BinVal : 2 17 0.776573 0.0194003 0.0194003
+BinVal : 2 18 0.77724 0.0204749 0.0204749
+BinVal : 2 19 0.825215 0.0203293 0.0203293
+BinVal : 2 20 0.861446 0.0189607 0.0189607
+BinVal : 2 21 0.819788 0.0228481 0.0228481
+BinVal : 2 22 0.864865 0.0212426 0.0212426
+BinVal : 2 23 0.636364 0.0648642 0.0648642
+BinVal : 2 24 0.285714 0.170747 0.170747
+BinVal : 2 25 0 0 0
+BinVal : 2 26 0 0 0
+BinVal : 2 27 0 0 0
+BinVal : 2 28 0 0 0
+BinVal : 2 29 0 0 0
+BinVal : 3 0 0 0 0
+BinVal : 3 1 0 0 0
+BinVal : 3 2 0 0 0
+BinVal : 3 3 0 0 0
+BinVal : 3 4 0 0 0
+BinVal : 3 5 1 0.218486 0.218486
+BinVal : 3 6 0.428571 0.10799 0.10799
+BinVal : 3 7 0.812121 0.0304094 0.0304094
+BinVal : 3 8 0.811518 0.0282987 0.0282987
+BinVal : 3 9 0.833333 0.0253575 0.0253575
+BinVal : 3 10 0.825893 0.0253365 0.0253365
+BinVal : 3 11 0.829493 0.0255298 0.0255298
+BinVal : 3 12 0.800797 0.02521 0.02521
+BinVal : 3 13 0.775591 0.026177 0.026177
+BinVal : 3 14 0.718543 0.0258779 0.0258779
+BinVal : 3 15 0.722973 0.0260122 0.0260122
+BinVal : 3 16 0.738739 0.0240747 0.0240747
+BinVal : 3 17 0.733918 0.0238956 0.0238956
+BinVal : 3 18 0.781609 0.0221474 0.0221474
+BinVal : 3 19 0.736686 0.0239563 0.0239563
+BinVal : 3 20 0.748322 0.0251396 0.0251396
+BinVal : 3 21 0.744444 0.0265446 0.0265446
+BinVal : 3 22 0.599138 0.0321749 0.0321749
+BinVal : 3 23 0.382979 0.0709069 0.0709069
+BinVal : 3 24 0 0 0
+BinVal : 3 25 0 0 0
+BinVal : 3 26 0 0 0
+BinVal : 3 27 0 0 0
+BinVal : 3 28 0 0 0
+BinVal : 3 29 0 0 0
+BinVal : 4 0 0 0 0
+BinVal : 4 1 0 0 0
+BinVal : 4 2 0 0 0
+BinVal : 4 3 0 0 0
+BinVal : 4 4 0 0 0
+BinVal : 4 5 0 0 0
+BinVal : 4 6 0 0 0
+BinVal : 4 7 0.8 0.126491 0.126491
+BinVal : 4 8 0.769231 0.116855 0.116855
+BinVal : 4 9 0.809524 0.0856891 0.0856891
+BinVal : 4 10 0.684211 0.106639 0.106639
+BinVal : 4 11 0.625 0.171163 0.171163
+BinVal : 4 12 0.642857 0.12806 0.12806
+BinVal : 4 13 0.625 0.121031 0.121031
+BinVal : 4 14 0.62963 0.0929349 0.0929349
+BinVal : 4 15 0.380952 0.105971 0.105971
+BinVal : 4 16 0.3 0.083666 0.083666
+BinVal : 4 17 0.15 0.0798436 0.0798436
+BinVal : 4 18 0 0 0
+BinVal : 4 19 0.0769231 0.0522589 0.0522589
+BinVal : 4 20 0.125 0.0675077 0.0675077
+BinVal : 4 21 0 0 0
+BinVal : 4 22 0 0 0
+BinVal : 4 23 0 0 0
+BinVal : 4 24 0 0 0
+BinVal : 4 25 0 0 0
+BinVal : 4 26 0 0 0
+BinVal : 4 27 0 0 0
+BinVal : 4 28 0 0 0
+BinVal : 4 29 0 0 0
+
+
+Comments : cosmic veto applied 
+EffMethod : TagAndProbe 
+EffName : eff 
+EffType : Binned 
+EffVarNames : z cfteta 
+EffVersion : 5 
+ObjQuality : l3trk5h10 
+ObjRelativeTo : trackloose_l1trk5 
+ObjType : Muon 
+ObjVersion : 1 
+RunRangeHigh : 216000 
+RunRangeLow : 171000 
+TriggerVersionHigh : 14.89 
+TriggerVersionLow : 14 
+BinEdgesX : -100 -39 -10 10 39 100 
+BinEdgesY : -3 -2.8 -2.6 -2.4 -2.2 -2 -1.8 -1.6 -1.4 -1.2 -1 -0.8 -0.6 -0.4 -0.2 0 0.2 0.4 0.6 0.8 1 1.2 1.4 1.6 1.8 2 2.2 2.4 2.6 2.8 3 
+BinVal : 0 0 0 0 0
+BinVal : 0 1 0 0 0
+BinVal : 0 2 0 0 0
+BinVal : 0 3 0 0 0
+BinVal : 0 4 0 0 0
+BinVal : 0 5 0 0 0
+BinVal : 0 6 0 0 0
+BinVal : 0 7 0 0 0
+BinVal : 0 8 0 0 0
+BinVal : 0 9 0 0 0
+BinVal : 0 10 0 0 0
+BinVal : 0 11 0 0 0
+BinVal : 0 12 0.153846 0.100068 0.100068
+BinVal : 0 13 0.222222 0.0979908 0.0979908
+BinVal : 0 14 0.5 0.176777 0.176777
+BinVal : 0 15 0.75 0.153093 0.153093
+BinVal : 0 16 0.727273 0.134282 0.134282
+BinVal : 0 17 0.75 0.125 0.125
+BinVal : 0 18 0.583333 0.142319 0.142319
+BinVal : 0 19 1 0.0422902 0.0422902
+BinVal : 0 20 0.916667 0.0797856 0.0797856
+BinVal : 0 21 0.923077 0.0739053 0.0739053
+BinVal : 0 22 1 0.0756803 0.0756803
+BinVal : 0 23 1 0.218486 0.218486
+BinVal : 0 24 0 0 0
+BinVal : 0 25 0 0 0
+BinVal : 0 26 0 0 0
+BinVal : 0 27 0 0 0
+BinVal : 0 28 0 0 0
+BinVal : 0 29 0 0 0
+BinVal : 1 0 0 0 0
+BinVal : 1 1 0 0 0
+BinVal : 1 2 0 0 0
+BinVal : 1 3 0 0 0
+BinVal : 1 4 1 0.218486 0.218486
+BinVal : 1 5 0 0 0
+BinVal : 1 6 0.733333 0.11418 0.11418
+BinVal : 1 7 0.832258 0.0300112 0.0300112
+BinVal : 1 8 0.826531 0.0270466 0.0270466
+BinVal : 1 9 0.816216 0.0284754 0.0284754
+BinVal : 1 10 0.836449 0.0252837 0.0252837
+BinVal : 1 11 0.845133 0.0240651 0.0240651
+BinVal : 1 12 0.764925 0.0259027 0.0259027
+BinVal : 1 13 0.75 0.0279508 0.0279508
+BinVal : 1 14 0.70354 0.030379 0.030379
+BinVal : 1 15 0.830601 0.0277285 0.0277285
+BinVal : 1 16 0.856287 0.0271456 0.0271456
+BinVal : 1 17 0.858824 0.026706 0.026706
+BinVal : 1 18 0.861446 0.0268145 0.0268145
+BinVal : 1 19 0.907895 0.0234551 0.0234551
+BinVal : 1 20 0.905983 0.0269818 0.0269818
+BinVal : 1 21 0.862595 0.0300794 0.0300794
+BinVal : 1 22 0.883929 0.0302665 0.0302665
+BinVal : 1 23 0.633333 0.0879815 0.0879815
+BinVal : 1 24 0 0 0
+BinVal : 1 25 0 0 0
+BinVal : 1 26 0 0 0
+BinVal : 1 27 0 0 0
+BinVal : 1 28 0 0 0
+BinVal : 1 29 0 0 0
+BinVal : 2 0 0 0 0
+BinVal : 2 1 0 0 0
+BinVal : 2 2 0 0 0
+BinVal : 2 3 0 0 0
+BinVal : 2 4 0 0 0
+BinVal : 2 5 0.666667 0.272166 0.272166
+BinVal : 2 6 0.703704 0.0878772 0.0878772
+BinVal : 2 7 0.901841 0.0233044 0.0233044
+BinVal : 2 8 0.912568 0.0208805 0.0208805
+BinVal : 2 9 0.927273 0.0175082 0.0175082
+BinVal : 2 10 0.829694 0.0248402 0.0248402
+BinVal : 2 11 0.849206 0.0225423 0.0225423
+BinVal : 2 12 0.809886 0.0241959 0.0241959
+BinVal : 2 13 0.832143 0.0223352 0.0223352
+BinVal : 2 14 0.728625 0.027112 0.027112
+BinVal : 2 15 0.672598 0.027994 0.027994
+BinVal : 2 16 0.772388 0.0256123 0.0256123
+BinVal : 2 17 0.815498 0.0235628 0.0235628
+BinVal : 2 18 0.836653 0.0233341 0.0233341
+BinVal : 2 19 0.894068 0.0200329 0.0200329
+BinVal : 2 20 0.931035 0.0177849 0.0177849
+BinVal : 2 21 0.95 0.015411 0.015411
+BinVal : 2 22 0.929078 0.0216176 0.0216176
+BinVal : 2 23 0.627907 0.0737122 0.0737122
+BinVal : 2 24 0.4 0.219089 0.219089
+BinVal : 2 25 0 0 0
+BinVal : 2 26 0 0 0
+BinVal : 2 27 0 0 0
+BinVal : 2 28 0 0 0
+BinVal : 2 29 0 0 0
+BinVal : 3 0 0 0 0
+BinVal : 3 1 0 0 0
+BinVal : 3 2 0 0 0
+BinVal : 3 3 0 0 0
+BinVal : 3 4 0 0 0
+BinVal : 3 5 0 0 0
+BinVal : 3 6 0.583333 0.142319 0.142319
+BinVal : 3 7 0.876405 0.0348866 0.0348866
+BinVal : 3 8 0.954545 0.0198605 0.0198605
+BinVal : 3 9 0.914062 0.0247728 0.0247728
+BinVal : 3 10 0.876923 0.0288136 0.0288136
+BinVal : 3 11 0.938272 0.0189082 0.0189082
+BinVal : 3 12 0.844311 0.0280557 0.0280557
+BinVal : 3 13 0.9 0.0253546 0.0253546
+BinVal : 3 14 0.78022 0.030695 0.030695
+BinVal : 3 15 0.805128 0.0283655 0.0283655
+BinVal : 3 16 0.693878 0.0329201 0.0329201
+BinVal : 3 17 0.728155 0.0309984 0.0309984
+BinVal : 3 18 0.78866 0.0293113 0.0293113
+BinVal : 3 19 0.834951 0.0258644 0.0258644
+BinVal : 3 20 0.85567 0.0252308 0.0252308
+BinVal : 3 21 0.789474 0.0330674 0.0330674
+BinVal : 3 22 0.776978 0.0353078 0.0353078
+BinVal : 3 23 0.433333 0.090472 0.090472
+BinVal : 3 24 0 0 0
+BinVal : 3 25 0 0 0
+BinVal : 3 26 0 0 0
+BinVal : 3 27 0 0 0
+BinVal : 3 28 0 0 0
+BinVal : 3 29 0 0 0
+BinVal : 4 0 0 0 0
+BinVal : 4 1 0 0 0
+BinVal : 4 2 0 0 0
+BinVal : 4 3 0 0 0
+BinVal : 4 4 0 0 0
+BinVal : 4 5 0 0 0
+BinVal : 4 6 1 0.159077 0.159077
+BinVal : 4 7 0.833333 0.152145 0.152145
+BinVal : 4 8 0.333333 0.272166 0.272166
+BinVal : 4 9 0.777778 0.13858 0.13858
+BinVal : 4 10 0.4 0.219089 0.219089
+BinVal : 4 11 0.75 0.153093 0.153093
+BinVal : 4 12 0.833333 0.152145 0.152145
+BinVal : 4 13 0.571429 0.187044 0.187044
+BinVal : 4 14 0.75 0.153093 0.153093
+BinVal : 4 15 0.25 0.153093 0.153093
+BinVal : 4 16 0.2 0.126491 0.126491
+BinVal : 4 17 0.25 0.125 0.125
+BinVal : 4 18 0.166667 0.152145 0.152145
+BinVal : 4 19 0 0 0
+BinVal : 4 20 0.2 0.178885 0.178885
+BinVal : 4 21 0 0 0
+BinVal : 4 22 0 0 0
+BinVal : 4 23 0 0 0
+BinVal : 4 24 0 0 0
+BinVal : 4 25 0 0 0
+BinVal : 4 26 0 0 0
+BinVal : 4 27 0 0 0
+BinVal : 4 28 0 0 0
+BinVal : 4 29 0 0 0
+
+
+Comments : cosmic veto applied 
+EffMethod : TagAndProbe 
+EffName : eff 
+EffType : Binned 
+EffVarNames : z cfteta 
+EffVersion : 5 
+ObjQuality : l3trk5h10 
+ObjRelativeTo : trackloose_l1trk5 
+ObjType : Muon 
+ObjVersion : 1 
+RunRangeHigh : 216000 
+RunRangeLow : 171000 
+TriggerVersionHigh : 14.99 
+TriggerVersionLow : 14.9 
+BinEdgesX : -100 -39 -10 10 39 100 
+BinEdgesY : -3 -2.5 -2 -1.5 -1 -0.5 0 0.5 1 1.5 2 2.5 3 
+BinVal : 0 0 0 0 0
+BinVal : 0 1 0 0 0
+BinVal : 0 2 0 0 0
+BinVal : 0 3 0 0 0
+BinVal : 0 4 0.0769231 0.0739053 0.0739053
+BinVal : 0 5 0.2 0.126491 0.126491
+BinVal : 0 6 0.75 0.125 0.125
+BinVal : 0 7 0.75 0.153093 0.153093
+BinVal : 0 8 0.727273 0.134282 0.134282
+BinVal : 0 9 1 0.218486 0.218486
+BinVal : 0 10 0 0 0
+BinVal : 0 11 0 0 0
+BinVal : 1 0 0 0 0
+BinVal : 1 1 1 0.218486 0.218486
+BinVal : 1 2 0.804878 0.0618908 0.0618908
+BinVal : 1 3 0.754808 0.0298291 0.0298291
+BinVal : 1 4 0.714286 0.0297232 0.0297232
+BinVal : 1 5 0.766667 0.0291865 0.0291865
+BinVal : 1 6 0.805556 0.0294991 0.0294991
+BinVal : 1 7 0.852564 0.0283859 0.0283859
+BinVal : 1 8 0.905797 0.0248661 0.0248661
+BinVal : 1 9 0.785714 0.0775443 0.0775443
+BinVal : 1 10 0 0 0
+BinVal : 1 11 0 0 0
+BinVal : 2 0 0 0 0
+BinVal : 2 1 0 0 0
+BinVal : 2 2 0.886792 0.0435222 0.0435222
+BinVal : 2 3 0.884444 0.0213127 0.0213127
+BinVal : 2 4 0.830435 0.0247433 0.0247433
+BinVal : 2 5 0.695341 0.0275552 0.0275552
+BinVal : 2 6 0.721804 0.0274754 0.0274754
+BinVal : 2 7 0.818841 0.0231833 0.0231833
+BinVal : 2 8 0.891626 0.0218176 0.0218176
+BinVal : 2 9 0.821429 0.0511796 0.0511796
+BinVal : 2 10 0 0 0
+BinVal : 2 11 0 0 0
+BinVal : 3 0 0 0 0
+BinVal : 3 1 0 0 0
+BinVal : 3 2 0.804878 0.0618908 0.0618908
+BinVal : 3 3 0.878505 0.0315835 0.0315835
+BinVal : 3 4 0.853503 0.0282206 0.0282206
+BinVal : 3 5 0.806061 0.0307804 0.0307804
+BinVal : 3 6 0.736842 0.0319462 0.0319462
+BinVal : 3 7 0.738462 0.0314713 0.0314713
+BinVal : 3 8 0.765823 0.0336905 0.0336905
+BinVal : 3 9 0.692308 0.0739053 0.0739053
+BinVal : 3 10 0 0 0
+BinVal : 3 11 0 0 0
+BinVal : 4 0 0 0 0
+BinVal : 4 1 0 0 0
+BinVal : 4 2 1 0.124824 0.124824
+BinVal : 4 3 0.833333 0.152145 0.152145
+BinVal : 4 4 0.833333 0.152145 0.152145
+BinVal : 4 5 0.7 0.144914 0.144914
+BinVal : 4 6 0.181818 0.116291 0.116291
+BinVal : 4 7 0 0 0
+BinVal : 4 8 0 0 0
+BinVal : 4 9 0 0 0
+BinVal : 4 10 0 0 0
+BinVal : 4 11 0 0 0
+
+

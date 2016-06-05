@@ -1,0 +1,23 @@
+
+string OutRootFile rootfiles/fiteff_npnm_data_tight_setlumi_effrange_nout_ec_tg.root
+string OutPlotFile plots/fiteff_npnm_data_tight_setlumi_effrange_nout_ec_tg.ps
+
+string DATAFile rootfiles/meehists_npnm_data_tight_setlumi_nout_ec_tg.root
+string PMCSFile rootfiles/meehists_npnm_pmcs_tight_setlumi_nout_ec_tg.root
+string BKGDFile rootfiles/meehists_npnm_bkgd_loose_setlumi_nout_ec_tg.root
+
+string_array DATAHistNames hnp_ hnm_
+string_array PMCSHistNames hnp_ hnp_
+string_array BKGDHistNames hnm_ hnm_
+
+string_array SignalHistNames hnp hnm
+
+int DepVarDimension 2
+
+double_array DepVarBins 0 20 40 60 80 100 150 300
+double_array DepVarBins2 0 1.5 2 3 4 6 10
+
+double_array FitRange 60.0 130.0 
+
+double_array EffCalcRange 80.0 100.0
+

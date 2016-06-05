@@ -1,0 +1,37 @@
+
+
+string inputfile /prj_root/5670/wmass1/hengne/wmass/pmcs/head20101004/cabout/dt_zee_ztree_alex_nout_noeta_nomz/pmcs_ztree2_nout_noetacut_nomz.root 
+string outputfile rootfiles/meehists_npnm_pmcs_tight_pt_nout_ec_tg.root
+
+// based on electron or event?
+bool ElectronBasis true
+
+// dependence var is of electrons?
+bool ElectronDepVar true
+
+string ZTreeName ZTree2
+
+string MeeVarNames Mz Mz
+
+double_array MeeVarBins 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129  130 131 132 133 134 135 136 137 138 139 140
+
+string DepVarName em_pt
+
+double_array DepVarBins 0 25 27 29 31 33 35 37 39 41 43 45 47 49 51 53 57 61 65 70 75 80 90 100
+//double_array DepVarBins 25 27 29
+
+string_array HistNames hnp_ hnm_  
+
+string BaseSelection  em_trkloose[0]==1&&em_trkloose[1]==1 
+//string BaseSelection  1
+
+// make sure no blanks inside a given string in the string_array
+string_array BaseSelectionVec  (em_trktight[0]==1&&abs(em_deteta[0])<1.05) !(em_trktight[0]==1)&&abs(em_deteta[0])<1.05
+string_array BaseSelectionVec2 (em_trktight[1]==1&&abs(em_deteta[1])<1.05) !(em_trktight[1]==1)&&abs(em_deteta[1])<1.05
+
+bool SmearMee false
+double SmearMeeResolution 0.0
+
+bool UseWeight true
+string WeightVarName weight
+

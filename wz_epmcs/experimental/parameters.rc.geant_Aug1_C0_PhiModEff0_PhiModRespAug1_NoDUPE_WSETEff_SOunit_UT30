@@ -1,0 +1,3222 @@
+#
+# debug flag
+#
+debug: FALSE
+
+# PDF reweighting
+# Code based on P. Verdier and K. Harder's CAF code caf_lhapdfsrc
+# Currently it only does the reweighting for CTEQ6L 41 PDF sets
+# the PDF reweighting factors PDFReweightFactor[41] are defined 
+# as static variables in pmcsana.cpp 
+# WARNING: Only use this if you are using real PMCS output
+# Since the output from resbos does not contain x and q information
+#  J. Zhu  05-18-2006
+PDFReweight:   false
+PDFori:        cteq66
+PDForiSubSet:  0
+
+# dump mc truth in pmcsana
+dump_mctruth: false
+
+# phi star reweighting
+phistarReweight:      false
+phistarReweight_File: none
+
+# UT reweighting
+UTreweighting:    false
+UTreweightingWT:  1. 1. 1. 1. 1.
+
+#how often you get an update on the screen
+update_frequency: 100000
+
+# this option depends whether you are reading unweighted
+# or weighted events, if you are reading weighted events,
+# reweight must be set to TRUE
+reweight: FALSE
+
+##Make U_par control plots AND DO NOT PERFORM ANY ANALYSES
+MakeU_parControlPlot: FALSE
+
+#study fZ?
+doFzStudy: FALSE
+
+#Make Overlay Event List
+MakeOverlayEventList: FALSE
+
+#
+# W/Z mass/width reweighting, used to measure W and Z mass
+#
+wmass_reweight:  FALSE
+wwidth_reweight: FALSE
+wmass_default: 80.450
+wwidth_default: 2.071
+wmass_step: 0.005
+wwidth_step: 0.020
+
+zmass_reweight: FALSE
+zmass_elecpt_reweight: FALSE
+zmass_default: 91.188
+zwidth_default: 2.478
+zmass_step: 0.005
+
+#make generator-level plots?
+makeZGenPlots: FALSE
+
+#create a ROOT Tuple with EM Quatities 
+createRootTree2: false
+
+
+#make smearing-check plots?
+makeCheckSmearingPlots: FALSE
+
+#
+# apply energy smearing to electrons or photons with pT > pT_cut
+#
+pT_cut:          5.0
+
+#
+# vertex resolution, it depends whether the generator
+# level events have vertex=0 or not, if generator-level
+# events already have vertex smeared, need to set it to false
+# VtxSmear_Option = 0, just use a simple gaussian smearing
+# VtxSmear_Option = 1, use Heidi's reweighting function that depends on run number
+#                      and instantaneous luminosity
+# ALWAYS set VtxSmear_Option=0 for GEANT MC
+#
+smearVertex:     TRUE
+VtxSmear_Option: 0
+VtxResolution:   25.
+BeamSpotShape_file: ../p20/beamshape.txt
+
+# remove events with fabs(vtx) > zvtx_cut
+do_zvtx_cut:  TRUE
+zvtx_cut:     60.0
+
+# use tag probe method to study efficies, similar to wmass_analysis/EffAnalysis.cpp
+StudyEfficiencies:       FALSE
+StudyEfficiencyBIASES:   FALSE
+#
+StudyEfficienciesTruth:  FALSE
+TruthMode:               2
+
+#
+# random seed
+#
+rand_seed: 8675309
+
+# cuts on leading and trailing FSR photon
+#
+cutOnLeadingFSR:   FALSE
+LeadingFSR_ETmin:  -1.0
+LeadingFSR_ETmax:  999999.0
+LeadingFSR_dRmin:  9990.
+LeadingFSR_dRmax:  999999.0
+LeadingFSR_xmin:   -1.0
+LeadingFSR_xmax:   2.0
+cutOnTrailingFSR:  false
+TrailingFSR_ETmin:  -1.0
+TrailingFSR_ETmax:  999999.0
+#
+cutOnFSRnPhot:   false
+FSR_nPhot_min:   -1
+FSR_nPhot_max:   99999
+
+#
+# FSR steering
+# photons that are close to electrons are merged using the cone size 
+# merge_fsr_radius_CC in eta-phi space and merge_fsr_radius_EC in unit of cm
+#
+merge_fsr_photons: TRUE
+merge_fsr_photons_model: 4
+merge_fsr_photons_model_file:  ../geant_RunIIb/FSRmodelIIb_09August2010.root
+merge_fsr_photons_model_file2: ../geant_RunIIb/FSRmodelIIb_09August2010_etabin_ebin_up035.root
+merge_fsr_radius_CC: 0.30
+merge_fsr_radius_EC: 10.
+
+#
+# probability for photon to reach the calorimeter (in cone)
+#
+simulate_merge_fsr_photons_in_cone_prob:   TRUE
+merge_fsr_photons_in_cone_prob_p0:   9.92348e-01
+merge_fsr_photons_in_cone_prob_p1:   3.59046e-02
+merge_fsr_photons_in_cone_prob_p2:   -5.59621e-02
+merge_fsr_photons_in_cone_prob_p3:   1.37822
+
+#
+# merged photon response (in cone)
+# measured with single photon events without offline zero-suppression
+#
+simulate_merge_fsr_photons_in_cone_response:   TRUE
+merge_fsr_photons_in_cone_response_p0:   4.62706e-01, 6.46662e-01, 8.03910e-01, 8.22713e-01, 7.63027e-01, 6.41772e-01, 4.65462e-01, 7.27810e-01
+merge_fsr_photons_in_cone_response_p1:   3.45654e-01, 4.30006e-01, 2.90801e-01, 2.54659e-01, 3.41107e-01, 3.40774e-01, 1.76852e-01, 2.86177e-01
+merge_fsr_photons_in_cone_response_p2:   5.33583e-02, 5.99887e-02, 2.63033e-02, 2.92819e-02, 5.85076e-02, 6.26568e-02, 2.43338e-02, 4.02406e-02
+merge_fsr_photons_in_cone_response_p3:   8.29533e-01, 8.25624e-01, 9.73359e-01, 8.84230e-01, 7.71796e-01, 6.91162e-01, 9.55666e-01, 8.55417e-01
+merge_fsr_photons_in_cone_response_p4:   2.04356e-01, 1.46698e-01, 9.07536e-02, 8.34457e-02, 9.86168e-02, 1.52112e-01, 2.26995e-01, 1.18375e-01
+merge_fsr_photons_in_cone_response_p5:   -2.29424e-02, -1.96224e-02, -1.32367e-02, -1.27348e-02, -1.49495e-02, -2.11892e-02, -2.69047e-02, -1.64936e-02
+ 
+#
+# probability for photon to reach the calorimeter (out cone)
+# used for photons in the recoil system
+#
+simulate_merge_fsr_photons_out_cone_prob:   TRUE
+merge_fsr_photons_out_cone_prob_p0:   -1.58032e-01
+merge_fsr_photons_out_cone_prob_p1:   2.45845
+merge_fsr_photons_out_cone_prob_p2:   -1.76540
+merge_fsr_photons_out_cone_prob_p3:   4.24790e-01
+merge_fsr_photons_out_cone_prob_p4:   1.62415
+
+#
+# merged photon response in the recoil system (out cone)
+# measured with single photon events without offline zero-suppression
+#
+simulate_merge_fsr_photons_out_cone_response:   TRUE
+merge_fsr_photons_out_cone_response_p0:  5.68259e-02, 2.88532e-01, 4.59594e-01, 4.59114e-01, 4.42621e-01, 2.41474e-01, 3.27777e-01, 4.79588e-01
+merge_fsr_photons_out_cone_response_p1:  1.08769, 9.93338e-01, 1.04490, 1.04901, 1.01112, 1.31026, -5.08173e-01, 5.65743e-01
+merge_fsr_photons_out_cone_response_p2:  3.58174e-01, 2.85096e-01, 2.31565e-01, 2.58067e-01, 2.41918e-01, 3.33382e-01, 8.84406e-02, 1.54401e-01
+merge_fsr_photons_out_cone_response_p3:  6.05850e-01, 6.35210e-01, 7.43998e-01, 6.50468e-01, 7.09069e-01, 5.79489e-01, 5.08173e-01, 8.98137e-01
+merge_fsr_photons_out_cone_response_p4:  2.16265e-01, 1.97965e-01, 1.51098e-01, 1.41550e-01, 1.56932e-01, 1.98291e-01, 2.17761e-01, 1.68613e-01
+merge_fsr_photons_out_cone_response_p5:  -1.99736e-02, -2.52254e-02, -2.07907e-02, -1.99572e-02, -2.20248e-02, -2.54660e-02, -2.03654e-02, -2.17370e-02
+
+#
+# photons with pT < pT_cut and well separated from electrons 
+# will be included as part of the recoil system and later used
+# in the final missing Et calculation
+# 
+merge_fsr_photons_recoil: TRUE
+
+#
+# photons with pT > pT_cut and well separated from electrons 
+# will be treated as separate EM clusters, electron energy smearing will be applied 
+# and also be used in the final missing Et calculation
+# 
+# Decided to turn it off 04/16/2007 since we will only correct the electron(s) from 
+# W or Z decays in data
+#
+merge_fsr_photons_met: FALSE
+
+#
+# output file
+#
+output_file_wen: result_wen.root
+output_file_zee: result_zee.root
+
+# option to make ROOT file containing Z info for fitting
+# for most cases, you only need to set makeROOTfile_for_ZFIT or
+#    makeROOTfile_for_WFIT to true 
+makeROOTfile_for_ZFIT: FALSE
+makegenROOTfile_for_ZFIT: FALSE 
+
+# option to make ASCII file containing Z info for detector studies
+makeASCIIfile_for_detector: FALSE
+
+# option for ASCII printouts for studies of electron ID efficiency and electron energy response
+makeASCIIfile_LumiEff:   FALSE
+makeASCIIfile_Eresponse: FALSE
+
+#option to make ROOT file containing W info for fitting
+makeROOTfile_for_WFIT: FALSE
+makegenROOTfile_for_WFIT: FALSE 
+
+#
+# instantaneous luminosity profile measured from W/Z data
+# if use METSmear_Option==3, the luminosity will be picked up from the ZeroBias library
+# otherwise, wz_epmcs randomly picks up one luminosity according to
+# this distribution and use it as the luminosity for this MC event
+#
+instlumi_file: ../geant/InstLumi_WZ_Geant_RunIIb.C
+
+#
+# Electron parameters for CC
+# Physics eta, phi resolution means track direction resolution
+# Detector eta, phi resolution means calorimeter position resolution
+#
+EtaResolution_Phys_CC:    0.002
+PhiResolution_Phys_CC:    0.0004
+EtaResolution_Det_CC:     0.007
+PhiResolution_Det_CC:     0.007
+Scale_CC:                 1.000 #1.00103
+Offset_CC:                0.000 #0.0317204
+doCCscale_lumidep:        false
+doCCscale_uparadep:       false
+CCscaleUT15_uparadep_scale: 1.00039
+CCscaleUT15_uparadep_offset: 0.0326622
+CCscaleUT30_uparadep_scale: 0.998976
+CCscaleUT30_uparadep_offset: 0.0294397
+CCscale_lumidep_lumibins: 2. 4. 6.
+CCscale_lumidep_scale:    1.00232    1.00011    0.999589   1.0067
+CCscale_lumidep_offset:   0.0454163  0.0380154  0.0222122  -0.0336455
+# Substitute the following 2 lines for the above 2 lines, 
+# when use UPara boundary extended dUParaLib (see option "dUParaMeanAndSmearFunctionsFilename").
+#CCscale_lumidep_scale:    1.00221    0.999759    0.999675   0.99766
+#CCscale_lumidep_offset:   0.039227  0.0417072  0.0240089  0.0306593
+CCscaleUT30_lumidep_scale:   0.99972    1.00263    0.997019    1.01383
+CCscaleUT30_lumidep_offset:  0.0144063  0.0151064  0.0495364  -0.00561868
+# for ResolutionSmear_Option=2, sampling_CC will not be used
+# we will use Sampling_CC1, Sampling_CC2 and Sampling_CCexp for sampling
+# but we still use Contant_CC and Noise_CC here
+Sampling_CC:              0.30 
+Constant_CC:              0.000
+Noise_CC:                 0.00
+
+# Smear Eta Phi and PhiMod Energy Correction using Hengne's method
+SmearEtaPhiHengne: TRUE
+ApplyPhiModEffHengne: TRUE
+ApplyPhiModErespCorrHengne: TRUE
+HistFileSmearEtaPhiHengne: ../p20/HistFileSmearEtaPhiHengne_TrkFid_Aug1.root
+
+# apply Scale_CC on delta E electron window correction
+ApplyScaleOnDeltaE: TRUE
+
+
+#
+# Options for smearing calorimeter resolution
+# ResolutionSmear_Option = 0, will use Sampling_CC/sqrt(E)
+# ResolutionSmear_Option = 1, will use Sampling_CC/sqrt(E_t)
+# ResolutionSmear_Option = 2, will use Jan's smearing function: 
+#    S = (Sampling_CC1 + Sampling_CC2/sqrt(E)) * exp(Sampling_CCexp/sin(theta)) / exp(Sampling_CCexp)
+#    and then use S/sqrt(E)
+# ResolutionSmear_Option = 3, in principle like option 2, but all the 
+#    parameters in option 2 are taken from a (hard-coded) parameterisation 
+#    as a function of only one parameter: the number of fudge radiation 
+#    lengths.
+ResolutionSmear_Option:     2
+
+# parameters for Jan's smearing function
+Sampling_CC1:     0.152035
+Sampling_CC2:     0.151266
+Sampling_CCexp0:   1.39247
+Sampling_CCexp1:   1.45474
+Sampling_CCexp2:   10.3506
+
+# use simple PhiMod-dependent EM response correction 
+Use_Simple_EMrespCorr_vs_PhiMod: false
+Simple_EMrespCorr_vs_PhiMod_filename: ../geant_RunIIb/Simple_EMrespCorr_vs_PhiMod.C
+#----- in order to activate this simple PhiMod-dependent EM response correction
+#----- in addition to setting Use_Simple_EMrespCorr_vs_PhiMod to true, also
+#----- CrackCBsim must be set to true; 
+#----- under such settings CrackCB_PeakShift model will not be applied
+#----- even if  CrackCB_PeakShiftOffset and CrackCB_PeakShiftSlope have non-zero values,
+#----- whereas CrackCB_alpha (Resolution) model will not be applied only if 
+#----- CrackCB_alphaOffset and CrackCB_alphaSlope are both set to 0.0
+
+# use Crystall Ball response function in CC ??
+CrackCBsim:          false
+CrackCB_crlimit:     0.5
+CrackCB_n:           10.0
+CrackCB_alphaOffset: 0.0
+CrackCB_alphaSlope:  0.0
+CrackCB_PeakShiftOffset:  -0.006
+CrackCB_PeakShiftSlope: 0.031
+
+
+
+# control flag to simulate electron energy below electron window
+# IF EnergySim_ElecWindowOption = 0, Energies below electron window is divided into two parts:
+#       \delta E = UParaCorr/sin(theta) + Delta_ZSUP (UE contribution and zero-suppression effect)
+#  where UParaCorr is described in the recoil system simulation
+#  and Delta_ZSUP is zero-suppression effect on tower energy measurement and real electron energy measurement
+#
+# IF EnergySim_ElecWindowOption = 1, use the method proposed by Jan and measured by Feng
+#   take the energy difference between single energy electron without and with non-zero-suppressed ZB overlay
+#   (offline zero-suppression applied for both samples), and parameterize the energy difference as a function 
+#   of underlying event energy below electron window. In PMCS, we first read the underlying event below electron
+#   window from UParaCorr_CC_Hist file, and then use the parameterization to get the corrected energy, to do 
+#   it this way, UE and zero-suppression effect are combined together
+#
+# The code always uses EnergySim_ElecWindowOption=0 for EC electrons EVEN IF EnergySim_ElecWindowOption is set to 1
+#
+#
+# IF EnergySim_ElecWindowOption =2, we use an updated method based on method 1. We do exact matching between the
+#    energy under the electron cone after ZB Suppression, and the change in the cone energy
+#
+# IF EnergySim_ElecWindowOption = 3 similar to option 2, but instead of a functions, we draw a random entry from a histogram
+# (for the most likely bin -- Bin_0 at each eta, in all other bins this is the same as option 2
+
+EnergySim_ElecWindow:     TRUE
+EnergySim_ElecWindowOption:  5
+
+
+#This term accounts for the double counting of the effect of electronics noise on the EM Resolution when using EnergySim_ElecWindowOption:  3
+electronicNoiseFactor: 0.238
+
+
+# only used for EnergySim_ElecWindowOption = 1
+# the energy difference is parameterized as y = p0 + p1*log(x) + p2*log(x)*log(x)
+# for 10 eta bins
+P0_EnergyDiff_Electron_With_Without_ZBOverlay: 0.6534, 0.7486, 0.6832, 0.6350, 0.5928, 0.7166, 0.6007, 0.5902, 0.6941, 0.7282, 0.7337
+P1_EnergyDiff_Electron_With_Without_ZBOverlay: 0.0725, 0.1543, 0.1414, 0.1331, 0.1172, 0.1935, 0.1219, 0.1019, 0.1517, 0.1398, 0.1224
+P2_EnergyDiff_Electron_With_Without_ZBOverlay: -0.0041,0.0094, 0.0088, 0.0087, 0.0074, 0.0170, 0.0086, 0.0050, 0.0105, 0.0073, 0.0042
+EnergyDiff_FirstBin: 0.1141, 0.1988, 0.1748, 0.1723, 0.1780, 0.1727, 0.1975, 0.1822, 0.1829, 0.1774, 0.1801
+
+# for EnergySim_ElecWindowOption = 3
+ZBParaBinz_0: 0.14482,  0.96012,  0,  1e+100
+ZBParaBinz_1: 0.10099,  1.05686,  0,  1e+100
+ZBParaBinz_2: 0.0903255,  1.08959,  0,  1e+100
+ZBParaBinz_3: 0.113831,  1.02462,  0,  1e+100
+ZBParaBinz_4: 0.0791373,  1.10896,  0,  1e+100
+ZBParaBinz_5: 0.0920029,  1.03978,  0,  1e+100
+ZBParaBinz_6: 0.0916627,  1.04477,  0,  1e+100
+ZBParaBinz_7: 0.0959911,  1.01417,  0,  1e+100
+ZBParaBinz_8: 0.0786499,  1.06836,  0,  1e+100
+ZBParaBinz_9: 0.149044,  0.891575,  0,  1e+100
+ZBParaBinz_10: 0.0932061,  1.07144,  0,  1e+100
+EnergyDiff_Model2_FirstBinz: -0.0572195, -0.0455674, -0.0267328, -0.026031, -0.0192743, -0.0137496, -0.0233969, -0.0229196, -0.0237929, -0.0240449, -0.0303833
+
+
+ZBParaBinw_0: 0.0993489,  1.02166,  0,  1e+100
+ZBParaBinw_1: 0.076722,  1.0994,  0,  1e+100
+ZBParaBinw_2: 0.218264,  0.724512,  0,  1e+100
+ZBParaBinw_3: 0.109502,  1.05184,  0,  1e+100
+ZBParaBinw_4: 0.188731,  0.787629,  0,  1e+100
+ZBParaBinw_5: 0.122722,  0.927333,  0,  1e+100
+ZBParaBinw_6: 0.115545,  0.930783,  0,  1e+100
+ZBParaBinw_7: 0.0909062,  1.00434,  0,  1e+100
+ZBParaBinw_8: 0.0679221,  1.06944,  0,  1e+100
+ZBParaBinw_9: 0.0775545,  1.04853,  0,  1e+100
+ZBParaBinw_10: 0.107489,  1.03454,  0,  1e+100
+EnergyDiff_Model2_FirstBinw: -0.0526583, -0.0403321, -0.0295807, -0.0287792, -0.0233629, -0.0105548, -0.0189181, -0.0222526, -0.0285611, -0.0326274, -0.0349588
+
+ZBDiff_filenamebase: ../geant_RunIIb/ZB_Bin0_Feb14/deltaEvfengH_bin0
+
+
+# parameters for EnergySim_ElecWindowOption = 4
+dEParFileNameFordUPlus: ../p20/dEParFileFordUPlus.txt
+dEParFileNameFordUZero: ../p20/dEParFileFordUZero.txt
+
+# parameters for EnergySim_ElecWindowOption = 5
+CAEPSmoothdUPlus: 0
+CAEPSmoothdUZero: 2
+dEParFileNameFordUPlus_CAEP: ../p20/derive_duplus_model_caep.par_2011April6
+dEParFileNameFordUZero_CAEP: ../p20/derive_duzero_model_caep.par_2011April8
+
+#
+# true electron energy that leaks outside the electron cone (GeV)
+# not applied on electron energy corrections, only applied on recoil system
+# for the CC we have three models:
+#   1: one number for the average energy leaked per electron
+#   2: one number for the average transverse energy leaked per electron
+#   3: Jan's more detailed parameterisation
+ENERGY_OUTCONE_MODEL_Elec_CC:  4
+ENERGY_OUTCONE_Elec_CC:  0.
+ENERGY_OUTCONE_Elec_EC:  0.
+ENERGY_OUTCONE_JanModel_FileName_Elec_CC:  ../geant_RunIIb/ELEAK_model_IIb_v1.root
+ENERGY_OUTCONE_JanModel_Elec_Fudge_CC:  1.
+ENERGY_OUTCONE_JanModel_FileName_Elec_CCfsr:  ../geant_RunIIb/ELEAK_model_gamOneDRlt03_IIb_v1.root
+ENERGY_OUTCONE_JanModel_Elec_Fudge_CCfsr:  1.
+
+# overall ZSUP effects on cell energy measurement and real electron energy (GeV)
+# it decreases the measured electron energy
+#
+# set ZSUPCorrOption = 0, will use average value
+# otherwise it will use the eta parameterization for CC region, still use the average value for EC region
+# the parameterization is: a + b * eta + c * eta * eta
+#
+ZSUPCorrOption:             1
+# -N * ZSUP_UE + ZSUP_Elec
+Delta_ZSUP_CC:              -0.611
+Delta_ZSUP_EC:              0.
+ZSUP_CC_V_ElecEta_Parameters: -0.6956, -0.0123, 0.0579 
+
+#
+# E-loss corrections are derived from zero-suppressed single energy electrons (no MB overlay)
+# so the zero-suppression effect on the electron has been PARTIALLY taken into account during E-loss correction
+# the zero-suppression effect for single energy electrons with and without MB overlay are different
+# the real electrons observed in the detector always have MB overlay
+#
+ZSUP_CC_Elec_NoMBOverlay:  -0.733
+
+#
+# calorimeter non-linearity and average pT of electrons from Z decay
+# should I use average electron pT or electron energy ???
+# 
+# Energy smearing function: 
+#    E_smear1 = Scale_CC*E_true + Offset_CC
+#    E_smear2 = E_smear1 + Energy_nonlineariry*(E_smear1-ZElec_AvePt)
+#    E_smear = E_smear2 + energy resolution term
+#
+Energy_Nonlinearity_CC:      0.0
+ZElec_AvePt_CC:              43.0
+
+Energy_Nonlinearity_EC:      0.0
+ZElec_AvePt_EC:              43.0
+
+#
+# Electron parameters for EC
+# Physics eta, phi resolution means track direction resolution
+# Detector eta, phi resolution means calorimeter position resolution
+#
+EtaResolution_Phys_EC:    0.003
+PhiResolution_Phys_EC:    0.0004
+EtaResolution_Det_EC:     0.006
+PhiResolution_Det_EC:     0.006
+Scale_EC:                 0.9990
+Offset_EC:                0.5744
+Noise_EC:                 0.0
+# for ResolutionSmear_Option=2, this parameter will not be used
+Sampling_EC:              0.196
+Constant_EC:              0.004
+
+# parameters for Jan's smearing function
+Sampling_EC1:     0.206
+Sampling_EC2:     0.
+Sampling_ECexp0:   0.
+Sampling_ECexp1:   0.
+Sampling_ECexp2:   0.
+
+# simulate the response of electron vs track phi mod in CC
+simulate_elecResponse_V_TrkPhiMod:   false
+# average E/p value for events with 0.1<cal PhiMod<0.9, need this to scale down the elecResponse curve in elecEOverP_V_TrkPhiMod_FileName
+average_EOverP:                      0.998 
+elecEOverP_V_TrkPhiMod_FileName:     ../geant/EOverP_V_TrkPhiMod.C
+
+#this method makes a table of the average energy that leaks outside the elctron cone vs bins in eta (used in the recoil library method)
+MakeEleakTable:	FALSE
+NleakBins:	14
+
+#
+# this method overlays Z recoil from data or MC, and will do hard component and soft component together
+# if read_recoil_file is set to TRUE, it will not read Zerobias and Minbias library files
+# if IsRecoilpTBinningSmeared is set to TRUE, this method will correct for discrepancies between generator
+# and smeared boson pT, when binning the recoil library
+#
+make_recoil_file:   FALSE
+read_recoil_file:   FALSE
+IsRecoilpTBinningSmeared:  TRUE
+isCConly: TRUE
+recoilRootFileName: recoil_file.root
+instlumi_runNo_file: ../geant/InstLumi_runNo_fullMC.C
+num_recoil_pT_bins: 156
+recoil_pT_bin_edges: 0.0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 4.25, 4.5, 4.75, 5.0, 5.25, 5.5, 5.75, 6.0, 6.25, 6.5, 6.75, 7.0, 7.25, 7.5, 7.75, 8.0, 8.25, 8.5, 8.75, 9.0, 9.25, 9.5, 9.75, 10.0, 10.25, 10.5, 10.75, 11.0, 11.25, 11.5, 11.75, 12.0, 12.33, 12.66, 13.0, 13.33, 13.66, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0,25.5, 26.0, 26.5, 27.0, 27.5, 28.0, 28.5, 29.0, 29.5, 30.0, 30.5, 31.0, 31.5, 32.0, 32.5, 33.0, 33.5, 34.0, 34.5, 35.0,35.5, 36.0, 36.5, 37.0, 37.5, 38.0, 38.5, 39.0, 39.5, 40.0, 40.5, 41.0, 41.5, 42.0, 42.5, 43.0, 43.5, 44.0, 44.5, 45.0, 45.5, 46.0, 46.5, 47.0, 47.5, 48.0, 48.5, 49.0, 49.5, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 62.0, 64.0, 66.0, 68.0, 70.0, 72.0, 74.0, 76.0, 78.0, 80.0, 84.0,88.0, 92.0, 96.0, 100.0, 105.0, 110.0, 120.0, 160.0
+course_pT_bin_edges: 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0, 34.0, 38.0, 42.0, 46.0, 50.0, 55.0, 60.0, 70.0
+Lumi_bin_edges: 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0
+
+#
+# Hadronic parameters
+# Momentum_SmearOption_HAD = 0 will use pT_smear = Scale_HAD * pT_true + Offset_HAD
+#                          = 1 will use a bifurcated function and use Scale_HAD and Offset_HAD as two input parameters
+#                          = 2 will use pT_smear = Scale_HAD_A + Scale_HAD_B * Log(pT_true) + Scale_HAD_C * Log(pT_true) * Log(pT_true)
+#
+
+Momentum_SmearOption_HAD:  1
+
+# only used for Momentum_SmearOption_HAD=0
+Scale_HAD:           0.67
+Offset_HAD:          0.
+
+# only used for Momentum_SmearOption_HAD=1
+Scale_HAD_bifurcate_A:     1.04235
+Scale_HAD_bifurcate_B:     0.381599
+Scale_HAD_bifurcate_Tau:   4.27529
+Relsampling_HAD_bifurcate_A:  1.09284
+Relsampling_HAD_bifurcate_B:  0.
+Relconst_HAD_bifurcate:       0.
+RelRespTrans:                 -0.2
+RelResnTrans:                 1.2
+RelTauTrans:                  1.
+Relphi_HAD_bifurcate_A:       1.0 
+Relphi_HAD_bifurcate_B:       0.0 
+RelconstPhi_HAD_bifurcate:    0.
+
+# The same thing, but in luminosity bins
+Use_RecoilSmear_LumiDep:               false
+RecoilSmear_LumiBins:                  2 4 6
+Scale_HAD_bifurcate_A_LumiDep:         1.05321 1.05659 1.05081 1.04344
+Scale_HAD_bifurcate_B_LumiDep:         0.333338 0.647502 0.405325 0.480632
+Scale_HAD_bifurcate_Tau_LumiDep:       3.99145 2.73625 3.99686 4.30000
+Relsampling_HAD_bifurcate_A_LumiDep:   1.10556 1.13447 1.01269 0.876113
+Relsampling_HAD_bifurcate_B_LumiDep:   0.00 0.00 0.00 0.00 0.00
+Use_alpha_mb_LumiDep:                  false
+alpha_mb_LumiBins:                     2 4 6
+alpha_mb_LumiDep:                      0.653901 0.569793 0.630937 0.553828
+
+# To propagate uncertainties to the W mass
+#
+# It will generate templates for Mt MET and pT
+# for n (amplitude) sigmas in the direction
+# of a particular eigenvector
+#
+# Eigenvectors 1, 2, 3: scale
+# Eigenvectors 4, 5   : resolution
+#
+WMass_Recoil_Templates_Shift:               false
+WMass_Recoil_Templates_Varying_Eigenvector: 1
+WMass_Recoil_Templates_Varying_Amplitude:   1.0
+Scale_Cov_Matrix_1:  1.0000000  0.000000  0.000000
+Scale_Cov_Matrix_2:  0.0000000  1.000000  0.000000
+Scale_Cov_Matrix_3:  0.0000000  0.000000  1.000000
+Resolution_Cov_Matrix_1:  1.000000  0.000000
+Resolution_Cov_Matrix_2:  0.000000  1.000000
+
+
+# only used for Momentum_SmearOption_HAD=2
+Scale_HAD_A:           0.455
+Scale_HAD_B:           0.053
+Scale_HAD_C:           0.00
+
+#
+# True recoil phi direction smearing (based on J. Stark's talk 08/30/2006)
+# sigma(phi) = A/pT + B, set both of them to 0 will turn off the smearing
+#
+phi_smear_true_recoil_A:    3.156
+phi_smear_true_recoil_B:    0.0139
+
+#
+# hadronic resolution
+#
+Sampling_HAD:        0.736
+Constant_HAD_CC:     0.0
+
+# underlying event effect on missing Et measurement
+# METSmear_Option=0, just use a simple gaussian function
+#     with width=underlying to do smearing
+# METSmear_Option=1, use METx-METy distribution from minbias events
+#     where the instantaneous luminosity profile is the same as the profile from W/Z events
+# METSmear_Option=2, use met resolution measured from different luminosity regions,
+#    MetX and MetY resolutions are parameterized with two gaussian functions,
+#    the width of one gaussian function is fixed to 3.5, and the other one is allowed to change,
+#    the contribution of the second gaussian function is 20% of the contribution from the first gaussian function
+#               exp(-(x-mean)^2/(2*sigma*sigma)) + 0.2 * exp(-(x-mean)^2/(2*3.5*3.5))
+# METSmear_Option=3, use metx and mety information from the ascii files provided by Jan
+#    separately for minbias and zerobias events
+#
+
+METSmear_Option:     3
+underlying:          3.02
+metxmety_file:       ../input/metx_mety.C
+
+InstLumi_Bins:       0.2, 0.25, 0.3, 0.325, 0.355, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.775, 0.85, 1.0, 1.25
+MetX_mean:           0.23999, 0.26315, 0.25741, 0.26064, 0.27580, 0.27773, 0.28500, 0.27675, 0.28600, 0.26968, 0.28118, 0.26800, 0.27480, 0.26493, 0.27236, 0.23339, 0.25823
+MetX_sigma:          1.68422, 1.71534, 1.72660, 1.72822, 1.72920, 1.76032, 1.77508, 1.78147, 1.83578, 1.85404, 1.86003, 1.84662, 1.91956, 1.95875, 2.01863, 2.10949, 2.44116
+MetY_mean:           0.19796, 0.18555, 0.14184, 0.12036, 0.12649, 0.09512, 0.09088, 0.08813, 0.08787, 0.08063, 0.07286, 0.08040, 0.06692, 0.03120, 0.04375, 0.01470, 0.11234
+MetY_sigma:          1.62410, 1.66161, 1.67839, 1.67341, 1.69771, 1.70728, 1.74255, 1.75019, 1.78407, 1.79581, 1.79712, 1.81646, 1.87552, 1.91943, 1.98792, 2.08976, 2.44951
+
+# we need to make sure that W/Z events and minbias events have the 
+# same event multiplity, not just instantaneous luminosity profile
+# which means: sigma*t*L_mb/(1-e^(-sigma*t*L_mb)) = 1 + sigma*t*L_w
+# the solution to this equation can be parameterized as:
+#     L_mb = A0 + A1*Lw + A2*pow(Lw, 2) + A3*pow(Lw, 3) + A4*pow(Lw, 4)
+# A0, A1, A2, A3 and A4 are listed below
+Factors_Lw_Lmb:   0.00038, 1.999465, -0.013143, 0.000154, -0.000001
+
+#
+# scale factor to reflect the difference between underlying event contribution below
+# electron window and the real minbias events
+# only used for METSmear_Option = 0, 1, 2
+#
+alpha_mb_overlay:  1.00
+
+#
+# minbias and zerobias library files
+#
+#MBLibrary_file: /rooms/wmass/MC/MBZBLibrary/Library_MCMB_SETfudged5bins_SubtractBifurcate7mod3_deKinked.txt
+##Use relative path to path defined by ZBLibraryRootPath and MBLibraryRootPath
+#MBLibrary_file: MC/MBZBLibrary/Library_MCMB_SETfudged5bins_SubtractBifurcate7mod3_deKinked.txt
+MBLibrary_file: MC/MBZBLibrary/Library_MCMB_SETfudged5bins_SubtractBifurcate7mod3_deKinked_phishift.txt
+ZBLibrary_file: DATA/MBZBLibrary/binary_library_newOVL_shot1.root
+ZBLibrary_file_is_binary: true
+
+## when submitting jobs to cab 
+## with MB and ZB libraries in tar.gz-ed folder extra2
+## using Sahal's scripts MF4c, submit_resbos_66
+## uncomment two lines below and comment out corresponding lines above
+#MBLibrary_file: Library_MCMB_SETfudged5bins_SubtractBifurcate7mod3_deKinked_phishift.txt
+#ZBLibrary_file: binary_library_newOVL_shot1.root
+
+MBLibrary_file_lines: 62275	
+ZBLibrary_file_lines: 1779000
+#ZBLibrary_file_lines: 4
+
+
+#
+# parameter used to reflect the difference between underlying events
+# for W events and real minbias events
+# only used for METSmear_Option == 3
+#
+# NOTE: we actually scale by sqrt(alpha_mb) and sqrt(alpha_zb) inside the code
+#
+alpha_mb:        0.629755  
+alpha_mb_trans:  -1.0
+alpha_zb:        1.0
+
+# FSR photons in cracks
+ZsimuFSRcracks:      TRUE
+ZsimuFSRcracksWidth: 0.05
+WsimuFSRcracks:      TRUE
+WsimuFSRcracksWidth: 0.05
+
+#
+# Data file for Mikolaj's SET model
+SETmodelDatafile: ../geant/ScalarEt_input_model=3.root
+
+#
+# Fudge factor to describe the increase in "SET response" when the three
+# recoil components (ZB, underlying event and hard recoil) are put together.
+#
+alpha_SETresponse:   1.02     # from Jan's quick Run IIb study
+
+SETresponse_RunIIb_par: 0.376172 ,1.03352 ,0.00597413 ,-0.000739393 ,2.49851e-05 ,1.04512 ,9.44391e-06 ,1.04227 ,-5.58729e-05 ,1.02309 ,1.91693 ,-0.00688619 ,-5.82396e-05 ,5.45916e-07 ,-1.35401e-09 ,1.06331e-12 ,14.4572 ,81.304 ,229.914 ,475.653 
+SETresponse_Model: 0
+#
+applySETVLumiCorr: FALSE
+SETVLumiCorr_file: ../p20/SETVLumiCorr.C
+#
+# electron cluster phi shift within module
+# because of our EM reconstruction algorithm, non-fiducial electrons may 
+# be reconstructed in the fiducial region
+#
+# Added PhiModEfficiency control parameter, if it is set to true
+#   for events pass phi crack efficiency, the electron detector phi will be shifted;
+#   for events not pass phi crack efficiency, the electron detector phi will be modified so that
+#   to have fmod(detphi_smear*16/TMath::Pi(), 1.0)==0, and later this electron will be removed
+#   by PMCSEMObj::IsCC function 
+#
+PhiModCorrection: TRUE
+PhiModEfficiency: TRUE
+phimodshift_file: ../geant/presel_deltaphi_scatter_CC.C
+phicrackeff_file: ../geant/hPhiCrackEff.C
+TrkPhiModEfficiency: TRUE
+
+
+# study phimod efficiency by removing cuts at 0.1 and 0.9 and binning mass, etc in phimod
+StudyPhiMod:	FALSE
+
+#
+# Efficiency histograms
+#
+# TrigFrac_V* are the fractions of integrated luminosity for different trigger lists
+# The sum of all TrigFrac_V* should be 1.
+# TrigEff_Smear_Option = 0 will read the histograms
+# TrigEff_Smear_Option = 1 will use the parameterized function (vs pT)
+# DO NOT NEED TRIGGER EFFICIENCY FOR TUNING GEANT MC
+#
+TrigEff_Smear_Option:  1
+
+#
+TrigFrac_ListOne:   0.
+TrigFrac_ListTwo:   0.
+TrigFrac_ListThree: 0.
+TrigFrac_ListFour:  0.
+TrigFrac_ListFive: 50.
+TrigFrac_ListSix:  50.
+
+# use histograms
+TrigFrac_V8_10:   0.20
+TrigFrac_V11:     0.20
+TrigFrac_V12:     0.20
+TrigFrac_V13:     0.20
+TrigFrac_V14:     0.20
+trigeff_V8_10_file: ../p17/v8_10.C
+trigeff_V11_file:   ../p17/v11.C
+trigeff_V12_file:   ../p17/v12.C
+trigeff_V13_file:   ../p17/v13.C
+trigeff_V14_file:   ../p17/v14.C
+trigeff_V15_file:   ../p20/v15.C
+trigeff_V16_file:   ../p20/v16.C
+trigeff_V16b_file:  ../p20/v16b.C
+trigeff_p20_file:   ../p20/trigs.map
+
+#
+# Turn-on curve parameterization: 0.5 * eff_p2 * (1. + TMath::Erf((pT-eff_p0)/(sqrt(2)*eff_p1)))*(1. + TMath::Erf((pT-eff_p4)/(sqrt(2)*eff_p3)))
+# for ListOne, ListTwo, ListThree
+# Turn-on curve parameterization: 0.5*p2*(1+Erf((x-p0)/(sqrt(2)*p1)))
+# for v8-10, v11, 12, v13 and v14
+
+TrigEff_P0:   5., 5., 5., 5., 5., 5.
+TrigEff_P1:   1., 1., 1., 1., 1., 1.
+TrigEff_P2:   0.5, 0.5, 0.5, 0.5, 0.5, 0.5
+TrigEff_P3:   1., 1., 1., 1., 1., 1.
+TrigEff_P4:   0., 0., 0., 0., 0., 0.
+
+#
+# use the following switch to control whether you want to study systematic uncertainty
+# due to trigger efficiency (only when TrigEff_Smear_Option == 1)
+#
+Study_TrigEff_Systematics: FALSE
+
+TrigEff_P0_Uncertainty:  0, 0, 0, 0, 0, 0
+TrigEff_P1_Uncertainty:  0, 0, 0, 0, 0, 0
+TrigEff_P2_Uncertainty:  0, 0, 0, 0, 0, 0
+TrigEff_P3_Uncertainty:  0, 0, 0, 0, 0, 0
+TrigEff_P4_Uncertainty:  0, 0, 0, 0, 0, 0
+
+# 0 to use all ZB events
+# 1 to use only v15 ZB events
+# 2 to use only v16 low lumi (E1_SHT25) ZB events
+# 3 to use only v16 high lumi (E1_SHT27) ZB events
+TriggerSelector: 0
+
+# simulate pT dependence of all selection efficiencies
+simulate_pT_dependence:   TRUE
+
+# preselection efficiency
+preseff_file: ../geant_RunIIb/presel_eff_deteta_Geant_RunIIb.C
+
+# EMID efficiency
+# if simulate_pT_dependence=true, the efficiency is parameterized as a function of physics eta and pT
+# parameters specified by CCideff_pTphyEta_ParameterA and CCideff_pTphyEta_ParameterB
+ideff_file: ../geant_RunIIb/hmtrk_eff_deteta_Geant_RunIIb.C
+CCideff_pTphyEta_ParameterA: 0.960752, 0.935628, 0.956475, 0.941551, 0.966146, 0.944593, 0.951234, 0.954544, 0.941166, 0.949688, 0.949117, 0.953432, 0.995572
+CCideff_pTphyEta_ParameterB: 0.00617872, 0.0127849, 0.00693006, 0.0107674, 0.00404146, 0.00992553, 0.00726131, 0.00660748, 0.0103668, 0.00862918, 0.00969189, 0.0089545, -0.00305014
+
+CCcluseff_pTphyEta_ParameterA: 0.816389, 0.666761, 0.721002, 0.755523, 0.828329, 0.809941, 0.754901, 0.770943, 0.791455, 0.766115, 0.713922, 0.776331, 0.728021
+CCcluseff_pTphyEta_ParameterB: -0.0110016, 0.0315309, 0.0186728, 0.0109008, -0.00943125, -0.00418324, 0.0112516, 0.00748059, 0.000990698, 0.0064425, 0.0188134, -0.00196118, 0.0130963
+
+# if simulate_pT_dependence = false, trkeff_file_deteta only applied for EC electrons and trkeff_file only applied for CC electron 
+# if simulate_pT_dependence = true, besides these two files, we also applied pT dependence of track matching efficiency on CC electrons
+# using numbers specified by CCtrkeff_pTphyEta_ParameterA and CCtrkeff_pTphyEta_ParameterB
+#next switch is used to turn ON/OFF EfficiencySmear::passesTrkEff
+ApplyTrackMatchEfficiency: TRUE
+trkeff_file:         ../geant_RunIIb/trkEffVsEtaZvtx_36bin_noTrkPtCut_Geant_RunIIb.C
+trkeff_file_EC:      ../geant_RunIIb/trkmatcheff_tight_CCEC.C
+simulateTrkVtxDepEC: TRUE
+trkeff_file_deteta:  ../geant_RunIIb/trkEffVsDetEta_Geant_RunIIb.C   
+
+CCtrkeff_pTphyEta_ParameterA: 0.584072, 0.83542, 0.872731, 0.846316, 0.829217, 0.855408, 0.826963, 0.75526, 0.790673, 0.848985, 0.891851, 0.886807, 0.688451
+CCtrkeff_pTphyEta_ParameterB: 0.0723324, 0.03095, 0.016932, 0.00879861, 0.00978266, -0.00030046, -0.00387737, 0.02767, 0.0208915, 0.0110261, 0.0150269, 0.0171533, 0.0528975
+
+# can also include corrections to pT-dependence from Tag/Probe studies:
+#
+# master switches
+apply_HMxeff_ratio:   FALSE
+apply_TRKeff_ratio:   FALSE
+# this is needed because of our messy accounting of efficiencies (factorisation of different efficiencies)
+eff_ratios_Z_includeECtag: FALSE
+eff_ratios_W_includeECtag: TRUE
+# which function ?
+eff_ratios_function: 0
+
+#
+# and finally the parameterisations
+#
+#hmx eff ratio parameterization
+#hmx cc/ec tag
+CCECtag_CChmxeffratio_pTphyEta_ParameterA:-100.791, -1.27245, -1.22631, 2.2989, 2.43972, 0.672516, 3.00552, 0.606271, 0.453734, 1.92904, 0.668124, 0.587131, 0.161892, 0.118705, 7.58946
+CCECtag_CChmxeffratio_pTphyEta_ParameterB:9.69763, 0.243493, 0.221619, -0.150618, -0.160711, 0.0187887, -0.213826, 0.0452772, 0.0518651, -0.0996315, 0.0314719, 0.0375917, 0.0961385, 0.127015, -0.820492
+CCECtag_CChmxeffratio_pTphyEta_ParameterC:-0.171989, -0.00478889, -0.0041212, 0.00310304, 0.0032405, -0.000122432, 0.00415552, -0.000992179, -0.000949247, 0.00194472, -0.000552001, -0.000667705, -0.00205507, -0.00314352, 0.0186773
+CCECtag_CChmxeffratio_pTphyEta_ParameterD:0.00134529, 4.09739e-05, 3.38291e-05, -2.73875e-05, -2.81783e-05, -6.492e-07, -3.50236e-05, 9.63207e-06, 7.93538e-06, -1.64302e-05, 4.20113e-06, 5.40279e-06, 1.91309e-05, 3.22664e-05, -0.000183802
+CCECtag_CChmxeffratio_pTphyEta_ParameterE:-3.91645e-06, -1.28702e-07, -1.03216e-07, 8.83166e-08, 8.97174e-08, 6.57815e-09, 1.0834e-07, -3.45609e-08, -2.54679e-08, 5.08597e-08, -1.15806e-08, -1.66517e-08, -6.51909e-08, -1.17517e-07, 6.60489e-07
+#
+#hmx cc tag
+CCtag_CChmxeffratio_pTphyEta_ParameterA:-54.2586, -0.683167, -0.09226, 2.26235, 1.2429, -0.297144, 6.31976, -2.73557, -2.27894, 2.77384, -0.819391, 0.640182, 1.17826, 0.232111, -2.77049
+CCtag_CChmxeffratio_pTphyEta_ParameterB:5.25212, 0.180534, 0.101691, -0.150444, -0.0582672, 0.0874735, -0.561296, 0.379931, 0.305931, -0.192396, 0.178605, 0.0303759, -0.0168655, 0.11307, 0.275215
+CCtag_CChmxeffratio_pTphyEta_ParameterC:-0.0929942, -0.00353911, -0.00175358, 0.00315643, 0.00159986, -0.000949095, 0.0108506, -0.00721597, -0.00534128, 0.00379377, -0.00326533, -0.000493649, 0.000247183, -0.00283352, -0.00311797
+CCtag_CChmxeffratio_pTphyEta_ParameterD:0.000726844, 3.00734e-05, 1.3198e-05, -2.82648e-05, -1.65522e-05, 2.95739e-06, -9.13857e-05, 6.06004e-05, 4.14015e-05, -3.23973e-05, 2.62822e-05, 3.60227e-06, -1.28223e-06, 2.9327e-05, 8.76063e-06
+CCtag_CChmxeffratio_pTphyEta_ParameterE:-2.11611e-06, -9.35116e-08, -3.63571e-08, 9.23377e-08, 5.90217e-08, 3.87995e-09, 2.83697e-07, -1.89744e-07, -1.20363e-07, 1.01499e-07, -7.84617e-08, -9.89694e-09, 1.45542e-09, -1.07485e-07, 2.49069e-08
+#
+#trk eff ratio parameterization
+#trk cc/ec tag
+CCECtag_CCtrkeffratio_pTphyEta_ParameterA:-303.401, 19.0263, 2.04039, 5.39194, 3.65997, 2.04269, -1.9256, -8.66944, -3.3653, 1.17587, 6.85404, 4.28111, 0.609777,-12.5476, -76.4711
+CCECtag_CCtrkeffratio_pTphyEta_ParameterB:29.3355, -1.88443, -0.11689, -0.464406, -0.283502, -0.124151, 0.254826, 1.00187, 0.447697, -0.0465144, -0.632724, -0.324912, 0.0410573, 1.56075, 7.84428
+CCECtag_CCtrkeffratio_pTphyEta_ParameterC:-0.525536, 0.0364604, 0.00243244, 0.00908026, 0.00560949, 0.00273642, -0.00386754, -0.0191665, -0.0083126, 0.00150049, 0.0125656, 0.00595309, -0.000820659, -0.032903, -0.149465
+CCECtag_CCtrkeffratio_pTphyEta_ParameterD:0.00415267, -0.000309091, -2.20528e-05, -7.79138e-05, -4.84825e-05, -2.59142e-05, 2.38463e-05, 0.000160925, 6.69773e-05, -1.7694e-05, -0.000108661, -4.80885e-05, 7.05729e-06, 0.00030122, 0.00126316
+CCECtag_CCtrkeffratio_pTphyEta_ParameterE:-1.21912e-05, 9.70293e-07, 7.35971e-08, 2.47551e-07, 1.54192e-07, 8.87706e-08, -4.81005e-08, -5.01254e-07, -1.99068e-07, 6.98774e-08, 3.45754e-07, 1.45043e-07, -2.17965e-08, -1.01233e-06, -3.97818e-06
+#
+#trk cc tag
+CCtag_CCtrkeffratio_pTphyEta_ParameterA:-419.27, 16.4307, 2.53193, 2.31815, -4.53321, -2.93674, 7.21492, -3.32458, -5.37821, -0.15465, 4.65564, -0.0434217, -4.06056, -11.5205, 588.928
+CCtag_CCtrkeffratio_pTphyEta_ParameterB:41.0572, -1.62577, -0.174343, -0.14382, 0.554059, 0.395482, -0.662238, 0.496132, 0.655516, 0.101732, -0.389828, 0.109183, 0.519316, 1.41541, -59.5092
+CCtag_CCtrkeffratio_pTphyEta_ParameterC:-0.74462, 0.0316439, 0.00370393, 0.00294062, -0.0103556, -0.00746843, 0.0128637, -0.0105625, -0.0125797, -0.00175834, 0.00757265, -0.00214078, -0.00986415, -0.0292764, 1.11624
+CCtag_CCtrkeffratio_pTphyEta_ParameterD:0.00596249, -0.000268836, -3.42819e-05, -2.66598e-05, 8.54254e-05, 6.27105e-05, -0.000108595, 9.82491e-05, 0.000106634,1.41182e-05, -6.39072e-05, 1.84185e-05, 8.21251e-05, 0.000263371, -0.00920158
+CCtag_CCtrkeffratio_pTphyEta_ParameterE:-1.77996e-05, 8.42366e-07, 1.16463e-07, 8.99878e-08, -2.62183e-07, -1.97185e-07, 3.37546e-07, -3.35995e-07, -3.36498e-07, -4.40661e-08, 1.985e-07, -5.81983e-08, -2.52996e-07, -8.71438e-07, 2.81551e-05
+
+
+#
+# Underlying event contribution in electron window
+# it is different than energies under electron window for electron energy smearing
+# since here we do not need to consider zero supression effect on real electron energy measurement
+# this variable is really the energy deposition for underlying event + additional collisions inside the electron cone
+# (of course zsup effect on calorimeter tower energy measurement is taken into account)
+#
+ZUparaCorrection: TRUE
+WUparaCorrection: TRUE
+
+#
+# set UParaCorrOption = 0 will use average value, no luminosity and upara dependences applied
+# set UParaCorrOption = 1 will read the histogram for CC region (luminosity and upara dependences applied),
+#    but still use the average value for EC region, no luminosity and upara dependences applied
+#    The histogram is calculated for each tower, need to x13 to get corrections for each electron
+# set UParaCorrOption = 2 will read the average 13 tower Et distribution for different luminosity and uparallel bins
+#    from a root file defined by UParaCorr_13towers_root_filename
+
+UParaCorrOption: 3
+UParaCorr_CC:   0.144
+UParaCorr_EC:   0.
+
+# upara correction histogram (PER tower), upara correction vs luminosity dependence (unit: GeV)
+# and upara correction vs upara (only used for UParaCorrOption=1)
+UParaCorr_CC_Hist: ../geant/UParaCorrPerTower_Geant.C
+UParaCorr_CC_V_Lumi_Hist:  ../p17/delta_Upara_V_Lumi_wen.C
+UParaCorr_CC_V_Lumi_Slope:  0.002543
+
+# upara correction vs uparallel itself (NOTE: corrected back to zero luminosity) 
+# is modelled using a fitted 4-th order polynomial function
+# [0] + [1]/10*upara + [2]/100*upara*upara + [3]/1000*upara*upara*upara + [4]/10000*upara*upara*upara*upara (only used for UParaCorrOption=1)
+UParaCorr_CC_V_UPara_Parameters:  0.004433, 0.003575, 0.01056, -0.00061, -0.004008
+# uncertainty for each parameter: 0.000144, 0.000516 0.00111, 0.000629 0.000897
+
+# root file that contains average Et for 13 towers divided into different luminosity and uparallel bins (only used for UParaCorrOption=2)
+# runIIb Lumi Range is broader when using ../geant_RunIIb/uParaCorr_13towers_runIIb.root set UParaCorrRunIIb: TRUE
+
+UParaCorrRunIIb: TRUE
+UParaCorr_13towers_root_filename: ../geant_RunIIb/uParaCorr_13towers_runIIb_bugfix_23Sept2010.root
+
+###################################
+# Parameters of UParaCorrOption = 3
+OptionOfUParaCorrOption3: 2
+#dUParaMeanAndSmearFunctionsFilename: ../p20/dUParaMeanAndSmearFunctions_SETUParaLumi_Feb14.root
+# below is the dUParaLib with UPara boundary extended to (-30, 30) GeV
+dUParaMeanAndSmearFunctionsFilename: ../p20/dUParaMeanAndSmearFunctions_SETUParaLumi_Feb14_UT30.root
+###################################
+
+EnergySim_ElecWindowFudge: 1.0
+UParaCorrFudge: 1.0
+
+
+
+############  Parameters for dUParaEfficiency. ###############
+# This is the efficiency of electron ID as a function of dUPara, which is the energy 
+#  flow of underlying events that falls inside the electron window. The electron 
+#  ID sensitively depends on this dUPara. In the UPara Correction, we add a 
+#  dUPara from a library into the electron. When we do this, we apply this 
+#  dUPara Efficiency.
+# The dUParaEfficiency is parameterized as a function of dUPara, and in bins
+#  of Pt of the electron.
+# - For dUPara=0, the efficiencies are given by dUParaEff_Zero_dUPara_W/Z .
+# - For all the rest, the efficienceis is parameterized as: 
+#        eff = par0 + par1*x, where x = dUpara/Pt_elec, 
+#          par0 and par1 are given by dUParaEff_Func_Par0_W/Z and dUParaEff_Func_Par1_W/Z, respectively.
+# - If switch dUParaEff_Smooth_Eff is true, a weighted mean efficiency will be calculated
+#        based on the efficiencies and the mean Pt of the 5 Pt bins, where the mean Pt is given by 
+#          dUParaEff_Mean_Pt_W/Z
+# 
+# switch 
+Apply_dUParaEff: false
+# switch smoothing eff 
+dUParaEff_Smooth_Eff: true
+# parameters for  W
+#dUParaEff_Nbins_W: 5
+#dUParaEff_Bin_Min_W: 25 30 35 40 50
+#dUParaEff_Bin_Max_W: 30 35 40 50 100
+#dUParaEff_Mean_Pt_W: 27.593 32.5798 37.4714 43.1886 59.3747
+#dUParaEff_Zero_dUPara_W: 0.879725 0.92282 0.968999 0.973488 0.994292
+#dUParaEff_Func_Par0_W: 0.883035 0.933346 0.98492 0.989208 1
+#dUParaEff_Func_Par1_W: -7.22777 -7.47285 -7.93307 -7.05216 -6.71214
+# parameters for  Z
+#dUParaEff_Nbins_Z: 7
+#dUParaEff_Bin_Min_Z: 25 35 40 43 45 47 50
+#dUParaEff_Bin_Max_Z: 35 40 43 45 47 50 100
+#dUParaEff_Mean_Pt_Z: 30.6836 37.6592 41.5423 43.9861 45.9477 48.3181 58.0829
+#dUParaEff_Zero_dUPara_Z: 0.832051 0.916321 0.955065 0.971752 0.976241 0.968927 0.972952
+#dUParaEff_Func_Par0_Z: 0.842819 0.920826 0.970431 0.983606 0.988713 0.989911 1
+#dUParaEff_Func_Par1_Z: -6.96262 -7.38851 -7.37499 -7.63659 -7.23021 -7.07695 -7.67668
+# parameters for  W
+dUParaEff_Nbins_W: 5
+dUParaEff_Bin_Min_W: 25 30 35 40 50
+dUParaEff_Bin_Max_W: 30 35 40 50 100
+dUParaEff_Mean_Pt_W: 27.5895 32.5996 37.5037 43.0154 59.8021
+dUParaEff_Zero_dUPara_W: 0.87306 0.919782 0.964696 0.978356 0.986825
+dUParaEff_Func_Par0_W: 0.857892 0.925825 0.973962 1 0.995902
+dUParaEff_Func_Par1_W: -7.96217 -8.67707 -9.3597 -10.0659 -8.93619
+# parameters for  Z
+dUParaEff_Nbins_Z: 5
+dUParaEff_Bin_Min_Z: 25 30 35 40 50
+dUParaEff_Bin_Max_Z: 30 35 40 50 100
+dUParaEff_Mean_Pt_Z: 27.5895 32.5996 37.5037 43.0154 59.8021
+dUParaEff_Zero_dUPara_Z: 0.87306 0.919782 0.964696 0.978356 0.986825
+dUParaEff_Func_Par0_Z: 0.857892 0.925825 0.973962 1 0.995902
+dUParaEff_Func_Par1_Z: -7.96217 -8.67707 -9.3597 -10.0659 -8.93619
+
+#
+# Uparallel Efficiency
+#
+WUparaEffCorrection: TRUE
+ZUparaEffCorrection: TRUE
+
+#
+# uparaEffCorrOption=0, use Run I method, 100% efficiency for upara<u0_CC (or u0_EC)
+# and linear function for upara>u0_CC (or u0_EC), used for full MC
+# uparaEffCorrOption=1, use measured uparallel efficiency based on Feng's studies for CC (still use Run I method for EC)
+# the efficiency curve is fitted with two linear functions for Z data and a second order polynomial, used for Data
+# uparaEffCorrOption=2 use physics eta parameterization of W upara slope. (measure u0 and s from Z).
+#
+UparaEffCorrOption: 0
+WUparaEffCorrOption: 0
+
+UseUparaOverPte: FALSE
+PlotUparaOverPte: FALSE
+UseCosUphi: FALSE
+PlotCosUphi: FALSE
+
+# parameters used for UparaEffCorrOption = 0
+# for Z events
+Z_u0_CC:        2.037
+Z_s_CC:         0.002535
+Z_u0_EC:        2.308
+Z_s_EC:         0.0046
+
+##for upara over pTe
+Z_u0pte_CC:        0.022
+Z_spte_CC:         0.0244
+Z_u0pte_EC:        0.022
+Z_u1pte_CC:        1.
+Z_spte_EC:         0.0244
+
+##for cos(Uphi)
+Z_u0phi_CC:        0.022
+Z_sphi_CC:         0.3917
+Z_u1phi_CC:        0.43
+Z_u0phi_EC:        0.022
+Z_sphi_EC:         0.3917
+
+# for W events
+W_u0_CC:        1.540
+W_s_CC:         0.004
+W_u0_EC:        2.308
+W_s_EC:         0.0046
+# parameters used for WUparaEffCorrOption = 2 (W only)
+W_seta_CC:      0.0067
+
+# explicit lumi dependence
+WUparaEffLumiDep:         true
+WUparaEffLumiDep_Bins:    2. 4. 6.
+WUparaEffLumiDep_Slopes:  0.0090 0.0075 0.0075 0.0075
+
+##for upara over pTe
+W_u0pte_CC:        0.038
+W_spte_CC:         0.0244
+W_u1pte_CC:        0.4145
+W_u0pte_EC:        0.038
+W_spte_EC:         0.0244
+
+##for cos(Uphi)
+W_u0phi_CC:        0.022
+W_sphi_CC:         0.17
+W_u1phi_CC:        0.4145
+W_u0phi_EC:        0.022
+W_sphi_EC:         0.17
+
+# upara eff perturbation as function of pTe
+WUparaEffCorrectionPert: false
+Wpert_u0_CC:        0.0
+Wpert_s_CC:         0. 0. 0. 0. 0. 0. 0. 0.
+#
+WpertG_u0_CC:       0.0
+WpertG_p_CC:        1. 1. 1. 1. 1. 1. 1. 1.
+WpertG_s_CC:        0. 0. 0. 0. 0. 0. 0. 0.
+WpertG_pm_CC:       1. 1. 1. 1. 1. 1. 1. 1.
+WpertG_sm_CC:       0. 0. 0. 0. 0. 0. 0. 0.
+
+# upara eff perturbation as function of cos(dphi)
+WUparaEffCorrectionCDPPert: false
+WCDPpert_u0_CC:        0.0
+WCDPpert_p_CC:         1. 1. 1. 1. 1. 1. 1. 1.
+WCDPpert_s_CC:         0. 0. 0. 0. 0. 0. 0. 0.
+
+# parameters used for UparaEffCorrOption = 1
+# Z efficiency:   1-ZUparaEffCorrParameters_CC[1] * (upara-ZUparaEffCorrParameters_CC[0]) for upara<ZUparaEffCorrParameters_CC[0]
+#            and  1-ZUparaEffCorrParameters_CC[2] * (upara-ZUparaEffCorrParameters_CC[0]) for upara>ZUparaEffCorrParameters_CC[0]
+# W efficiency:   WUparaEffCorrParameters_CC[0] + WUparaEffCorrParameters_CC[1]*upara + WUparaEffCorrParameters_CC[2]*upara*upara
+ZUparaEffCorrParameters_CC: 0.88512, -0.001664, 0.003256
+WUparaEffCorrParameters_CC: 0.96728, 0.000017, -0.00023
+
+#
+# Parameters used for SET efficiency simulation, if switched on
+#
+ZSETEffCorrLumiSplit:   TRUE
+ZSETEffCorrLumiSplit_Bins: 2. 4. 6.
+ZSETEffCorrLumiSplit_NormCCCC: 0.7603416 0.74734118 0.8535825 1.
+ZSETEffCorrLumiSplit_NormCCEC: 1. 1. 1. 1.
+ZSETEffCorrLumiSplit_NormECEC: 1. 1. 1. 1.
+ZSETEffCorrScaled:      TRUE
+ZSETEffCorrRelative:    TRUE
+ZSETEffCorrInterpolate: TRUE
+ZSETEffCorrParametersCCCC:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersCCEC:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersECEC:  0. 0. 0. 0. 0.
+#
+ZSETEffCorrPTEupara:    1  
+ZSETEffCorrPTEpert:     3
+ZSETEffCorrPTEpertBase_0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0:    -1.47705  4.27409  -5.01964  0  0
+ZSETEffCorrPTEpertB_0:    -0.621186  1.7325  -2.92221  0  0 
+ZSETEffCorrPTEpertC_0:    -0.643801  3.19479  -5.83742  0  0
+ZSETEffCorrPTEpertD_0:    -0.276815  8.66053  -33.737  34.8008  0
+ZSETEffCorrPTEpertE_0:    -0.755329  12.471  -45.9414  46.5044  0  
+ZSETEffCorrPTEpertF_0:    -0.708194  7.21647  -15.2577  -2.70891  0
+ZSETEffCorrPTEpertG_0:    -2.39302  18.3202  -81.7355  137.373  0
+ZSETEffCorrPTEpertH_0:    -0.249571  17.4694  -276.237  924.934  0  
+ZSETEffCorrPTEpertNorm_0:  0.881211  0.833349  0.83544  0.781628  0.794205  0.796605  0.929786  0.833519
+ZSETEffCorrPTEpertBase_1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1:    -1.44187  3.84713  -3.97276  0  0
+ZSETEffCorrPTEpertB_1:    -0.7808  2.61993  -4.38821  0  0  
+ZSETEffCorrPTEpertC_1:    -0.764782  3.47737  -5.83344  0  0
+ZSETEffCorrPTEpertD_1:    -0.533908  10.095  -35.248  33.0701  0  
+ZSETEffCorrPTEpertE_1:    -0.745328  11.9339  -43.868  50.6552  0
+ZSETEffCorrPTEpertF_1:    -0.578897  2.39087  -2.17355  2.17984  0
+ZSETEffCorrPTEpertG_1:    -0.995028  -18.6087  278.792  -771.535  0
+ZSETEffCorrPTEpertH_1:    -1.19305  3.16027  99.3942  -471.986  0
+ZSETEffCorrPTEpertNorm_1:  0.882661  0.841208  0.839828  0.79391  0.7925  0.810658  0.866908  0.869374
+ZSETEffCorrPTEpertBase_2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2:    -0.911576  2.19601  -2.83238  0  0
+ZSETEffCorrPTEpertB_2:    -0.958031  2.86453  -4.08571  0  0
+ZSETEffCorrPTEpertC_2:    -0.581331  2.73359  -5.53721  0  0
+ZSETEffCorrPTEpertD_2:    -0.658439  10.8012  -39.4211  39.2997  0 
+ZSETEffCorrPTEpertE_2:    -1.04427  15.2403  -57.055  60.63  0
+ZSETEffCorrPTEpertF_2:    -0.178403  -7.11383  60.2207  -116.292  0
+ZSETEffCorrPTEpertG_2:    -2.8818  25.5475  -94.6154  104.245  0  
+ZSETEffCorrPTEpertH_2:    -1.94189  57.0827  -498.8  1286.11  0
+ZSETEffCorrPTEpertNorm_2:  0.840441  0.854128  0.834663  0.798713  0.810164  0.81424  0.916658  0.871548
+ZSETEffCorrPTEpertBase_3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3:    -1.51259  3.3721  -3.58636  0  0 
+ZSETEffCorrPTEpertB_3:    -0.866874  2.1445  -3.2608  0  0 
+ZSETEffCorrPTEpertC_3:    -0.45849  1.46285  -3.3885  0  0
+ZSETEffCorrPTEpertD_3:    -0.43495  8.20397  -32.0868  31.4106  0 
+ZSETEffCorrPTEpertE_3:    -0.0485714  0.221467  12.1953  -34.3272  0
+ZSETEffCorrPTEpertF_3:    -0.420645  -6.82364  74.4464  -162.434  0
+ZSETEffCorrPTEpertG_3:    -1.06201  1.62383  -12.2853  32.3865  0  
+ZSETEffCorrPTEpertH_3:    -0.809842  -22.7337  465.51  -1775.8  0
+ZSETEffCorrPTEpertNorm_3:  0.891205  0.84803  0.833937  0.807276  0.803127  0.84179  0.894621  0.949625
+ZSETEffCorrPTEpertBase_4: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4:    -1.83857  4.00322  -4.26416  0  0
+ZSETEffCorrPTEpertB_4:    -0.907591  1.61053  -2.95358  0  0
+ZSETEffCorrPTEpertC_4:    -0.69284  1.72013  -4.15323  0  0
+ZSETEffCorrPTEpertD_4:    -0.412864  4.41703  -14.2932  7.83737  0
+ZSETEffCorrPTEpertE_4:    -0.348918  1.57631  7.78616  -31.5383  0
+ZSETEffCorrPTEpertF_4:    -0.681709  4.00991  -4.36424  -18.0542  0
+ZSETEffCorrPTEpertG_4:    -1.80506  5.54468  46.02  -212.508  0
+ZSETEffCorrPTEpertH_4:    -3.48175  51.4143  -420.23  1222.23  0
+ZSETEffCorrPTEpertNorm_4:  0.899536  0.848295  0.845134  0.843365  0.863429  0.886971  0.943008  1
+#
+ZSETEffCorrPTEpertBase_0b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0b:    -1.06089  2.11259  -2.47315  0  0
+ZSETEffCorrPTEpertB_0b:    -0.965525  2.88254  -3.991  0  0
+ZSETEffCorrPTEpertC_0b:    -0.971601  4.06873  -6.92446  0  0
+ZSETEffCorrPTEpertD_0b:    -0.104454  1.87354  -2.61897  -3.33081  0
+ZSETEffCorrPTEpertE_0b:    -0.28129  9.30491  -38.1692  35.2693  0
+ZSETEffCorrPTEpertF_0b:    -0.788695  -5.03773  76.7486  -197.055  0
+ZSETEffCorrPTEpertG_0b:    -2.07815  67.6298  -579.123  1385.32  0
+ZSETEffCorrPTEpertH_0b:    -5.13789  165.765  -1681.42  5376.47  0
+ZSETEffCorrPTEpertNorm_0b:  0.870115  0.860503  0.866484  0.806333  0.792952  0.86957  0.820894  0.822257
+ZSETEffCorrPTEpertBase_1b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1b:    -0.684373  0.937934  -1.41424  0  0
+ZSETEffCorrPTEpertB_1b:    -1.47935  5.10546  -6.72808  0  0
+ZSETEffCorrPTEpertC_1b:    -0.776788  2.89437  -5.02739  0  0
+ZSETEffCorrPTEpertD_1b:    -0.551913  4.71034  -8.49556  -1.54379  0
+ZSETEffCorrPTEpertE_1b:    0.767174  -14.1448  71.4007  -102.309  0
+ZSETEffCorrPTEpertF_1b:    -1.42773  0.808722  13.8837  6.09312  0
+ZSETEffCorrPTEpertG_1b:    -2.86454  53.4113  -328.7  588.803  0
+ZSETEffCorrPTEpertH_1b:    -3.46476  82.6449  -913.412  3147.33  0
+ZSETEffCorrPTEpertNorm_1b:  0.838325  0.893547  0.857972  0.822692  0.815746  0.900397  0.842478  0.898431
+ZSETEffCorrPTEpertBase_2b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2b:    -0.833616  1.20201  -1.49642  0  0
+ZSETEffCorrPTEpertB_2b:    -0.833767  1.92625  -2.89826  0  0
+ZSETEffCorrPTEpertC_2b:    -0.932182  3.58584  -5.84375  0  0
+ZSETEffCorrPTEpertD_2b:    -0.490017  5.18466  -17.0823  14.9722  0
+ZSETEffCorrPTEpertE_2b:    -0.0387352  -6.6564  36.6029  -56.1896  0
+ZSETEffCorrPTEpertF_2b:    -1.64522  24.4025  -108.453  128.045  0
+ZSETEffCorrPTEpertG_2b:    -2.39858  67.2874  -431.319  740.141  0
+ZSETEffCorrPTEpertH_2b:    0.265875  -20.0073  205.812  -435.212  0
+ZSETEffCorrPTEpertNorm_2b:  0.85283  0.858924  0.866629  0.828542  0.859536  0.869995  0.797531  0.849064
+ZSETEffCorrPTEpertBase_3b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3b:    -1.0807  1.46594  -1.53526  0  0
+ZSETEffCorrPTEpertB_3b:    -1.10383  1.98108  -2.26826  0  0
+ZSETEffCorrPTEpertC_3b:    -0.916982  2.9044  -5.34812  0  0
+ZSETEffCorrPTEpertD_3b:    -0.856697  7.54211  -23.5316  18.9465  0
+ZSETEffCorrPTEpertE_3b:    -0.562304  3.53751  -6.19071  4.26841  0
+ZSETEffCorrPTEpertF_3b:    -0.605123  -4.03206  44.2532  -79.4665  0
+ZSETEffCorrPTEpertG_3b:    0.692399  -39.5639  305.475  -660.617  0
+ZSETEffCorrPTEpertH_3b:    -0.584155  -19.7984  247.968  -922.111  0
+ZSETEffCorrPTEpertNorm_3b:  0.871108  0.888239  0.879075  0.856987  0.842292  0.870674  0.917027  0.952402
+ZSETEffCorrPTEpertBase_4b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4b:    -1.37381  1.70924  -1.7164  0  0
+ZSETEffCorrPTEpertB_4b:    -1.21891  2.1706  -3.08593  0  0
+ZSETEffCorrPTEpertC_4b:    -1.10763  2.46599  -3.90476  0  0
+ZSETEffCorrPTEpertD_4b:    -0.726065  3.86752  -12.3849  9.11872  0
+ZSETEffCorrPTEpertE_4b:    -1.4817  13.8705  -37.9454  14.8631  0
+ZSETEffCorrPTEpertF_4b:    -2.2903  26.894  -126.945  179.348  0
+ZSETEffCorrPTEpertG_4b:    -2.03686  45.7081  -370.925  909.929  0
+ZSETEffCorrPTEpertH_4b:    -2.39288  6.33262  88.5642  -567.35  0
+ZSETEffCorrPTEpertNorm_4b:  0.889195  0.892153  0.902107  0.919208  0.959469  0.972822  0.986317  1
+ZSETEffCorrEPTEparamsNorm_CommonMultiplier: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm: 0.98411
+#
+SETuseLumiBins: FALSE
+SETuseHack: 0
+#
+ZSETEffCorrPTEpertBase_EC_0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4: 1. 1. 1. 1. 1. 1. 1. 1.
+#
+ZSETEffCorrPTEpertBase_EC_0b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0b: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1b: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2b: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3b: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4b: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4b:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4b: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_EC: 1.0
+
+## Now the lumi-dependent version
+#
+#
+ZSETEffCorrParametersCCCC_Lumi0:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersCCEC_Lumi0:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersECEC_Lumi0:  0. 0. 0. 0. 0.
+#
+ZSETEffCorrPTEpertBase_0_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0_Lumi0:    -0.424379  3.62487  -5.32418  0  0     -0.0361405  -0.225752  0.967929  0  0
+ZSETEffCorrPTEpertB_0_Lumi0:    -1.09134  9.2797  -15.8896  0  0     -0.130517  1.07158  -2.10161  0  0
+ZSETEffCorrPTEpertC_0_Lumi0:    -0.988198  13.7965  -29.5656  0  0     -0.0456408  0.193219  -0.162673  0  0
+ZSETEffCorrPTEpertD_0_Lumi0:    -0.13088  -1.40449  97.1189  -289.751  0     0.11358  -5.60089  55.0322  -130.445  0
+ZSETEffCorrPTEpertE_0_Lumi0:    -0.415131  -5.25421  157.061  -451.967  0     0.393574  -12.3265  97.2243  -211.254  0
+ZSETEffCorrPTEpertF_0_Lumi0:    0.341952  -23.2014  296.123  -788.917  0     -0.180673  3.80345  -33.2016  132.034  0
+ZSETEffCorrPTEpertG_0_Lumi0:    10.1947  -413.17  4059.23  -11953.8  0     6.58685  -252.293  2632.2  -7829.62  0
+ZSETEffCorrPTEpertH_0_Lumi0:    -2.98378  315.171  -6776.25  35563.8  0     -6.61252  320.208  -4461.18  19189.4  0
+ZSETEffCorrPTEpertNorm_0_Lumi0: 0.795929 0.830145 0.820399 0.785147 0.815451 0.785551 0.999129 0.868469
+ZSETEffCorrPTEpertBase_1_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1_Lumi0:    -1.42483  8.26364  -13.0117  0  0     -0.165957  1.19077  -2.36477  0  0
+ZSETEffCorrPTEpertB_1_Lumi0:    -0.851379  8.29313  -15.9347  0  0     0.00699909  -0.140652  -0.599583  0  0
+ZSETEffCorrPTEpertC_1_Lumi0:    -1.2167  14.6229  -28.354  0  0     -0.116146  0.848057  -0.76615  0  0
+ZSETEffCorrPTEpertD_1_Lumi0:    -0.306856  5.42231  32.5141  -132.304  0     -0.195481  2.19567  -0.910072  -16.6164  0
+ZSETEffCorrPTEpertE_1_Lumi0:    -1.21532  25.3409  -111.272  179.711  0     -0.947167  19.3682  -115.29  210.959  0
+ZSETEffCorrPTEpertF_1_Lumi0:    0.962222  -29.729  253.934  -492.944  0     0.0775663  -5.81652  57.0341  -96.3502  0
+ZSETEffCorrPTEpertG_1_Lumi0:    -3.7568  145.007  -1779.1  6310.35  0     -3.36905  129.92  -1448.82  4771.22  0
+ZSETEffCorrPTEpertH_1_Lumi0:    8.18732  -488.62  6690.69  -25293.8  0     8.38702  -466.147  6506.23  -23963.3  0
+ZSETEffCorrPTEpertNorm_1_Lumi0: 0.849601 0.818569 0.824704 0.794274 0.794329 0.811725 0.815024 0.990339
+ZSETEffCorrPTEpertBase_2_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2_Lumi0:    -1.41006  8.2701  -12.4959  0  0     -0.0348507  -0.018415  -0.19562  0  0
+ZSETEffCorrPTEpertB_2_Lumi0:    -1.3474  11.1608  -19.4894  0  0     -0.146049  1.40218  -3.08031  0  0
+ZSETEffCorrPTEpertC_2_Lumi0:    -0.976987  13.8383  -30.0514  0  0     -0.125541  1.59372  -4.53042  0  0
+ZSETEffCorrPTEpertD_2_Lumi0:    -1.04035  17.6021  -37.1172  -4.55558  0     -0.371882  7.53416  -42.6538  70.0805  0
+ZSETEffCorrPTEpertE_2_Lumi0:    -0.0746084  -9.52019  195.549  -590.813  0     0.489887  -15.7135  135.869  -327.872  0
+ZSETEffCorrPTEpertF_2_Lumi0:    0.965625  -32.8874  306.342  -825.278  0     1.75284  -49.3599  406.927  -1051.1  0
+ZSETEffCorrPTEpertG_2_Lumi0:    3.86725  -158.352  1404.05  -2473.11  0     0.899614  -62.7565  706.362  -1360.55  0
+ZSETEffCorrPTEpertH_2_Lumi0:    1.92272  -85.8077  979.901  -2857.5  0     1.25785  -35.8861  176.99  324.193  0
+ZSETEffCorrPTEpertNorm_2_Lumi0: 0.83428 0.836739 0.813297 0.801894 0.814809 0.812166 0.928358 0.839472
+ZSETEffCorrPTEpertBase_3_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3_Lumi0:    -1.69379  8.13909  -10.256  0  0     0.0154952  -0.381981  0.143513  0  0
+ZSETEffCorrPTEpertB_3_Lumi0:    -1.7275  11.7185  -18.2675  0  0     -0.125113  1.08879  -2.28325  0  0
+ZSETEffCorrPTEpertC_3_Lumi0:    -0.629953  7.34586  -12.8484  0  0     0.00587194  -0.437606  1.97019  0  0
+ZSETEffCorrPTEpertD_3_Lumi0:    -0.905242  10.2209  20.4424  -140.892  0     -0.089023  -2.69041  46.4701  -132.715  0
+ZSETEffCorrPTEpertE_3_Lumi0:    0.987213  -29.5644  261.543  -597.348  0     0.949181  -25.8986  199.439  -442.64  0
+ZSETEffCorrPTEpertF_3_Lumi0:    0.0673608  -3.44377  34.193  -67.4599  0     0.0311127  0.0656433  -19.0208  123.887  0
+ZSETEffCorrPTEpertG_3_Lumi0:    5.77323  -250.84  2828.37  -9119.81  0     -0.449172  2.13006  121.362  -730.748  0
+ZSETEffCorrPTEpertH_3_Lumi0:    6.26514  -249.471  1583.84  640.802  0     -0.256459  36.5977  -1453.01  11142.6  0
+ZSETEffCorrPTEpertNorm_3_Lumi0: 0.862083 0.843235 0.821511 0.822309 0.81854 0.837118 0.856581 0.943254
+ZSETEffCorrPTEpertBase_4_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4_Lumi0:    -1.41269  4.4389  -4.76319  0  0     0.171519  -2.7387  6.15413  0  0
+ZSETEffCorrPTEpertB_4_Lumi0:    -0.950422  8.67295  -19.7705  0  0     -0.235207  2.22241  -4.50178  0  0
+ZSETEffCorrPTEpertC_4_Lumi0:    -0.912367  9.69797  -20.2728  0  0     -0.107934  0.982545  -1.85698  0  0
+ZSETEffCorrPTEpertD_4_Lumi0:    -0.163987  -1.55018  56.284  -137.28  0     -0.229707  3.17516  -7.90118  0.693044  0
+ZSETEffCorrPTEpertE_4_Lumi0:    0.259239  -10.5168  99.4338  -233.62  0     0.430631  -10.9934  81.7089  -188.088  0
+ZSETEffCorrPTEpertF_4_Lumi0:    -1.15691  11.9826  26.264  -281.876  0     0.597184  -20.078  185.133  -516.225  0
+ZSETEffCorrPTEpertG_4_Lumi0:    5.80746  -220.311  2114.25  -6006.49  0     5.72066  -195.402  1879.16  -5427.64  0
+ZSETEffCorrPTEpertH_4_Lumi0:    16.7969  -1185.31  20868.2  -104350  0     0.0194272  -187.217  5168.86  -31285.9  0
+ZSETEffCorrPTEpertNorm_4_Lumi0: 0.856604 0.82248 0.83215 0.81991 0.829351 0.822505 0.885384 0.98887
+#
+ZSETEffCorrPTEpertBase_0b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0b_Lumi0:    -0.573407  4.43146  -6.94551  0  0     -0.00565098  -0.314825  1.32935  0  0
+ZSETEffCorrPTEpertB_0b_Lumi0:    -0.543556  6.10619  -7.36495  0  0     -0.124846  0.896194  -0.665805  0  0
+ZSETEffCorrPTEpertC_0b_Lumi0:    -0.80988  15.1464  -32.8544  0  0     -0.144554  2.1564  -6.53984  0  0
+ZSETEffCorrPTEpertD_0b_Lumi0:    -0.094175  -0.230796  69.7905  -192.118  0     0.338241  -7.45912  48.4702  -89.2054  0
+ZSETEffCorrPTEpertE_0b_Lumi0:    -3.33881  65.1634  -270.528  225.166  0     -0.280042  1.96311  13.288  -50.8639  0
+ZSETEffCorrPTEpertF_0b_Lumi0:    0.241015  -29.3801  345.948  -759.257  0     1.43425  -39.9644  257.06  -371.482  0
+ZSETEffCorrPTEpertG_0b_Lumi0:    -12.9386  602.147  -7809.89  29793.3  0     -11.6484  461.669  -5119.13  17067.8  0
+ZSETEffCorrPTEpertH_0b_Lumi0:    -3.90672  305.711  -6732.39  41567.6  0     -1.58194  120.962  -2647.9  15899.9  0
+ZSETEffCorrPTEpertNorm_0b_Lumi0: 0.787417 0.773609 0.777283 0.761936 0.79297 0.813938 0.794496 0.731226
+ZSETEffCorrPTEpertBase_1b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1b_Lumi0:    -0.303103  3.46895  -5.22416  0  0     -0.0940864  0.87811  -1.92999  0  0
+ZSETEffCorrPTEpertB_1b_Lumi0:    -0.971307  10.4137  -18.6494  0  0     -0.0909259  0.695044  -1.36158  0  0
+ZSETEffCorrPTEpertC_1b_Lumi0:    -0.689635  13.5681  -28.8248  0  0     -0.0457663  0.627552  -1.68209  0  0
+ZSETEffCorrPTEpertD_1b_Lumi0:    -0.927926  19.0112  -32.7156  -41.5386  0     -0.186093  1.26695  9.23397  -38.0528  0
+ZSETEffCorrPTEpertE_1b_Lumi0:    -3.33866  73.002  -392.377  692.075  0     -1.14758  24.3681  -148.841  274.684  0
+ZSETEffCorrPTEpertF_1b_Lumi0:    3.04695  -87.7182  477.622  36.2485  0     0.950451  -13.5768  -164.25  1393.93  0
+ZSETEffCorrPTEpertG_1b_Lumi0:    0.799259  -106.857  2000.36  -6829.09  0     4.14853  -226.07  2830.96  -9076.94  0
+ZSETEffCorrPTEpertH_1b_Lumi0:    -12.9273  453.841  -3603.65  5156.55  0     -9.24593  413.01  -5177.37  19757  0
+ZSETEffCorrPTEpertNorm_1b_Lumi0: 0.759223 0.794838 0.774566 0.755934 0.799277 0.768319 0.761844 0.839984
+ZSETEffCorrPTEpertBase_2b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2b_Lumi0:    -0.276608  3.38696  -5.6372  0  0     -0.0440784  0.409263  -1.09851  0  0
+ZSETEffCorrPTEpertB_2b_Lumi0:    -0.382651  6.85227  -14.7712  0  0     -0.0591827  0.746056  -2.52457  0  0
+ZSETEffCorrPTEpertC_2b_Lumi0:    -0.647903  10.9717  -21.5001  0  0     -0.10617  1.05432  -1.52252  0  0
+ZSETEffCorrPTEpertD_2b_Lumi0:    -1.07553  24.3806  -94.8706  100.387  0     -0.32105  5.24908  -19.6586  13.9124  0
+ZSETEffCorrPTEpertE_2b_Lumi0:    -2.23672  53.9688  -335.686  766.167  0     -0.821696  24.7246  -244.497  735.009  0
+ZSETEffCorrPTEpertF_2b_Lumi0:    -2.97478  99.4589  -631.502  876.235  0     3.5688  -105.209  891.149  -2409.03  0
+ZSETEffCorrPTEpertG_2b_Lumi0:    -9.90479  331.75  -2690.1  6600.65  0     -4.09426  146.987  -1703.12  6775.56  0
+ZSETEffCorrPTEpertH_2b_Lumi0:    10.8486  -900.915  17851.1  -95489.8  0     3.04357  -571.77  13940.8  -80886.5  0
+ZSETEffCorrPTEpertNorm_2b_Lumi0: 0.762189 0.767077 0.781187 0.786149 0.808864 0.795673 0.825173 0.917341
+ZSETEffCorrPTEpertBase_3b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3b_Lumi0:    -0.526693  2.41452  -4.00998  0  0     -0.0994412  0.660217  -0.793616  0  0
+ZSETEffCorrPTEpertB_3b_Lumi0:    -0.78309  7.24889  -13.2025  0  0     -0.0614829  0.106611  0.910025  0  0
+ZSETEffCorrPTEpertC_3b_Lumi0:    -0.569956  9.97011  -20.1536  0  0     -0.177845  2.01237  -4.0625  0  0
+ZSETEffCorrPTEpertD_3b_Lumi0:    -0.959847  20.7025  -87.2371  113.706  0     -0.653686  12.6301  -65.0953  93.9598  0
+ZSETEffCorrPTEpertE_3b_Lumi0:    -0.4279  8.58755  -30.8161  42.5856  0     0.520682  -13.0156  91.0385  -197.412  0
+ZSETEffCorrPTEpertF_3b_Lumi0:    -3.14313  123.448  -1129.13  2732.31  0     -1.49887  48.0568  -408.23  908.338  0
+ZSETEffCorrPTEpertG_3b_Lumi0:    -14.6326  709.824  -9305.93  36454.3  0     -12.4582  517.302  -6533.87  25939.5  0
+ZSETEffCorrPTEpertH_3b_Lumi0:    -0.445433  -45.8253  998.644  -2376.12  0     0.135125  -65.9632  1425.88  -6049.55  0
+ZSETEffCorrPTEpertNorm_3b_Lumi0: 0.782557 0.789606 0.788914 0.806206 0.769228 0.839117 0.769833 1
+ZSETEffCorrPTEpertBase_4b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4b_Lumi0:    -0.561609  1.95715  -2.98793  0  0     -0.0134961  -0.0197279  0.0416237  0  0
+ZSETEffCorrPTEpertB_4b_Lumi0:    -0.939049  6.98863  -13.6249  0  0     -0.0812811  0.732654  -1.78486  0  0
+ZSETEffCorrPTEpertC_4b_Lumi0:    -0.67078  8.10448  -17.0134  0  0     -0.104665  0.923321  -1.973  0  0
+ZSETEffCorrPTEpertD_4b_Lumi0:    -0.104032  4.72846  12.1896  -75.6991  0     -0.127995  1.08866  5.79874  -31.1573  0
+ZSETEffCorrPTEpertE_4b_Lumi0:    -1.88625  47.1339  -299.784  610.826  0     -0.172715  9.1734  -114.901  352.191  0
+ZSETEffCorrPTEpertF_4b_Lumi0:    2.47176  -93.0417  857.88  -2125.3  0     3.92705  -139.937  1332.99  -3670.64  0
+ZSETEffCorrPTEpertG_4b_Lumi0:    5.65015  -287.003  3634.79  -11966.3  0     2.64265  -188.011  2969.35  -12107.2  0
+ZSETEffCorrPTEpertH_4b_Lumi0:    13.8605  -539.265  5617.97  -18206.5  0     4.82708  -253.475  3531.95  -14683.4  0
+ZSETEffCorrPTEpertNorm_4b_Lumi0: 0.784355 0.810685 0.807834 0.783036 0.808015 0.870348 0.93795 0.844923
+ZSETEffCorrEPTEparamsNorm_CommonMultiplier_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_Lumi0: 1.029336
+#
+#
+ZSETEffCorrParametersCCCC_Lumi1:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersCCEC_Lumi1:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersECEC_Lumi1:  0. 0. 0. 0. 0.
+#
+ZSETEffCorrPTEpertBase_0_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0_Lumi1:    -1.70319  5.82942  -7.05333  0  0     -0.0317161  0.089652  -0.297947  0  0
+ZSETEffCorrPTEpertB_0_Lumi1:    -1.52946  6.8556  -9.52828  0  0     -0.0821066  0.530637  -0.703387  0  0
+ZSETEffCorrPTEpertC_0_Lumi1:    -2.08595  12.2833  -19.6192  0  0     -0.000352201  -0.0546364  -0.306731  0  0
+ZSETEffCorrPTEpertD_0_Lumi1:    -1.44834  13.2893  -32.8156  22.1966  0     -0.202774  2.42607  -8.34685  10.2301  0
+ZSETEffCorrPTEpertE_0_Lumi1:    -0.644928  6.61904  -8.7196  -11.6035  0     -0.188047  2.80891  -13.257  18.502  0
+ZSETEffCorrPTEpertF_0_Lumi1:    -1.0679  1.9023  32.6193  -85.7018  0     0.291074  -7.2087  44.1534  -80.4153  0
+ZSETEffCorrPTEpertG_0_Lumi1:    -0.412231  9.50089  -42.9871  -107.333  0     1.79419  -57.8078  510.783  -1342.67  0
+ZSETEffCorrPTEpertH_0_Lumi1:    -0.12395  28.1012  -522.748  2229.91  0     1.15826  -27.9975  187.877  -449.761  0
+ZSETEffCorrPTEpertNorm_0_Lumi1: 0.886687 0.870258 0.887525 0.822537 0.803132 0.838839 0.905702 0.839772
+ZSETEffCorrPTEpertBase_1_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1_Lumi1:    -1.49335  5.57284  -7.23871  0  0     -0.111323  0.68539  -1.24951  0  0
+ZSETEffCorrPTEpertB_1_Lumi1:    -2.10867  10.2228  -14.4031  0  0     -0.0918273  0.771954  -1.67678  0  0
+ZSETEffCorrPTEpertC_1_Lumi1:    -1.70023  9.80344  -15.0643  0  0     -0.0293514  0.112861  -0.108872  0  0
+ZSETEffCorrPTEpertD_1_Lumi1:    -1.84501  15.0157  -30.1957  6.42021  0     -0.26183  3.40634  -12.172  13.6178  0
+ZSETEffCorrPTEpertE_1_Lumi1:    -1.13944  10.2867  -28.8907  22.6893  0     -0.197162  3.9995  -25.5218  45.4708  0
+ZSETEffCorrPTEpertF_1_Lumi1:    0.415691  -31.2169  239.188  -460.512  0     0.90238  -21.1542  133.555  -242.739  0
+ZSETEffCorrPTEpertG_1_Lumi1:    2.31041  -98.7726  948.755  -2302.25  0     1.71022  -68.7631  653.111  -1649.55  0
+ZSETEffCorrPTEpertH_1_Lumi1:    -11.2043  402.528  -4115.94  12036.4  0     -1.38216  38.3009  -490.7  2081.16  0
+ZSETEffCorrPTEpertNorm_1_Lumi1: 0.869058 0.895882 0.86111 0.851332 0.823955 0.842751 0.878096 0.854019
+ZSETEffCorrPTEpertBase_2_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2_Lumi1:    -1.51919  5.83591  -7.61283  0  0     -0.0507067  0.284303  -0.601317  0  0
+ZSETEffCorrPTEpertB_2_Lumi1:    -2.19741  9.90582  -13.4624  0  0     -0.0462517  0.320081  -0.708646  0  0
+ZSETEffCorrPTEpertC_2_Lumi1:    -1.0398  5.79322  -9.38644  0  0     -0.0994346  0.809206  -1.71408  0  0
+ZSETEffCorrPTEpertD_2_Lumi1:    -0.94103  8.0318  -17.316  6.81188  0     -0.30494  4.06283  -15.9887  19.5011  0
+ZSETEffCorrPTEpertE_2_Lumi1:    -3.02167  27.4119  -87.5115  91.3692  0     0.159687  -3.12696  11.9195  -7.95198  0
+ZSETEffCorrPTEpertF_2_Lumi1:    -0.524372  -7.72031  89.8209  -219.951  0     0.372948  -14.1623  120.123  -268.353  0
+ZSETEffCorrPTEpertG_2_Lumi1:    1.25717  -22.3085  101.768  -273.231  0     0.997971  -27.7013  197.254  -454.538  0
+ZSETEffCorrPTEpertH_2_Lumi1:    4.44373  -235.196  3012.98  -10300  0     0.92814  -63.0373  869.345  -3125.54  0
+ZSETEffCorrPTEpertNorm_2_Lumi1: 0.860289 0.900243 0.846256 0.825583 0.900287 0.839434 0.874341 0.884389
+ZSETEffCorrPTEpertBase_3_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3_Lumi1:    -2.16433  7.54398  -9.29931  0  0     -0.0685594  0.376271  -0.535061  0  0
+ZSETEffCorrPTEpertB_3_Lumi1:    -1.69772  7.29231  -10.3536  0  0     -0.124515  1.10904  -2.31879  0  0
+ZSETEffCorrPTEpertC_3_Lumi1:    -1.77081  9.07078  -13.8327  0  0     -0.0641702  0.382109  -0.457411  0  0
+ZSETEffCorrPTEpertD_3_Lumi1:    -1.78728  17.2513  -56.5659  57.704  0     -0.32234  4.66374  -18.9934  22.2659  0
+ZSETEffCorrPTEpertE_3_Lumi1:    0.0764607  -3.86785  25.82  -33.7548  0     -0.0246622  -0.863448  6.64263  -9.27626  0
+ZSETEffCorrPTEpertF_3_Lumi1:    1.22745  -51.9737  387.249  -764.768  0     1.23319  -31.5708  214.68  -414.164  0
+ZSETEffCorrPTEpertG_3_Lumi1:    10.2329  -316.258  2638.49  -6569.01  0     6.29655  -192.044  1660.37  -4266.28  0
+ZSETEffCorrPTEpertH_3_Lumi1:    -1.07058  6.63125  205.871  -1529.78  0     1.58835  -66.8201  699.853  -2153.04  0
+ZSETEffCorrPTEpertNorm_3_Lumi1: 0.912209 0.870973 0.877714 0.8629 0.82489 0.869428 0.916139 0.96753
+ZSETEffCorrPTEpertBase_4_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4_Lumi1:    -1.97082  6.04903  -7.50266  0  0     -0.0556031  0.0536  0.289569  0  0
+ZSETEffCorrPTEpertB_4_Lumi1:    -2.18781  8.57012  -12.0641  0  0     -0.0477633  0.485641  -1.38829  0  0
+ZSETEffCorrPTEpertC_4_Lumi1:    -1.88449  8.99874  -14.3106  0  0     -0.026316  0.153016  -0.47651  0  0
+ZSETEffCorrPTEpertD_4_Lumi1:    -2.25017  14.2735  -24.6443  -2.36715  0     -0.0731294  -0.373602  8.70359  -22.3213  0
+ZSETEffCorrPTEpertE_4_Lumi1:    -1.34708  2.92928  33.9477  -98.1887  0     -0.282317  3.79411  -12.2479  6.81903  0
+ZSETEffCorrPTEpertF_4_Lumi1:    -2.00064  16.7707  -91.0746  192.246  0     0.10086  -0.307255  -19.9915  77.1978  0
+ZSETEffCorrPTEpertG_4_Lumi1:    1.75977  -68.5061  515.876  -798.879  0     -0.488979  11.7707  -154.663  696.6  0
+ZSETEffCorrPTEpertH_4_Lumi1:    3.59174  -199.681  2445.01  -8514.1  0     0.789835  -31.1888  277.422  -514.693  0
+ZSETEffCorrPTEpertNorm_4_Lumi1: 0.897797 0.917878 0.897729 0.905547 0.867702 0.912981 0.869426 0.948707
+#
+ZSETEffCorrPTEpertBase_0b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0b_Lumi1:    -1.32354  5.5848  -7.87893  0  0     -0.0958085  0.577385  -0.846161  0  0
+ZSETEffCorrPTEpertB_0b_Lumi1:    -2.03559  10.3358  -14.9643  0  0     -0.065019  0.459392  -0.665131  0  0
+ZSETEffCorrPTEpertC_0b_Lumi1:    -1.70356  12.0164  -21.4973  0  0     -0.182904  1.9562  -4.57  0  0
+ZSETEffCorrPTEpertD_0b_Lumi1:    -1.29135  12.5603  -30.1963  12.4455  0     -0.254358  3.05961  -8.82564  5.15716  0
+ZSETEffCorrPTEpertE_0b_Lumi1:    -1.25431  23.4482  -118.987  215.82  0     -0.924465  16.938  -96.2686  178.954  0
+ZSETEffCorrPTEpertF_0b_Lumi1:    3.32156  -98.0232  720.811  -1542.68  0     3.44459  -92.899  691.004  -1500.06  0
+ZSETEffCorrPTEpertG_0b_Lumi1:    -11.0817  332.915  -2911.56  7700.37  0     -6.84254  213.841  -1960.13  5345.63  0
+ZSETEffCorrPTEpertH_0b_Lumi1:    -10.3284  361.759  -3623.18  10803.7  0     -1.052  20.9579  -154.628  571.541  0
+ZSETEffCorrPTEpertNorm_0b_Lumi1: 0.839675 0.883104 0.847001 0.803441 0.798329 0.859151 0.894759 0.829789
+ZSETEffCorrPTEpertBase_1b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1b_Lumi1:    -1.73641  6.46538  -7.89593  0  0     -0.0737652  0.553165  -0.900344  0  0
+ZSETEffCorrPTEpertB_1b_Lumi1:    -1.27785  6.44458  -9.12913  0  0     -0.0742477  0.440955  -0.491896  0  0
+ZSETEffCorrPTEpertC_1b_Lumi1:    -1.4275  9.69027  -16.1923  0  0     -0.118397  1.19042  -2.70339  0  0
+ZSETEffCorrPTEpertD_1b_Lumi1:    -1.32179  10.9156  -24.2408  19.1357  0     -0.242976  3.49907  -16.0617  24.9844  0
+ZSETEffCorrPTEpertE_1b_Lumi1:    0.516956  -8.39529  22.2062  11.6731  0     0.199256  0.81444  -27.8896  76.1775  0
+ZSETEffCorrPTEpertF_1b_Lumi1:    0.254535  -26.0952  203.451  -341.383  0     -0.383094  -0.123631  33.8533  -90.2225  0
+ZSETEffCorrPTEpertG_1b_Lumi1:    -1.60757  48.9539  -467.95  1307.96  0     -0.828896  5.59606  57.8472  -287.706  0
+ZSETEffCorrPTEpertH_1b_Lumi1:    -10.5617  526.052  -6831.81  24608.2  0     -0.193478  44.6582  -849.08  3587.2  0
+ZSETEffCorrPTEpertNorm_1b_Lumi1: 0.876132 0.842403 0.838982 0.818163 0.804293 0.887198 0.828212 0.815057
+ZSETEffCorrPTEpertBase_2b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2b_Lumi1:    -1.47623  5.22076  -6.2399  0  0     -0.10056  0.810006  -1.49945  0  0
+ZSETEffCorrPTEpertB_2b_Lumi1:    -1.69263  8.52845  -12.5686  0  0     -0.0787515  0.56925  -0.790772  0  0
+ZSETEffCorrPTEpertC_2b_Lumi1:    -1.24677  8.78667  -14.9272  0  0     -0.141881  1.42979  -3.03959  0  0
+ZSETEffCorrPTEpertD_2b_Lumi1:    -1.58753  12.1721  -25.104  6.59394  0     -0.00968509  -0.608715  5.65508  -12.4048  0
+ZSETEffCorrPTEpertE_2b_Lumi1:    0.490522  -6.39813  12.7426  14.0892  0     0.0922025  0.090441  -16.3007  51.9314  0
+ZSETEffCorrPTEpertF_2b_Lumi1:    -2.1604  36.5648  -186.061  338.815  0     -1.49661  28.7105  -167.401  317.543  0
+ZSETEffCorrPTEpertG_2b_Lumi1:    3.5934  -124.645  1130.84  -3044.48  0     3.12996  -103.254  973.418  -2825.81  0
+ZSETEffCorrPTEpertH_2b_Lumi1:    1.7065  -24.558  -159.997  1669.41  0     -3.20745  119.834  -1296.86  4293.05  0
+ZSETEffCorrPTEpertNorm_2b_Lumi1: 0.85629 0.862234 0.830768 0.845197 0.835018 0.884892 0.772135 0.770921
+ZSETEffCorrPTEpertBase_3b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3b_Lumi1:    -1.4461  4.48829  -5.79639  0  0     -0.0998061  0.819183  -1.50272  0  0
+ZSETEffCorrPTEpertB_3b_Lumi1:    -1.5945  6.57418  -9.56548  0  0     -0.0639482  0.374048  -0.555822  0  0
+ZSETEffCorrPTEpertC_3b_Lumi1:    -1.61401  10.696  -20.5884  0  0     -0.228437  2.5014  -6.07123  0  0
+ZSETEffCorrPTEpertD_3b_Lumi1:    -2.17859  22.9219  -79.6505  85.7934  0     -0.378084  6.00474  -29.2577  44.8249  0
+ZSETEffCorrPTEpertE_3b_Lumi1:    0.0268598  -8.81158  86.4073  -184.216  0     0.520239  -15.2941  110.875  -221.596  0
+ZSETEffCorrPTEpertF_3b_Lumi1:    1.35393  -52.5383  393.587  -802.283  0     0.428955  -10.4405  60.8712  -89.0053  0
+ZSETEffCorrPTEpertG_3b_Lumi1:    3.72809  -109.955  523.403  270.918  0     2.82608  -67.0399  298.621  126.93  0
+ZSETEffCorrPTEpertH_3b_Lumi1:    5.01215  -266.86  3211.15  -10933.3  0     -0.784302  -14.775  582.179  -3100.95  0
+ZSETEffCorrPTEpertNorm_3b_Lumi1: 0.860206 0.872491 0.85961 0.869583 0.849055 0.834947 0.87713 0.879186
+ZSETEffCorrPTEpertBase_4b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4b_Lumi1:    -1.38469  3.31166  -4.29675  0  0     -0.0645318  0.414294  -0.777408  0  0
+ZSETEffCorrPTEpertB_4b_Lumi1:    -1.92006  7.90795  -11.6315  0  0     -0.0498457  0.300906  -0.461916  0  0
+ZSETEffCorrPTEpertC_4b_Lumi1:    -1.4347  7.59232  -13.1501  0  0     -0.0976451  0.833394  -1.8946  0  0
+ZSETEffCorrPTEpertD_4b_Lumi1:    -1.50129  10.472  -22.654  9.32226  0     -0.128794  1.07218  -1.23879  -1.73552  0
+ZSETEffCorrPTEpertE_4b_Lumi1:    -0.808484  -3.75653  69.3387  -169.136  0     0.0652903  -4.97381  46.1074  -108.006  0
+ZSETEffCorrPTEpertF_4b_Lumi1:    -0.440401  -5.90807  44.1913  -57.8189  0     0.65327  -20.1  148.415  -286.382  0
+ZSETEffCorrPTEpertG_4b_Lumi1:    -4.67427  111.246  -573.776  28.2721  0     -3.19176  79.3288  -581.273  1196.89  0
+ZSETEffCorrPTEpertH_4b_Lumi1:    -1.31259  96.6572  -1612.77  7166.26  0     -0.632227  5.98522  135.071  -896.496  0
+ZSETEffCorrPTEpertNorm_4b_Lumi1: 0.861864 0.901567 0.871582 0.876718 0.865289 0.890518 1 0.872213
+ZSETEffCorrEPTEparamsNorm_CommonMultiplier_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_Lumi1: 1.001
+#
+#
+ZSETEffCorrParametersCCCC_Lumi2:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersCCEC_Lumi2:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersECEC_Lumi2:  0. 0. 0. 0. 0.
+#
+ZSETEffCorrPTEpertBase_0_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0_Lumi2:    -3.49498  10.3121  -9.78498  0  0     -0.231337  1.89193  -3.37518  0  0
+ZSETEffCorrPTEpertB_0_Lumi2:    -2.64613  8.64592  -9.52378  0  0     -0.127626  1.08971  -2.03286  0  0
+ZSETEffCorrPTEpertC_0_Lumi2:    -2.63252  9.88444  -12.3032  0  0     -0.0617754  0.633853  -1.4311  0  0
+ZSETEffCorrPTEpertD_0_Lumi2:    -1.90891  7.74521  -9.69064  -1.454  0     0.0604934  -1.47536  8.46542  -13.0945  0
+ZSETEffCorrPTEpertE_0_Lumi2:    -1.38384  6.58096  -16.8948  18.05  0     -0.00205446  0.373041  -6.20596  14.2195  0
+ZSETEffCorrPTEpertF_0_Lumi2:    -0.546722  -22.4841  140.25  -219.783  0     1.5205  -27.72  143.407  -225.934  0
+ZSETEffCorrPTEpertG_0_Lumi2:    -6.79488  151.44  -1014.67  2085.74  0     -5.50599  115.286  -696.681  1242.49  0
+ZSETEffCorrPTEpertH_0_Lumi2:    -0.680996  38.7344  -841.726  3477.62  0     1.81002  -62.9103  527.024  -1041.8  0
+ZSETEffCorrPTEpertNorm_0_Lumi2: 0.961559 0.854731 0.843164 0.783486 0.757951 0.850657 0.698404 0.839151
+ZSETEffCorrPTEpertBase_1_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1_Lumi2:    -1.23251  1.69892  -0.550876  0  0     -0.0621373  0.132026  0.113504  0  0
+ZSETEffCorrPTEpertB_1_Lumi2:    -1.64088  4.42332  -4.86261  0  0     0.0406324  -0.319858  0.191999  0  0
+ZSETEffCorrPTEpertC_1_Lumi2:    -2.54169  8.99429  -10.6289  0  0     -0.022207  0.10338  -0.229073  0  0
+ZSETEffCorrPTEpertD_1_Lumi2:    -2.9744  17.6234  -45.2695  40.8367  0     -0.164907  1.83083  -6.69992  8.84331  0
+ZSETEffCorrPTEpertE_1_Lumi2:    -2.29257  10.5382  -11.8288  -9.71471  0     -0.187084  1.6594  -4.24882  1.07472  0
+ZSETEffCorrPTEpertF_1_Lumi2:    -0.557083  -23.7874  158.28  -266.68  0     1.52717  -26.4714  134.975  -215.109  0
+ZSETEffCorrPTEpertG_1_Lumi2:    -1.28711  36.4587  -318.608  785.445  0     0.0788525  -14.7731  120.601  -177.971  0
+ZSETEffCorrPTEpertH_1_Lumi2:    6.58626  -265.244  2456.97  -6532.98  0     1.17109  -47.642  534.019  -1906.45  0
+ZSETEffCorrPTEpertNorm_1_Lumi2: 0.76799 0.792369 0.845183 0.819868 0.817724 0.817917 0.717884 0.794009
+ZSETEffCorrPTEpertBase_2_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2_Lumi2:    -2.05614  5.01133  -4.73775  0  0     -0.0225391  0.0850051  -0.124339  0  0
+ZSETEffCorrPTEpertB_2_Lumi2:    -2.4704  7.65462  -8.86429  0  0     -0.136505  1.11668  -2.08119  0  0
+ZSETEffCorrPTEpertC_2_Lumi2:    -2.15669  8.05928  -10.733  0  0     -0.0575916  0.352742  -0.620676  0  0
+ZSETEffCorrPTEpertD_2_Lumi2:    -2.729  13.8452  -29.9368  24.1911  0     -0.15344  1.20368  -2.73754  2.95783  0
+ZSETEffCorrPTEpertE_2_Lumi2:    -1.75137  12.1387  -42.6445  57.1869  0     -0.319958  4.22571  -18.439  25.5884  0
+ZSETEffCorrPTEpertF_2_Lumi2:    -0.246419  -33.049  215.036  -350.993  0     2.30124  -43.2954  230.442  -363.592  0
+ZSETEffCorrPTEpertG_2_Lumi2:    5.4911  -142.883  1097.92  -2605.15  0     -0.571671  -10.9109  250.796  -903.212  0
+ZSETEffCorrPTEpertH_2_Lumi2:    11.0355  -281.614  1716.6  -2763.96  0     2.65507  -64.501  361.785  -396.025  0
+ZSETEffCorrPTEpertNorm_2_Lumi2: 0.827141 0.85926 0.813074 0.82304 0.772583 0.796535 0.70272 0.928461
+ZSETEffCorrPTEpertBase_3_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3_Lumi2:    -1.71274  2.89771  -2.2738  0  0     -0.0376794  0.183011  -0.385218  0  0
+ZSETEffCorrPTEpertB_3_Lumi2:    -1.36425  2.45239  -2.14568  0  0     0.0396377  -0.393412  0.55397  0  0
+ZSETEffCorrPTEpertC_3_Lumi2:    -1.87864  5.5928  -6.20263  0  0     -0.0662561  0.484458  -0.980103  0  0
+ZSETEffCorrPTEpertD_3_Lumi2:    -2.53461  11.4662  -19.8085  7.52996  0     -0.141383  1.45487  -4.55124  4.23952  0
+ZSETEffCorrPTEpertE_3_Lumi2:    -0.756813  -9.04114  55.8737  -72.7464  0     -0.00479291  0.852633  -8.92768  19.0898  0
+ZSETEffCorrPTEpertF_3_Lumi2:    0.234844  -26.3326  184.218  -361.204  0     2.05354  -41.5131  247.737  -451.574  0
+ZSETEffCorrPTEpertG_3_Lumi2:    -3.07607  56.0023  -454.631  1121.57  0     -1.31357  33.293  -277.505  709.618  0
+ZSETEffCorrPTEpertH_3_Lumi2:    -11.0367  414.804  -4490  14541  0     6.00745  -132.113  771.41  -1137.32  0
+ZSETEffCorrPTEpertNorm_3_Lumi2: 0.810172 0.790775 0.809902 0.831492 0.799352 0.795372 0.741834 0.75733
+ZSETEffCorrPTEpertBase_4_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4_Lumi2:    -2.32534  4.95109  -4.57713  0  0     0.0782574  -0.712748  1.094  0  0
+ZSETEffCorrPTEpertB_4_Lumi2:    -2.16532  5.61182  -6.3338  0  0     -0.169865  1.54253  -3.06283  0  0
+ZSETEffCorrPTEpertC_4_Lumi2:    -2.22843  6.9312  -8.78061  0  0     -0.0201675  0.00436014  0.20105  0  0
+ZSETEffCorrPTEpertD_4_Lumi2:    -2.16185  8.12867  -13.9622  7.12869  0     0.0942117  -1.72311  6.96635  -6.68435  0
+ZSETEffCorrPTEpertE_4_Lumi2:    -2.21196  5.4533  9.55205  -37.5974  0     0.589457  -11.5003  61.5343  -97.6431  0
+ZSETEffCorrPTEpertF_4_Lumi2:    -1.93997  8.39981  -17.2832  5.04977  0     -0.0783603  0.130807  3.86816  -18.154  0
+ZSETEffCorrPTEpertG_4_Lumi2:    1.32441  -64.3712  449.296  -889.172  0     -1.16447  4.3135  55.6517  -260.696  0
+ZSETEffCorrPTEpertH_4_Lumi2:    1.77898  -37.9154  -105.383  1230.85  0     -0.776158  48.5898  -652.926  2166.28  0
+ZSETEffCorrPTEpertNorm_4_Lumi2: 0.866071 0.847158 0.841311 0.836761 0.850425 0.813009 0.869603 0.863014
+#
+ZSETEffCorrPTEpertBase_0b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0b_Lumi2:    -1.27053  2.75815  -2.94903  0  0     -0.0809815  0.499371  -0.791667  0  0
+ZSETEffCorrPTEpertB_0b_Lumi2:    -2.36187  7.94856  -8.81197  0  0     -0.0975783  0.452081  -0.263595  0  0
+ZSETEffCorrPTEpertC_0b_Lumi2:    -2.27305  8.91429  -11.6678  0  0     -0.107278  0.962047  -2.13855  0  0
+ZSETEffCorrPTEpertD_0b_Lumi2:    -0.75729  2.09459  3.97274  -11.1215  0     -0.190825  1.74972  -5.25646  7.34099  0
+ZSETEffCorrPTEpertE_0b_Lumi2:    -0.831292  11.6103  -46.2088  48.1316  0     0.105276  -4.57117  26.9535  -38.2678  0
+ZSETEffCorrPTEpertF_0b_Lumi2:    1.55016  -40.2071  273.938  -570.595  0     5.99341  -127.723  763.983  -1365.95  0
+ZSETEffCorrPTEpertG_0b_Lumi2:    -14.7812  350.584  -2347.77  4561.43  0     -6.98396  157.412  -1002.16  1820.79  0
+ZSETEffCorrPTEpertH_0b_Lumi2:    -7.11687  205.982  -1973.76  6088.75  0     -0.629355  50.741  -807.304  3049.19  0
+ZSETEffCorrPTEpertNorm_0b_Lumi2: 0.77968 0.842148 0.826266 0.721236 0.681663 0.751158 0.649858 0.804787
+ZSETEffCorrPTEpertBase_1b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1b_Lumi2:    -1.30331  2.92083  -3.05129  0  0     -0.141669  0.96207  -1.51187  0  0
+ZSETEffCorrPTEpertB_1b_Lumi2:    -1.99314  7.21239  -9.05491  0  0     -0.206403  1.66917  -2.88133  0  0
+ZSETEffCorrPTEpertC_1b_Lumi2:    -2.1685  8.06549  -10.3954  0  0     0.00890709  0.0312084  -0.684786  0  0
+ZSETEffCorrPTEpertD_1b_Lumi2:    -0.732918  -2.77389  23.0863  -30.5245  0     -0.21574  1.63739  -3.56158  3.90959  0
+ZSETEffCorrPTEpertE_1b_Lumi2:    0.379312  -20.0876  100.253  -132.505  0     0.0044127  -1.15336  9.66783  -20.0192  0
+ZSETEffCorrPTEpertF_1b_Lumi2:    3.05363  -82.5427  402.612  -523.469  0     3.43677  -60.4885  284.296  -381.158  0
+ZSETEffCorrPTEpertG_1b_Lumi2:    -0.174598  41.9573  -486.968  1201.06  0     -5.76865  149.468  -1101.15  2362.01  0
+ZSETEffCorrPTEpertH_1b_Lumi2:    27.6751  -874.717  7502.57  -18836.4  0     -0.142771  -86.1035  1295.23  -4073.93  0
+ZSETEffCorrPTEpertNorm_1b_Lumi2: 0.774972 0.813863 0.820466 0.760141 0.764929 0.870266 0.756112 0.866046
+ZSETEffCorrPTEpertBase_2b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2b_Lumi2:    -2.00307  4.94245  -4.63  0  0     -0.0877253  0.520729  -0.740889  0  0
+ZSETEffCorrPTEpertB_2b_Lumi2:    -2.19493  6.92387  -7.6588  0  0     -0.20357  1.52713  -2.43436  0  0
+ZSETEffCorrPTEpertC_2b_Lumi2:    -2.11388  7.59992  -9.48714  0  0     -0.0826076  0.721719  -1.47537  0  0
+ZSETEffCorrPTEpertD_2b_Lumi2:    -2.15223  10.8495  -21.1981  11.7688  0     -0.0255689  -1.31138  10.5726  -16.9282  0
+ZSETEffCorrPTEpertE_2b_Lumi2:    -0.700752  -5.18592  45.3205  -88.7522  0     0.0784693  -4.44737  29.3952  -54.4411  0
+ZSETEffCorrPTEpertF_2b_Lumi2:    -3.40152  53.0752  -235.616  299.699  0     -1.88234  27.0947  -120.836  175.874  0
+ZSETEffCorrPTEpertG_2b_Lumi2:    -11.84  258.804  -1604.28  2905.03  0     -1.47955  -1.45828  234.357  -935.166  0
+ZSETEffCorrPTEpertH_2b_Lumi2:    -5.2934  114.243  -699.789  957.003  0     10.0756  -352.27  3267.16  -8565.03  0
+ZSETEffCorrPTEpertNorm_2b_Lumi2: 0.841137 0.831972 0.827201 0.805324 0.758943 0.750528 0.745553 0.76862
+ZSETEffCorrPTEpertBase_3b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3b_Lumi2:    -2.2708  5.51141  -4.82929  0  0     -0.0928195  0.651928  -1.15465  0  0
+ZSETEffCorrPTEpertB_3b_Lumi2:    -1.82747  4.34572  -4.25081  0  0     0.0391226  -0.396313  0.706461  0  0
+ZSETEffCorrPTEpertC_3b_Lumi2:    -2.0508  7.22769  -9.53936  0  0     -0.168276  1.35874  -2.65404  0  0
+ZSETEffCorrPTEpertD_3b_Lumi2:    -0.846736  1.04673  0.286356  1.12191  0     -0.0626269  0.0810271  1.22313  -1.67842  0
+ZSETEffCorrPTEpertE_3b_Lumi2:    0.691042  -26.073  111.264  -127.986  0     0.149357  -0.590578  -9.85921  30.3937  0
+ZSETEffCorrPTEpertF_3b_Lumi2:    -2.73697  54.302  -300.51  451.851  0     -3.34043  47.1399  -191.458  226.94  0
+ZSETEffCorrPTEpertG_3b_Lumi2:    -6.74335  224.248  -2011.74  5158.01  0     0.0113796  11.6981  -143.305  396.326  0
+ZSETEffCorrPTEpertH_3b_Lumi2:    -7.24745  149.976  -1022.28  2402.67  0     -5.95951  154.632  -1288.55  3100.66  0
+ZSETEffCorrPTEpertNorm_3b_Lumi2: 0.854144 0.838055 0.829064 0.78629 0.813166 0.756579 0.834294 0.894631
+ZSETEffCorrPTEpertBase_4b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4b_Lumi2:    -1.87831  3.56361  -3.40231  0  0     -0.167386  1.01113  -1.43164  0  0
+ZSETEffCorrPTEpertB_4b_Lumi2:    -2.12461  5.41015  -6.05659  0  0     -0.0513354  0.264759  -0.235054  0  0
+ZSETEffCorrPTEpertC_4b_Lumi2:    -1.78855  5.23497  -6.645  0  0     -0.091224  0.611618  -0.95063  0  0
+ZSETEffCorrPTEpertD_4b_Lumi2:    -1.61256  6.43284  -14.5449  11.0224  0     0.0682403  -2.29863  12.8009  -17.554  0
+ZSETEffCorrPTEpertE_4b_Lumi2:    -1.05923  -1.24552  15.1529  -26.271  0     1.11208  -17.8719  81.2904  -112.318  0
+ZSETEffCorrPTEpertF_4b_Lumi2:    -0.200207  -0.0302877  -48.7384  119.169  0     -0.758114  14.9593  -87.4643  133.088  0
+ZSETEffCorrPTEpertG_4b_Lumi2:    -2.73868  69.9976  -632.662  1727.06  0     -1.35707  21.1348  -169.984  472.569  0
+ZSETEffCorrPTEpertH_4b_Lumi2:    3.01154  -66.7613  385.281  -627.631  0     6.82273  -189.875  1521.18  -3695.41  0
+ZSETEffCorrPTEpertNorm_4b_Lumi2: 0.841961 0.867591 0.834341 0.827416 0.806489 0.851132 0.987686 0.711089
+ZSETEffCorrEPTEparamsNorm_CommonMultiplier_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_Lumi2: 0.98188
+#
+#
+ZSETEffCorrParametersCCCC_Lumi3:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersCCEC_Lumi3:  0. 0. 0. 0. 0.
+ZSETEffCorrParametersECEC_Lumi3:  0. 0. 0. 0. 0.
+#
+ZSETEffCorrPTEpertBase_0_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0_Lumi3:    -1.83867  4.15043  -3.61129  0  0     0.0311234  -0.652731  0.964965  0  0
+ZSETEffCorrPTEpertB_0_Lumi3:    -1.66625  2.90182  -2.12547  0  0     0.0255956  -0.318299  0.278902  0  0
+ZSETEffCorrPTEpertC_0_Lumi3:    -2.39462  7.06475  -7.07466  0  0     0.00470432  -0.0184979  -0.170306  0  0
+ZSETEffCorrPTEpertD_0_Lumi3:    -1.2855  2.78912  -2.86738  6.77629  0     -0.347819  4.84365  -20.5437  26.2236  0
+ZSETEffCorrPTEpertE_0_Lumi3:    -0.615893  -14.9014  84.6025  -109.245  0     1.02125  -16.0958  74.3564  -104.681  0
+ZSETEffCorrPTEpertF_0_Lumi3:    -3.18402  10.2299  25.6177  -84.7772  0     -2.74187  35.2283  -136.252  162.94  0
+ZSETEffCorrPTEpertG_0_Lumi3:    -6.38262  148.473  -1107.15  2504.94  0     0.406099  -17.1507  53.349  123.921  0
+ZSETEffCorrPTEpertH_0_Lumi3:    -7.24162  142.262  -604.77  0  0     7.68342  -135.871  534.523  0  0
+ZSETEffCorrPTEpertNorm_0_Lumi3: 0.681693 0.712199 0.733532 0.653965 0.707725 0.723707 0.57816 0.700972
+ZSETEffCorrPTEpertBase_1_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1_Lumi3:    -1.52472  3.09273  -3.38479  0  0     -0.436979  2.44797  -3.33061  0  0
+ZSETEffCorrPTEpertB_1_Lumi3:    -2.38212  5.75746  -5.43803  0  0     0.00584559  -0.100761  0.0399018  0  0
+ZSETEffCorrPTEpertC_1_Lumi3:    -2.27393  5.9185  -4.93727  0  0     -0.0362857  -0.0554977  0.443416  0  0
+ZSETEffCorrPTEpertD_1_Lumi3:    -1.62954  0.492831  19.4452  -30.5594  0     -0.139105  -0.458573  8.74539  -16.3453  0
+ZSETEffCorrPTEpertE_1_Lumi3:    -0.629132  -16.043  90.4792  -109.534  0     -0.0775733  -0.491844  3.87303  0.00114707  0
+ZSETEffCorrPTEpertF_1_Lumi3:    0.407564  -27.9465  125.587  -143.377  0     0.444368  -5.25831  10.6581  0.464301  0
+ZSETEffCorrPTEpertG_1_Lumi3:    -6.33991  216.318  -1735.61  3782.04  0     7.52888  -155.35  1002.15  -2074.25  0
+ZSETEffCorrPTEpertH_1_Lumi3:    -2.29527  68.813  -346.055  0  0     8.06174  -135.138  530.202  0  0
+ZSETEffCorrPTEpertNorm_1_Lumi3: 0.689631 0.758351 0.726545 0.698853 0.708223 0.703434 0.546563 0.603186
+ZSETEffCorrPTEpertBase_2_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2_Lumi3:    -1.58791  3.2312  -3.07161  0  0     -0.400131  2.26269  -2.87714  0  0
+ZSETEffCorrPTEpertB_2_Lumi3:    -2.40573  5.54788  -4.55015  0  0     0.0753289  -0.725294  1.14996  0  0
+ZSETEffCorrPTEpertC_2_Lumi3:    -2.34967  7.11627  -7.89863  0  0     -0.0757467  0.902082  -2.28119  0  0
+ZSETEffCorrPTEpertD_2_Lumi3:    -1.6506  5.66588  -5.84504  0.69643  0     -0.658596  7.2082  -25.2662  30.4334  0
+ZSETEffCorrPTEpertE_2_Lumi3:    0.361826  -21.8541  94.795  -117.47  0     0.278573  -4.54787  20.2094  -27.365  0
+ZSETEffCorrPTEpertF_2_Lumi3:    0.0160241  3.222  -39.0418  97.7483  0     1.13307  -16.9039  68.332  -75.5602  0
+ZSETEffCorrPTEpertG_2_Lumi3:    1.80856  -115.761  898.827  -1654.38  0     -5.15566  29.678  106.228  -568.832  0
+ZSETEffCorrPTEpertH_2_Lumi3:    -7.54704  168.405  -814.138  0  0     -8.5859  147.075  -568.588  0  0
+ZSETEffCorrPTEpertNorm_2_Lumi3: 0.684614 0.764513 0.722384 0.654154 0.737273 0.587622 0.758782 0.599787
+ZSETEffCorrPTEpertBase_3_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3_Lumi3:    -1.66523  1.894  -0.789407  0  0     -0.0697307  0.183006  -0.361325  0  0
+ZSETEffCorrPTEpertB_3_Lumi3:    -2.11007  3.75439  -2.45547  0  0     0.054237  -0.505674  0.628983  0  0
+ZSETEffCorrPTEpertC_3_Lumi3:    -1.51907  4.0159  -4.68726  0  0     -0.163995  0.956226  -1.29577  0  0
+ZSETEffCorrPTEpertD_3_Lumi3:    -1.68419  3.71688  0.185139  -5.81099  0     0.230543  -3.7993  14.2892  -13.537  0
+ZSETEffCorrPTEpertE_3_Lumi3:    -1.46665  -0.803001  22.5302  -38.2476  0     1.18084  -17.864  78.8719  -109.406  0
+ZSETEffCorrPTEpertF_3_Lumi3:    1.58528  -21.0425  68.781  -46.8244  0     -1.71657  15.7609  -36.0193  26.5181  0
+ZSETEffCorrPTEpertG_3_Lumi3:    25.1189  -429.622  2256.66  -3922.84  0     12.2315  -255.025  1568.87  -3035.6  0
+ZSETEffCorrPTEpertH_3_Lumi3:    3.09863  -69.9134  266.504  0  0     -8.87992  117.551  -332.861  0  0
+ZSETEffCorrPTEpertNorm_3_Lumi3: 0.731194 0.764799 0.679371 0.695714 0.709583 0.502639 0.914081 0.888345
+ZSETEffCorrPTEpertBase_4_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4_Lumi3:    -1.23352  0.724355  -0.367355  0  0     -0.00838788  -0.402801  1.1073  0  0
+ZSETEffCorrPTEpertB_4_Lumi3:    -1.87373  2.89615  -2.46222  0  0     -0.1487  1.18412  -2.25822  0  0
+ZSETEffCorrPTEpertC_4_Lumi3:    -1.72797  3.0953  -3.13481  0  0     0.0192967  -0.238278  0.146431  0  0
+ZSETEffCorrPTEpertD_4_Lumi3:    -1.90024  3.0281  6.58756  -16.466  0     -0.0504599  -1.32393  10.0257  -14.578  0
+ZSETEffCorrPTEpertE_4_Lumi3:    -0.904994  -6.48692  36.8666  -44.7728  0     -0.0929865  2.23506  -14.8256  24.0912  0
+ZSETEffCorrPTEpertF_4_Lumi3:    2.3509  -25.7729  66.6505  -28.1327  0     -1.01059  12.5197  -59.8075  114.056  0
+ZSETEffCorrPTEpertG_4_Lumi3:    2.97358  -68.9177  559.205  -1522.63  0     -4.6581  37.5988  158.341  -1128.68  0
+ZSETEffCorrPTEpertH_4_Lumi3:    8.62721  -170.541  645.086  0  0     -4.01901  48.0788  -159.696  0  0
+ZSETEffCorrPTEpertNorm_4_Lumi3: 0.668457 0.76774 0.722808 0.744019 0.686859 0.568636 0.673451 0.7735
+#
+ZSETEffCorrPTEpertBase_0b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_0b_Lumi3:    -1.65862  2.51268  -1.92343  0  0     -0.0140478  0.0175296  -0.0605574  0  0
+ZSETEffCorrPTEpertB_0b_Lumi3:    -1.80622  3.99384  -3.59047  0  0     -0.177143  1.09234  -1.50835  0  0
+ZSETEffCorrPTEpertC_0b_Lumi3:    -1.14758  2.90712  -3.48215  0  0     -0.240843  1.80525  -3.10534  0  0
+ZSETEffCorrPTEpertD_0b_Lumi3:    -1.00584  -5.30026  33.1896  -38.7675  0     0.680118  -10.1067  38.6846  -41.266  0
+ZSETEffCorrPTEpertE_0b_Lumi3:    -1.69471  15.6206  -65.9794  84.9408  0     -4.17497  55.6036  -228.393  290.704  0
+ZSETEffCorrPTEpertF_0b_Lumi3:    -3.38569  64.1521  -367.809  606.599  0     -0.764747  15.6721  -133.73  320.654  0
+ZSETEffCorrPTEpertG_0b_Lumi3:    -20.5137  443.066  -2858.55  5721.33  0     -3.60098  83.0914  -713.889  1813.12  0
+ZSETEffCorrPTEpertH_0b_Lumi3:    -27.883  949.357  -9676.89  29778.1  0     -25.6208  755.909  -7296.37  21850.4  0
+ZSETEffCorrPTEpertNorm_0b_Lumi3: 0.683222 0.673725 0.605503 0.657623 0.598899 0.552342 0.563661 0.481992
+ZSETEffCorrPTEpertBase_1b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_1b_Lumi3:    -1.07338  1.34115  -0.98606  0  0     -0.00741011  0.0881244  -0.261069  0  0
+ZSETEffCorrPTEpertB_1b_Lumi3:    -1.77809  3.94621  -3.82169  0  0     -0.102455  0.663983  -1.14985  0  0
+ZSETEffCorrPTEpertC_1b_Lumi3:    -1.86428  6.41345  -8.01618  0  0     -0.0786327  -0.00785661  0.971717  0  0
+ZSETEffCorrPTEpertD_1b_Lumi3:    -0.600408  -9.41764  50.6744  -67.6309  0     0.257755  -3.77971  14.5852  -15.909  0
+ZSETEffCorrPTEpertE_1b_Lumi3:    -0.693646  -8.43943  60.5016  -84.7912  0     0.973363  -19.9437  100.466  -139.663  0
+ZSETEffCorrPTEpertF_1b_Lumi3:    -2.41253  10.3673  -50.058  121.705  0     -1.70586  2.26608  55.0161  -94.5642  0
+ZSETEffCorrPTEpertG_1b_Lumi3:    73.3046  -1663.7  11561.4  -25304.7  0     57.018  -1281.98  8765.39  -18891  0
+ZSETEffCorrPTEpertH_1b_Lumi3:    -34.6386  993.356  -8678.73  23520.5  0     5.72053  -193.247  1827.06  -4916.8  0
+ZSETEffCorrPTEpertNorm_1b_Lumi3: 0.60044 0.666721 0.638846 0.667335 0.577802 0.764131 0.507936 0.513104
+ZSETEffCorrPTEpertBase_2b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_2b_Lumi3:    -2.19619  4.22539  -3.48686  0  0     -0.142711  0.794673  -1.03912  0  0
+ZSETEffCorrPTEpertB_2b_Lumi3:    -2.90686  7.443  -7.02056  0  0     -0.0994504  0.566722  -0.90258  0  0
+ZSETEffCorrPTEpertC_2b_Lumi3:    -2.24865  7.82346  -9.72403  0  0     -0.32687  2.57166  -4.52724  0  0
+ZSETEffCorrPTEpertD_2b_Lumi3:    0.739879  -17.8809  66.5191  -63.9917  0     -0.264523  4.34806  -21.1079  30.1288  0
+ZSETEffCorrPTEpertE_2b_Lumi3:    1.75962  -11.6893  -31.3509  158.381  0     -3.02654  42.4463  -192.86  269.001  0
+ZSETEffCorrPTEpertF_2b_Lumi3:    1.10876  -13.3922  -42.4302  218.566  0     -0.892483  7.56845  -17.2792  4.35285  0
+ZSETEffCorrPTEpertG_2b_Lumi3:    -25.909  564.98  -3575.42  6949.39  0     -7.7663  173.393  -1227.91  2704.08  0
+ZSETEffCorrPTEpertH_2b_Lumi3:    -59.0538  1524.64  -11557.8  27072.3  0     -25.499  680.125  -5407.2  12939.9  0
+ZSETEffCorrPTEpertNorm_2b_Lumi3: 0.734372 0.76858 0.66081 0.595543 0.570252 0.672312 0.601417 0.502757
+ZSETEffCorrPTEpertBase_3b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_3b_Lumi3:    -2.51472  5.91757  -5.43616  0  0     -0.0910316  0.239744  -0.0736452  0  0
+ZSETEffCorrPTEpertB_3b_Lumi3:    -1.31909  2.1632  -2.03948  0  0     -0.0715017  0.18675  0.0467479  0  0
+ZSETEffCorrPTEpertC_3b_Lumi3:    -1.8055  5.1885  -7.09337  0  0     -0.198104  1.759  -3.84452  0  0
+ZSETEffCorrPTEpertD_3b_Lumi3:    0.295713  -21.5265  94.9388  -111.771  0     0.928501  -13.4366  54.4468  -64.1926  0
+ZSETEffCorrPTEpertE_3b_Lumi3:    -0.39589  -14.8616  73.5765  -93.1086  0     0.0254145  -2.21864  7.94012  -6.04026  0
+ZSETEffCorrPTEpertF_3b_Lumi3:    -4.66847  43.0392  -196.48  345.214  0     -2.07941  21.8534  -97.689  175.708  0
+ZSETEffCorrPTEpertG_3b_Lumi3:    21.5924  -472.599  2848.9  -5006.41  0     7.05407  -146.412  801.468  -1144.47  0
+ZSETEffCorrPTEpertH_3b_Lumi3:    18.4686  -406.934  2517.14  -4776.75  0     8.43836  -139.459  51.6845  3624.16  0
+ZSETEffCorrPTEpertNorm_3b_Lumi3: 0.71429 0.640137 0.671647 0.662225 0.667691 0.843023 0.661828 0.644806
+ZSETEffCorrPTEpertBase_4b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_4b_Lumi3:    -1.49938  1.86548  -1.66122  0  0     -0.0347281  0.120562  -0.354408  0  0
+ZSETEffCorrPTEpertB_4b_Lumi3:    -2.08934  4.30742  -4.20927  0  0     -0.0807545  0.575417  -1.0951  0  0
+ZSETEffCorrPTEpertC_4b_Lumi3:    -1.88682  4.1244  -4.40651  0  0     -0.0422288  0.077486  -0.0296974  0  0
+ZSETEffCorrPTEpertD_4b_Lumi3:    -0.126089  -14.7028  67.1567  -83.0203  0     0.0657014  -2.53862  13.1887  -16.4248  0
+ZSETEffCorrPTEpertE_4b_Lumi3:    -0.0822808  -9.2954  48.1911  -70.948  0     -0.358589  9.74038  -67.2378  123.471  0
+ZSETEffCorrPTEpertF_4b_Lumi3:    3.94039  -105.664  589.979  -959.524  0     4.86098  -90.3959  491.532  -843.324  0
+ZSETEffCorrPTEpertG_4b_Lumi3:    12.2554  -323.923  2240.75  -4354.92  0     -1.79253  -20.3167  405.719  -1225.47  0
+ZSETEffCorrPTEpertH_4b_Lumi3:    0.213861  -31.1942  -82.1111  1485.47  0     -0.123493  -66.4363  807.015  -2817.57  0
+ZSETEffCorrPTEpertNorm_4b_Lumi3: 0.673135 0.723989 0.68848 0.673743 0.551944 0.74862 0.63484 0.861391
+ZSETEffCorrEPTEparamsNorm_CommonMultiplier_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_Lumi3: 1.05042
+#
+#
+ZSETEffCorrPTEpertBase_EC_0_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+#
+ZSETEffCorrPTEpertBase_EC_0b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0b_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1b_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2b_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3b_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4b_Lumi0: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4b_Lumi0:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4b_Lumi0: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_EC_Lumi0: 1.0
+#
+ZSETEffCorrPTEpertBase_EC_0_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+#
+ZSETEffCorrPTEpertBase_EC_0b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0b_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1b_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2b_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3b_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4b_Lumi1: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4b_Lumi1:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4b_Lumi1: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_EC_Lumi1: 1.0
+#
+ZSETEffCorrPTEpertBase_EC_0_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+#
+ZSETEffCorrPTEpertBase_EC_0b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0b_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1b_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2b_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3b_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4b_Lumi2: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4b_Lumi2:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4b_Lumi2: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_EC_Lumi2: 1.0
+#
+ZSETEffCorrPTEpertBase_EC_0_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+#
+ZSETEffCorrPTEpertBase_EC_0b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_0b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_0b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_0b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_0b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_0b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_0b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_0b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_0b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_0b_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_1b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_1b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_1b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_1b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_1b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_1b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_1b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_1b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_1b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_1b_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_2b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_2b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_2b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_2b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_2b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_2b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_2b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_2b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_2b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_2b_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_3b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_3b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_3b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_3b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_3b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_3b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_3b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_3b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_3b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_3b_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertBase_EC_4b_Lumi3: 0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertA_EC_4b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertB_EC_4b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertC_EC_4b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertD_EC_4b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertE_EC_4b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertF_EC_4b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertG_EC_4b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertH_EC_4b_Lumi3:    0. 0. 0. 0. 0.
+ZSETEffCorrPTEpertNorm_EC_4b_Lumi3: 1. 1. 1. 1. 1. 1. 1. 1.
+ZSETEffCorrPTEpertRelGlobNorm_EC_Lumi3: 1.0
+
+#
+#
+WSETEffCorrLumiSplit:   TRUE
+WSETEffCorrLumiSplit_Bins: 2. 4. 6.
+WSETEffCorrLumiSplit_Norm: 0.7603416 0.74734118 0.8535825 1.
+WSETEffCorrScaled:      TRUE
+WSETEffCorrRelative:    TRUE
+WSETEffCorrInterpolate: TRUE
+WSETEffCorrParameters:  0. 0. 0. 0. 0.
+#
+WSETEffCorrPTEupara:    1
+WSETEffCorrPTEpert:     3
+WSETEffCorrPTEpertBase_0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0:    -1.47705  4.27409  -5.01964  0  0
+WSETEffCorrPTEpertB_0:    -0.621186  1.7325  -2.92221  0  0
+WSETEffCorrPTEpertC_0:    -0.643801  3.19479  -5.83742  0  0
+WSETEffCorrPTEpertD_0:    -0.276815  8.66053  -33.737  34.8008  0
+WSETEffCorrPTEpertE_0:    -0.755329  12.471  -45.9414  46.5044  0
+WSETEffCorrPTEpertF_0:    -0.708194  7.21647  -15.2577  -2.70891  0
+WSETEffCorrPTEpertG_0:    -2.39302  18.3202  -81.7355  137.373  0
+WSETEffCorrPTEpertH_0:    -0.249571  17.4694  -276.237  924.934  0
+WSETEffCorrPTEpertNorm_0:  0.881211  0.833349  0.83544  0.781628  0.794205  0.796605  0.929786  0.833519
+WSETEffCorrPTEpertBase_1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1:    -1.44187  3.84713  -3.97276  0  0
+WSETEffCorrPTEpertB_1:    -0.7808  2.61993  -4.38821  0  0
+WSETEffCorrPTEpertC_1:    -0.764782  3.47737  -5.83344  0  0
+WSETEffCorrPTEpertD_1:    -0.533908  10.095  -35.248  33.0701  0
+WSETEffCorrPTEpertE_1:    -0.745328  11.9339  -43.868  50.6552  0
+WSETEffCorrPTEpertF_1:    -0.578897  2.39087  -2.17355  2.17984  0
+WSETEffCorrPTEpertG_1:    -0.995028  -18.6087  278.792  -771.535  0
+WSETEffCorrPTEpertH_1:    -1.19305  3.16027  99.3942  -471.986  0
+WSETEffCorrPTEpertNorm_1:  0.882661  0.841208  0.839828  0.79391  0.7925  0.810658  0.866908  0.869374
+WSETEffCorrPTEpertBase_2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2:    -0.911576  2.19601  -2.83238  0  0
+WSETEffCorrPTEpertB_2:    -0.958031  2.86453  -4.08571  0  0
+WSETEffCorrPTEpertC_2:    -0.581331  2.73359  -5.53721  0  0
+WSETEffCorrPTEpertD_2:    -0.658439  10.8012  -39.4211  39.2997  0
+WSETEffCorrPTEpertE_2:    -1.04427  15.2403  -57.055  60.63  0
+WSETEffCorrPTEpertF_2:    -0.178403  -7.11383  60.2207  -116.292  0
+WSETEffCorrPTEpertG_2:    -2.8818  25.5475  -94.6154  104.245  0
+WSETEffCorrPTEpertH_2:    -1.94189  57.0827  -498.8  1286.11  0
+WSETEffCorrPTEpertNorm_2:  0.840441  0.854128  0.834663  0.798713  0.810164  0.81424  0.916658  0.871548
+WSETEffCorrPTEpertBase_3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3:    -1.51259  3.3721  -3.58636  0  0
+WSETEffCorrPTEpertB_3:    -0.866874  2.1445  -3.2608  0  0
+WSETEffCorrPTEpertC_3:    -0.45849  1.46285  -3.3885  0  0
+WSETEffCorrPTEpertD_3:    -0.43495  8.20397  -32.0868  31.4106  0
+WSETEffCorrPTEpertE_3:    -0.0485714  0.221467  12.1953  -34.3272  0
+WSETEffCorrPTEpertF_3:    -0.420645  -6.82364  74.4464  -162.434  0
+WSETEffCorrPTEpertG_3:    -1.06201  1.62383  -12.2853  32.3865  0
+WSETEffCorrPTEpertH_3:    -0.809842  -22.7337  465.51  -1775.8  0
+WSETEffCorrPTEpertNorm_3:  0.891205  0.84803  0.833937  0.807276  0.803127  0.84179  0.894621  0.949625
+WSETEffCorrPTEpertBase_4: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4:    -1.83857  4.00322  -4.26416  0  0
+WSETEffCorrPTEpertB_4:    -0.907591  1.61053  -2.95358  0  0
+WSETEffCorrPTEpertC_4:    -0.69284  1.72013  -4.15323  0  0
+WSETEffCorrPTEpertD_4:    -0.412864  4.41703  -14.2932  7.83737  0
+WSETEffCorrPTEpertE_4:    -0.348918  1.57631  7.78616  -31.5383  0
+WSETEffCorrPTEpertF_4:    -0.681709  4.00991  -4.36424  -18.0542  0
+WSETEffCorrPTEpertG_4:    -1.80506  5.54468  46.02  -212.508  0
+WSETEffCorrPTEpertH_4:    -3.48175  51.4143  -420.23  1222.23  0
+WSETEffCorrPTEpertNorm_4:  0.899536  0.848295  0.845134  0.843365  0.863429  0.886971  0.943008  1
+#
+WSETEffCorrPTEpertBase_0b: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0b:    -1.06089  2.11259  -2.47315  0  0
+WSETEffCorrPTEpertB_0b:    -0.965525  2.88254  -3.991  0  0
+WSETEffCorrPTEpertC_0b:    -0.971601  4.06873  -6.92446  0  0
+WSETEffCorrPTEpertD_0b:    -0.104454  1.87354  -2.61897  -3.33081  0
+WSETEffCorrPTEpertE_0b:    -0.28129  9.30491  -38.1692  35.2693  0
+WSETEffCorrPTEpertF_0b:    -0.788695  -5.03773  76.7486  -197.055  0
+WSETEffCorrPTEpertG_0b:    -2.07815  67.6298  -579.123  1385.32  0
+WSETEffCorrPTEpertH_0b:    -5.13789  165.765  -1681.42  5376.47  0
+WSETEffCorrPTEpertNorm_0b:  0.870115  0.860503  0.866484  0.806333  0.792952  0.86957  0.820894  0.822257
+WSETEffCorrPTEpertBase_1b: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1b:    -0.684373  0.937934  -1.41424  0  0
+WSETEffCorrPTEpertB_1b:    -1.47935  5.10546  -6.72808  0  0
+WSETEffCorrPTEpertC_1b:    -0.776788  2.89437  -5.02739  0  0
+WSETEffCorrPTEpertD_1b:    -0.551913  4.71034  -8.49556  -1.54379  0
+WSETEffCorrPTEpertE_1b:    0.767174  -14.1448  71.4007  -102.309  0
+WSETEffCorrPTEpertF_1b:    -1.42773  0.808722  13.8837  6.09312  0
+WSETEffCorrPTEpertG_1b:    -2.86454  53.4113  -328.7  588.803  0
+WSETEffCorrPTEpertH_1b:    -3.46476  82.6449  -913.412  3147.33  0
+WSETEffCorrPTEpertNorm_1b:  0.838325  0.893547  0.857972  0.822692  0.815746  0.900397  0.842478  0.898431
+WSETEffCorrPTEpertBase_2b: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2b:    -0.833616  1.20201  -1.49642  0  0
+WSETEffCorrPTEpertB_2b:    -0.833767  1.92625  -2.89826  0  0
+WSETEffCorrPTEpertC_2b:    -0.932182  3.58584  -5.84375  0  0
+WSETEffCorrPTEpertD_2b:    -0.490017  5.18466  -17.0823  14.9722  0
+WSETEffCorrPTEpertE_2b:    -0.0387352  -6.6564  36.6029  -56.1896  0
+WSETEffCorrPTEpertF_2b:    -1.64522  24.4025  -108.453  128.045  0
+WSETEffCorrPTEpertG_2b:    -2.39858  67.2874  -431.319  740.141  0
+WSETEffCorrPTEpertH_2b:    0.265875  -20.0073  205.812  -435.212  0
+WSETEffCorrPTEpertNorm_2b:  0.85283  0.858924  0.866629  0.828542  0.859536  0.869995  0.797531  0.849064
+WSETEffCorrPTEpertBase_3b: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3b:    -1.0807  1.46594  -1.53526  0  0
+WSETEffCorrPTEpertB_3b:    -1.10383  1.98108  -2.26826  0  0
+WSETEffCorrPTEpertC_3b:    -0.916982  2.9044  -5.34812  0  0
+WSETEffCorrPTEpertD_3b:    -0.856697  7.54211  -23.5316  18.9465  0
+WSETEffCorrPTEpertE_3b:    -0.562304  3.53751  -6.19071  4.26841  0
+WSETEffCorrPTEpertF_3b:    -0.605123  -4.03206  44.2532  -79.4665  0
+WSETEffCorrPTEpertG_3b:    0.692399  -39.5639  305.475  -660.617  0
+WSETEffCorrPTEpertH_3b:    -0.584155  -19.7984  247.968  -922.111  0
+WSETEffCorrPTEpertNorm_3b:  0.871108  0.888239  0.879075  0.856987  0.842292  0.870674  0.917027  0.952402
+WSETEffCorrPTEpertBase_4b: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4b:    -1.37381  1.70924  -1.7164  0  0
+WSETEffCorrPTEpertB_4b:    -1.21891  2.1706  -3.08593  0  0
+WSETEffCorrPTEpertC_4b:    -1.10763  2.46599  -3.90476  0  0
+WSETEffCorrPTEpertD_4b:    -0.726065  3.86752  -12.3849  9.11872  0
+WSETEffCorrPTEpertE_4b:    -1.4817  13.8705  -37.9454  14.8631  0
+WSETEffCorrPTEpertF_4b:    -2.2903  26.894  -126.945  179.348  0
+WSETEffCorrPTEpertG_4b:    -2.03686  45.7081  -370.925  909.929  0
+WSETEffCorrPTEpertH_4b:    -2.39288  6.33262  88.5642  -567.35  0
+WSETEffCorrPTEpertNorm_4b:  0.889195  0.892153  0.902107  0.919208  0.959469  0.972822  0.986317  1
+WSETEffCorrPTEpertRelGlobNorm: 0.98411
+
+## Now the lumi-dependent version
+#
+#
+WSETEffCorrParameters_Lumi0:  0. 0. 0. 0. 0.
+#
+WSETEffCorrPTEpertBase_0_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0_Lumi0:    -0.424379  3.62487  -5.32418  0  0     -0.0361405  -0.225752  0.967929  0  0
+WSETEffCorrPTEpertB_0_Lumi0:    -1.09134  9.2797  -15.8896  0  0     -0.130517  1.07158  -2.10161  0  0
+WSETEffCorrPTEpertC_0_Lumi0:    -0.988198  13.7965  -29.5656  0  0     -0.0456408  0.193219  -0.162673  0  0
+WSETEffCorrPTEpertD_0_Lumi0:    -0.13088  -1.40449  97.1189  -289.751  0     0.11358  -5.60089  55.0322  -130.445  0
+WSETEffCorrPTEpertE_0_Lumi0:    -0.415131  -5.25421  157.061  -451.967  0     0.393574  -12.3265  97.2243  -211.254  0
+WSETEffCorrPTEpertF_0_Lumi0:    0.341952  -23.2014  296.123  -788.917  0     -0.180673  3.80345  -33.2016  132.034  0
+WSETEffCorrPTEpertG_0_Lumi0:    10.1947  -413.17  4059.23  -11953.8  0     6.58685  -252.293  2632.2  -7829.62  0
+WSETEffCorrPTEpertH_0_Lumi0:    -2.98378  315.171  -6776.25  35563.8  0     -6.61252  320.208  -4461.18  19189.4  0
+WSETEffCorrPTEpertNorm_0_Lumi0: 0.795929 0.830145 0.820399 0.785147 0.815451 0.785551 0.999129 0.868469
+WSETEffCorrPTEpertBase_1_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1_Lumi0:    -1.42483  8.26364  -13.0117  0  0     -0.165957  1.19077  -2.36477  0  0
+WSETEffCorrPTEpertB_1_Lumi0:    -0.851379  8.29313  -15.9347  0  0     0.00699909  -0.140652  -0.599583  0  0
+WSETEffCorrPTEpertC_1_Lumi0:    -1.2167  14.6229  -28.354  0  0     -0.116146  0.848057  -0.76615  0  0
+WSETEffCorrPTEpertD_1_Lumi0:    -0.306856  5.42231  32.5141  -132.304  0     -0.195481  2.19567  -0.910072  -16.6164  0
+WSETEffCorrPTEpertE_1_Lumi0:    -1.21532  25.3409  -111.272  179.711  0     -0.947167  19.3682  -115.29  210.959  0
+WSETEffCorrPTEpertF_1_Lumi0:    0.962222  -29.729  253.934  -492.944  0     0.0775663  -5.81652  57.0341  -96.3502  0
+WSETEffCorrPTEpertG_1_Lumi0:    -3.7568  145.007  -1779.1  6310.35  0     -3.36905  129.92  -1448.82  4771.22  0
+WSETEffCorrPTEpertH_1_Lumi0:    8.18732  -488.62  6690.69  -25293.8  0     8.38702  -466.147  6506.23  -23963.3  0
+WSETEffCorrPTEpertNorm_1_Lumi0: 0.849601 0.818569 0.824704 0.794274 0.794329 0.811725 0.815024 0.990339
+WSETEffCorrPTEpertBase_2_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2_Lumi0:    -1.41006  8.2701  -12.4959  0  0     -0.0348507  -0.018415  -0.19562  0  0
+WSETEffCorrPTEpertB_2_Lumi0:    -1.3474  11.1608  -19.4894  0  0     -0.146049  1.40218  -3.08031  0  0
+WSETEffCorrPTEpertC_2_Lumi0:    -0.976987  13.8383  -30.0514  0  0     -0.125541  1.59372  -4.53042  0  0
+WSETEffCorrPTEpertD_2_Lumi0:    -1.04035  17.6021  -37.1172  -4.55558  0     -0.371882  7.53416  -42.6538  70.0805  0
+WSETEffCorrPTEpertE_2_Lumi0:    -0.0746084  -9.52019  195.549  -590.813  0     0.489887  -15.7135  135.869  -327.872  0
+WSETEffCorrPTEpertF_2_Lumi0:    0.965625  -32.8874  306.342  -825.278  0     1.75284  -49.3599  406.927  -1051.1  0
+WSETEffCorrPTEpertG_2_Lumi0:    3.86725  -158.352  1404.05  -2473.11  0     0.899614  -62.7565  706.362  -1360.55  0
+WSETEffCorrPTEpertH_2_Lumi0:    1.92272  -85.8077  979.901  -2857.5  0     1.25785  -35.8861  176.99  324.193  0
+WSETEffCorrPTEpertNorm_2_Lumi0: 0.83428 0.836739 0.813297 0.801894 0.814809 0.812166 0.928358 0.839472
+WSETEffCorrPTEpertBase_3_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3_Lumi0:    -1.69379  8.13909  -10.256  0  0     0.0154952  -0.381981  0.143513  0  0
+WSETEffCorrPTEpertB_3_Lumi0:    -1.7275  11.7185  -18.2675  0  0     -0.125113  1.08879  -2.28325  0  0
+WSETEffCorrPTEpertC_3_Lumi0:    -0.629953  7.34586  -12.8484  0  0     0.00587194  -0.437606  1.97019  0  0
+WSETEffCorrPTEpertD_3_Lumi0:    -0.905242  10.2209  20.4424  -140.892  0     -0.089023  -2.69041  46.4701  -132.715  0
+WSETEffCorrPTEpertE_3_Lumi0:    0.987213  -29.5644  261.543  -597.348  0     0.949181  -25.8986  199.439  -442.64  0
+WSETEffCorrPTEpertF_3_Lumi0:    0.0673608  -3.44377  34.193  -67.4599  0     0.0311127  0.0656433  -19.0208  123.887  0
+WSETEffCorrPTEpertG_3_Lumi0:    5.77323  -250.84  2828.37  -9119.81  0     -0.449172  2.13006  121.362  -730.748  0
+WSETEffCorrPTEpertH_3_Lumi0:    6.26514  -249.471  1583.84  640.802  0     -0.256459  36.5977  -1453.01  11142.6  0
+WSETEffCorrPTEpertNorm_3_Lumi0: 0.862083 0.843235 0.821511 0.822309 0.81854 0.837118 0.856581 0.943254
+WSETEffCorrPTEpertBase_4_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4_Lumi0:    -1.41269  4.4389  -4.76319  0  0     0.171519  -2.7387  6.15413  0  0
+WSETEffCorrPTEpertB_4_Lumi0:    -0.950422  8.67295  -19.7705  0  0     -0.235207  2.22241  -4.50178  0  0
+WSETEffCorrPTEpertC_4_Lumi0:    -0.912367  9.69797  -20.2728  0  0     -0.107934  0.982545  -1.85698  0  0
+WSETEffCorrPTEpertD_4_Lumi0:    -0.163987  -1.55018  56.284  -137.28  0     -0.229707  3.17516  -7.90118  0.693044  0
+WSETEffCorrPTEpertE_4_Lumi0:    0.259239  -10.5168  99.4338  -233.62  0     0.430631  -10.9934  81.7089  -188.088  0
+WSETEffCorrPTEpertF_4_Lumi0:    -1.15691  11.9826  26.264  -281.876  0     0.597184  -20.078  185.133  -516.225  0
+WSETEffCorrPTEpertG_4_Lumi0:    5.80746  -220.311  2114.25  -6006.49  0     5.72066  -195.402  1879.16  -5427.64  0
+WSETEffCorrPTEpertH_4_Lumi0:    16.7969  -1185.31  20868.2  -104350  0     0.0194272  -187.217  5168.86  -31285.9  0
+WSETEffCorrPTEpertNorm_4_Lumi0: 0.856604 0.82248 0.83215 0.81991 0.829351 0.822505 0.885384 0.98887
+#
+WSETEffCorrPTEpertBase_0b_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0b_Lumi0:    -0.573407  4.43146  -6.94551  0  0     -0.00565098  -0.314825  1.32935  0  0
+WSETEffCorrPTEpertB_0b_Lumi0:    -0.543556  6.10619  -7.36495  0  0     -0.124846  0.896194  -0.665805  0  0
+WSETEffCorrPTEpertC_0b_Lumi0:    -0.80988  15.1464  -32.8544  0  0     -0.144554  2.1564  -6.53984  0  0
+WSETEffCorrPTEpertD_0b_Lumi0:    -0.094175  -0.230796  69.7905  -192.118  0     0.338241  -7.45912  48.4702  -89.2054  0
+WSETEffCorrPTEpertE_0b_Lumi0:    -3.33881  65.1634  -270.528  225.166  0     -0.280042  1.96311  13.288  -50.8639  0
+WSETEffCorrPTEpertF_0b_Lumi0:    0.241015  -29.3801  345.948  -759.257  0     1.43425  -39.9644  257.06  -371.482  0
+WSETEffCorrPTEpertG_0b_Lumi0:    -12.9386  602.147  -7809.89  29793.3  0     -11.6484  461.669  -5119.13  17067.8  0
+WSETEffCorrPTEpertH_0b_Lumi0:    -3.90672  305.711  -6732.39  41567.6  0     -1.58194  120.962  -2647.9  15899.9  0
+WSETEffCorrPTEpertNorm_0b_Lumi0: 0.787417 0.773609 0.777283 0.761936 0.79297 0.813938 0.794496 0.731226
+WSETEffCorrPTEpertBase_1b_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1b_Lumi0:    -0.303103  3.46895  -5.22416  0  0     -0.0940864  0.87811  -1.92999  0  0
+WSETEffCorrPTEpertB_1b_Lumi0:    -0.971307  10.4137  -18.6494  0  0     -0.0909259  0.695044  -1.36158  0  0
+WSETEffCorrPTEpertC_1b_Lumi0:    -0.689635  13.5681  -28.8248  0  0     -0.0457663  0.627552  -1.68209  0  0
+WSETEffCorrPTEpertD_1b_Lumi0:    -0.927926  19.0112  -32.7156  -41.5386  0     -0.186093  1.26695  9.23397  -38.0528  0
+WSETEffCorrPTEpertE_1b_Lumi0:    -3.33866  73.002  -392.377  692.075  0     -1.14758  24.3681  -148.841  274.684  0
+WSETEffCorrPTEpertF_1b_Lumi0:    3.04695  -87.7182  477.622  36.2485  0     0.950451  -13.5768  -164.25  1393.93  0
+WSETEffCorrPTEpertG_1b_Lumi0:    0.799259  -106.857  2000.36  -6829.09  0     4.14853  -226.07  2830.96  -9076.94  0
+WSETEffCorrPTEpertH_1b_Lumi0:    -12.9273  453.841  -3603.65  5156.55  0     -9.24593  413.01  -5177.37  19757  0
+WSETEffCorrPTEpertNorm_1b_Lumi0: 0.759223 0.794838 0.774566 0.755934 0.799277 0.768319 0.761844 0.839984
+WSETEffCorrPTEpertBase_2b_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2b_Lumi0:    -0.276608  3.38696  -5.6372  0  0     -0.0440784  0.409263  -1.09851  0  0
+WSETEffCorrPTEpertB_2b_Lumi0:    -0.382651  6.85227  -14.7712  0  0     -0.0591827  0.746056  -2.52457  0  0
+WSETEffCorrPTEpertC_2b_Lumi0:    -0.647903  10.9717  -21.5001  0  0     -0.10617  1.05432  -1.52252  0  0
+WSETEffCorrPTEpertD_2b_Lumi0:    -1.07553  24.3806  -94.8706  100.387  0     -0.32105  5.24908  -19.6586  13.9124  0
+WSETEffCorrPTEpertE_2b_Lumi0:    -2.23672  53.9688  -335.686  766.167  0     -0.821696  24.7246  -244.497  735.009  0
+WSETEffCorrPTEpertF_2b_Lumi0:    -2.97478  99.4589  -631.502  876.235  0     3.5688  -105.209  891.149  -2409.03  0
+WSETEffCorrPTEpertG_2b_Lumi0:    -9.90479  331.75  -2690.1  6600.65  0     -4.09426  146.987  -1703.12  6775.56  0
+WSETEffCorrPTEpertH_2b_Lumi0:    10.8486  -900.915  17851.1  -95489.8  0     3.04357  -571.77  13940.8  -80886.5  0
+WSETEffCorrPTEpertNorm_2b_Lumi0: 0.762189 0.767077 0.781187 0.786149 0.808864 0.795673 0.825173 0.917341
+WSETEffCorrPTEpertBase_3b_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3b_Lumi0:    -0.526693  2.41452  -4.00998  0  0     -0.0994412  0.660217  -0.793616  0  0
+WSETEffCorrPTEpertB_3b_Lumi0:    -0.78309  7.24889  -13.2025  0  0     -0.0614829  0.106611  0.910025  0  0
+WSETEffCorrPTEpertC_3b_Lumi0:    -0.569956  9.97011  -20.1536  0  0     -0.177845  2.01237  -4.0625  0  0
+WSETEffCorrPTEpertD_3b_Lumi0:    -0.959847  20.7025  -87.2371  113.706  0     -0.653686  12.6301  -65.0953  93.9598  0
+WSETEffCorrPTEpertE_3b_Lumi0:    -0.4279  8.58755  -30.8161  42.5856  0     0.520682  -13.0156  91.0385  -197.412  0
+WSETEffCorrPTEpertF_3b_Lumi0:    -3.14313  123.448  -1129.13  2732.31  0     -1.49887  48.0568  -408.23  908.338  0
+WSETEffCorrPTEpertG_3b_Lumi0:    -14.6326  709.824  -9305.93  36454.3  0     -12.4582  517.302  -6533.87  25939.5  0
+WSETEffCorrPTEpertH_3b_Lumi0:    -0.445433  -45.8253  998.644  -2376.12  0     0.135125  -65.9632  1425.88  -6049.55  0
+WSETEffCorrPTEpertNorm_3b_Lumi0: 0.782557 0.789606 0.788914 0.806206 0.769228 0.839117 0.769833 1
+WSETEffCorrPTEpertBase_4b_Lumi0: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4b_Lumi0:    -0.561609  1.95715  -2.98793  0  0     -0.0134961  -0.0197279  0.0416237  0  0
+WSETEffCorrPTEpertB_4b_Lumi0:    -0.939049  6.98863  -13.6249  0  0     -0.0812811  0.732654  -1.78486  0  0
+WSETEffCorrPTEpertC_4b_Lumi0:    -0.67078  8.10448  -17.0134  0  0     -0.104665  0.923321  -1.973  0  0
+WSETEffCorrPTEpertD_4b_Lumi0:    -0.104032  4.72846  12.1896  -75.6991  0     -0.127995  1.08866  5.79874  -31.1573  0
+WSETEffCorrPTEpertE_4b_Lumi0:    -1.88625  47.1339  -299.784  610.826  0     -0.172715  9.1734  -114.901  352.191  0
+WSETEffCorrPTEpertF_4b_Lumi0:    2.47176  -93.0417  857.88  -2125.3  0     3.92705  -139.937  1332.99  -3670.64  0
+WSETEffCorrPTEpertG_4b_Lumi0:    5.65015  -287.003  3634.79  -11966.3  0     2.64265  -188.011  2969.35  -12107.2  0
+WSETEffCorrPTEpertH_4b_Lumi0:    13.8605  -539.265  5617.97  -18206.5  0     4.82708  -253.475  3531.95  -14683.4  0
+WSETEffCorrPTEpertNorm_4b_Lumi0: 0.784355 0.810685 0.807834 0.783036 0.808015 0.870348 0.93795 0.844923
+WSETEffCorrPTEpertRelGlobNorm_Lumi0: 1.029336
+#
+#
+WSETEffCorrParameters_Lumi1:  0. 0. 0. 0. 0.
+#
+WSETEffCorrPTEpertBase_0_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0_Lumi1:    -1.70319  5.82942  -7.05333  0  0     -0.0317161  0.089652  -0.297947  0  0
+WSETEffCorrPTEpertB_0_Lumi1:    -1.52946  6.8556  -9.52828  0  0     -0.0821066  0.530637  -0.703387  0  0
+WSETEffCorrPTEpertC_0_Lumi1:    -2.08595  12.2833  -19.6192  0  0     -0.000352201  -0.0546364  -0.306731  0  0
+WSETEffCorrPTEpertD_0_Lumi1:    -1.44834  13.2893  -32.8156  22.1966  0     -0.202774  2.42607  -8.34685  10.2301  0
+WSETEffCorrPTEpertE_0_Lumi1:    -0.644928  6.61904  -8.7196  -11.6035  0     -0.188047  2.80891  -13.257  18.502  0
+WSETEffCorrPTEpertF_0_Lumi1:    -1.0679  1.9023  32.6193  -85.7018  0     0.291074  -7.2087  44.1534  -80.4153  0
+WSETEffCorrPTEpertG_0_Lumi1:    -0.412231  9.50089  -42.9871  -107.333  0     1.79419  -57.8078  510.783  -1342.67  0
+WSETEffCorrPTEpertH_0_Lumi1:    -0.12395  28.1012  -522.748  2229.91  0     1.15826  -27.9975  187.877  -449.761  0
+WSETEffCorrPTEpertNorm_0_Lumi1: 0.886687 0.870258 0.887525 0.822537 0.803132 0.838839 0.905702 0.839772
+WSETEffCorrPTEpertBase_1_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1_Lumi1:    -1.49335  5.57284  -7.23871  0  0     -0.111323  0.68539  -1.24951  0  0
+WSETEffCorrPTEpertB_1_Lumi1:    -2.10867  10.2228  -14.4031  0  0     -0.0918273  0.771954  -1.67678  0  0
+WSETEffCorrPTEpertC_1_Lumi1:    -1.70023  9.80344  -15.0643  0  0     -0.0293514  0.112861  -0.108872  0  0
+WSETEffCorrPTEpertD_1_Lumi1:    -1.84501  15.0157  -30.1957  6.42021  0     -0.26183  3.40634  -12.172  13.6178  0
+WSETEffCorrPTEpertE_1_Lumi1:    -1.13944  10.2867  -28.8907  22.6893  0     -0.197162  3.9995  -25.5218  45.4708  0
+WSETEffCorrPTEpertF_1_Lumi1:    0.415691  -31.2169  239.188  -460.512  0     0.90238  -21.1542  133.555  -242.739  0
+WSETEffCorrPTEpertG_1_Lumi1:    2.31041  -98.7726  948.755  -2302.25  0     1.71022  -68.7631  653.111  -1649.55  0
+WSETEffCorrPTEpertH_1_Lumi1:    -11.2043  402.528  -4115.94  12036.4  0     -1.38216  38.3009  -490.7  2081.16  0
+WSETEffCorrPTEpertNorm_1_Lumi1: 0.869058 0.895882 0.86111 0.851332 0.823955 0.842751 0.878096 0.854019
+WSETEffCorrPTEpertBase_2_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2_Lumi1:    -1.51919  5.83591  -7.61283  0  0     -0.0507067  0.284303  -0.601317  0  0
+WSETEffCorrPTEpertB_2_Lumi1:    -2.19741  9.90582  -13.4624  0  0     -0.0462517  0.320081  -0.708646  0  0
+WSETEffCorrPTEpertC_2_Lumi1:    -1.0398  5.79322  -9.38644  0  0     -0.0994346  0.809206  -1.71408  0  0
+WSETEffCorrPTEpertD_2_Lumi1:    -0.94103  8.0318  -17.316  6.81188  0     -0.30494  4.06283  -15.9887  19.5011  0
+WSETEffCorrPTEpertE_2_Lumi1:    -3.02167  27.4119  -87.5115  91.3692  0     0.159687  -3.12696  11.9195  -7.95198  0
+WSETEffCorrPTEpertF_2_Lumi1:    -0.524372  -7.72031  89.8209  -219.951  0     0.372948  -14.1623  120.123  -268.353  0
+WSETEffCorrPTEpertG_2_Lumi1:    1.25717  -22.3085  101.768  -273.231  0     0.997971  -27.7013  197.254  -454.538  0
+WSETEffCorrPTEpertH_2_Lumi1:    4.44373  -235.196  3012.98  -10300  0     0.92814  -63.0373  869.345  -3125.54  0
+WSETEffCorrPTEpertNorm_2_Lumi1: 0.860289 0.900243 0.846256 0.825583 0.900287 0.839434 0.874341 0.884389
+WSETEffCorrPTEpertBase_3_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3_Lumi1:    -2.16433  7.54398  -9.29931  0  0     -0.0685594  0.376271  -0.535061  0  0
+WSETEffCorrPTEpertB_3_Lumi1:    -1.69772  7.29231  -10.3536  0  0     -0.124515  1.10904  -2.31879  0  0
+WSETEffCorrPTEpertC_3_Lumi1:    -1.77081  9.07078  -13.8327  0  0     -0.0641702  0.382109  -0.457411  0  0
+WSETEffCorrPTEpertD_3_Lumi1:    -1.78728  17.2513  -56.5659  57.704  0     -0.32234  4.66374  -18.9934  22.2659  0
+WSETEffCorrPTEpertE_3_Lumi1:    0.0764607  -3.86785  25.82  -33.7548  0     -0.0246622  -0.863448  6.64263  -9.27626  0
+WSETEffCorrPTEpertF_3_Lumi1:    1.22745  -51.9737  387.249  -764.768  0     1.23319  -31.5708  214.68  -414.164  0
+WSETEffCorrPTEpertG_3_Lumi1:    10.2329  -316.258  2638.49  -6569.01  0     6.29655  -192.044  1660.37  -4266.28  0
+WSETEffCorrPTEpertH_3_Lumi1:    -1.07058  6.63125  205.871  -1529.78  0     1.58835  -66.8201  699.853  -2153.04  0
+WSETEffCorrPTEpertNorm_3_Lumi1: 0.912209 0.870973 0.877714 0.8629 0.82489 0.869428 0.916139 0.96753
+WSETEffCorrPTEpertBase_4_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4_Lumi1:    -1.97082  6.04903  -7.50266  0  0     -0.0556031  0.0536  0.289569  0  0
+WSETEffCorrPTEpertB_4_Lumi1:    -2.18781  8.57012  -12.0641  0  0     -0.0477633  0.485641  -1.38829  0  0
+WSETEffCorrPTEpertC_4_Lumi1:    -1.88449  8.99874  -14.3106  0  0     -0.026316  0.153016  -0.47651  0  0
+WSETEffCorrPTEpertD_4_Lumi1:    -2.25017  14.2735  -24.6443  -2.36715  0     -0.0731294  -0.373602  8.70359  -22.3213  0
+WSETEffCorrPTEpertE_4_Lumi1:    -1.34708  2.92928  33.9477  -98.1887  0     -0.282317  3.79411  -12.2479  6.81903  0
+WSETEffCorrPTEpertF_4_Lumi1:    -2.00064  16.7707  -91.0746  192.246  0     0.10086  -0.307255  -19.9915  77.1978  0
+WSETEffCorrPTEpertG_4_Lumi1:    1.75977  -68.5061  515.876  -798.879  0     -0.488979  11.7707  -154.663  696.6  0
+WSETEffCorrPTEpertH_4_Lumi1:    3.59174  -199.681  2445.01  -8514.1  0     0.789835  -31.1888  277.422  -514.693  0
+WSETEffCorrPTEpertNorm_4_Lumi1: 0.897797 0.917878 0.897729 0.905547 0.867702 0.912981 0.869426 0.948707
+#
+WSETEffCorrPTEpertBase_0b_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0b_Lumi1:    -1.32354  5.5848  -7.87893  0  0     -0.0958085  0.577385  -0.846161  0  0
+WSETEffCorrPTEpertB_0b_Lumi1:    -2.03559  10.3358  -14.9643  0  0     -0.065019  0.459392  -0.665131  0  0
+WSETEffCorrPTEpertC_0b_Lumi1:    -1.70356  12.0164  -21.4973  0  0     -0.182904  1.9562  -4.57  0  0
+WSETEffCorrPTEpertD_0b_Lumi1:    -1.29135  12.5603  -30.1963  12.4455  0     -0.254358  3.05961  -8.82564  5.15716  0
+WSETEffCorrPTEpertE_0b_Lumi1:    -1.25431  23.4482  -118.987  215.82  0     -0.924465  16.938  -96.2686  178.954  0
+WSETEffCorrPTEpertF_0b_Lumi1:    3.32156  -98.0232  720.811  -1542.68  0     3.44459  -92.899  691.004  -1500.06  0
+WSETEffCorrPTEpertG_0b_Lumi1:    -11.0817  332.915  -2911.56  7700.37  0     -6.84254  213.841  -1960.13  5345.63  0
+WSETEffCorrPTEpertH_0b_Lumi1:    -10.3284  361.759  -3623.18  10803.7  0     -1.052  20.9579  -154.628  571.541  0
+WSETEffCorrPTEpertNorm_0b_Lumi1: 0.839675 0.883104 0.847001 0.803441 0.798329 0.859151 0.894759 0.829789
+WSETEffCorrPTEpertBase_1b_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1b_Lumi1:    -1.73641  6.46538  -7.89593  0  0     -0.0737652  0.553165  -0.900344  0  0
+WSETEffCorrPTEpertB_1b_Lumi1:    -1.27785  6.44458  -9.12913  0  0     -0.0742477  0.440955  -0.491896  0  0
+WSETEffCorrPTEpertC_1b_Lumi1:    -1.4275  9.69027  -16.1923  0  0     -0.118397  1.19042  -2.70339  0  0
+WSETEffCorrPTEpertD_1b_Lumi1:    -1.32179  10.9156  -24.2408  19.1357  0     -0.242976  3.49907  -16.0617  24.9844  0
+WSETEffCorrPTEpertE_1b_Lumi1:    0.516956  -8.39529  22.2062  11.6731  0     0.199256  0.81444  -27.8896  76.1775  0
+WSETEffCorrPTEpertF_1b_Lumi1:    0.254535  -26.0952  203.451  -341.383  0     -0.383094  -0.123631  33.8533  -90.2225  0
+WSETEffCorrPTEpertG_1b_Lumi1:    -1.60757  48.9539  -467.95  1307.96  0     -0.828896  5.59606  57.8472  -287.706  0
+WSETEffCorrPTEpertH_1b_Lumi1:    -10.5617  526.052  -6831.81  24608.2  0     -0.193478  44.6582  -849.08  3587.2  0
+WSETEffCorrPTEpertNorm_1b_Lumi1: 0.876132 0.842403 0.838982 0.818163 0.804293 0.887198 0.828212 0.815057
+WSETEffCorrPTEpertBase_2b_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2b_Lumi1:    -1.47623  5.22076  -6.2399  0  0     -0.10056  0.810006  -1.49945  0  0
+WSETEffCorrPTEpertB_2b_Lumi1:    -1.69263  8.52845  -12.5686  0  0     -0.0787515  0.56925  -0.790772  0  0
+WSETEffCorrPTEpertC_2b_Lumi1:    -1.24677  8.78667  -14.9272  0  0     -0.141881  1.42979  -3.03959  0  0
+WSETEffCorrPTEpertD_2b_Lumi1:    -1.58753  12.1721  -25.104  6.59394  0     -0.00968509  -0.608715  5.65508  -12.4048  0
+WSETEffCorrPTEpertE_2b_Lumi1:    0.490522  -6.39813  12.7426  14.0892  0     0.0922025  0.090441  -16.3007  51.9314  0
+WSETEffCorrPTEpertF_2b_Lumi1:    -2.1604  36.5648  -186.061  338.815  0     -1.49661  28.7105  -167.401  317.543  0
+WSETEffCorrPTEpertG_2b_Lumi1:    3.5934  -124.645  1130.84  -3044.48  0     3.12996  -103.254  973.418  -2825.81  0
+WSETEffCorrPTEpertH_2b_Lumi1:    1.7065  -24.558  -159.997  1669.41  0     -3.20745  119.834  -1296.86  4293.05  0
+WSETEffCorrPTEpertNorm_2b_Lumi1: 0.85629 0.862234 0.830768 0.845197 0.835018 0.884892 0.772135 0.770921
+WSETEffCorrPTEpertBase_3b_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3b_Lumi1:    -1.4461  4.48829  -5.79639  0  0     -0.0998061  0.819183  -1.50272  0  0
+WSETEffCorrPTEpertB_3b_Lumi1:    -1.5945  6.57418  -9.56548  0  0     -0.0639482  0.374048  -0.555822  0  0
+WSETEffCorrPTEpertC_3b_Lumi1:    -1.61401  10.696  -20.5884  0  0     -0.228437  2.5014  -6.07123  0  0
+WSETEffCorrPTEpertD_3b_Lumi1:    -2.17859  22.9219  -79.6505  85.7934  0     -0.378084  6.00474  -29.2577  44.8249  0
+WSETEffCorrPTEpertE_3b_Lumi1:    0.0268598  -8.81158  86.4073  -184.216  0     0.520239  -15.2941  110.875  -221.596  0
+WSETEffCorrPTEpertF_3b_Lumi1:    1.35393  -52.5383  393.587  -802.283  0     0.428955  -10.4405  60.8712  -89.0053  0
+WSETEffCorrPTEpertG_3b_Lumi1:    3.72809  -109.955  523.403  270.918  0     2.82608  -67.0399  298.621  126.93  0
+WSETEffCorrPTEpertH_3b_Lumi1:    5.01215  -266.86  3211.15  -10933.3  0     -0.784302  -14.775  582.179  -3100.95  0
+WSETEffCorrPTEpertNorm_3b_Lumi1: 0.860206 0.872491 0.85961 0.869583 0.849055 0.834947 0.87713 0.879186
+WSETEffCorrPTEpertBase_4b_Lumi1: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4b_Lumi1:    -1.38469  3.31166  -4.29675  0  0     -0.0645318  0.414294  -0.777408  0  0
+WSETEffCorrPTEpertB_4b_Lumi1:    -1.92006  7.90795  -11.6315  0  0     -0.0498457  0.300906  -0.461916  0  0
+WSETEffCorrPTEpertC_4b_Lumi1:    -1.4347  7.59232  -13.1501  0  0     -0.0976451  0.833394  -1.8946  0  0
+WSETEffCorrPTEpertD_4b_Lumi1:    -1.50129  10.472  -22.654  9.32226  0     -0.128794  1.07218  -1.23879  -1.73552  0
+WSETEffCorrPTEpertE_4b_Lumi1:    -0.808484  -3.75653  69.3387  -169.136  0     0.0652903  -4.97381  46.1074  -108.006  0
+WSETEffCorrPTEpertF_4b_Lumi1:    -0.440401  -5.90807  44.1913  -57.8189  0     0.65327  -20.1  148.415  -286.382  0
+WSETEffCorrPTEpertG_4b_Lumi1:    -4.67427  111.246  -573.776  28.2721  0     -3.19176  79.3288  -581.273  1196.89  0
+WSETEffCorrPTEpertH_4b_Lumi1:    -1.31259  96.6572  -1612.77  7166.26  0     -0.632227  5.98522  135.071  -896.496  0
+WSETEffCorrPTEpertNorm_4b_Lumi1: 0.861864 0.901567 0.871582 0.876718 0.865289 0.890518 1 0.872213
+WSETEffCorrPTEpertRelGlobNorm_Lumi1: 1.001
+#
+#
+WSETEffCorrParameters_Lumi2:  0. 0. 0. 0. 0.
+#
+WSETEffCorrPTEpertBase_0_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0_Lumi2:    -3.49498  10.3121  -9.78498  0  0     -0.231337  1.89193  -3.37518  0  0
+WSETEffCorrPTEpertB_0_Lumi2:    -2.64613  8.64592  -9.52378  0  0     -0.127626  1.08971  -2.03286  0  0
+WSETEffCorrPTEpertC_0_Lumi2:    -2.63252  9.88444  -12.3032  0  0     -0.0617754  0.633853  -1.4311  0  0
+WSETEffCorrPTEpertD_0_Lumi2:    -1.90891  7.74521  -9.69064  -1.454  0     0.0604934  -1.47536  8.46542  -13.0945  0
+WSETEffCorrPTEpertE_0_Lumi2:    -1.38384  6.58096  -16.8948  18.05  0     -0.00205446  0.373041  -6.20596  14.2195  0
+WSETEffCorrPTEpertF_0_Lumi2:    -0.546722  -22.4841  140.25  -219.783  0     1.5205  -27.72  143.407  -225.934  0
+WSETEffCorrPTEpertG_0_Lumi2:    -6.79488  151.44  -1014.67  2085.74  0     -5.50599  115.286  -696.681  1242.49  0
+WSETEffCorrPTEpertH_0_Lumi2:    -0.680996  38.7344  -841.726  3477.62  0     1.81002  -62.9103  527.024  -1041.8  0
+WSETEffCorrPTEpertNorm_0_Lumi2: 0.961559 0.854731 0.843164 0.783486 0.757951 0.850657 0.698404 0.839151
+WSETEffCorrPTEpertBase_1_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1_Lumi2:    -1.23251  1.69892  -0.550876  0  0     -0.0621373  0.132026  0.113504  0  0
+WSETEffCorrPTEpertB_1_Lumi2:    -1.64088  4.42332  -4.86261  0  0     0.0406324  -0.319858  0.191999  0  0
+WSETEffCorrPTEpertC_1_Lumi2:    -2.54169  8.99429  -10.6289  0  0     -0.022207  0.10338  -0.229073  0  0
+WSETEffCorrPTEpertD_1_Lumi2:    -2.9744  17.6234  -45.2695  40.8367  0     -0.164907  1.83083  -6.69992  8.84331  0
+WSETEffCorrPTEpertE_1_Lumi2:    -2.29257  10.5382  -11.8288  -9.71471  0     -0.187084  1.6594  -4.24882  1.07472  0
+WSETEffCorrPTEpertF_1_Lumi2:    -0.557083  -23.7874  158.28  -266.68  0     1.52717  -26.4714  134.975  -215.109  0
+WSETEffCorrPTEpertG_1_Lumi2:    -1.28711  36.4587  -318.608  785.445  0     0.0788525  -14.7731  120.601  -177.971  0
+WSETEffCorrPTEpertH_1_Lumi2:    6.58626  -265.244  2456.97  -6532.98  0     1.17109  -47.642  534.019  -1906.45  0
+WSETEffCorrPTEpertNorm_1_Lumi2: 0.76799 0.792369 0.845183 0.819868 0.817724 0.817917 0.717884 0.794009
+WSETEffCorrPTEpertBase_2_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2_Lumi2:    -2.05614  5.01133  -4.73775  0  0     -0.0225391  0.0850051  -0.124339  0  0
+WSETEffCorrPTEpertB_2_Lumi2:    -2.4704  7.65462  -8.86429  0  0     -0.136505  1.11668  -2.08119  0  0
+WSETEffCorrPTEpertC_2_Lumi2:    -2.15669  8.05928  -10.733  0  0     -0.0575916  0.352742  -0.620676  0  0
+WSETEffCorrPTEpertD_2_Lumi2:    -2.729  13.8452  -29.9368  24.1911  0     -0.15344  1.20368  -2.73754  2.95783  0
+WSETEffCorrPTEpertE_2_Lumi2:    -1.75137  12.1387  -42.6445  57.1869  0     -0.319958  4.22571  -18.439  25.5884  0
+WSETEffCorrPTEpertF_2_Lumi2:    -0.246419  -33.049  215.036  -350.993  0     2.30124  -43.2954  230.442  -363.592  0
+WSETEffCorrPTEpertG_2_Lumi2:    5.4911  -142.883  1097.92  -2605.15  0     -0.571671  -10.9109  250.796  -903.212  0
+WSETEffCorrPTEpertH_2_Lumi2:    11.0355  -281.614  1716.6  -2763.96  0     2.65507  -64.501  361.785  -396.025  0
+WSETEffCorrPTEpertNorm_2_Lumi2: 0.827141 0.85926 0.813074 0.82304 0.772583 0.796535 0.70272 0.928461
+WSETEffCorrPTEpertBase_3_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3_Lumi2:    -1.71274  2.89771  -2.2738  0  0     -0.0376794  0.183011  -0.385218  0  0
+WSETEffCorrPTEpertB_3_Lumi2:    -1.36425  2.45239  -2.14568  0  0     0.0396377  -0.393412  0.55397  0  0
+WSETEffCorrPTEpertC_3_Lumi2:    -1.87864  5.5928  -6.20263  0  0     -0.0662561  0.484458  -0.980103  0  0
+WSETEffCorrPTEpertD_3_Lumi2:    -2.53461  11.4662  -19.8085  7.52996  0     -0.141383  1.45487  -4.55124  4.23952  0
+WSETEffCorrPTEpertE_3_Lumi2:    -0.756813  -9.04114  55.8737  -72.7464  0     -0.00479291  0.852633  -8.92768  19.0898  0
+WSETEffCorrPTEpertF_3_Lumi2:    0.234844  -26.3326  184.218  -361.204  0     2.05354  -41.5131  247.737  -451.574  0
+WSETEffCorrPTEpertG_3_Lumi2:    -3.07607  56.0023  -454.631  1121.57  0     -1.31357  33.293  -277.505  709.618  0
+WSETEffCorrPTEpertH_3_Lumi2:    -11.0367  414.804  -4490  14541  0     6.00745  -132.113  771.41  -1137.32  0
+WSETEffCorrPTEpertNorm_3_Lumi2: 0.810172 0.790775 0.809902 0.831492 0.799352 0.795372 0.741834 0.75733
+WSETEffCorrPTEpertBase_4_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4_Lumi2:    -2.32534  4.95109  -4.57713  0  0     0.0782574  -0.712748  1.094  0  0
+WSETEffCorrPTEpertB_4_Lumi2:    -2.16532  5.61182  -6.3338  0  0     -0.169865  1.54253  -3.06283  0  0
+WSETEffCorrPTEpertC_4_Lumi2:    -2.22843  6.9312  -8.78061  0  0     -0.0201675  0.00436014  0.20105  0  0
+WSETEffCorrPTEpertD_4_Lumi2:    -2.16185  8.12867  -13.9622  7.12869  0     0.0942117  -1.72311  6.96635  -6.68435  0
+WSETEffCorrPTEpertE_4_Lumi2:    -2.21196  5.4533  9.55205  -37.5974  0     0.589457  -11.5003  61.5343  -97.6431  0
+WSETEffCorrPTEpertF_4_Lumi2:    -1.93997  8.39981  -17.2832  5.04977  0     -0.0783603  0.130807  3.86816  -18.154  0
+WSETEffCorrPTEpertG_4_Lumi2:    1.32441  -64.3712  449.296  -889.172  0     -1.16447  4.3135  55.6517  -260.696  0
+WSETEffCorrPTEpertH_4_Lumi2:    1.77898  -37.9154  -105.383  1230.85  0     -0.776158  48.5898  -652.926  2166.28  0
+WSETEffCorrPTEpertNorm_4_Lumi2: 0.866071 0.847158 0.841311 0.836761 0.850425 0.813009 0.869603 0.863014
+#
+WSETEffCorrPTEpertBase_0b_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0b_Lumi2:    -1.27053  2.75815  -2.94903  0  0     -0.0809815  0.499371  -0.791667  0  0
+WSETEffCorrPTEpertB_0b_Lumi2:    -2.36187  7.94856  -8.81197  0  0     -0.0975783  0.452081  -0.263595  0  0
+WSETEffCorrPTEpertC_0b_Lumi2:    -2.27305  8.91429  -11.6678  0  0     -0.107278  0.962047  -2.13855  0  0
+WSETEffCorrPTEpertD_0b_Lumi2:    -0.75729  2.09459  3.97274  -11.1215  0     -0.190825  1.74972  -5.25646  7.34099  0
+WSETEffCorrPTEpertE_0b_Lumi2:    -0.831292  11.6103  -46.2088  48.1316  0     0.105276  -4.57117  26.9535  -38.2678  0
+WSETEffCorrPTEpertF_0b_Lumi2:    1.55016  -40.2071  273.938  -570.595  0     5.99341  -127.723  763.983  -1365.95  0
+WSETEffCorrPTEpertG_0b_Lumi2:    -14.7812  350.584  -2347.77  4561.43  0     -6.98396  157.412  -1002.16  1820.79  0
+WSETEffCorrPTEpertH_0b_Lumi2:    -7.11687  205.982  -1973.76  6088.75  0     -0.629355  50.741  -807.304  3049.19  0
+WSETEffCorrPTEpertNorm_0b_Lumi2: 0.77968 0.842148 0.826266 0.721236 0.681663 0.751158 0.649858 0.804787
+WSETEffCorrPTEpertBase_1b_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1b_Lumi2:    -1.30331  2.92083  -3.05129  0  0     -0.141669  0.96207  -1.51187  0  0
+WSETEffCorrPTEpertB_1b_Lumi2:    -1.99314  7.21239  -9.05491  0  0     -0.206403  1.66917  -2.88133  0  0
+WSETEffCorrPTEpertC_1b_Lumi2:    -2.1685  8.06549  -10.3954  0  0     0.00890709  0.0312084  -0.684786  0  0
+WSETEffCorrPTEpertD_1b_Lumi2:    -0.732918  -2.77389  23.0863  -30.5245  0     -0.21574  1.63739  -3.56158  3.90959  0
+WSETEffCorrPTEpertE_1b_Lumi2:    0.379312  -20.0876  100.253  -132.505  0     0.0044127  -1.15336  9.66783  -20.0192  0
+WSETEffCorrPTEpertF_1b_Lumi2:    3.05363  -82.5427  402.612  -523.469  0     3.43677  -60.4885  284.296  -381.158  0
+WSETEffCorrPTEpertG_1b_Lumi2:    -0.174598  41.9573  -486.968  1201.06  0     -5.76865  149.468  -1101.15  2362.01  0
+WSETEffCorrPTEpertH_1b_Lumi2:    27.6751  -874.717  7502.57  -18836.4  0     -0.142771  -86.1035  1295.23  -4073.93  0
+WSETEffCorrPTEpertNorm_1b_Lumi2: 0.774972 0.813863 0.820466 0.760141 0.764929 0.870266 0.756112 0.866046
+WSETEffCorrPTEpertBase_2b_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2b_Lumi2:    -2.00307  4.94245  -4.63  0  0     -0.0877253  0.520729  -0.740889  0  0
+WSETEffCorrPTEpertB_2b_Lumi2:    -2.19493  6.92387  -7.6588  0  0     -0.20357  1.52713  -2.43436  0  0
+WSETEffCorrPTEpertC_2b_Lumi2:    -2.11388  7.59992  -9.48714  0  0     -0.0826076  0.721719  -1.47537  0  0
+WSETEffCorrPTEpertD_2b_Lumi2:    -2.15223  10.8495  -21.1981  11.7688  0     -0.0255689  -1.31138  10.5726  -16.9282  0
+WSETEffCorrPTEpertE_2b_Lumi2:    -0.700752  -5.18592  45.3205  -88.7522  0     0.0784693  -4.44737  29.3952  -54.4411  0
+WSETEffCorrPTEpertF_2b_Lumi2:    -3.40152  53.0752  -235.616  299.699  0     -1.88234  27.0947  -120.836  175.874  0
+WSETEffCorrPTEpertG_2b_Lumi2:    -11.84  258.804  -1604.28  2905.03  0     -1.47955  -1.45828  234.357  -935.166  0
+WSETEffCorrPTEpertH_2b_Lumi2:    -5.2934  114.243  -699.789  957.003  0     10.0756  -352.27  3267.16  -8565.03  0
+WSETEffCorrPTEpertNorm_2b_Lumi2: 0.841137 0.831972 0.827201 0.805324 0.758943 0.750528 0.745553 0.76862
+WSETEffCorrPTEpertBase_3b_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3b_Lumi2:    -2.2708  5.51141  -4.82929  0  0     -0.0928195  0.651928  -1.15465  0  0
+WSETEffCorrPTEpertB_3b_Lumi2:    -1.82747  4.34572  -4.25081  0  0     0.0391226  -0.396313  0.706461  0  0
+WSETEffCorrPTEpertC_3b_Lumi2:    -2.0508  7.22769  -9.53936  0  0     -0.168276  1.35874  -2.65404  0  0
+WSETEffCorrPTEpertD_3b_Lumi2:    -0.846736  1.04673  0.286356  1.12191  0     -0.0626269  0.0810271  1.22313  -1.67842  0
+WSETEffCorrPTEpertE_3b_Lumi2:    0.691042  -26.073  111.264  -127.986  0     0.149357  -0.590578  -9.85921  30.3937  0
+WSETEffCorrPTEpertF_3b_Lumi2:    -2.73697  54.302  -300.51  451.851  0     -3.34043  47.1399  -191.458  226.94  0
+WSETEffCorrPTEpertG_3b_Lumi2:    -6.74335  224.248  -2011.74  5158.01  0     0.0113796  11.6981  -143.305  396.326  0
+WSETEffCorrPTEpertH_3b_Lumi2:    -7.24745  149.976  -1022.28  2402.67  0     -5.95951  154.632  -1288.55  3100.66  0
+WSETEffCorrPTEpertNorm_3b_Lumi2: 0.854144 0.838055 0.829064 0.78629 0.813166 0.756579 0.834294 0.894631
+WSETEffCorrPTEpertBase_4b_Lumi2: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4b_Lumi2:    -1.87831  3.56361  -3.40231  0  0     -0.167386  1.01113  -1.43164  0  0
+WSETEffCorrPTEpertB_4b_Lumi2:    -2.12461  5.41015  -6.05659  0  0     -0.0513354  0.264759  -0.235054  0  0
+WSETEffCorrPTEpertC_4b_Lumi2:    -1.78855  5.23497  -6.645  0  0     -0.091224  0.611618  -0.95063  0  0
+WSETEffCorrPTEpertD_4b_Lumi2:    -1.61256  6.43284  -14.5449  11.0224  0     0.0682403  -2.29863  12.8009  -17.554  0
+WSETEffCorrPTEpertE_4b_Lumi2:    -1.05923  -1.24552  15.1529  -26.271  0     1.11208  -17.8719  81.2904  -112.318  0
+WSETEffCorrPTEpertF_4b_Lumi2:    -0.200207  -0.0302877  -48.7384  119.169  0     -0.758114  14.9593  -87.4643  133.088  0
+WSETEffCorrPTEpertG_4b_Lumi2:    -2.73868  69.9976  -632.662  1727.06  0     -1.35707  21.1348  -169.984  472.569  0
+WSETEffCorrPTEpertH_4b_Lumi2:    3.01154  -66.7613  385.281  -627.631  0     6.82273  -189.875  1521.18  -3695.41  0
+WSETEffCorrPTEpertNorm_4b_Lumi2: 0.841961 0.867591 0.834341 0.827416 0.806489 0.851132 0.987686 0.711089
+WSETEffCorrPTEpertRelGlobNorm_Lumi2: 0.98188
+#
+#
+WSETEffCorrParameters_Lumi3:  0. 0. 0. 0. 0.
+#
+WSETEffCorrPTEpertBase_0_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0_Lumi3:    -1.83867  4.15043  -3.61129  0  0     0.0311234  -0.652731  0.964965  0  0
+WSETEffCorrPTEpertB_0_Lumi3:    -1.66625  2.90182  -2.12547  0  0     0.0255956  -0.318299  0.278902  0  0
+WSETEffCorrPTEpertC_0_Lumi3:    -2.39462  7.06475  -7.07466  0  0     0.00470432  -0.0184979  -0.170306  0  0
+WSETEffCorrPTEpertD_0_Lumi3:    -1.2855  2.78912  -2.86738  6.77629  0     -0.347819  4.84365  -20.5437  26.2236  0
+WSETEffCorrPTEpertE_0_Lumi3:    -0.615893  -14.9014  84.6025  -109.245  0     1.02125  -16.0958  74.3564  -104.681  0
+WSETEffCorrPTEpertF_0_Lumi3:    -3.18402  10.2299  25.6177  -84.7772  0     -2.74187  35.2283  -136.252  162.94  0
+WSETEffCorrPTEpertG_0_Lumi3:    -6.38262  148.473  -1107.15  2504.94  0     0.406099  -17.1507  53.349  123.921  0
+WSETEffCorrPTEpertH_0_Lumi3:    -7.24162  142.262  -604.77  0  0     7.68342  -135.871  534.523  0  0
+WSETEffCorrPTEpertNorm_0_Lumi3: 0.681693 0.712199 0.733532 0.653965 0.707725 0.723707 0.57816 0.700972
+WSETEffCorrPTEpertBase_1_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1_Lumi3:    -1.52472  3.09273  -3.38479  0  0     -0.436979  2.44797  -3.33061  0  0
+WSETEffCorrPTEpertB_1_Lumi3:    -2.38212  5.75746  -5.43803  0  0     0.00584559  -0.100761  0.0399018  0  0
+WSETEffCorrPTEpertC_1_Lumi3:    -2.27393  5.9185  -4.93727  0  0     -0.0362857  -0.0554977  0.443416  0  0
+WSETEffCorrPTEpertD_1_Lumi3:    -1.62954  0.492831  19.4452  -30.5594  0     -0.139105  -0.458573  8.74539  -16.3453  0
+WSETEffCorrPTEpertE_1_Lumi3:    -0.629132  -16.043  90.4792  -109.534  0     -0.0775733  -0.491844  3.87303  0.00114707  0
+WSETEffCorrPTEpertF_1_Lumi3:    0.407564  -27.9465  125.587  -143.377  0     0.444368  -5.25831  10.6581  0.464301  0
+WSETEffCorrPTEpertG_1_Lumi3:    -6.33991  216.318  -1735.61  3782.04  0     7.52888  -155.35  1002.15  -2074.25  0
+WSETEffCorrPTEpertH_1_Lumi3:    -2.29527  68.813  -346.055  0  0     8.06174  -135.138  530.202  0  0
+WSETEffCorrPTEpertNorm_1_Lumi3: 0.689631 0.758351 0.726545 0.698853 0.708223 0.703434 0.546563 0.603186
+WSETEffCorrPTEpertBase_2_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2_Lumi3:    -1.58791  3.2312  -3.07161  0  0     -0.400131  2.26269  -2.87714  0  0
+WSETEffCorrPTEpertB_2_Lumi3:    -2.40573  5.54788  -4.55015  0  0     0.0753289  -0.725294  1.14996  0  0
+WSETEffCorrPTEpertC_2_Lumi3:    -2.34967  7.11627  -7.89863  0  0     -0.0757467  0.902082  -2.28119  0  0
+WSETEffCorrPTEpertD_2_Lumi3:    -1.6506  5.66588  -5.84504  0.69643  0     -0.658596  7.2082  -25.2662  30.4334  0
+WSETEffCorrPTEpertE_2_Lumi3:    0.361826  -21.8541  94.795  -117.47  0     0.278573  -4.54787  20.2094  -27.365  0
+WSETEffCorrPTEpertF_2_Lumi3:    0.0160241  3.222  -39.0418  97.7483  0     1.13307  -16.9039  68.332  -75.5602  0
+WSETEffCorrPTEpertG_2_Lumi3:    1.80856  -115.761  898.827  -1654.38  0     -5.15566  29.678  106.228  -568.832  0
+WSETEffCorrPTEpertH_2_Lumi3:    -7.54704  168.405  -814.138  0  0     -8.5859  147.075  -568.588  0  0
+WSETEffCorrPTEpertNorm_2_Lumi3: 0.684614 0.764513 0.722384 0.654154 0.737273 0.587622 0.758782 0.599787
+WSETEffCorrPTEpertBase_3_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3_Lumi3:    -1.66523  1.894  -0.789407  0  0     -0.0697307  0.183006  -0.361325  0  0
+WSETEffCorrPTEpertB_3_Lumi3:    -2.11007  3.75439  -2.45547  0  0     0.054237  -0.505674  0.628983  0  0
+WSETEffCorrPTEpertC_3_Lumi3:    -1.51907  4.0159  -4.68726  0  0     -0.163995  0.956226  -1.29577  0  0
+WSETEffCorrPTEpertD_3_Lumi3:    -1.68419  3.71688  0.185139  -5.81099  0     0.230543  -3.7993  14.2892  -13.537  0
+WSETEffCorrPTEpertE_3_Lumi3:    -1.46665  -0.803001  22.5302  -38.2476  0     1.18084  -17.864  78.8719  -109.406  0
+WSETEffCorrPTEpertF_3_Lumi3:    1.58528  -21.0425  68.781  -46.8244  0     -1.71657  15.7609  -36.0193  26.5181  0
+WSETEffCorrPTEpertG_3_Lumi3:    25.1189  -429.622  2256.66  -3922.84  0     12.2315  -255.025  1568.87  -3035.6  0
+WSETEffCorrPTEpertH_3_Lumi3:    3.09863  -69.9134  266.504  0  0     -8.87992  117.551  -332.861  0  0
+WSETEffCorrPTEpertNorm_3_Lumi3: 0.731194 0.764799 0.679371 0.695714 0.709583 0.502639 0.914081 0.888345
+WSETEffCorrPTEpertBase_4_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4_Lumi3:    -1.23352  0.724355  -0.367355  0  0     -0.00838788  -0.402801  1.1073  0  0
+WSETEffCorrPTEpertB_4_Lumi3:    -1.87373  2.89615  -2.46222  0  0     -0.1487  1.18412  -2.25822  0  0
+WSETEffCorrPTEpertC_4_Lumi3:    -1.72797  3.0953  -3.13481  0  0     0.0192967  -0.238278  0.146431  0  0
+WSETEffCorrPTEpertD_4_Lumi3:    -1.90024  3.0281  6.58756  -16.466  0     -0.0504599  -1.32393  10.0257  -14.578  0
+WSETEffCorrPTEpertE_4_Lumi3:    -0.904994  -6.48692  36.8666  -44.7728  0     -0.0929865  2.23506  -14.8256  24.0912  0
+WSETEffCorrPTEpertF_4_Lumi3:    2.3509  -25.7729  66.6505  -28.1327  0     -1.01059  12.5197  -59.8075  114.056  0
+WSETEffCorrPTEpertG_4_Lumi3:    2.97358  -68.9177  559.205  -1522.63  0     -4.6581  37.5988  158.341  -1128.68  0
+WSETEffCorrPTEpertH_4_Lumi3:    8.62721  -170.541  645.086  0  0     -4.01901  48.0788  -159.696  0  0
+WSETEffCorrPTEpertNorm_4_Lumi3: 0.668457 0.76774 0.722808 0.744019 0.686859 0.568636 0.673451 0.7735
+#
+WSETEffCorrPTEpertBase_0b_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_0b_Lumi3:    -1.65862  2.51268  -1.92343  0  0     -0.0140478  0.0175296  -0.0605574  0  0
+WSETEffCorrPTEpertB_0b_Lumi3:    -1.80622  3.99384  -3.59047  0  0     -0.177143  1.09234  -1.50835  0  0
+WSETEffCorrPTEpertC_0b_Lumi3:    -1.14758  2.90712  -3.48215  0  0     -0.240843  1.80525  -3.10534  0  0
+WSETEffCorrPTEpertD_0b_Lumi3:    -1.00584  -5.30026  33.1896  -38.7675  0     0.680118  -10.1067  38.6846  -41.266  0
+WSETEffCorrPTEpertE_0b_Lumi3:    -1.69471  15.6206  -65.9794  84.9408  0     -4.17497  55.6036  -228.393  290.704  0
+WSETEffCorrPTEpertF_0b_Lumi3:    -3.38569  64.1521  -367.809  606.599  0     -0.764747  15.6721  -133.73  320.654  0
+WSETEffCorrPTEpertG_0b_Lumi3:    -20.5137  443.066  -2858.55  5721.33  0     -3.60098  83.0914  -713.889  1813.12  0
+WSETEffCorrPTEpertH_0b_Lumi3:    -27.883  949.357  -9676.89  29778.1  0     -25.6208  755.909  -7296.37  21850.4  0
+WSETEffCorrPTEpertNorm_0b_Lumi3: 0.683222 0.673725 0.605503 0.657623 0.598899 0.552342 0.563661 0.481992
+WSETEffCorrPTEpertBase_1b_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_1b_Lumi3:    -1.07338  1.34115  -0.98606  0  0     -0.00741011  0.0881244  -0.261069  0  0
+WSETEffCorrPTEpertB_1b_Lumi3:    -1.77809  3.94621  -3.82169  0  0     -0.102455  0.663983  -1.14985  0  0
+WSETEffCorrPTEpertC_1b_Lumi3:    -1.86428  6.41345  -8.01618  0  0     -0.0786327  -0.00785661  0.971717  0  0
+WSETEffCorrPTEpertD_1b_Lumi3:    -0.600408  -9.41764  50.6744  -67.6309  0     0.257755  -3.77971  14.5852  -15.909  0
+WSETEffCorrPTEpertE_1b_Lumi3:    -0.693646  -8.43943  60.5016  -84.7912  0     0.973363  -19.9437  100.466  -139.663  0
+WSETEffCorrPTEpertF_1b_Lumi3:    -2.41253  10.3673  -50.058  121.705  0     -1.70586  2.26608  55.0161  -94.5642  0
+WSETEffCorrPTEpertG_1b_Lumi3:    73.3046  -1663.7  11561.4  -25304.7  0     57.018  -1281.98  8765.39  -18891  0
+WSETEffCorrPTEpertH_1b_Lumi3:    -34.6386  993.356  -8678.73  23520.5  0     5.72053  -193.247  1827.06  -4916.8  0
+WSETEffCorrPTEpertNorm_1b_Lumi3: 0.60044 0.666721 0.638846 0.667335 0.577802 0.764131 0.507936 0.513104
+WSETEffCorrPTEpertBase_2b_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_2b_Lumi3:    -2.19619  4.22539  -3.48686  0  0     -0.142711  0.794673  -1.03912  0  0
+WSETEffCorrPTEpertB_2b_Lumi3:    -2.90686  7.443  -7.02056  0  0     -0.0994504  0.566722  -0.90258  0  0
+WSETEffCorrPTEpertC_2b_Lumi3:    -2.24865  7.82346  -9.72403  0  0     -0.32687  2.57166  -4.52724  0  0
+WSETEffCorrPTEpertD_2b_Lumi3:    0.739879  -17.8809  66.5191  -63.9917  0     -0.264523  4.34806  -21.1079  30.1288  0
+WSETEffCorrPTEpertE_2b_Lumi3:    1.75962  -11.6893  -31.3509  158.381  0     -3.02654  42.4463  -192.86  269.001  0
+WSETEffCorrPTEpertF_2b_Lumi3:    1.10876  -13.3922  -42.4302  218.566  0     -0.892483  7.56845  -17.2792  4.35285  0
+WSETEffCorrPTEpertG_2b_Lumi3:    -25.909  564.98  -3575.42  6949.39  0     -7.7663  173.393  -1227.91  2704.08  0
+WSETEffCorrPTEpertH_2b_Lumi3:    -59.0538  1524.64  -11557.8  27072.3  0     -25.499  680.125  -5407.2  12939.9  0
+WSETEffCorrPTEpertNorm_2b_Lumi3: 0.734372 0.76858 0.66081 0.595543 0.570252 0.672312 0.601417 0.502757
+WSETEffCorrPTEpertBase_3b_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_3b_Lumi3:    -2.51472  5.91757  -5.43616  0  0     -0.0910316  0.239744  -0.0736452  0  0
+WSETEffCorrPTEpertB_3b_Lumi3:    -1.31909  2.1632  -2.03948  0  0     -0.0715017  0.18675  0.0467479  0  0
+WSETEffCorrPTEpertC_3b_Lumi3:    -1.8055  5.1885  -7.09337  0  0     -0.198104  1.759  -3.84452  0  0
+WSETEffCorrPTEpertD_3b_Lumi3:    0.295713  -21.5265  94.9388  -111.771  0     0.928501  -13.4366  54.4468  -64.1926  0
+WSETEffCorrPTEpertE_3b_Lumi3:    -0.39589  -14.8616  73.5765  -93.1086  0     0.0254145  -2.21864  7.94012  -6.04026  0
+WSETEffCorrPTEpertF_3b_Lumi3:    -4.66847  43.0392  -196.48  345.214  0     -2.07941  21.8534  -97.689  175.708  0
+WSETEffCorrPTEpertG_3b_Lumi3:    21.5924  -472.599  2848.9  -5006.41  0     7.05407  -146.412  801.468  -1144.47  0
+WSETEffCorrPTEpertH_3b_Lumi3:    18.4686  -406.934  2517.14  -4776.75  0     8.43836  -139.459  51.6845  3624.16  0
+WSETEffCorrPTEpertNorm_3b_Lumi3: 0.71429 0.640137 0.671647 0.662225 0.667691 0.843023 0.661828 0.644806
+WSETEffCorrPTEpertBase_4b_Lumi3: 0. 0. 0. 0. 0.
+WSETEffCorrPTEpertA_4b_Lumi3:    -1.49938  1.86548  -1.66122  0  0     -0.0347281  0.120562  -0.354408  0  0
+WSETEffCorrPTEpertB_4b_Lumi3:    -2.08934  4.30742  -4.20927  0  0     -0.0807545  0.575417  -1.0951  0  0
+WSETEffCorrPTEpertC_4b_Lumi3:    -1.88682  4.1244  -4.40651  0  0     -0.0422288  0.077486  -0.0296974  0  0
+WSETEffCorrPTEpertD_4b_Lumi3:    -0.126089  -14.7028  67.1567  -83.0203  0     0.0657014  -2.53862  13.1887  -16.4248  0
+WSETEffCorrPTEpertE_4b_Lumi3:    -0.0822808  -9.2954  48.1911  -70.948  0     -0.358589  9.74038  -67.2378  123.471  0
+WSETEffCorrPTEpertF_4b_Lumi3:    3.94039  -105.664  589.979  -959.524  0     4.86098  -90.3959  491.532  -843.324  0
+WSETEffCorrPTEpertG_4b_Lumi3:    12.2554  -323.923  2240.75  -4354.92  0     -1.79253  -20.3167  405.719  -1225.47  0
+WSETEffCorrPTEpertH_4b_Lumi3:    0.213861  -31.1942  -82.1111  1485.47  0     -0.123493  -66.4363  807.015  -2817.57  0
+WSETEffCorrPTEpertNorm_4b_Lumi3: 0.673135 0.723989 0.68848 0.673743 0.551944 0.74862 0.63484 0.861391
+WSETEffCorrPTEpertRelGlobNorm_Lumi3: 1.05042
+
+
+#Cut out tails of EtaImbalance Distribution
+
+etaImbalance_perbincuts: FALSE
+EtaImbalanceCutLow: -10. -10. -10. -10. -10. -10. -10. -8. -7. -6.
+EtaImbalanceCutHigh: 10. 12. 12. 12. 12. 12. 15. 15. 16. 21.  
+InvertetaImbalance_perbincuts: FALSE	
+
+##
+# Apply selection efficiencies
+# No trigger efficiency applied for GEANT MC
+#
+WtrigEffCorrection:     FALSE
+WpreselEffCorrection:   TRUE
+WIDEffCorrection:       TRUE
+WtrkEffCorrection:      TRUE
+WSETEffCorrection:      TRUE
+
+ZtrigEffCorrection:     FALSE
+ZpreselEffCorrection:   TRUE
+ZIDEffCorrection:       TRUE
+ZSETEffCorrection:      TRUE
+
+#next switch is used in EfficiencySmear::passesPreselEff()
+apply_presel_trk_match: TRUE
+#next switch is used to turn ON/OFF EfficiencySmear::passesLooseTrkEff
+ApplyLooseTrackMatchEfficiency: TRUE
+loose_trkeff_file:   ../geant_RunIIb/loosetrkEffVsEtaZvtx_36bin_noTrkPtCut_Geant_RunIIb.C
+loose_trkeff_file_EC:  ../geant_RunIIb/trkmatcheff_loose_CCEC.C
+loose_simulateTrkVtxDepEC: TRUE
+loose_trkeff_file_deteta: ../geant_RunIIb/loosetrkEffVsDetEta_Geant_RunIIb.C 
+  
+#Electron phi FullMC to pmcs ratio (to be applied as efficiency)
+ZElecPhiEffCorrection: TRUE
+WElecPhiEffCorrection: TRUE
+elecphieff_file:  ../geant_RunIIb/ElecPhiEff_FullMC_RunIIb.C
+
+#
+# track pT cut for the electron 
+# in data, we require a electron with spatial track match, the track must have pT>10 GeV
+# and at least one SMT hit
+# 
+trkpTCut:         10.
+
+# 0 = no requirement, no trk efficiency applied
+# 1=at least one, 2=at least two
+# requirement of electrons in Z events with a track match
+# If preselTrkMatch is 1, and ZTrkMatch is 1, we will ensure that the same electron passes both efficiencies.
+
+NZTrkMatch:     2         
+NZpreselTrkMatch:     2 
+
+#
+#  consistency checks: vary selection cuts such as low/high luminosity, low/high SET, etc to check W mass
+#  two main control parameters introduced:
+#         the code works only when myname.consistency_check is set to true
+#         will revert the cut when myname.invert_cuts=true
+#     If we have myname.invert_cuts: true and myname.ScalarEt_cut: 50., we want to look at events with ScalarEt>50 GeV
+#                                    false                                                             ScalarEt<50 GeV
+#
+consistency_check:   false
+cut_under_study:     runNo_cut
+invert_cut:          false
+runNo_cut:           242727
+InstLumi_lowcut:     2.85
+InstLumi_highcut:    999.
+ScalarEt_lowcut:     77.5
+ScalarEt_highcut:    9999.
+UPara_lowcut:        0
+UPara_highcut:       15.
+ElecEta_cut:         0.4   # means at least one electron have |Eta|<1.05
+ElecDetEta_cut:      0.4   # means at least one electron have |detEta|<0.8
+ElecPhiMod_cut:      0.4   # means at least one electron are within 80% of the phi module
+ElecPt_lowcut:       37.
+ElecPt_highcut:      9999.
+
+#
+# electron, missing Et cut
+#
+# For W Events:
+CutMET:    25.
+CutEPT:    25.
+# For Z Events (2 electrons)
+CutEPT1_HI:    1000.
+CutEPT2_HI:    1000.
+CutEPT1_LO:    25.
+CutEPT2_LO:    25.
+
+#
+# W/Z pT cuts
+#
+CutWUT:        30.   # W boson Ut upper cut
+CutWUT_lower:   0.   # W boson Ut lower cut
+CutZUT:        30.   # Z boson Ut upper cut
+CutZUT_lower:   0.   # Z boson Ut lower cut
+CutZPT:        10000.  # Z boson Pt upper cut
+CutZPT_lower:  0.      # Z boson Pt lower cut
+CutZScalarEt:  10000.     # scalarEt cut
+CutZScalarEt_lower:  0.   # scalarEt lower cut
+CutWScalarEt:  10000.     # scalarEt cut
+CutWScalarEt_lower:  0.   # scalarEt lower cut
+#
+# Z mass cut
+#
+ZMassCut1:   70.
+ZMassCut2:   110.
+
+#
+# W Mt cut
+#
+WMtCut1:    50.
+WMtCut2:    200.
+
+#
+# Cuts
+#
+CutEtaCC:     1.05
+CutEtaECLow:  1.50
+CutEtaECHigh: 2.30
+
+# use different random numbers for TBStudy / ResolutionStudyJan and regular PATHWAY in PassesRecoilCuts
+pedanticRandomRecoil: TRUE
+pedanticRandomEM: TRUE
+
+#
+# determine electron energy scale
+# expert task, please contact with J. Zhu for questions
+# StudyCCScale=TRUE for CC-CC events, StudyCCScale=FALSE for EC-EC events to study energy scale for two regions
+#
+# NOTE: currently create (Bins_ScaleStudy+1)*(Bins_ScaleStudy+1) histograms with 
+# energy scale from (scale_center-(Bins_ScaleStudy/2)*scale_step) to (scale_center+(Bins_ScaleStudy/2)*scale_step)
+# and energy offset from (offset_center-(Bins_ScaleStudy/2)*offset_step) to (offset_center+(Bins_ScaleStudy/2)*offset_step)
+# 
+#  Assume N = 4, then we will have (4+1)*(4+1) = 25 histograms with scale and offset values equal to:
+#      scale_center-2*scale_step,  scale_center-scale_step,  scale_center, scale_center+scale_step,  scale_center+2*scale_step
+#      offset_center-2*offset_step,offset_center-offset_step,offset_center,offset_center+offset_step,offset_center+2*offset_step
+#
+EnergyScaleStudy: FALSE
+EnergyScaleStudyJan:         TRUE
+EnergyScaleStudyJanPedantic: TRUE
+StudyCCScale:     TRUE
+scale_center:     1.0
+offset_center:    0.0
+scale_step:       0.002
+offset_step:      0.01
+Bins_ScaleStudy:  20    # better to be even number
+
+#
+# determine electron energy resolution (sampling and constant term)
+# StudyCCResolution=TRUE for CC-CC events, StudyCCResolution=FALSE for EC-EC events to study energy resolution for two regions
+#
+# NOTE: currently create (Bins_ResolutionStudy+1)*(Bins_ResolutionStudy+1) histograms with 
+# sampling term from (sampling_center-(Bins_ResolutionStudy/2)*sampling_step) to (sampling_center+(Bins_ResolutionStudy/2)*sampling_step)
+# and constant term from (constant_center-(Bins_ResolutionStudy/2)*constant_step) to (constant_center+(Bins_ResolutionStudy/2)*constant_step)
+# 
+#  Assume N = 4, then we will have (4+1)*(4+1) = 25 histograms with sampling and constant values equal to:
+#      sampling_center-2*sampling_step,sampling_center-sampling_step,sampling_center,sampling_center+sampling_step,sampling_center+2*sampling_step
+#      constant_center-2*constant_step,constant_center-constant_step,constant_center,constant_center+constant_step,constant_center+2*constant_step
+#
+EnergyResolutionStudy:            FALSE
+EnergyResolutionStudyJan:         TRUE
+EnergyResolutionStudyJanPedantic: TRUE
+StudyCCResolution:     TRUE
+SkipSampling:          TRUE
+SkipeNoise:            FALSE
+SkipConstant:          TRUE
+sampling_center:       0.15
+constant_center:       0.0010
+sampling_step:         0.0064
+constant_step:         0.0001
+enoise_center:         0.238
+enoise_step:           0.005
+Bins_ResolutionStudy:  20    # better to be even number
+
+# as of 121409 DO NOT NEED THIS PIECE FOR FULL MC (added to avoid a crash in pmcs when reading these parameters)
+#for determining Crystal Ball parameters for electron energy resolution near phi-cracks
+MakeCrackCBtemplates:	    FALSE
+CrackCB_alphaOffset_center:  1.9
+CrackCB_alphaSlope_center:   7.0
+CrackCB_alphaOffset_step:    0.05  # move by +-0.5 from the center
+CrackCB_alphaSlope_step:     0.2   # move by +-2.0 from the center
+Bins_MakeCrackCBtemplates:   20  # better to be even number
+
+
+
+#
+#  determine hadronic momentum scale
+#
+HadronicMomentumScaleStudy: FALSE
+scale_HAD_A_center:       0.455
+scale_HAD_B_center:       0.053
+scale_HAD_A_step:         0.01
+scale_HAD_B_step:         0.005
+Bins_HadronicScaleStudy:  10    # better to be even number
+
+#
+#  determine hadronic momentum sampling term and number of minbias to overlay
+#
+HadronicMomentumResolutionStudy: FALSE
+sampling_HAD_center:       0.736
+alpha_mb_center:           0.782
+sampling_HAD_step:         0.02
+alpha_mb_step:             0.015
+Bins_HadronicResolutionStudy:  10    # better to be even number
+
+#
+#  determine hadronic momentum scale for bifurcate method
+#
+HadronicMomentumScaleBifurcateStudy:       FALSE
+scale_HAD_bifurcate_A_center:              1.058
+scale_HAD_bifurcate_B_center:              0.338
+scale_HAD_bifurcate_A_step:                0.004
+scale_HAD_bifurcate_B_step:                0.001
+Bins_HadronicScaleBifurcateStudy:          10    # better to be even number
+
+#
+#  determine hadronic momentum scale for bifurcate method
+#
+HadronicMomentumScale2BifurcateStudy:       FALSE
+scale_HAD_bifurcate2_A_center:              1.058
+scale_HAD_bifurcate2_B_center:              0.338
+scale_HAD_bifurcate2_Tau_center:            7.484 
+scale_HAD_bifurcate2_A_step:                0.004
+scale_HAD_bifurcate2_B_step:                0.001
+scale_HAD_bifurcate2_Tau_step:              0.3
+Bins_HadronicScale2BifurcateStudy:          10    # better to be even number
+
+#
+#  determine hadronic momentum resolution for bifurcate method (for hard component)
+#
+HadronicMomentumResolutionBifurcateStudy:  FALSE
+Relsampling_HAD_bifurcate_A_center:        0.850
+Relsampling_HAD_bifurcate_B_center:        0.72
+Relsampling_HAD_bifurcate_A_step:          0.04
+Relsampling_HAD_bifurcate_B_step:          0.01
+Bins_HadronicResolutionBifurcateStudy:     10    # better to be even number
+
+#
+#  determine hadronic momentum resolution for bifurcate method (for hard and soft components)
+#
+HadronicMomentumResolution2BifurcateStudy: FALSE
+Relsampling_HAD_bifurcate2_A_center:       0.850
+alpha_mb2_center:                          0.782
+Relsampling_HAD_bifurcate2_A_step:         0.04
+alpha_mb2_step:                            0.05
+Bins_HadronicResolution2BifurcateStudy:    10    # better to be even number
+
+#
+#  determine hadronic momentum resolution for bifurcate method (for hard and soft components)
+#
+HadronicMomentumResolution3BifurcateStudy: FALSE
+Relsampling_HAD_bifurcate3_A_center:       0.850
+Relsampling_HAD_bifurcate3_B_center:       0.72
+alpha_mb3_center:                          0.782
+Relsampling_HAD_bifurcate3_A_step:         0.02
+Relsampling_HAD_bifurcate3_B_step:         0.01
+alpha_mb3_step:                            0.02
+Bins_HadronicResolution3BifurcateStudy:    10    # better to be even number
+
+#
+#  determine hadronic phi smearing for bifurcate method
+#
+HadronicPhiSmearingBifurcateStudy:         FALSE
+Relphi_HAD_bifurcate_A_center:       0.97195 
+Relphi_HAD_bifurcate_B_center:       0.517014 
+Relphi_HAD_bifurcate_A_step:               0.01
+Relphi_HAD_bifurcate_B_step:               0.01
+Bins_HadronicPhiSmearingBifurcateStudy:    10    # better to be even number
+
+##################################################################
+#
+# determine all recoil parameters at once for bifurcate method
+#
+# Pre-selected events fot MINUIT fit are stored in the output file
+# for later re-processing. During re-processing current Eta Imbalance and Phi Resolution histograms 
+# are compared to the user-supplied reference histograms and the total Chi**2 is calculated for MINUIT.
+# I. There are 10 methods of computing total Chi**2:
+# method #0 :  calculate CHI2 as a sum of 3 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+#              * chi2 for standard deviations from the expected open angle
+#                between true Z and the recoil (Pi)
+#              from 10 phi resolution histograms.
+# method #1 :  calculate CHI2 bin-by-bin for all 20 histograms
+#              (each histogram = 1 degree of freedom, add up CHI**2/NBINS from 20 histograms)
+#              * 10 histograms of eta imbalances,
+#              * 10 histograms of phi resolutions.
+# method #2 :  calculate CHI2 bin-by-bin for all 20 histograms
+#              (each bin = 1 degree of freedom, add up CHI**2 from all bins of all 20 histograms)
+#              * 10 histograms of eta imbalances,
+#              * 10 histograms of phi resolutions.
+# method #3 :  calculate CHI2 as a sum of 5 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+#              * chi2 for MEAN values from 10 xi imbalance histograms,
+#              * chi2 for RMS values from 10 xi imbalance histograms,
+#              * chi2 for standard deviations from the expected open angle
+#                between true Z and the recoil (Pi) from 10 phi resolution histograms.
+# method #4 :  calculate CHI2 from:
+#              * chi2 for MEAN values from 10 eta imbalance histograms.
+# method #5 :  calculate CHI2 as a sum of 2 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for MEAN values from 10 xi imbalance histograms.
+# method #6 :  calculate CHI2 from:
+#              * chi2 for RMS values from 10 eta imbalance histograms.
+# method #7 :  calculate CHI2 as a sum of 2 components:
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 xi imbalance histograms.
+# method #8 :  calculate CHI2 from:
+#              * chi2 for standard deviations from the expected open angle
+#                between true Z and the recoil (Pi) from 10 phi resolution histograms.
+# method #9 :  calculate CHI2 from a sum of 2 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+# method #10:  calculate CHI2 from a sum of 4 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for MEAN values from 10 xi imbalance histograms,
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 xi imbalance histograms.
+# II. If Zminuit_UseMasterSlaveMode=TRUE then job no.1 acts as a master
+# and jobs 2...N as slaves. Slave jobs process their respective
+# event buffer files, fill the relevant histograms and write them
+# to designated temporary rootuples. Master job reads partial
+# results at each iteration. Only master job actually caclulates
+# the total CHI2 beeing minimized and produces fit results.
+# Files specified by parameters: 'Zminuit_MasterSlave_REQ', 
+# 'Zminuit_MasterSlave_ACK_i', 'Zminuit_MasterSlave_DONE_i' and
+# 'Zminuit_MasterSlave_RESULT_i' have to be seen by all jobs.
+# Sequence of events at each iteration:
+# 1. Master job broadcasts list of parameters for which CHI2 has to
+#    be calculated by writing them to 'Zminuit_MasterSlave_REQ' file.
+# 2. As soon as 'Zminuit_MasterSlave_REQ' file shows up, all the
+#    jobs read its content, delete previous results stored in 
+#    'Zminuit_MasterSlave_RESULT_i' files, delete 
+#    'Zminuit_MasterSlave_DONE_i' files and create empty 
+#    'Zminuit_MasterSlave_ACK_i' files.
+# 3. Upon checking that all 'Zminuit_MasterSlave_ACK_i' exist, 
+#    the master job deletes 'Zminuit_MasterSlave_REQ' file and 
+#    creates empty 'Zminuit_MasterSlave_START' file.
+# 4. As soon as 'Zminuit_MasterSlave_START' file shows up all the
+#    jobs delete 'Zminuit_MasterSlave_ACK_i' files and then begin 
+#    processing a new request. Upon completion they write histograms
+#    to 'Zminuit_MasterSlave_RESULT_i' rootuple and create an empty
+#    file 'Zminuit_MasterSlave_DONE_i'.
+# 5. Master jobs checks if all 'Zminuit_MasterSlave_DONE_i' do exist
+#    and removes 'Zminuit_MasterSlave_START' file, adds 
+#    corresponding histograms from 'Zminuit_MasterSlave_RESULT_i'
+#    rootuples and computes CHI2 as usual. Now it's ready
+#    for the next iteration.
+#
+HadronicMomentum_AllAtOnce_BifurcateStudy: FALSE
+Zminuit_Reference_FileName: /rooms/wmass/petroff/RunIIb/MINUIT/pmcs_fit/wz_epmcs/src/result.root
+Zminuit_Reference_Dir:                  ZCand_Hist
+Zminuit_Reference_Prefix_Phi:           ZCandDeltaPhi_Z_Recoil_bin_
+Zminuit_Reference_Prefix_EtaImbalance:  ZCandEtaImBalance_bin_
+Zminuit_Reference_Prefix_XiImbalance:   ZCandXiImBalance_bin_
+Zminuit_ChiSquare_Method:               9
+Zminuit_Skip_Znunu_Randomization: TRUE  # If TRUE then will use a randomized hard recoil component from
+                                        # pure Z->nu+nu model (without improved paramterization) stored in the event buffer file.
+                                        # During re-reprocessing such a vector will be modified according to the current improved
+                                        # parameterization paramters. This option allows one to save time and avoid unnecessary
+                                        # statistical fluctuations between subsequent MINUIT steps.
+Zminuit_Skip_Event_Reprocessing: FALSE   # If TRUE then the code will stop after event preselection and skip MINUIT part
+Zminuit_Skip_Event_Preselection: TRUE   # If TRUE then the code will skip reading input PYTHIA files and proceed directly
+                                        # to MINUIT by re-using an existing event buffer file
+Zminuit_Skip_UParaEfficiency: FALSE     # skip passesUParaEff() check during MINUIT reporcessing part?
+Zminuit_Skip_UParaEfficiency_Randomization: TRUE  # If FALSE then will randomize U_parallel corr. eff. while
+                                                  # calling passesUParaEff() check during MINUIT reporcessing part.
+                                                  # If TRUE then will use 2 random numbers stored during event
+                                                  # preselection in the event buffer file.
+Zminuit_UseGradient: FALSE              # also calculate derivatives at each MINUIT step?
+Zminuit_UseRAM: TRUE                    # store all pre-selected events in RAM memory?
+Zminuit_UseFittedMeanWidth: FALSE       # use fitted mean and width of imbalance distributions?
+Zminuit_UseAbsDeltaPhiImbal: TRUE       # use |Phi(Recoil)-Phi(Z)| or Phi(Recoil)-Phi(Z) for phi imbalance?
+Zminuit_ProgressReport_FileName:        Zminuit_results.dat
+Zminuit_EventBuffer_FileName:           /rooms/wmass/petroff/RunIIb/MINUIT/pmcs_fit/wz_epmcs/src/Zminuit_events.bin
+Zminuit_UseMasterSlaveMode:             FALSE
+Zminuit_MasterSlave_Njobs:              1
+Zminuit_MasterSlave_Job:                1 # 1=master, 2...N=slaves
+Zminuit_MasterSlave_REQ:                Zminuit_MasterSlave_REQ
+Zminuit_MasterSlave_START:              Zminuit_MasterSlave_START
+Zminuit_MasterSlave_QUIT:               Zminuit_MasterSlave_QUIT
+Zminuit_MasterSlave_ACK_prefix:         Zminuit_MasterSlave_ACK
+Zminuit_MasterSlave_DONE_prefix:        Zminuit_MasterSlave_DONE
+Zminuit_MasterSlave_RESULT_prefix:      Zminuit_MasterSlave_RESULT
+Zminuit_START_Relscale_A:    1.0 # RelScale_A=1.0435 +- 0.0065 --> Jun's talk 04/04/2008
+Zminuit_START_Relscale_B:    0.3 # RelScale_B=0.2753 +- 0.0341 --> Jun's talk 04/04/2008
+Zminuit_START_Relsampling_A: 1.0 # RelSampl_A=0.7987 +- 0.0290 --> Jun's talk 04/04/2008
+Zminuit_START_Relsampling_B: 0.0 # RelSampl_B=1.2026 +- 0.2271 --> Jun's talk 04/04/2008
+Zminuit_START_Relphi_A:      1.0 # fixed
+Zminuit_START_Relphi_B:      0.0 # fixed
+Zminuit_START_Alpha_MB:      1.0 # Alpha_MB=0.8154 +- 0.0245 --> Jun's talk 04/04/2008
+Zminuit_RANGE_Unlimited:     FALSE
+Zminuit_RANGE_Relscale_A:    0.0 10.0
+Zminuit_RANGE_Relscale_B:    -10.0 10.0
+Zminuit_RANGE_Relsampling_A: 0.0 10.0
+Zminuit_RANGE_Relsampling_B: -10.0 10.0
+Zminuit_RANGE_Relphi_A:      1.0  1.0 # fixed
+Zminuit_RANGE_Relphi_B:      0.0  0.0 # fixed
+Zminuit_RANGE_Alpha_MB:      0.0 10.0
+Zminuit_STEP_Relscale_A:     0.00065  # 0.1*sigma from Jun's fit
+Zminuit_STEP_Relscale_B:     0.0034   # 0.1*sigma from Jun's fit
+Zminuit_STEP_Relsampling_A:  0.0029   # 0.1*sigma from Jun's fit
+Zminuit_STEP_Relsampling_B:  0.023    # 0.1*sigma from Jun's fit
+Zminuit_STEP_Relphi_A:       0.0      # fixed
+Zminuit_STEP_Relphi_B:       0.0      # fixed
+Zminuit_STEP_Alpha_MB:       0.0025   # 0.1*sigma from Jun's fit
+Zminuit_do_SCAN:             FALSE    # perform scan of a single parameter ?
+Zminuit_do_SCAN_IPAR:        0        # parameter to be scanned: 0=RelScaleA, 1=RelScaleB, ...
+Zminuit_do_SCAN_NSTEPS:      3        # number of steps for the scan (>=2)
+Zminuit_do_SEEK:             FALSE    # perform random seek inside the hypercube?
+Zminuit_do_SEEK_RndStart:    FALSE    # use a random starting point rather than START value?
+Zminuit_do_SEEK_NITER:       50000    # approximate number of steps for this random seek
+Zminuit_do_SEEK_NEVENTS:     250000   # max. number of events to be used during this random seek
+Zminuit_do_SIMPLEX:          FALSE    # use SIMPLEX method? 
+Zminuit_do_SIMPLEX_NITER:    5000     # approximate number of steps for the SIMPLEX method
+Zminuit_do_SIMPLEX_TOLER:    0.01     # tolerance parameter of the SIMPLEX method
+Zminuit_do_MINIMIZE:         FALSE    # use MINIMIZE (MIGRAD+SIMPLEX) method?
+Zminuit_do_MINIMIZE_NITER:   1000     # approximate number of steps for the MINIMIZE method
+Zminuit_do_MINIMIZE_TOLER:   0.1      # tolerance parameter of the MINIMIZE method
+Zminuit_do_MINIMIZE_EPS:     1e-6     # FCN machine precision parameter of the MINIMIZE method
+Zminuit_do_MINOS:            FALSE    # call MINOS after MIGRAD?
+Zminuit_do_MINOS_NITER:      1000     # approximate number of steps for MINOS
+
+##################################################################
+# momentum scale study (determine A, B and C)
+momentumScaleStudy:    FALSE
+
+# smear track pT
+SmearTrkpT:  TRUE
+
+# parameters used for smearing tracks either for electrons or muons
+# no energy loss simulation yet (effect should be very small)
+TrackRadLength_CC: 0.0114
+TrackRadLength_EC: 0.0387
+A_CC:        1.490 
+B_CC:        0.0248
+C_CC:        0.980
+
+A_EC:        1.8
+B_EC:        0.135
+C_EC:        0.964
+
+# whether we want to add bremsstrahlung simulation for electron pT
+# for muon, we did not simulate this because the brem effect is tiny
+bremSim:    TRUE
+
+trkmomStudy: false
+StudyAB: false
+radLengthStudy: false
+Bins_CCMSStudy: 20
+CCMScenterA: 1.60
+CCMScenterB: 0.031
+CCMScenterC: 0.9725
+CCMSstepA: 0.02
+CCMSstepB: 0.001
+CCMSstepC: 0.001
+
+Bins_ECMSStudy: 4
+ECMScenterA: 0.0017
+ECMScenterB: 0.0215
+ECMScenterC: 0.0215
+ECMSstepA: 0.0001
+ECMSstepB: 0.001
+ECMSstepC: 0.001
+Bins_radLengthStudy_CC: 10
+radLengthcenter_CC: 0.0137
+radLengthstep_CC: 0.0003
+
+radLengthStudy_EC: false
+Bins_radLengthStudy_EC: 1
+radLengthcenter_EC: 1
+radLengthstep_EC: 1
+
+
+
+#
+# step sizes for A, B and C
+#
+A_step:   0.0001
+B_step:   0.001
+C_step:   0.0005
+
+# parameters used for J/Psi->mumu analysis
+CutJPsiMuPT:           2.5
+
+# parameters used for Z->mumu analysis
+CutZMuPT:              20.
+
+#
+# output file
+#
+output_file_jpsimumu: result_jpsimumu.root
+output_file_zmumu: result_zmumu.root
+output_file_znunu: result_znunu.root
+
+#
+# ZNuNuAnalysis
+#
+ZNuNu_NuLoose_nMin:   0
+ZNuNu_NuLoose_EtaMax: 2.5
+ZNuNu_NuLoose_PtMin:  0.0
+ZNuNu_NuTight_nMin:   2
+ZNuNu_NuTight_EtaMax: 1.3
+ZNuNu_NuTight_PtMin:  0.0
+ZNuNu_UtCutMin:       0.0
+ZNuNu_UtCutMax:       1000.0
+ZNuNu_SETCutMin:      0.0
+ZNuNu_SETCutMax:      10000.0
+ZNuNu_dumpRecoilInfo: false
+ZNuNu_dumpRecoilFile: znunu_recoil_dump.txt
+
+# Parameters for TB Asym Correction
+TBCorrection: true
+TBCorrection_Option: 2
+
+# only for TBCorrection_Option: 1
+TBApplyLast: false
+TBPhi_response_Hard_Only: false
+TBPhi_response_Soft_Only: true
+TBalpha: 0.222
+TBbeta: -0.509
+TBStudy: false
+TBmodel_patrice: false
+tb_alpha_center: 0.222
+tb_beta_center: -0.509
+tbalpha_step: 0.001
+tbbeta_step: 0.002
+Bins_TBStudy: 0
+
+# only for TBCorrection_Option: 2
+TBLibrary_file: tblib_fix3_3d.root  
+               # Don't forget to setenv/export $TBLibraryRootPath,
+               # Otherwise it will choose the runtime directory.
+
+# Configuration parameters for Hadronic Recoil Study
+# ZHadronicBifurcateStudy: Turns on and off the study mode. (default = FALSE)
+ZHadronicRecoilBifurcateStudy: FALSE
+# Number of bins in the template, the order is:
+#     RelScaleA
+#     RelScaleB
+#     tau_HAD
+#     RelSampA
+#     RelSampB
+#     alpha_MB
+#     RelPhiA
+#     RelPhiB
+ZRecoilBifurcateBins:          0 0 0 0 0 0 0 0
+# Step for each of the variables above 
+ZRecoilBifurcateStep:          0.001 0.005 0.05 0.003 0.0025 0.003 0.001 0.01
+# Name of the output file - it does not write in result_zee.root!
+ZRecoilBifurcateFile:          recoil_tree.root
+ZRecoilDebugLevel:             0
+
+TransZHadronicRecoilBifurcateStudy: FALSE
+# Number of bins in the template, the order is:
+#     RespTrans
+#     ResnTrans
+#     TauTrans
+#     alpha_mb_trans
+TransZRecoilBifurcateBins:          0 0 0 0
+# Step for each of the variables above 
+TransZRecoilBifurcateStep:          0.001 0.01 0.01 0.01
+
+
+# Apply Z pT x dPhi reweight to fit the recoil
+applyDPhiReweight: false
+DPhiReweightFile: ../geant_RunIIb/dphi_reweight.C
+applyDPhiZPtReweight: false
+DPhiZPtReweightFile: ../geant_RunIIb/dphi_vs_zpt_reweight.C
+applyReweightPerLumi: false
+DPhiZPtReweightFile0: ../geant_RunIIb/dphi_vs_zpt_reweight_0.C
+DPhiZPtReweightFile2: ../geant_RunIIb/dphi_vs_zpt_reweight_2.C
+DPhiZPtReweightFile4: ../geant_RunIIb/dphi_vs_zpt_reweight_4.C
+DPhiZPtReweightFile6: ../geant_RunIIb/dphi_vs_zpt_reweight_6.C
+
+
+# fill ZBNum Tree
+FillZBRunNumTree: false
+
+#Keep a final comment to avoid last-line-carraige-return issues
+
+

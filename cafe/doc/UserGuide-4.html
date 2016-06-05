@@ -1,0 +1,311 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.20">
+ <TITLE>User Guide to Common Analysis Format: The CAF Environment Framework</TITLE>
+ <LINK HREF="UserGuide-5.html" REL=next>
+ <LINK HREF="UserGuide-3.html" REL=previous>
+ <LINK HREF="UserGuide.html#toc4" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="UserGuide-5.html">Next</A>
+<A HREF="UserGuide-3.html">Previous</A>
+<A HREF="UserGuide.html#toc4">Contents</A>
+<HR>
+<H2><A NAME="s4">4.</A> <A HREF="UserGuide.html#toc4">The CAF Environment Framework</A></H2>
+
+
+<P>Putting all your analysis code into a single function or even a
+<CODE>TSelector</CODE> method is not very scalable. Usually you have lots
+of tasks which you want to run either separately or together,
+maybe even in a different order.</P>
+<P>Sharing and reusing code is very difficult in this way, since all you can do is
+copy and paste other people's code and modify it to make it work in
+your environment. </P>
+<P>The CAF Environment framework provides the common functionality needed
+to implement most of the above things in a consistent way. By following
+a few simple rules, you can extend the framework in a well-defined
+way and mix and match your code with code that other people have written.</P>
+<P>The framework also provides services for configuration and transparent
+access to files via SAM.</P>
+
+<H2><A NAME="ss4.1">4.1</A> <A HREF="UserGuide.html#toc4.1">Concepts <B>[BEGINNER]</B> </A>
+</H2>
+
+<P>The basic unit in the framework is a so-called <CODE>Processor</CODE>. In
+its most simple form it has a method that takes a 
+<CODE>cafe::Event</CODE> object and returns a <CODE>bool</CODE>.</P>
+<P>The user can specify a series of <CODE>Processor</CODE>s that will be
+executed for each event. If any of them returns <CODE>false</CODE>,
+the processing of the event stops at this point.</P>
+<P>The <CODE>Processor</CODE> objects are orchestrated by another
+entity called a <CODE>Controller</CODE>. <CODE>Controller</CODE>s are
+themselves a <CODE>Processor</CODE> and they can be
+nested, i.e. a <CODE>Controller</CODE> can contain other <CODE>Controller</CODE>s.</P>
+<P>The most common <CODE>Controller</CODE> is the <CODE>Group</CODE>. All it does
+is execute its children in order. </P>
+
+<H2><A NAME="ss4.2">4.2</A> <A HREF="UserGuide.html#toc4.2">Writing your own Processors <B>[BEGINNER]</B> </A>
+</H2>
+
+<P>Most of these concepts will become clearer in the following
+examples. From now on we assume that you are working
+in a compiled environment rather than the root interpreter.</P>
+<P>You should start by creating a new package for these exercises:</P>
+<P>
+<PRE>
+   % cd work
+   % ctnewpkg -l my_examples
+   % ( cd include; ln -s ../my_examples/my_examples )
+</PRE>
+</P>
+<P>Then, as usual, put your header files into the <CODE>my_examples/my_examples</CODE>
+subdirectory and the source files into <CODE>my_examples/src</CODE>. All your
+source files should be named in the <CODE>COMPONENTS</CODE> file. In addition
+you should add <CODE>root</CODE> to the LIBDEPS file.</P>
+<P>Note that we don't have any <CODE>bin</CODE> directory. As you will see
+we won't need it.</P>
+
+<H3>Simple Functions</H3>
+
+
+<P>Let's start with a very simple example: we want to print out the
+event number for each event in a file. This should not be a 
+big programming task. Write a file <CODE>src/PrintEventNo.cpp</CODE>
+like this:</P>
+<P>
+<PRE>
+
+#include &lt;iostream>
+#include "cafe/Event.hpp"
+#include "cafe/Function.hpp"
+
+bool PrintEventNo(cafe::Event&amp; event) 
+{
+    const TMBGlobal *global = event.getGlobal();
+    std::cout &lt;&lt; "Event no: " &lt;&lt; global->evtno() &lt;&lt; std::endl;    
+    return true;
+}
+
+CAFE_FUNCTION(PrintEventNo)
+</PRE>
+</P>
+<P>That's it. Notice the <CODE>CAFE_FUNCTION</CODE> macro at the end. You'll need this to register
+your function with the cafe environment.</P>
+<P>Now type <CODE>make</CODE> and check that the build system
+created the <CODE>shlib/$SRT_SUBDIR/libmy_example.so</CODE> library.</P>
+<P>You can now execute this function in the framework by running
+the following command:</P>
+<P>
+<PRE>
+   % cafe Input: input.root Run: PrintEventNo Packages: my_example
+</PRE>
+</P>
+<P>Note that there is no need for linking. In fact, we are going
+to use the same executable <CODE>cafe</CODE> for all our
+programs from now on ! It will load our newly compiled shared
+library at run-time and execute the function we have specified
+on the command line.</P>
+<P>The return value of the function is false if the framework should
+stop the processing of the event at this point, true otherwise.</P>
+<P>The funny arguments are explained later in the section about the
+configuration file syntax. Basically, the command line consists of a
+list of (<CODE>name</CODE>, <CODE>value</CODE>) pairs. The above says: </P>
+<P>
+<UL>
+<LI>Use <CODE>input.root</CODE> as the input file.</LI>
+<LI>Run the <CODE>PrintEventNo</CODE> function on each event.</LI>
+<LI>Load the package <CODE>my_example</CODE> before execution.</LI>
+</UL>
+</P>
+
+<H3>Subclasses of <CODE>Processor</CODE></H3>
+
+
+<P>The method above is only good enough for very simple tasks. Usually
+the user needs to have more information about the actual processing, e.g.
+when new files are opened and closed, etc. In this case, she can
+inherit directly from the <CODE>cafe::Processor</CODE> base class and implement
+any of the virtual methods provided there. One of them is the <CODE>processEvent(cafe::Event&amp; event)</CODE>
+method which is called for every event. There are, however, a few more available:</P>
+<P>
+<PRE>
+  
+ class Processor {
+    virtual void begin();
+    virtual void finish();
+    virtual void inputFileOpened(TFile *file);
+    virtual void inputFileClosing(TFile *file);
+    virtual bool processEvent(cafe::Event&amp; event);
+    int  eventCount() const;
+};
+</PRE>
+</P>
+<P>The <CODE>begin()</CODE> and <CODE>finish()</CODE> methods are called at the beginning
+and end of the processing. They can be used to create objects like histograms and
+save them at the end. The
+<CODE>inputFileOpened()</CODE> and <CODE>inputFileClosed()</CODE> methods inform
+about the opening and closing of input files. </P>
+<P>Finally, the <CODE>eventCount</CODE> method returns the number of events that
+this object has processed. This is such a common task, that the framework
+keeps track of it and uses it at the end to print out the event counts
+of the various steps. If a <CODE>Processor</CODE> implements a filter with
+an analysis cut, this is a quick way to look at the result.</P>
+
+<H2><A NAME="ss4.3">4.3</A> <A HREF="UserGuide.html#toc4.3">Input Specifications <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>The <CODE>Input:</CODE> argument to <CODE>cafe</CODE> can be any of the following:</P>
+<P>
+<UL>
+<LI>a single filename (optionally prefixed with <CODE>file:</CODE>), example: <CODE>file:data.root</CODE> or just <CODE>data.root</CODE></LI>
+<LI>a file with a list of filenames, example: <CODE>listfile:mydata.lst</CODE></LI>
+<LI>a SAM dataset definition, example <CODE>sam:My2MUSkim</CODE></LI>
+<LI>any other prefix known to ROOT, e.g. <CODE>http:</CODE>, <CODE>rootk:</CODE> etc.</LI>
+</UL>
+</P>
+<P>Note: the files in a file list can in turn have any known ROOT file prefix, but not another file list or 
+a SAM definition.</P>
+<P>Some examples:</P>
+<P>
+<PRE>
+   % cafe Input: file:test.root
+   % cafe Input: sam:MyDataSet
+   % cafe Input: listfile:myfiles.lst
+   % cafe Input: rootk://wensley-clued0.fnal.gov/work/wensley-clued0/data.root
+</PRE>
+</P>
+
+<H2><A NAME="ss4.4">4.4</A> <A HREF="UserGuide.html#toc4.4">Run Specifications <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>The <CODE>Run:</CODE> argument takes a list of <CODE>Processor</CODE>s like this:</P>
+<P>
+<PRE>
+   % cafe Input: data.root Run: PrintEventNo,MyFilter,Muon_PT_Histo
+</PRE>
+</P>
+<P>In the simplest case, the names you specify on the command line are just the names
+of the functions and classes you wrote for your analysis. In this case it is also the value
+of the string parameter given to your class in the constructor. </P>
+<P>Sometimes, however, it is useful to have more than one instance of the same class run. 
+As long as the classes don't need to be distinguished (e.g for the names of the histograms
+they write out), you don't care. Otherwise, you need a way to give each a unique name.
+You do this with the following syntax:</P>
+<P>
+<PRE>
+  % cafe Input: data.root Run: 'Muon_PT_Histo(first),Muon_PT_Histo(second)'
+</PRE>
+</P>
+<P>This syntax is supposed to mimic calling the constructor of <CODE>Muon_PT_Hist</CODE> with
+the string <CODE>first</CODE> as name. In a C++ program you would say something like:</P>
+<P>
+<PRE>
+    Processor *p = new Muon_PT_Histo("first");
+</PRE>
+</P>
+<P>If the <CODE>Muon_PT_Hist</CODE> class uses the string passed to its constructor in naming
+the histograms, you can distinguish their output, one of them using "first_" as prefix,
+the other "second_":</P>
+<P>
+<PRE>
+   Muon_PT_Hist::Muon_PT_Hist(const char * name) 
+   {
+      string histoName = string(name) + "_muon_pt";
+      hist = new TH1F(histName.c_str(), "Muon pT", 0.0, 100.0, 100);
+      // ...
+   }
+</PRE>
+</P>
+<P>Note that you have to enclose the argument in quotes. This is because the '(' has 
+a special meaning for the shell. If you quote the parameter, you can use either space or comma 
+to separate the <CODE>Processor</CODE>s. </P>
+
+<H2><A NAME="ss4.5">4.5</A> <A HREF="UserGuide.html#toc4.5">Non-Persistent Data in <CODE>cafe:Event</CODE>  <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>A quite common need is the ability to share information between different
+<CODE>Processor</CODE>s. Instead of using global variables, the <CODE>cafe::Event</CODE> class
+provides a light weight way of passing information from one step to
+another.</P>
+<P>You can store any object (or simple type) in <CODE>cafe::Event</CODE>, provided
+that the object has a copy constructor and assignment defined. Each object is 
+stored together with a <EM>key</EM> consisting of a string.</P>
+<P>Here is how you store a simple integer number:</P>
+<P>
+<PRE>
+    event.put("myNumber", 5);
+</PRE>
+</P>
+<P>Any other <CODE>Processor</CODE> later in the chain can access this value like this:</P>
+<P>
+<PRE>
+    int value;
+    if(event.get("myNumber", value)) { 
+      // use 'value'
+    } else {
+      err() &lt;&lt; "myNumber not found in Event" &lt;&lt; std::endl;
+    }
+</PRE>
+</P>
+<P>There is always a copy operation involved in both storing and retrieving the value,
+so the operation is quite general, but potentially expensive. You might try to
+circumvent this problem by storing only a pointer in the event. In this case the question
+of ownership arises. The default behaviour for the <CODE>cafe::Event</CODE> class is to
+take ownership of any pointer you pass it. When all <CODE>Processor</CODE>s have been called
+for the current event, the <CODE>Event::clear()</CODE> method is called, which deletes
+any user pointer stored in the event.</P>
+<P>So the following is quite safe as far as memory leaks are concerned:</P>
+<P>
+<PRE>
+    MyObject *obj = new MyObject(...);
+    event.put("myobject", obj);
+</PRE>
+</P>
+
+
+<H2><A NAME="ss4.6">4.6</A> <A HREF="UserGuide.html#toc4.6">Tagging Events <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>A very common piece of information which is passed around between <CODE>Processors</CODE>s is
+a <EM>Tag</EM>. This is just a string that marks a specific event. There are default
+methods to tag an event and check for the existence of tags. </P>
+<P>Here is how you tag an event:</P>
+<P>
+<PRE>
+   event.tag("2MU");
+</PRE>
+</P>
+<P>A tag is just a string which you can attach to an event. You can tag an event
+with as many tags as you like.</P>
+<P>Here is how you check for the existences of a tag:</P>
+<P>
+<PRE>
+   if(event.hasTag("2MU")) {
+       // do something with event
+   }
+</PRE>
+</P>
+<P>You can also check for the existence of any of a list of tags:</P>
+<P>
+<PRE>
+   std::list&lt;std::string> tags;
+   // fill tags
+   if(event.hasTag(tags)) {
+      // do something with event
+   }
+</PRE>
+</P>
+<P>The latter method works with any STL container. I.e. you can store the tag list in
+a <CODE>list</CODE>, a <CODE>vector</CODE> or a  <CODE>deque</CODE>, the implementation doesn't care.</P>
+
+<HR>
+<A HREF="UserGuide-5.html">Next</A>
+<A HREF="UserGuide-3.html">Previous</A>
+<A HREF="UserGuide.html#toc4">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,1395 @@
+
+<!doctype linuxdoc system>
+
+<article>
+
+<title>User Guide to Common Analysis Format
+<author>Reiner Hauser, <tt/rhauser@fnal.gov/
+<date>v0.2, 2 February 2005
+<abstract>
+This document describes how to use the D0 Common Analysis Format (CAF).
+</abstract>
+
+<toc>
+
+<sect>Introduction
+<p>
+
+This document is a tutorial for the Common Analysis Format (CAF).
+
+This ROOT based format consists of several D0 packages, <tt/kinem_util/, 
+<tt/met_util/ and <tt/tmb_tree/. For historical reasons most classes
+live in the <tt/tmb_tree/ package and have a <tt/TMB/ prefix before
+the name, e.g. <tt/TMBJet/.
+
+<sect>Getting Started
+<p>
+
+In the following we assume that all examples are executed in 
+a normal D0 work environment. However, except for SAM related things,
+everything should also work in a stand-alone environment as long
+as a ROOT installation is available. See the appendix for how to
+set up the software on a non-D0 system.
+
+<sect1>Setting up the Release <bf/&lsqb;BEGINNER&rsqb;/
+<p>
+
+<verb>
+% setup D0RunII t05.02.00                  [1]
+% newrel -t t05.02.00 work                 [2]
+% cd work                                  [3]
+% setenv LINK_SHARED yes                   [4]
+% d0setwa                                  [5]
+% set path = ( `pwd`/shbin/${SRT_SUBDIR} $path ) [6]
+</verb>
+
+or, if you are using <tt/bash/ instead of <tt/tcsh/:
+
+<verb>
+% export LINK_SHARED=yes                    [4]
+% export PATH=`pwd`/shbin/${SRT_SUBDIR}:${PATH} [6]
+</verb>
+
+The steps should be familiar if you are used to the D0 software environment.
+
+<enum>
+  <item>Set up the correct release version.
+  <item>Create a new work area.
+  <item>Enter the work area.
+  <item>Enable shared libraries and binaries.
+  <item>Set the current working area.
+  <item>Add the shared binaries to your path.
+</enum>
+
+<sect1>One-time Preparations <bf/&lsqb;BEGINNER&rsqb;/
+<p>
+
+In your work area you should execute the following command once:
+
+<verb>
+% autoroot.py tmb_tree cafe
+</verb>
+
+This will create a <tt/.rootmap/ file in your current directory. This is only
+needed when you run <tt/root/ interactively, to make your life easier. If <tt/root/
+finds this file it will know which libraries to load for which classes, and you
+won't get any funny warnings when you open a CAF file.
+
+
+<sect1>Simple Examples <bf/&lsqb;BEGINNER&rsqb;/
+<p>
+
+Note that in the following we assume that you execute ROOT from this directory.
+ROOT looks by default for certain configuration files in the current directory,
+especially <tt/.rootmap/. If you move to a different directory, you have to 
+either copy this file or move it to your home directory, where ROOT will also look
+for it.
+
+In the following we assume you have an root file in CAF format named <tt>input.root</tt>
+available in your work directory. Just replace the file name with whatever you are preferring.
+
+<verb>
+% root 
+</verb>
+
+This starts your root session. If you have done all the steps before, you should be 
+able to access the CAF classes. Try it by typing:
+
+<verb>
+root [0] TMBMuon m
+root [1] m.Pt()
+</verb>
+
+This will create and print an (uninitialized) TMBMuon object. There is no need to load the
+shared libraries explicitly if you've followed the previous recipe. Now let's open the file:
+
+<verb>
+root [2] TFile file("input.root");
+root [3] TTree *tree = (TTree *)file.Get("TMBTree");
+</verb>
+
+You can now e.g. draw the variables in the CAF tree or use the <tt>TBrowser</tt>
+to view them.
+
+<verb>
+root [4] tree->Draw("Muon.Pt()", "Muon.Pt() < 40.0")
+root [5] tree->Draw("Muon.Pt():Muon.Eta()", "Muon.Pt() < 40.0")
+root [6] new TBrowser()
+</verb>
+
+<sect1>Explicit Loading of the CAF Classes <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+
+If you want to compile code on the fly with ROOT's ACliC system, you need
+to load the necessary libraries explicitly, in addition to setting the
+include paths:
+
+<verb>
+root [0] gSystem->Load("libPhysics.so")
+root [1] gSystem->Load("libmet_util.so")
+root [2] gSystem->Load("libtmb_tree.so")
+root [3] gSystem->Load("libcafe.so")
+root [4] .include $SRT_PRIVATE_CONTEXT/include
+root [4] .include $SRT_PUBLIC_CONTEXT/include
+</verb>
+
+Afterwards all CAF classes should be available in the interactive session. 
+If you have used the <tt/autoroot.py/ script, you can also trigger the 
+loading of all necessary libraries by a statement like:
+
+<verb>
+root [0] TMBMuon m;
+</verb>
+
+<sect>Using the CAF Environment (Cafe)
+<p>
+
+The CAF environment is a set of classes which make it easier to work with
+the objects in the common analysis format. More specifically, it includes
+an <tt>Event</tt> class that integrates all the various branches and provides
+type safe access to all the physics objects. In addition it has framework classes
+which make it easy to break your analysis into little packages and 
+run them in any given order, share code with others etc.
+
+You can use many of the CAFE classes in an interactive session as well, which
+is the way we introduce most of them here.
+
+<sect1>The <tt>cafe::Event</tt> Class <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+The <tt>cafe::Event</tt> class provides easy access to all common physics
+objects used in an analysis. Here is one way to use it:
+
+<verb>
+root [0] cafe::Event event;  
+root [1] TFile file("input.root");
+root [2] TTree *tree = (TTree *)file.Get("TMBTree");
+root [3] event.setBranchAddresses(tree);
+</verb>
+
+Now every call to <tt>tree-&gt;GetEntry(i)</tt> will fill the <tt>event</tt> object.
+
+In practice, you only have to call <tt>tree-&gt;LoadTree(i)</tt>. This avoids
+that the full event is read at once. Instead the <tt/Event/ class will read
+the data as you ask for it, which can speed up processing tremendously.
+
+<sect1>Using the <tt>cafe::Event</tt> Class <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+The interface of this class provides methods to access all common physics objects.
+Here is how the interface looks like:
+
+<verb>
+    class Event : public EventBase {
+    public:
+        Event();
+        
+        Collection<TMBMuon>      getMuons()    const;
+        Collection<TMBEMCluster> getEMcellNN()  const;
+        Collection<TMBEMCluster> getEMscone()  const;
+        Collection<TMBJet>       getJCCA()     const;
+        Collection<TMBJet>       getJCCB()     const;
+        Collection<TMBJet>       getJets(const std::string& name) const;
+        Collection<TMBTrack>     getTracks()   const;
+        Collection<TMBVertex>    getPrimaryVertices() const;
+        // [...many more]
+
+        const TMBMet    *getMet() const;
+        const TMBGlobal *getGlobal() const;
+</verb>
+
+For a simple object that has its own branch (like <tt>TMBGlobal</tt>) we can just ask
+for a pointer to it. For branches which consist of multiple objects (e.g. all muons), the
+class returns a <tt>Collection&lt;T&gt;</tt> object. This is a lightweight wrapper
+around the internal <tt/TClonesArray/ implementation that makes it look like an STL container.
+The usual methods like <tt>begin(), end()</tt> and <tt>size()</tt> are available, as well
+as  the <tt>[]</tt> operator.
+
+<verb>
+root [4] tree->GetEntry(0);
+root [5] event.getMuons().size();
+(const unsigned int)5
+root [6] cafe::Collection<TMBMuon> muons = event.getMuons();
+root [7] muons.size()
+(const unsigned int)5
+root [8] const TMBMuon& muon = muons[0]
+root [9] muon.Pt()
+1.9234234
+
+</verb>
+
+Don't be afraid to copy <tt>Collection</tt> objects around, internally they are not more than
+a pointer and all the data actually remains in the original <tt>Event</tt> object.
+
+If you have a function like
+
+<verb>
+#include "cafe/Event.hpp"
+#include <iostream>
+
+bool doSomething(cafe::Event& event)
+{
+    const TMBGlobal *global = event.getGlobal();
+    std::cout << "Event = " << global->evtno() 
+              << std::endl;
+    return true;
+}
+</verb>
+
+you can call it now like this:
+
+<verb>
+root [...] .L do_something.C+
+root [...] for(Int_t i = 0; i < tree->GetEntriesFast(); i++) { 
+           tree->LoadTree(i); do_something(event); event.clear();
+           }
+</verb>
+
+
+<sect1><tt>cafe::Event</tt> and User Defined Classes <bf/&lsqb;ADVANCED&rsqb;/ <label id="ExtendEvent"/
+<p>
+
+By default, the <tt>Event</tt> class knows only about the objects and branches which
+are part of the CAF classes. In fact <tt>Event</tt>  is only a convenience class for
+the user. Actually, its base class <tt>EventBase</tt> doesn't know anything about the 
+CAF classes at all.
+
+However, it has methods to access arbitrary branches, e.g. for non-standard 
+objects that are not part of the default CAF format.
+
+<sect2>Simple Objects
+<p>
+Let's assume that you've added a new branch to your root file which contains variables
+very specific to your analysis. These definitions will never go into the tree use
+for central production. We first consider the simply case where all these variables
+are in one object:
+
+<verb>
+    class MyVariables : public TObject { 
+    public:
+          MyVariables();
+          int   myVariableA();
+          float myVariableB();
+    private:
+          // ... variables
+          int   _A;
+          float _B;
+    public:
+          ClassDef(MyVariables, 1);
+    };
+</verb>
+
+The name of branch you've chosen to save it in is "MyAnalysis". We explain later
+how to add a branch to a CAF file, for now we assume your input file already contains
+these data.
+
+You can access it after you filled the event like this:
+
+<verb>
+    tree->LoadTree(0);
+    const MyVariables *var = event.get<MyVariables>("MyAnalysis");
+</verb>
+
+The result will be a NULL pointer if the branch does not exist. 
+
+If you don't like the use of templated member functions and specifying the branch name
+every time, you should probably write a little helper function:
+
+<verb>
+ const MyVariables *getMyVariables(const cafe::Event& event)
+ {
+    event.get<MyVariables>("MyAnalysis");
+ }
+</verb>
+
+and use that in your code. 
+
+<sect2><tt>TClonesArray</tt>s of Objects
+<p>
+
+If you want to store a branch with more than one object, you should preferably put
+it into a <tt>TClonesArray</tt>. The recipe is very similar to the one above, except that
+now you call <tt>getCollection()</tt> and the return type is a <tt>Collection&lt;T&gt;</tt>
+where <tt>T</tt> is your type.
+
+Assuming you have this definition:
+
+<verb>
+  class MyParticle : public TPhysObject {
+  public:
+       MyParticle();
+       float Pt() const;
+  private:
+       float _pt;
+  public:
+       ClassDef(MyParticle, 1);
+  };
+</verb>
+
+you would access it like this:
+
+<verb>
+   Collection<MyParticle> my_particles(event.getCollection<MyParticle>("MyAnalysisParticles"); 
+
+   for(Collection<MyParticle>::iterator it = my_particles.begin();
+       it != my_particles.end();
+       ++it) {
+       float pt = (*it).Pt();
+   }
+</verb>
+
+<p>
+Finally, if you prefer to use the <tt/TClonesArray/ directly, you can do this as well:
+
+<verb>
+   const TClonesArray *tca = event.getClonesArray("MyAnalysisParticles");
+</verb>
+
+<sect>The CAF Environment Framework
+<p>
+
+Putting all your analysis code into a single function or even a
+<tt>TSelector</tt> method is not very scalable. Usually you have lots
+of tasks which you want to run either separately or together,
+maybe even in a different order.
+
+Sharing and reusing code is very difficult in this way, since all you can do is
+copy and paste other people's code and modify it to make it work in
+your environment. 
+
+The CAF Environment framework provides the common functionality needed
+to implement most of the above things in a consistent way. By following
+a few simple rules, you can extend the framework in a well-defined
+way and mix and match your code with code that other people have written.
+
+The framework also provides services for configuration and transparent
+access to files via SAM.
+
+<sect1>Concepts <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+The basic unit in the framework is a so-called <tt>Processor</tt>. In
+its most simple form it has a method that takes a 
+<tt>cafe::Event</tt> object and returns a <tt>bool</tt>.
+
+The user can specify a series of <tt>Processor</tt>s that will be
+executed for each event. If any of them returns <tt>false</tt>,
+the processing of the event stops at this point.
+
+The <tt>Processor</tt> objects are orchestrated by another
+entity called a <tt>Controller</tt>. <tt>Controller</tt>s are
+themselves a <tt>Processor</tt> and they can be
+nested, i.e. a <tt/Controller/ can contain other <tt/Controller/s.
+
+The most common <tt/Controller/ is the <tt/Group/. All it does
+is execute its children in order. 
+
+<sect1>Writing your own Processors <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+Most of these concepts will become clearer in the following
+examples. From now on we assume that you are working
+in a compiled environment rather than the root interpreter.
+
+You should start by creating a new package for these exercises:
+
+<verb>
+   % cd work
+   % ctnewpkg -l my_examples
+   % ( cd include; ln -s ../my_examples/my_examples )
+</verb>
+
+Then, as usual, put your header files into the <tt>my_examples/my_examples</tt>
+subdirectory and the source files into <tt>my_examples/src</tt>. All your
+source files should be named in the <tt>COMPONENTS</tt> file. In addition
+you should add <tt/root/ to the LIBDEPS file.
+
+Note that we don't have any <tt>bin</tt> directory. As you will see
+we won't need it.
+
+<sect2>Simple Functions
+<p>
+
+Let's start with a very simple example: we want to print out the
+event number for each event in a file. This should not be a 
+big programming task. Write a file <tt>src/PrintEventNo.cpp</tt>
+like this:
+
+<verb>
+
+#include <iostream>
+#include "cafe/Event.hpp"
+#include "cafe/Function.hpp"
+
+bool PrintEventNo(cafe::Event& event) 
+{
+    const TMBGlobal *global = event.getGlobal();
+    std::cout << "Event no: " << global->evtno() << std::endl;    
+    return true;
+}
+
+CAFE_FUNCTION(PrintEventNo)
+
+</verb>
+
+That's it. Notice the <tt/CAFE_FUNCTION/ macro at the end. You'll need this to register
+your function with the cafe environment.
+
+Now type <tt>make</tt> and check that the build system
+created the <tt>shlib/$SRT_SUBDIR/libmy_example.so</tt> library.
+
+You can now execute this function in the framework by running
+the following command:
+
+<verb>
+   % cafe Input: input.root Run: PrintEventNo Packages: my_example
+</verb>
+
+Note that there is no need for linking. In fact, we are going
+to use the same executable <tt>cafe</tt> for all our
+programs from now on ! It will load our newly compiled shared
+library at run-time and execute the function we have specified
+on the command line.
+
+The return value of the function is false if the framework should
+stop the processing of the event at this point, true otherwise.
+
+The funny arguments are explained later in the section about the
+configuration file syntax. Basically, the command line consists of a
+list of (<tt/name/, <tt/value/) pairs. The above says: 
+
+<itemize>
+   <item>Use <tt/input.root/ as the input file.
+   <item>Run the <tt/PrintEventNo/ function on each event.
+   <item>Load the package <tt/my_example/ before execution.
+</itemize>
+
+<sect2>Subclasses of <tt>Processor</tt>
+<p>
+
+The method above is only good enough for very simple tasks. Usually
+the user needs to have more information about the actual processing, e.g.
+when new files are opened and closed, etc. In this case, she can
+inherit directly from the <tt>cafe::Processor</tt> base class and implement
+any of the virtual methods provided there. One of them is the <tt>processEvent(cafe::Event& event)</tt>
+method which is called for every event. There are, however, a few more available:
+
+<verb>  
+ class Processor {
+    virtual void begin();
+    virtual void finish();
+    virtual void inputFileOpened(TFile *file);
+    virtual void inputFileClosing(TFile *file);
+    virtual bool processEvent(cafe::Event& event);
+    int  eventCount() const;
+};
+</verb>
+
+The <tt>begin()</tt> and <tt>finish()</tt> methods are called at the beginning
+and end of the processing. They can be used to create objects like histograms and
+save them at the end. The
+<tt>inputFileOpened()</tt> and <tt>inputFileClosed()</tt> methods inform
+about the opening and closing of input files. 
+
+Finally, the <tt>eventCount</tt> method returns the number of events that
+this object has processed. This is such a common task, that the framework
+keeps track of it and uses it at the end to print out the event counts
+of the various steps. If a <tt>Processor</tt> implements a filter with
+an analysis cut, this is a quick way to look at the result.
+
+<sect1>Input Specifications <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+The <tt>Input:</tt> argument to <tt>cafe</tt> can be any of the following:
+
+<itemize>
+  <item>a single filename (optionally prefixed with <tt>file:</tt>), example: <tt>file:data.root</tt> or just <tt>data.root</tt>
+  <item>a file with a list of filenames, example: <tt>listfile:mydata.lst</tt>
+  <item>a SAM dataset definition, example <tt>sam:My2MUSkim</tt>
+  <item>any other prefix known to ROOT, e.g. <tt>http:</tt>, <tt>rootk:</tt> etc.
+</itemize>
+
+Note: the files in a file list can in turn have any known ROOT file prefix, but not another file list or 
+a SAM definition.
+
+Some examples:
+
+<verb>
+   % cafe Input: file:test.root
+   % cafe Input: sam:MyDataSet
+   % cafe Input: listfile:myfiles.lst
+   % cafe Input: rootk://wensley-clued0.fnal.gov/work/wensley-clued0/data.root
+</verb>
+
+<sect1>Run Specifications <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+The <tt>Run:</tt> argument takes a list of <tt>Processor</tt>s like this:
+
+<verb>
+   % cafe Input: data.root Run: PrintEventNo,MyFilter,Muon_PT_Histo
+</verb>
+
+In the simplest case, the names you specify on the command line are just the names
+of the functions and classes you wrote for your analysis. In this case it is also the value
+of the string parameter given to your class in the constructor. 
+
+Sometimes, however, it is useful to have more than one instance of the same class run. 
+As long as the classes don't need to be distinguished (e.g for the names of the histograms
+they write out), you don't care. Otherwise, you need a way to give each a unique name.
+You do this with the following syntax:
+
+<verb>
+  % cafe Input: data.root Run: 'Muon_PT_Histo(first),Muon_PT_Histo(second)'
+</verb>
+
+This syntax is supposed to mimic calling the constructor of <tt/Muon_PT_Hist/ with
+the string <tt/first/ as name. In a C++ program you would say something like:
+
+<verb>
+    Processor *p = new Muon_PT_Histo("first");
+</verb>
+
+If the <tt>Muon_PT_Hist</tt> class uses the string passed to its constructor in naming
+the histograms, you can distinguish their output, one of them using "first_" as prefix,
+the other "second_":
+
+<verb>
+   Muon_PT_Hist::Muon_PT_Hist(const char * name) 
+   {
+      string histoName = string(name) + "_muon_pt";
+      hist = new TH1F(histName.c_str(), "Muon pT", 0.0, 100.0, 100);
+      // ...
+   }
+</verb>
+
+Note that you have to enclose the argument in quotes. This is because the '(' has 
+a special meaning for the shell. If you quote the parameter, you can use either space or comma 
+to separate the <tt/Processor/s. 
+
+<sect1>Non-Persistent Data in <tt/cafe:Event/  <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+A quite common need is the ability to share information between different
+<tt/Processor/s. Instead of using global variables, the <tt/cafe::Event/ class
+provides a light weight way of passing information from one step to
+another.
+
+You can store any object (or simple type) in <tt/cafe::Event/, provided
+that the object has a copy constructor and assignment defined. Each object is 
+stored together with a <em/key/ consisting of a string.
+
+Here is how you store a simple integer number:
+
+<verb>
+    event.put("myNumber", 5);
+</verb>
+
+Any other <tt/Processor/ later in the chain can access this value like this:
+
+<verb>
+    int value;
+    if(event.get("myNumber", value)) { 
+      // use 'value'
+    } else {
+      err() << "myNumber not found in Event" << std::endl;
+    }
+</verb>
+
+There is always a copy operation involved in both storing and retrieving the value,
+so the operation is quite general, but potentially expensive. You might try to
+circumvent this problem by storing only a pointer in the event. In this case the question
+of ownership arises. The default behaviour for the <tt/cafe::Event/ class is to
+take ownership of any pointer you pass it. When all <tt/Processor/s have been called
+for the current event, the <tt/Event::clear()/ method is called, which deletes
+any user pointer stored in the event.
+
+So the following is quite safe as far as memory leaks are concerned:
+
+<verb>
+    MyObject *obj = new MyObject(...);
+    event.put("myobject", obj);
+</verb>
+
+<!--
+If you don't want the object to be deleted at the end of the current event processing,
+you should store it with a special flag:
+
+<verb>
+   event.put("myobject" , obj, DontDelete);
+</verb>
+
+This assumes that the object will or has been deleted in some other way. 
+
+<verb>
+   event.put("myobject", obj, NeverDelete);
+</verb>
+
+This keeps the object alive even across event boundaries. It will only be
+deleted when the processing of all events is finished. In some senses this
+is a global variable named <tt/myobject/, only defined and used in a funny way...
+
+-->
+
+<sect1>Tagging Events <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+A very common piece of information which is passed around between <tt/Processors/s is
+a <em/Tag/. This is just a string that marks a specific event. There are default
+methods to tag an event and check for the existence of tags. 
+
+Here is how you tag an event:
+
+<verb>
+   event.tag("2MU");
+</verb>
+
+A tag is just a string which you can attach to an event. You can tag an event
+with as many tags as you like.
+
+Here is how you check for the existences of a tag:
+
+<verb>
+   if(event.hasTag("2MU")) {
+       // do something with event
+   }
+</verb>
+
+You can also check for the existence of any of a list of tags:
+
+<verb>
+   std::list<std::string> tags;
+   // fill tags
+   if(event.hasTag(tags)) {
+      // do something with event
+   }
+</verb>
+
+The latter method works with any STL container. I.e. you can store the tag list in
+a <tt/list/, a <tt/vector/ or a  <tt/deque/, the implementation doesn't care.
+
+<sect>Configuration Files <label id="Config"/
+<p>
+
+<sect1>Syntax <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+While specifying arguments on the command line is convenient for developement, it can
+soon become cumbersome if there are more than a few processors. All the command
+line arguments can be specified in a configuration file which follows the
+<tt>TEnv</tt> syntax also used in the <tt>rootrc</tt> files.
+
+Here is an example of such a file:
+
+<verb>
+cafe.Input:        file:input.root
+cafe.Run:          PrintEventNo,Group(test)
+cafe.Events:       0
+
+test.Run:          MyFilter,PrintEventNo
+</verb>
+
+The relation to the command line arguments should be straightforward. Any entry without
+a prefix on the command line is interpreted as if it had the <tt/cafe/ prefix in the configuration file.
+
+Furthermore any other entry in the configuration file can be overwritten explicitly on the 
+command line with its full name.
+
+The configuration file is searched for in the following places:
+
+<itemize>
+   <item>If the first command line argument is a file name, it is used.
+   <item>If the <tt/$CAFE_CONFIG/ environment variable is defined, the file it points to is used.
+   <item>If <tt>./cafe.config</tt> exists, it is used.
+   <item>If <tt>$SRT_PRIVATE_CONTEXT/cafe.config</tt> exists, it is used.
+</itemize>
+
+<sect1>Access from User Code <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+Typically user algorithms also need configuration information that you don't want to hardcode
+in your source. You can access the configuration file(s) via the <tt>Config</tt> class.
+
+<verb>
+   {
+      //...
+      cafe::Config  config("cafe");
+      std::string input_spec = config.getString("Input");
+   }
+</verb>
+
+The code above will return the value of <tt/cafe.input/, no matter if it was given in the
+configuration file or the command line.
+
+You can also store your own information in this file. You should prefix each entry
+with either your class or function name or the name of your processor instance (i.e.
+the name you gave it in the run specification).
+
+<verb>
+FilterMuonEvents.NumMuons:    2
+</verb>
+
+for a class like this:
+
+<verb>
+class FilterMuonEvents {
+public:
+  FilterMuonEvents(const char *name)
+  {
+     cafe::Config config(name);
+     _numMuons = config.getInt("NumMuons");
+  }
+
+  bool processEvent(cafe::Event& event)
+  {
+     return event.getMuons().size() >= _numMuons;
+  }
+
+private:
+  int _numMuons;
+};
+</verb>
+
+<sect1>Specifying <tt>Groups</tt> <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+
+There are several special <tt/Processor/ classes which provide more
+structure to the execution of the framework. The most common one 
+is called <tt/Group/. A <tt/Group/ object has a <tt/.Run/ parameter,
+just like the top-level <tt/cafe/ entry. 
+
+What it does is, it executes all its children in sequence. This may not
+seem much of a deal, but it allows you to structure the execution 
+of the code in such a way, that multiple pieces can be easily added
+or removed.
+
+The <tt/Processor/s that should run as part of a <tt/Group/ are specified
+int the corresponding <tt/Run/ parameter:
+
+<verb>
+cafe.Run:        Group(Filter),Group(Process),Group(Output)
+Filter.Run:      FilterMuonEvents,FilterGoodRuns
+Process.Run:     Muon_PT_Histo,Group(PostProcess)
+Output.Run:      WriteMyVariables,WriteStandardExtensions
+PostProcess.Run: ProduceMyVariables,ProduceStandardExtensions
+</verb>
+
+Now, if you don't want to run the <tt/Filter/ group, just modify the 
+first line instead of removing multiple entries. <tt/Group/s can
+be nested arbitrarily.
+
+By default, there is one top-level <tt/Group/ called <tt/cafe/.
+
+In addition to the structuring the execution, <tt/Group/s also provide
+a few more configuration options. 
+
+<sect2>Output Files
+<p>
+If a <tt/Group/ has an <tt/.Output/
+entry in the configuration file, it will open a new root file with
+that name and make it the current directory. Each <tt/Processor/ can
+ask what its current directory is with the <tt/getDirectory()/ method.
+All the output of a <tt/Processor/ should usually go into its current
+directory. E.g. instead of just creating a histogrom, it should do 
+something like this:
+
+<verb>
+   getDirectory()->cd(); // change to my directory
+   hist = new TH1F(...);
+</verb>
+
+The default output directory is <tt/gROOT/.
+
+<sect2>Directories
+<p>
+Each ROOT file can have multiple directories inside it. If the 
+<tt/.Directory/ entry of a <tt/Group/ is defined, a new subdirectory
+with the given name is created. Again, this directory is made
+the default directory for all children.
+
+<verb>
+cafe.Run:     Group(One) Group(Two)
+cafe.Output:  histos.root
+
+One.Run:       ...
+One.Directory: HistosFromOne
+
+Two.Run:       ...
+Two.Directory: HistosFromTwo
+</verb>
+
+If any of the <tt/Processor/s in <tt/One/ and <tt/Two/ produce histograms
+they will end up in the two different folders <tt/HistosFromOne/ and
+<tt/HistosFromTwo/ resp. All of the histograms will be part of <tt/histos.root/.
+
+While every <tt/Group/ can define its own output file, it is usually most
+convenient to have just one file, but multiple directories inside.
+
+<sect2>Debug Output
+<p>
+Each <tt/Processor/ has a method <tt/debug()/ which returns the current
+debugging level (a simple integer). The higher the level, the more
+detailed output should be produced. The debug level can be set via 
+the <tt/.Debug/ entry of a <tt/Group/ for all its children.
+
+<verb>
+MyGroup.Debug: 3
+</verb>
+
+and in your code:
+
+<verb>
+    if(debug() > 2) {
+       err() << "Detailed info on what's going on..." << endl; 
+    }
+</verb>
+
+<sect2>More <tt/Processor/ Methods
+<p>
+To produce error or standard output, call the <tt/err()/ or <tt/out()/ methods resp.
+They will return a <tt/std::ostream&/ that you can use as any other.
+
+<sect1>Including Configuration Files
+<p>
+
+You can distribute the information in the configuration file over multiple
+physical files and include those. Include files can be nested arbitrarily
+deep. When specifying the file names, you can use environment variables
+which will be expanded automatically.
+
+<verb>
++cafe.Include:    otherFile.cfg $HOME/myconfig/Config.cfg $MYGROUP/common.cfg
+</verb>
+
+Every file is included only once, even when it appears in more than
+one include directive. Note the use of the plus sign to extend the definition
+of <tt/cafe.Include/. This allows to have multiple such definitions in 
+different files which will be all concatenated.
+
+<sect>Extending the CAF Tree <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+Sometimes the information in the CAF tree is not enough for a given
+analysis, or a group of people wants to share derived variables without
+recalculating them every time they need them. In these cases the
+CAF tree should be extended.
+
+Let's assume the following: we want to produce some additional information
+for every event that we see in our <tt/Processor/ and write it to a new 
+output file. For this purpose we create a <tt/TTree/ and add a new branch
+to it. 
+
+<verb>
+#include "cafe/Processor.hpp"
+#include "MyVariables.hpp"
+
+class MyProducer : public Processor {
+public:
+   
+   void inputFileOpened(TFile *input_file) 
+   {
+       std::string input_name = input_File->GetName();
+       input_name = input_name.substr(0, input_name.rfind('.')) + "-myvar.root";
+       outfile = new TFile(input_name.c_str(), "RECREATE");
+       tree    = new TTree("MyTree");
+       tree->Branch("MyAnalysis", "MyVariables", & myVariables, 32000, 99);
+   }
+
+   void inputFileClosing(TFile *input_file)
+   {
+       outfile->Write();
+       outfile->Close();
+       delete outfile;
+   }
+
+   bool processEvent(cafe::Event& event)
+   {
+       // calculate myVariables
+       tree->Fill();
+   }
+
+public:
+   TFile       *outfile;
+   TTree       *tree;
+   MyVariables *myVariables;
+};
+</verb>
+
+In this example we create for every input file a new file called
+after the original name and <tt/-myvar.root/ appended.
+
+In a later run, we want to use the information we created together
+with the original file. The typical way to do this is to add 
+the tree in the new file as a friend, and then use the methods described
+in <ref id="ExtendEvent" name="Extending cafe::Event"/.
+
+An example is here:
+
+<verb>
+   class AddMyVariables : public Processor {
+   public:
+      void begin(cafe::Event& event)
+      {
+          event.addBranch<MyVariables>("MyAnalysis");
+      }
+
+      // ...
+      void inputFileOpened(TFile *file)
+      {
+         std::string input_name = input_File->GetName();
+         input_name = input_name.substr(0, input_name.rfind('.')) + "-myvar.root";
+         myfile = TFile::Open(input_name.c_str(), "READ");
+         if(myfile.IsOpen()) {
+             if(TTree *mytree = (TTree *)myfile.Get("MyTree")) {
+                TTree *caf_tree = (TTree *)file->Get("TMBTree");
+                caf_tree->AddFriend(mytree);
+             }
+         }
+      }
+
+      void inputFileClosing(TFile *file) 
+      {
+          myfile->Close();
+          delete myfile;
+      }
+
+   private:
+      TFile *myfile;
+   };
+</verb>
+
+However, you should try to re-use some of the existing utilities described
+in the next section instead of writing this code yourself.
+
+An alternative to the above is to extend the existing tree with new
+branches and write the output all to one file. This makes mostly sense
+if a selection is applied at the same time, so the output tree is
+different from the input tree. The only difference is that you would
+clone the input tree before adding your own branch.
+
+<verb>
+    void inputFileOpened(TFile *file) {
+       // [...]
+       TTree *caf_tree = (TTree *)file.Get("TMBTree");
+       TTree *mytree = caf_tree->CloneTree(0);
+       mytree->Branch(...);
+       // [...]
+       save_addressess = true;
+    }
+
+    bool processEvent(cafe::Event& event) {
+        // calculate variables
+        mytree->Fill();   // write both event and myVariables
+    }
+
+</verb>
+
+<sect>Available <tt>Processors</tt> <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+This section describes various existing <tt>Processor</tt> classes that can
+be re-used by an analyzer. Often they do simple things, but having
+them available and configurable saves a lot of trivial programming tasks.
+
+<sect1>Creating Histograms <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+We have shown an example of how to implement a simple <tt/Processor/ that
+creates a histogram and write it to a file. This is such a common task,
+that there is a standard <tt/Hist1D/ package available. You configure
+it with the following parameters:
+
+<verb>
+cafe.Run:         Hist1D(MuonHisto)
+MuonHisto.Draw:   Muon.Pt()
+MuonHisto.Select: Muon.Pt() > 1.5 && Muon.Pt() < 100.0 && Muon.Eta() < 2.0
+MuonHisto.Title:  "Muon pT"
+MuonHisto.Bins:   100 0. 100
+</verb>
+
+<p>
+Creates a new histogram with the given (optional) title. The name of the histogram is
+taken from the name of the <tt/Processor/, i.e. <tt/MuonHisto/ in this case.
+
+<p>
+Into which file and/or directory will the histogram be written ? That depends on the
+<em/current/ directory for the <tt/Processor/. The easiest way is to specify the
+output file in the top level configuration:
+
+<verb>
+cafe.Output: myhistos.root
+</verb>
+
+All histograms will go into this file. However, it is often useful to structure
+the output file itself. Every <tt/Group/ can actually define a directory in the
+current file and each of its children will write its histogram into that directory:
+
+<verb>
+cafe.Run:    Group(mygroup) ...
+cafe.Output: myhists.root
+
+mygroup.Run:       Hist1D(test)
+mygroup.Directory: MyDirectory
+
+test.Draw:   ...
+</verb>
+
+In this case the <tt/test/ histogram will be stored in the <tt/MyDirectory/ folder
+inside the <tt/myhistos.root/ file.
+
+<sect1>Hist2D and Hist3D
+<p>
+There are also 2 and 3-dimensional histograms available. The <tt/.Draw/ entry
+will use two or three specifications, separated by a colon, and the <tt/Bins:/
+entry takes 6 or 9 parameters, 3 for each dimension (number of bins, minimum,
+maximum).
+
+<verb>
+cafe.Run:   Hist2(test)
+test.Draw:  Muon.Eta():Muon.Pt()
+</verb>
+
+<sect1>Selecting Events <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+<verb>
+cafe.Run:            Select(DimuonEvents)
+DimuonEvents.Select: Muon[0].Pt() > 10.0 && Muon[1].Pt() > 5.0
+</verb>
+
+The expression in the <tt/DimuonEvents.Select/ entry follows the syntax
+used by the <tt/TTree::Draw()/ command in ROOT. If it evaluates to false, the
+<tt/Processor/ rejects the event.
+
+<sect1>Selecting Events by Trigger <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+<verb>
+cafe.Run:              Trigger(DimuonEvents)
+DimuonEvents.Triggers: 2MU_A_L2M0 2MU_A_L2ETAPHI
+</verb>
+
+Select events by trigger names. While you can use the <tt/Select/ Processor as well,
+this version is much easier to use and faster.
+
+<sect1>Adding Friends <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+<verb>
+cafe.Run:      Friend(MyFriend)
+MyFriend.File: %f-myvars.root
+MyFriend.Tree: MyTree
+</verb>
+
+Whenever a new input file is opened, this package will try to open a corresponding
+file whose name is derived from the input file name (the <tt/%f/), plus the
+<tt/-myvars.root/ suffix. It then adds the <tt/TTree/ as a friend to the 
+standard tree, so all branches are transparently available.
+
+<sect1>Conditional Execution <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+<verb>
+cafe.Run:          If(GoodEvent)
+
+GoodEvent.Select:  Muon[0].Pt() > 15.0 && Muon[1].Pt() > 10.
+GoodEvent.Then:    ProcessGood,Passed
+GoodEvent.Else:    ProcessBad,Passed
+</verb>
+
+This controller will evaluate the <tt/GoodEvent.Select/ expression, and 
+execute the Processors in the <tt/Then/ variable if it true. Otherwise, the
+Processors in the <tt/Else/ variable are executed.
+
+<sect1>Permutations <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+
+<verb>
+cafe.Run:             BadRuns BadLBNs Permute(AllPermuations)
+AllPermutations.Run:  Select(pTCuts) Select(MetCut) Select(deltaPhiCut)
+</verb>
+
+This controller will execute all permutations of its children. It does this
+by creating a new <tt/Controller/ for every permutation. Furthermore, each
+controller will have a different default directory, so histograms created
+in the children will end up in different places.
+
+<sect1>Creating Subsets of Particles <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+
+<verb>
+cafe.Run:            SelectObjects(GoodJets)
+
+GoodJets.Select:     Jets.Pt() > 10.0 && Jets.emfrac() < 0.15
+GoodJets.ToBranch:   "GoodJets"
+GoodJets.FromBranch: "Jets"
+</verb>
+
+<sect1>Writing out Events <bf/&lsqb;BEGINNER&rsqb;/  
+<p>
+
+<verb>
+cafe.Run:        Select(GoodEvents),Write(MyFile)
+
+GoodEvents.Select: Muon.nseg() == 3
+MyFile.File:       MySkim.root
+</verb>
+
+Write out events into the specified file. Note that this is different from the
+<tt/cafe.Output/ file which is used to store histograms. The <tt/Write/ object
+will store the events themselves.
+
+<sect1>Controller/Group <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+
+Apart from executing the methods of its children, a <tt/Controller/ provides
+a number of additional features. The only required configuration option is
+<tt/Run/, all the others are optional.
+
+<verb>
+cafe.Run:  Group(test)
+
+test.Run:       Proc1,Proc2,Proc3
+test.Output:    results.root
+test.Directory: Results
+test.Debug:     2
+</verb>
+
+The <tt/Output/ parameter allows you to create a new ROOT file. Typically, this is
+only done on the top-level. 
+
+The <tt/Directory/ parameter allows to create a new 
+directory in the current file. This can be used in intermediate <tt/Controller/s to
+differentiate between different execution paths.
+
+The <tt/Debug/ parameter sets the debug level for all its children. This level can be
+checked inside a <tt/Processor/ via the <tt/debug()/ method.
+
+<!--
+<sect><tt/Processor/s and <tt/TSelector/s <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+-->
+
+<sect>A Quick Tour through Typical Use Cases
+<p>
+
+The following we give small but complete configuration files
+to do some common tasks.
+
+<sect1>Making a Selection by Triggers
+<p>
+
+<verb>
+cafe.Run:           Trigger(MyTrigger) Passed 
+MyTrigger.Triggers: 2MU_A_L2M0 2MU_A_L2ETAPHI
+</verb>
+
+
+<sect1>Making a Selection by Physics Objects
+<p>
+
+<verb>
+cafe.Run:           Select(MySelection) Passed
+MySelection.Select: Muon.isTight() && Muon.nseg() == 3
+</verb>
+
+<sect1>Creating a Histogram
+<p>
+
+<verb>
+cafe.Run:      Hist1D(MyHisto)
+cafe.Output:   histos.root
+MyHisto.Draw:  Muon.Pt()
+MyHisto.Bins:  0 0. 100.
+</verb>
+
+<sect1>Writing Events
+<p>
+
+<verb>
+cafe.Run:           Select(MySelection) Write(MyWrite)
+MyWrite.File:       MySkim.root
+MySelection.Select: Muon.isTight && (abs(Muon.nseg()) == 3)
+</verb>
+
+<sect>Appendix
+<p>
+
+<sect1>Using the <tt>cafe::Event</tt> with <tt>TSelector</tt> <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+
+An alternative and more elaborated way is to define your own <tt>TSelector</tt> class and use it
+together with <tt>cafe::Event</tt>. 
+
+<verb>
+
+#include "TSelector.h"
+#include "TFile.h"
+#include "TH1F.h"
+#include "cafe/Event.hpp"
+#include "tmb_tree/TMBMuon.hpp"
+
+
+   class MyAnalysis : public TSelector {
+   public:
+      MyAnalysis()
+          : tree(0),
+            output_file(0),
+            ptcent(0)
+      {
+      }
+
+      void Init(TTree *new_tree)
+      {
+          tree = new_tree;
+          event.setBranchAddresses(tree);
+      }
+
+      void Begin(TTree *tree) 
+      {
+          Init(tree);
+
+          // Create histograms
+          output_file = new TFile("plots.root", "RECREATE");
+          ptcent = new TH1F("ptcent", "Central Muon pT", 100, 0.0, 100.0);
+      }
+
+     Bool_t ProcessCut(Long64_t entry) 
+     {
+          event.clear();
+
+          tree->GetEntry(entry);
+          // Maybe make a selection, return kFALSE
+          // if event should not be processed.
+          return kTRUE;
+     }
+
+     void ProcessFill(Long64_t entry)
+     {
+          using namespace cafe;
+
+          // Fill histograms
+          Collection<TMBMuon> muons = event.getMuons();
+          for(Collection<TMBMuon>::iterator it = muons.begin();
+              it != muons.end();
+              ++it) {
+//                 ptcent->Fill((*it).Central.Pt());
+		ptcent->Fill((*it).Pt());
+          }
+     }
+
+     void Terminate()
+     {
+          // Write histograms
+	  output_file->Write();
+          output_file->Close();
+          delete output_file;
+     }
+   private:
+       TTree       *tree;
+       cafe::Event event;
+       TFile       *output_file;
+       TH1F        *ptcent;
+   };
+
+</verb>
+
+You can either compile these classes e.g. with:
+
+<verb>
+ root [0] .include $SRT_PRIVATE_CONTEXT/include
+ root [1] .include $SRT_PUBLIC_CONTEXT/include
+ root [2] TMBMuon m;
+ root [3] .L MyAnalysis.C+
+</verb>
+
+Step 2 is to trigger the loading of all necessary libraries before
+you compile the code. Alternatively, you can load the required libraries 
+explicitly:
+
+<verb>
+root [2] gSystem->Load("libPhysics.so")
+root [3] gSystem->Load("libmet_util.so")
+root [4] gSystem->Load("libtmb_tree.so")
+</verb>
+
+Then pass a pointer to the object to the <tt>TTree::Process</tt> method:
+
+<verb>
+ root [0] MyAnalysis *analyse = new MyAnalysis;
+ root [1] tree->Process(analyse)
+</verb>
+
+or you can pass the file name directly to the method:
+
+<verb>
+ root [0] .include $SRT_PRIVATE_CONTEXT/include
+ root [1] .include $SRT_PUBLIC_CONTEXT/include
+ root [2] tree->Process("MyAnalysis.C+");
+</verb>
+
+
+<sect1>Controllers <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+
+There is a special type of <tt>Processor</tt> called a <tt>Controller</tt>.
+What it does is, it creates a new processing chain below itself and calls
+each of its children in turn when any of its methods are called. 
+
+<tt>Processor</tt>s can be added to a <tt>Controller</tt> in a variety of ways.
+E.g. you can add a function or object directory to it, if you have access to them:
+
+<verb>
+   cafe::Controller contr("top");
+   contr.add(PrintEventNo);
+   contr.add(new MyProcessor("proc"));
+</verb>
+
+Alternatively, you an add a <tt>Processor</tt> <em>by name</em>. This assumes
+that the original function or class is known to ROOT.
+
+<verb>
+   contr.add("PrintEventNo");
+   contr.add("Muon_PT_Histos");
+   contr.add("MyProcessor");
+</verb>
+
+Now calling <tt>contr.processEvent(event)</tt> will call the corresponding method on all
+the registered objects in the order they were added. In practice, you don't need to 
+know any of this, since the framework will use the configuration file to create the
+proper sequence of <tt/Processor/s for you.
+
+<tt>Controller</tt>s can be nested arbitrarily deep. When you specify a <tt/Controller/ on
+the command line, you should give it a name. You can then tell it which <tt/Processor/s to
+run by specifying another <tt/Run/ parameter. Instead of spelling out the whole class
+name, you can also use the short alias <tt/Group/, or simply nothing before the <tt/(/:
+
+<verb>
+   % cafe Run: 'Group(test)'  test.Run: PrintEventNo,Muon_PT_Histos,MyProcessor
+   % cafe Run: (test)  test.Run: PrintEventNo,Muon_PT_Histos,MyProcessor
+</verb>
+
+Theses short cuts exist because <tt/Controller/s are very common to structure the 
+execution of the analysis. 
+
+<sect1>The default <tt>RunController</tt> <bf/&lsqb;ADVANCED&rsqb;/
+<p>
+
+There is one special subclass of <tt>Controller</tt> named <tt>RunController</tt>. 
+It can be used to run over an arbitrary list of input files with a user specified
+list of <tt>Processor</tt>s. This is basically the <tt>main()</tt> routine of 
+the <tt>cafe</tt> program.
+
+The additional method of interest to the user is <tt>RunController::Run(const std::string& input)</tt>.
+One can call it with a URL to specify a single file, a list of files or a SAM definition. E.g.
+
+<verb>
+int main()
+{
+    RunController top("main");
+    top.add("Muon_PT_Histo");
+    top.Run("listfile:files.txt");
+}
+</verb>
+
+However, there is rarely need to do this yourself, since this is exactly what
+the <tt>cafe</tt> executable is doing for you.
+
+
+
+</article>

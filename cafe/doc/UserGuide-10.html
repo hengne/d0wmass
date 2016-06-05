@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.20">
+ <TITLE>User Guide to Common Analysis Format: Appendix</TITLE>
+ <LINK HREF="UserGuide-9.html" REL=previous>
+ <LINK HREF="UserGuide.html#toc10" REL=contents>
+</HEAD>
+<BODY>
+Next
+<A HREF="UserGuide-9.html">Previous</A>
+<A HREF="UserGuide.html#toc10">Contents</A>
+<HR>
+<H2><A NAME="s10">10.</A> <A HREF="UserGuide.html#toc10">Appendix</A></H2>
+
+
+
+<H2><A NAME="ss10.1">10.1</A> <A HREF="UserGuide.html#toc10.1">Using the <CODE>cafe::Event</CODE> with <CODE>TSelector</CODE> <B>[ADVANCED]</B></A>
+</H2>
+
+
+<P>An alternative and more elaborated way is to define your own <CODE>TSelector</CODE> class and use it
+together with <CODE>cafe::Event</CODE>. </P>
+<P>
+<PRE>
+
+#include "TSelector.h"
+#include "TFile.h"
+#include "TH1F.h"
+#include "cafe/Event.hpp"
+#include "tmb_tree/TMBMuon.hpp"
+
+
+   class MyAnalysis : public TSelector {
+   public:
+      MyAnalysis()
+          : tree(0),
+            output_file(0),
+            ptcent(0)
+      {
+      }
+
+      void Init(TTree *new_tree)
+      {
+          tree = new_tree;
+          event.setBranchAddresses(tree);
+      }
+
+      void Begin(TTree *tree) 
+      {
+          Init(tree);
+
+          // Create histograms
+          output_file = new TFile("plots.root", "RECREATE");
+          ptcent = new TH1F("ptcent", "Central Muon pT", 100, 0.0, 100.0);
+      }
+
+     Bool_t ProcessCut(Long64_t entry) 
+     {
+          event.clear();
+
+          tree->GetEntry(entry);
+          // Maybe make a selection, return kFALSE
+          // if event should not be processed.
+          return kTRUE;
+     }
+
+     void ProcessFill(Long64_t entry)
+     {
+          using namespace cafe;
+
+          // Fill histograms
+          Collection&lt;TMBMuon> muons = event.getMuons();
+          for(Collection&lt;TMBMuon>::iterator it = muons.begin();
+              it != muons.end();
+              ++it) {
+//                 ptcent->Fill((*it).Central.Pt());
+                ptcent->Fill((*it).Pt());
+          }
+     }
+
+     void Terminate()
+     {
+          // Write histograms
+          output_file->Write();
+          output_file->Close();
+          delete output_file;
+     }
+   private:
+       TTree       *tree;
+       cafe::Event event;
+       TFile       *output_file;
+       TH1F        *ptcent;
+   };
+</PRE>
+</P>
+<P>You can either compile these classes e.g. with:</P>
+<P>
+<PRE>
+ root [0] .include $SRT_PRIVATE_CONTEXT/include
+ root [1] .include $SRT_PUBLIC_CONTEXT/include
+ root [2] TMBMuon m;
+ root [3] .L MyAnalysis.C+
+</PRE>
+</P>
+<P>Step 2 is to trigger the loading of all necessary libraries before
+you compile the code. Alternatively, you can load the required libraries 
+explicitly:</P>
+<P>
+<PRE>
+root [2] gSystem->Load("libPhysics.so")
+root [3] gSystem->Load("libmet_util.so")
+root [4] gSystem->Load("libtmb_tree.so")
+</PRE>
+</P>
+<P>Then pass a pointer to the object to the <CODE>TTree::Process</CODE> method:</P>
+<P>
+<PRE>
+ root [0] MyAnalysis *analyse = new MyAnalysis;
+ root [1] tree->Process(analyse)
+</PRE>
+</P>
+<P>or you can pass the file name directly to the method:</P>
+<P>
+<PRE>
+ root [0] .include $SRT_PRIVATE_CONTEXT/include
+ root [1] .include $SRT_PUBLIC_CONTEXT/include
+ root [2] tree->Process("MyAnalysis.C+");
+</PRE>
+</P>
+
+
+<H2><A NAME="ss10.2">10.2</A> <A HREF="UserGuide.html#toc10.2">Controllers <B>[ADVANCED]</B></A>
+</H2>
+
+
+<P>There is a special type of <CODE>Processor</CODE> called a <CODE>Controller</CODE>.
+What it does is, it creates a new processing chain below itself and calls
+each of its children in turn when any of its methods are called. </P>
+<P><CODE>Processor</CODE>s can be added to a <CODE>Controller</CODE> in a variety of ways.
+E.g. you can add a function or object directory to it, if you have access to them:</P>
+<P>
+<PRE>
+   cafe::Controller contr("top");
+   contr.add(PrintEventNo);
+   contr.add(new MyProcessor("proc"));
+</PRE>
+</P>
+<P>Alternatively, you an add a <CODE>Processor</CODE> <EM>by name</EM>. This assumes
+that the original function or class is known to ROOT.</P>
+<P>
+<PRE>
+   contr.add("PrintEventNo");
+   contr.add("Muon_PT_Histos");
+   contr.add("MyProcessor");
+</PRE>
+</P>
+<P>Now calling <CODE>contr.processEvent(event)</CODE> will call the corresponding method on all
+the registered objects in the order they were added. In practice, you don't need to 
+know any of this, since the framework will use the configuration file to create the
+proper sequence of <CODE>Processor</CODE>s for you.</P>
+<P><CODE>Controller</CODE>s can be nested arbitrarily deep. When you specify a <CODE>Controller</CODE> on
+the command line, you should give it a name. You can then tell it which <CODE>Processor</CODE>s to
+run by specifying another <CODE>Run</CODE> parameter. Instead of spelling out the whole class
+name, you can also use the short alias <CODE>Group</CODE>, or simply nothing before the <CODE>(</CODE>:</P>
+<P>
+<PRE>
+   % cafe Run: 'Group(test)'  test.Run: PrintEventNo,Muon_PT_Histos,MyProcessor
+   % cafe Run: (test)  test.Run: PrintEventNo,Muon_PT_Histos,MyProcessor
+</PRE>
+</P>
+<P>Theses short cuts exist because <CODE>Controller</CODE>s are very common to structure the 
+execution of the analysis. </P>
+
+<H2><A NAME="ss10.3">10.3</A> <A HREF="UserGuide.html#toc10.3">The default <CODE>RunController</CODE> <B>[ADVANCED]</B></A>
+</H2>
+
+
+<P>There is one special subclass of <CODE>Controller</CODE> named <CODE>RunController</CODE>. 
+It can be used to run over an arbitrary list of input files with a user specified
+list of <CODE>Processor</CODE>s. This is basically the <CODE>main()</CODE> routine of 
+the <CODE>cafe</CODE> program.</P>
+<P>The additional method of interest to the user is <CODE>RunController::Run(const std::string&amp; input)</CODE>.
+One can call it with a URL to specify a single file, a list of files or a SAM definition. E.g.</P>
+<P>
+<PRE>
+int main()
+{
+    RunController top("main");
+    top.add("Muon_PT_Histo");
+    top.Run("listfile:files.txt");
+}
+</PRE>
+</P>
+<P>However, there is rarely need to do this yourself, since this is exactly what
+the <CODE>cafe</CODE> executable is doing for you.</P>
+
+
+
+<HR>
+Next
+<A HREF="UserGuide-9.html">Previous</A>
+<A HREF="UserGuide.html#toc10">Contents</A>
+</BODY>
+</HTML>

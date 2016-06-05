@@ -1,0 +1,6 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >=264071 and q.run_number <= 275727) and (q.qual_group = 'CAL1' and q.quality = 'BAD' and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') order by q.run_number asc ;
+    264596 CAL1       BAD                  official/global_CMT
+
+SQL>
+SQL> spool off

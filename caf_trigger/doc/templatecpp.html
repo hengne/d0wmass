@@ -1,0 +1,243 @@
+<html>
+
+<head>
+<title>caf_trigger: a D0 software package</title>
+
+<link rel="stylesheet" type="text/css"
+href="d0.css" />
+
+</head>
+
+<body>
+
+<h1>Template processor source code</h1>
+
+<a href="readme.html">Return to the main readme</a>
+
+<p>
+One must realize that the fullness of the source code will not be contained within this readme file, bur rather the portions that we seek to study. Concrete examples to be studied are included as the probTop*.cpp and probTop*.hpp series of processors which are the signal channels pertinent to top analysis.
+</p>
+
+<pre>
+probTemplate::probTemplate(const char *name)
+        : probProcessor(name)
+{ }
+
+//EffInfo objects are defined here
+void probTemplate::defineEffInfo(std::map&lt; std::string, eff_utils::EffInfo &gt;&and; effInfo)
+{
+
+    ////////////////////////////////////////////////////////////
+    ///////////////////////Code goes here///////////////////////
+    
+    //We create an EffInfo request, then shove it in an object
+    //with a name of our choosing to be used later on.
+    
+    effInfo["Template"].EffName("Template");
+    effInfo["Template"].EffType("Binned");
+    effInfo["Template"].EffVersion(2);
+
+    effInfo["Template"].ObjQuality("LOOSE");
+    effInfo["Template"].ObjType("EM");
+    effInfo["Template"].ObjVersion(0);
+
+    std::vector&lt; std::string &gt; vars;
+    vars.push_back("pt");
+  
+    effInfo["Template"].EffVarNames( vars );
+
+    ////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+
+}
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//The actual probability calculations are defined here and after calcProb
+double probTemplate::calcProb(std::string version)
+{
+    
+    //This sets up the channel name and is important to set!
+    _channel = "Template";
+    
+    double probability = P_Template(version);
+
+    return probability;
+
+}
+
+//This is where you shall be placing your own combinatorics. You'll
+//want to read the instructions in doc/readme.html
+double probTemplate::P_Template(std::string version)
+{
+    double probability = 1.0;
+    
+    double stat = 0.0;
+
+    //Temporary for the Template.
+    //This sets up the effInfo version object.
+
+    //This grabs the probability of this template example, which doesn't
+    //actually exist!
+//    probObject("Template")-&gt;getProbability(MU[iobj], stat)
+
+    //Now we just return 1.0    
+    return probability;
+}
+
+ClassImp(probTemplate)
+</pre>
+
+<p>
+One should note, that there are a number of objects that are passed into the event, and passed out of the event. The ones that will be of interest are: 
+
+<ul>
+<li>The objects EM, MU and JET for the electron, muon and jet objects respectively. The information of the [i]'th object can be retrieved from this by calling EM[i].Pt(), EM[i].Eta() or EM[i].Phi() for the electron, and similarly for the other objects.
+<li>The objects NEM, NMU and NJET are integers holding the number of each of the 3 objects in the event. For example, NEM = 5 indicates 5 objects identified as electrons in the event.
+<li>eventWeight(mEvtw), which calls ones combinatorics code.
+<li>eventWeightSigma(mEvtw), which calls ones combinatorics code with a +1, -1 sigma variation.
+<li>event.put("passedEvtw", mEvtw), which places the map of mEvtw into the event under the key passedEvtw. One may wish to pass along an intermediary event weight to the next processor, so one may pass the event weight under a different key and only send the final weight into passedEvtw when one has completed ones chain of processors.
+</ul>
+</p>
+
+<p>
+eventWeight, eventWeightSigma and event.put are located in the base class probProcessor.
+</p>
+
+<p>
+All of these objects are crucial to ones calculations and one should now refer to the method calcProb(int version). Specifically the methods after the lines of
+</p>
+////////////////////////////////////////////////////////////
+<p class="important">
+Note: This is the only portion one should be editing. Editing any other portions will cause problems if one is not well versed in the code.
+<br>
+<br>
+Also, there is a template_combine processor, which is a template processor for the final combination processor. This contains a change in the eventWeightSigma code which overrides the base class code. You do not have to worry about touching this method at all. Just look to the examples.
+</p>
+
+<br>
+<p>
+Let us delve into the call to calcProb(version). This piece of code has several crucial portions:
+
+<h4>probObject() = new objectProbabilities(mSigma) is called outside of ths code This creates a probability object for you which you can use as such. Within the brackets, one will be placing the name of the EffInfo object created earlier.</h4>
+
+<p>
+Where the objectProbabilities class has methods to retrieve turn-on curve efficiencies for an object with a certain Pt, Eta and Phi. One must know ones triggers before hand, but this should be a given. Our constructor passes into the event the efficiency turn-on curve fits, the systematics, and any +1, -1 sigma calculationes one wishes to calculate.
+</p>
+
+<ul>
+
+<li>probObject("Template")-&gt;getProbability(OBJECT[i], stat);
+<br>
+which uses the effInfo holder between sets of /////////////
+<br>
+in this template file. Lets look at effInfo:
+<ul>
+<li>effInfo["Name"], where one would give this string an identifier name of ones choice.
+<li>effInfo["Name"].EffName("EfficiencyName"), where one would place the name of the efficiency for the file look-up process. For example: L1SCINT, L3EM_OR.
+<li>effInfo["Name"].EffType("Type"), where one would replace type with Parametrized or Binned to denote the efficiency type.
+<li>effInfo["Name"].EffVersion(integer), where one would place an integer to denote the version of the efficiency file.
+<li>effInfo["Name"].ObjQuality("Quality"), where one would replace the Quality string with strings such as LOOSE, MEDIUM, etc. to denote the quality of the object.
+<li>effInfo["Name"].ObjType("Object"), where one would replace the Object string with electron, muon or jet.
+<li>vars.push_back("variable"), where one would replace variable with the axis variable of the efficiency. For example: pt, eta, deteta.
+</ul>
+
+<li>probObject("EfficiencyName")-&gt;getProbNObjects(OBJECT);
+<br>
+<ul>
+As above, where N = an integer, with a few changes noted here.
+<li>OBJECT = MU, the entire set of objects in the event is passed instead of just one
+<li>An error holder is not passed as the method does not calculate errors
+</ul>
+
+</ul>
+</p>
+
+<h4>_channel = "Template";</h4>
+<p>
+This lets the framework know the name of ones processor. When one changes the name of this template processor to reflect the triggers/signal channel one is interested in, one should also change this string. Examples are of course shown in the processors that come with the class.
+</p>
+
+<h4>double probability = P_template(version);</h4>
+<p>
+This is the main call to ones methods. In the template, this calls an empty method which returns a dummy probability, but one shall be filling that method and hopefully splitting ones methods into level 1, level 2 and level 3 probabilities which one can then multiply out at the end. (See muw_w_l2m3_trk10 as an example)
+</p>
+
+<h4>return probability;</h4>
+<p>
+Finally, this method returns the probability that ones combinatorics have delivered back to this point. What exactly happens to ones probabilities after this point? We shall look at the steps together.
+
+<ol>
+<li>The event weight is passed into the next event in a map&lt;string, double&gt; with the string name = _channel (For example, "TopDiem").
+<li>The event weight reaches the next processor which may or may not modify it further. One may have a second processor, say TopElectron, and a third processor, say TopCombine, which would combine the event weights passed down by TopDiem and TopElectron.
+</p>
+
+<p class="important">
+It's easy to see how one could split up ones processors into a level 1, level 2 and a level 3 processor which would use a 4th processor to combine the probabilities of the first 3. The framework is flexible enough to accomodate varied needs.
+<br>
+One might also have two of the same probability processors which differ only in the combinatorics in order to develope new triggers or to test ones combinatorics for accuracy. The availability of multiple outputs is handy in these cases.
+</p>
+</p>
+<li>The event weights reach the output processor, and one should refer to the <a href="readme.html">main readme</a> for further information on this topic.
+</ol>
+
+</p>
+
+<br>
+
+<p>
+One should now be familiarized with the flow of the probability processor, but what happens if one chooses to place a <a href="#sigmacall">".sigma: true"</a> in ones CAFe configuration file? Ones combinatorics are called numerous times as shown below;
+
+<ul>
+<h5>For +1 sigmas,</h5>
+<li>EM, L1, +1 sigma
+<li>EM, L2, +1 sigma
+<li>EM, L3, +1 sigma
+<li>JET, L1, +1 sigma
+<li>JET, L2, +1 sigma
+<li>JET, L3, +1 sigma
+<li>MU, L1, +1 sigma
+<li>MU, L2, +1 sigma
+<li>MU, L3, +1 sigma
+<li>HT, L2, +1 sigma
+<br>
+<h5>And -1 sigmas,</h5>
+<li>EM, L1, -1 sigma
+<li>EM, L2, -1 sigma
+<li>EM, L3, -1 sigma
+<li>JET, L1, -1 sigma
+<li>JET, L2, -1 sigma
+<li>JET, L3, -1 sigma
+<li>MU, L1, -1 sigma
+<li>MU, L2, -1 sigma
+<li>MU, L3, -1 sigma
+<li>HT, L2, -1 sigma
+</ul>
+</p>
+
+<p>
+For +1 sigma, add all the returned probabilities in quadrature, similarly with the -1 sigma probabilities.
+
+This is how the +1 and -1 sigma variations are retrieved. These are passed into the event with the following std::string variables:
+
+<ul>
+<li>_channel + " Sigmas: " + "1"
+<li>_channel + " Sigmas: " + "-1"
+</ul>
+</p>
+
+<p>
+For example, "TopDiem Sigmas: -1". As one may have surmised, changing the _channel variable to a descriptive one is preferential.
+</p>
+
+<p>
+Of course, one must change the names of the processor and methods (from probTemplate) in order to create a new processor as per the instructions.
+</p>
+
+<a href="readme.html">Return to the main readme</a>
+
+</body>
+
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.20">
+ <TITLE>User Guide to Common Analysis Format: Configuration Files </TITLE>
+ <LINK HREF="UserGuide-6.html" REL=next>
+ <LINK HREF="UserGuide-4.html" REL=previous>
+ <LINK HREF="UserGuide.html#toc5" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="UserGuide-6.html">Next</A>
+<A HREF="UserGuide-4.html">Previous</A>
+<A HREF="UserGuide.html#toc5">Contents</A>
+<HR>
+<H2><A NAME="Config"></A> <A NAME="s5">5.</A> <A HREF="UserGuide.html#toc5">Configuration Files </A></H2>
+
+
+
+<H2><A NAME="ss5.1">5.1</A> <A HREF="UserGuide.html#toc5.1">Syntax <B>[BEGINNER]</B> </A>
+</H2>
+
+<P>While specifying arguments on the command line is convenient for developement, it can
+soon become cumbersome if there are more than a few processors. All the command
+line arguments can be specified in a configuration file which follows the
+<CODE>TEnv</CODE> syntax also used in the <CODE>rootrc</CODE> files.</P>
+<P>Here is an example of such a file:</P>
+<P>
+<PRE>
+cafe.Input:        file:input.root
+cafe.Run:          PrintEventNo,Group(test)
+cafe.Events:       0
+
+test.Run:          MyFilter,PrintEventNo
+</PRE>
+</P>
+<P>The relation to the command line arguments should be straightforward. Any entry without
+a prefix on the command line is interpreted as if it had the <CODE>cafe</CODE> prefix in the configuration file.</P>
+<P>Furthermore any other entry in the configuration file can be overwritten explicitly on the 
+command line with its full name.</P>
+<P>The configuration file is searched for in the following places:</P>
+<P>
+<UL>
+<LI>If the first command line argument is a file name, it is used.</LI>
+<LI>If the <CODE>$CAFE_CONFIG</CODE> environment variable is defined, the file it points to is used.</LI>
+<LI>If <CODE>./cafe.config</CODE> exists, it is used.</LI>
+<LI>If <CODE>$SRT_PRIVATE_CONTEXT/cafe.config</CODE> exists, it is used.</LI>
+</UL>
+</P>
+
+<H2><A NAME="ss5.2">5.2</A> <A HREF="UserGuide.html#toc5.2">Access from User Code <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>Typically user algorithms also need configuration information that you don't want to hardcode
+in your source. You can access the configuration file(s) via the <CODE>Config</CODE> class.</P>
+<P>
+<PRE>
+   {
+      //...
+      cafe::Config  config("cafe");
+      std::string input_spec = config.getString("Input");
+   }
+</PRE>
+</P>
+<P>The code above will return the value of <CODE>cafe.input</CODE>, no matter if it was given in the
+configuration file or the command line.</P>
+<P>You can also store your own information in this file. You should prefix each entry
+with either your class or function name or the name of your processor instance (i.e.
+the name you gave it in the run specification).</P>
+<P>
+<PRE>
+FilterMuonEvents.NumMuons:    2
+</PRE>
+</P>
+<P>for a class like this:</P>
+<P>
+<PRE>
+class FilterMuonEvents {
+public:
+  FilterMuonEvents(const char *name)
+  {
+     cafe::Config config(name);
+     _numMuons = config.getInt("NumMuons");
+  }
+
+  bool processEvent(cafe::Event&amp; event)
+  {
+     return event.getMuons().size() >= _numMuons;
+  }
+
+private:
+  int _numMuons;
+};
+</PRE>
+</P>
+
+<H2><A NAME="ss5.3">5.3</A> <A HREF="UserGuide.html#toc5.3">Specifying <CODE>Groups</CODE> <B>[ADVANCED]</B></A>
+</H2>
+
+
+<P>There are several special <CODE>Processor</CODE> classes which provide more
+structure to the execution of the framework. The most common one 
+is called <CODE>Group</CODE>. A <CODE>Group</CODE> object has a <CODE>.Run</CODE> parameter,
+just like the top-level <CODE>cafe</CODE> entry. </P>
+<P>What it does is, it executes all its children in sequence. This may not
+seem much of a deal, but it allows you to structure the execution 
+of the code in such a way, that multiple pieces can be easily added
+or removed.</P>
+<P>The <CODE>Processor</CODE>s that should run as part of a <CODE>Group</CODE> are specified
+int the corresponding <CODE>Run</CODE> parameter:</P>
+<P>
+<PRE>
+cafe.Run:        Group(Filter),Group(Process),Group(Output)
+Filter.Run:      FilterMuonEvents,FilterGoodRuns
+Process.Run:     Muon_PT_Histo,Group(PostProcess)
+Output.Run:      WriteMyVariables,WriteStandardExtensions
+PostProcess.Run: ProduceMyVariables,ProduceStandardExtensions
+</PRE>
+</P>
+<P>Now, if you don't want to run the <CODE>Filter</CODE> group, just modify the 
+first line instead of removing multiple entries. <CODE>Group</CODE>s can
+be nested arbitrarily.</P>
+<P>By default, there is one top-level <CODE>Group</CODE> called <CODE>cafe</CODE>.</P>
+<P>In addition to the structuring the execution, <CODE>Group</CODE>s also provide
+a few more configuration options. </P>
+
+<H3>Output Files</H3>
+
+<P>If a <CODE>Group</CODE> has an <CODE>.Output</CODE>
+entry in the configuration file, it will open a new root file with
+that name and make it the current directory. Each <CODE>Processor</CODE> can
+ask what its current directory is with the <CODE>getDirectory()</CODE> method.
+All the output of a <CODE>Processor</CODE> should usually go into its current
+directory. E.g. instead of just creating a histogrom, it should do 
+something like this:</P>
+<P>
+<PRE>
+   getDirectory()->cd(); // change to my directory
+   hist = new TH1F(...);
+</PRE>
+</P>
+<P>The default output directory is <CODE>gROOT</CODE>.</P>
+
+<H3>Directories</H3>
+
+<P>Each ROOT file can have multiple directories inside it. If the 
+<CODE>.Directory</CODE> entry of a <CODE>Group</CODE> is defined, a new subdirectory
+with the given name is created. Again, this directory is made
+the default directory for all children.</P>
+<P>
+<PRE>
+cafe.Run:     Group(One) Group(Two)
+cafe.Output:  histos.root
+
+One.Run:       ...
+One.Directory: HistosFromOne
+
+Two.Run:       ...
+Two.Directory: HistosFromTwo
+</PRE>
+</P>
+<P>If any of the <CODE>Processor</CODE>s in <CODE>One</CODE> and <CODE>Two</CODE> produce histograms
+they will end up in the two different folders <CODE>HistosFromOne</CODE> and
+<CODE>HistosFromTwo</CODE> resp. All of the histograms will be part of <CODE>histos.root</CODE>.</P>
+<P>While every <CODE>Group</CODE> can define its own output file, it is usually most
+convenient to have just one file, but multiple directories inside.</P>
+
+<H3>Debug Output</H3>
+
+<P>Each <CODE>Processor</CODE> has a method <CODE>debug()</CODE> which returns the current
+debugging level (a simple integer). The higher the level, the more
+detailed output should be produced. The debug level can be set via 
+the <CODE>.Debug</CODE> entry of a <CODE>Group</CODE> for all its children.</P>
+<P>
+<PRE>
+MyGroup.Debug: 3
+</PRE>
+</P>
+<P>and in your code:</P>
+<P>
+<PRE>
+    if(debug() > 2) {
+       err() &lt;&lt; "Detailed info on what's going on..." &lt;&lt; endl; 
+    }
+</PRE>
+</P>
+
+<H3>More <CODE>Processor</CODE> Methods</H3>
+
+<P>To produce error or standard output, call the <CODE>err()</CODE> or <CODE>out()</CODE> methods resp.
+They will return a <CODE>std::ostream&amp;</CODE> that you can use as any other.</P>
+
+<H2><A NAME="ss5.4">5.4</A> <A HREF="UserGuide.html#toc5.4">Including Configuration Files</A>
+</H2>
+
+
+<P>You can distribute the information in the configuration file over multiple
+physical files and include those. Include files can be nested arbitrarily
+deep. When specifying the file names, you can use environment variables
+which will be expanded automatically.</P>
+<P>
+<PRE>
++cafe.Include:    otherFile.cfg $HOME/myconfig/Config.cfg $MYGROUP/common.cfg
+</PRE>
+</P>
+<P>Every file is included only once, even when it appears in more than
+one include directive. Note the use of the plus sign to extend the definition
+of <CODE>cafe.Include</CODE>. This allows to have multiple such definitions in 
+different files which will be all concatenated.</P>
+
+<HR>
+<A HREF="UserGuide-6.html">Next</A>
+<A HREF="UserGuide-4.html">Previous</A>
+<A HREF="UserGuide.html#toc5">Contents</A>
+</BODY>
+</HTML>

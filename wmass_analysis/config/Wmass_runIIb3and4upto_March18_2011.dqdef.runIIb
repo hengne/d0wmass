@@ -1,0 +1,201 @@
+@ date: 7 Apr 2011 (release v2011-03-18)
+@ valid for the run range 151817-270116 (19 APR 2002 - 18 Mar 2011)
+@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@
+@ includes data quality information for
+@ CALon, CALoff, CALT (=CAL trigger), L1CAL, CFT, CTT, STT, MUO & SMT
+@    CPS added with v2009-04-18
+@    FPS added with v2010-03-11
+@
+@ require version 2.0 or greater
+
+"version" = 2.0
+
+@@@@@ define run range
+@
+@ -a  => Run2a
+@       "run range" = 151817 ; 219000
+@ -b1 => Run2b-1 prior to Aug-Oct 2007 shutdown
+@       "run range" = 222028 ; 234913
+@ -b2 => Run2b-2 post Aug-Oct 2007 shutdown until Jun-Sep 2009 shutdown
+@       "run range" = 237342 ; 252918
+@ -b3 => Run2b-3 post Jun-Sep 2009 shutdown 15 Sept 09 thru 18 Jul 10
+@       "run range" = 255328 ; 262856
+@ -b4 +> Run2b-4 post Jul-Aug 2010 shutdown 21 Aug 10 to 18 Mar 11
+@       "run range" = 264071 ; 270116
+
+"run range" = 151817 ; 270116
+
+@@@@@ Runs lists
+
+@ use bad runs only:
+@ -1=use bad/0=use both/1=use good
+
+"run list mode" = -1
+
+@ load bad runs from textfiles
+@ -a  => Run2a
+@ -b1 => Run2b-1 pre Aug 07 shutdown
+@ -b2 => Run2b-2 post Aug 07 shutdown
+@ -b3 => Run2b-3 post Aug 09 shutdown
+@ -b4 => Run2b-4 post Aug 10 shutdown
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+"bad runs file" = "dq_defs/common/caloff-b1.badruns"
+"bad runs file" = "dq_defs/common/caloff-b1.sca.badruns"
+"bad runs file" = "dq_defs/common/caloff-b2.badruns"
+"bad runs file" = "dq_defs/common/caloff-b2.hot.badruns"
+"bad runs file" = "dq_defs/common/caloff-b3.badruns"
+"bad runs file" = "dq_defs/common/caloff-b4.badruns"
+"bad runs file" = "dq_defs/common/calon-a.badruns"
+"bad runs file" = "dq_defs/common/calon-b1.badruns"
+"bad runs file" = "dq_defs/common/calon-b2.badruns"
+"bad runs file" = "dq_defs/common/calon-b3.badruns"
+"bad runs file" = "dq_defs/common/calon-b4.badruns"
+"bad runs file" = "dq_defs/common/calt-b1.badruns"
+"bad runs file" = "dq_defs/common/calt-b2.badruns"
+"bad runs file" = "dq_defs/common/calt-b3.badruns"
+"bad runs file" = "dq_defs/common/calt-b4.badruns"
+"bad runs file" = "dq_defs/common/cft-a.badruns"
+"bad runs file" = "dq_defs/common/cft-b1.badruns"
+"bad runs file" = "dq_defs/common/cft-b2.badruns"
+"bad runs file" = "dq_defs/common/cft-b3.badruns"
+"bad runs file" = "dq_defs/common/cft-b4.badruns"
+@"bad runs file" = "dq_defs/common/cps-b2.badruns"
+@"bad runs file" = "dq_defs/common/cps-b3.badruns"
+@"bad runs file" = "dq_defs/common/cps-b4.badruns"
+@"bad runs file" = "dq_defs/common/ctt-a.badruns"
+"bad runs file" = "dq_defs/common/ctt-b1.badruns"
+"bad runs file" = "dq_defs/common/ctt-b2.badruns"
+"bad runs file" = "dq_defs/common/ctt-b3.badruns"
+"bad runs file" = "dq_defs/common/ctt-b4.badruns"
+@"bad runs file" = "dq_defs/common/fps-b3.badruns"
+@"bad runs file" = "dq_defs/common/fps-b4.badruns"
+"bad runs file" = "dq_defs/common/l1caltrk-b4.badruns"
+@"bad runs file" = "dq_defs/common/muo-a.badruns"
+@"bad runs file" = "dq_defs/common/muo-b1.badruns"
+@"bad runs file" = "dq_defs/common/muo-b2.badruns"
+@"bad runs file" = "dq_defs/common/muo-b3.badruns"
+@"bad runs file" = "dq_defs/common/muo-b4.badruns"
+"bad runs file" = "dq_defs/common/smt-a.badruns"
+"bad runs file" = "dq_defs/common/smt-b1.badruns"
+"bad runs file" = "dq_defs/common/smt-b2.badruns"
+"bad runs file" = "dq_defs/common/smt-b3.badruns"
+"bad runs file" = "dq_defs/common/smt-b4.badruns"
+"bad runs file" = "dq_defs/common/solenoid-b2.badruns"
+"bad runs file" = "dq_defs/common/solenoid-b3.badruns"
+"bad runs file" = "dq_defs/common/solenoid-b4.badruns"
+@"bad runs file" = "dq_defs/common/stt-b3.badruns"
+@"bad runs file" = "dq_defs/common/stt-b4.badruns"
+"bad runs file" = "dq_defs/common/toroid-b2.badruns"
+"bad runs file" = "dq_defs/common/toroid-b3.badruns"
+"bad runs file" = "dq_defs/common/toroid-b4.badruns"
+
+@ Comment or uncomment the following to disable or reenable these 
+@ categories of badruns.
+@
+@ *-nocert are runs that were not in SAM at the cutoff for DQ and
+@   therefore do not have full DQ done. See the corresponding
+@   *-nocert*.txt file for explanations.
+@ caloff-prelim are runs with a possible new or resurfaced noise source.
+@   these are under investigation. Use with caution.
+@ spc-* are special and other types of runs that should not be in any
+@   analyses, but might be useful for studies.
+@ bsmove-* are runs were the beam spot was moving. Otherwise they
+@   are fine. The beam spot never moved far enough to effect anything
+@   including the trigger or normal tracking at more than the 1% level.
+@   They should only be uncommented if your analysis is extremely
+@   sensitive to the x/y beam position and you don't calculate it
+@   independently.
+
+@"bad runs file" = "dq_defs/common/bsmove-b3.badruns"
+@"bad runs file" = "dq_defs/common/bsmove-b4.badruns"
+"bad runs file" = "dq_defs/common/caloff-nocert-b1.badruns"
+"bad runs file" = "dq_defs/common/caloff-nocert-b2.badruns"
+"bad runs file" = "dq_defs/common/caloff-nocert-b3.badruns"
+"bad runs file" = "dq_defs/common/caloff-nocert-b4.badruns"
+@"bad runs file" = "dq_defs/common/caloff-prelim.badruns"
+"bad runs file" = "dq_defs/common/ctt-nocert-b1.badruns"
+"bad runs file" = "dq_defs/common/ctt-nocert-b2.badruns"
+"bad runs file" = "dq_defs/common/ctt-nocert-b3.badruns"
+"bad runs file" = "dq_defs/common/ctt-nocert-b4.badruns"
+"bad runs file" = "dq_defs/common/spc-a.badruns"
+"bad runs file" = "dq_defs/common/spc-b1.badruns"
+"bad runs file" = "dq_defs/common/spc-b2.badruns"
+"bad runs file" = "dq_defs/common/spc-b3.badruns"
+"bad runs file" = "dq_defs/common/spc-b4.badruns"
+
+@@ The following file contains runs that exhibit a double peak in
+@@ the Scalar Et distribution. The guess is that it is caused by
+@@ the calorimeter calibration triggers. Everything else appears normal.
+@@ The file is commented out by default (the runs are GOOD). But if
+@@ you see any sorts of problems with these runs, you can uncomment it
+@@ to remove those runs.
+
+"bad runs file" = "dq_defs/common/caloff-2pk.badruns"
+
+
+@ Uncomment the following to add ctt crate 13 (hex) to
+@ your criteria. ONLY use cttx13 for TRIGGER STUDIES, NOT for analyzes.
+
+@"bad runs file" = "dq_defs/common/cttx13-a.badruns"
+@"bad runs file" = "dq_defs/common/cttx13-b1.badruns"
+@"bad runs file" = "dq_defs/common/cttx13-b2.badruns"
+@"bad runs file" = "dq_defs/common/cttx13-b3.badruns"
+@"bad runs file" = "dq_defs/common/cttx13-b4.badruns"
+
+@ can also give it good runs list
+@"good runs file" = "[name].goodruns"
+
+@@@@@ LBNs lists
+@ define lbn range (implicitly defined by run range)
+
+"lbn range" = 1 ; 9000000
+
+@ use bad lbns only:
+@ -1=use bad/0=use both/1=use good
+
+"lbn list mode" = -1
+
+@ load bad LBNs from textfiles
+
+"bad lbns file" = "dq_defs/common/caloff-a.badlbns"
+"bad lbns file" = "dq_defs/common/caloff-b1.badlbns"
+"bad lbns file" = "dq_defs/common/caloff-b2.badlbns"
+"bad lbns file" = "dq_defs/common/caloff-b2.hot.badlbns"
+"bad lbns file" = "dq_defs/common/caloff-b3.badlbns"
+"bad lbns file" = "dq_defs/common/caloff-b4.badlbns"
+"bad lbns file" = "dq_defs/common/cft-b2.badlbns"
+"bad lbns file" = "dq_defs/common/cft-b3.badlbns"
+"bad lbns file" = "dq_defs/common/cft-b4.badlbns"
+"bad lbns file" = "dq_defs/common/ctt-b4.badlbns"
+"bad lbns file" = "dq_defs/common/l1cal-b3.badlbns"
+"bad lbns file" = "dq_defs/common/l1cal-b4.badlbns"
+@"bad lbns file" = "dq_defs/common/muo-b2.badlbns"
+@"bad lbns file" = "dq_defs/common/muo-b3.badlbns"
+@"bad lbns file" = "dq_defs/common/muo-b4.badlbns"
+"bad lbns file" = "dq_defs/common/smt-b3.badlbns"
+"bad lbns file" = "dq_defs/common/smt-b4.badlbns"
+"bad lbns file" = "dq_defs/common/solenoid-b2.badlbns"
+"bad lbns file" = "dq_defs/common/solenoid-b3.badlbns"
+"bad lbns file" = "dq_defs/common/solenoid-b4.badlbns"
+
+@ can also give it good lbns list
+@"good lbns file" = "[name].goodlbns"
+
+@@@@@ Event based calo checks
+@@@@@ NOTE: This system does NOT adjust the luminosity for the
+@@@@@       loss of these events! You must do that yourself.
+
+@ Turn on/off event based calo checks
+@ 1=on/0=off
+
+"check cal_empty_crate" = 1
+"check cal_ring_of_fire" = 1
+"check cal_noon_noise" = 1
+"check cal_coherent_noise" = 1
+"check cal_sca_failure" = 1
+"check cal_spanish_fan" = 1

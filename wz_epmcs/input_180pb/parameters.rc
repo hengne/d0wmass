@@ -1,0 +1,197 @@
+#
+# apply energy smearing to electrons with pT>pT_cut
+#
+pT_cut:          5.0
+VtxResolution:   25.18
+
+#
+# Electron parameters for CC
+#
+EtaResolution_CC: 0.0073
+PhiResolution_CC: 0.0070
+Scale_CC:         1.0054
+Offset_CC:        0.0384
+Sampling_CC:      0.15
+Constant_CC:      0.042
+Noise_CC:         0.29
+
+#
+# Electron parameters for EC
+#
+EtaResolution_EC:  0.0029
+PhiResolution_EC:  0.0041
+Noise_EC:          0.125
+Sampling_EC:       0.206
+# Electron Energy Scale for negative EC region (North EC)
+Scale_nEC:         0.96
+Offset_nEC:        0.07
+# Electron Energy Scale for positive EC region (South EC)
+Scale_pEC:         0.9990
+Offset_pEC:        0.5744
+# Constant term for negative EC region (North EC)
+Constant_nEC:      0.01
+# Constant term for positive EC region (South EC)
+Constant_pEC:      0.04
+
+#
+# Hadronic parameters
+#
+Scale_HAD_nCC:    0.67
+Scale_HAD_pCC:    0.67
+Scale_HAD_nEC:    0.67
+Scale_HAD_pEC:    0.67
+Sampling_HAD:     0.8
+Constant_HAD_pCC:     0.05
+Constant_HAD_nCC:     0.05
+Constant_HAD_nEC:     0.05
+Constant_HAD_pEC:     0.05
+underlying:       3.02
+
+#
+# Use METx_METy distribution from 
+# min-bias events to simulate underlying event contribution
+#
+UseMETxMETyMinBias: TRUE
+metxmety_file: ../input/metx_mety.C
+
+alpha_mb: 0.95
+
+#
+# MET fudge factor
+#
+met_resmear: FALSE
+resmear_shift_CC: -1.80
+resmear_shift_EC: -0.90
+
+#######################################################################
+##                       NOTE
+## met_resmear and WUparaCorrection can NOT be TRUE at the same time
+#######################################################################
+
+#
+# Uparallel Correction
+#
+WUparaCorrection: TRUE
+WUparaCorrection_shift_CC: -1.78
+WUparaCorrection_shift_nEC: -0.40
+WUparaCorrection_shift_pEC: -2.40
+
+#
+# Uparallel Efficiency
+#
+WUparaEffCorrection: FALSE
+u0_CC:        -0.908
+s_CC:         0.004364
+u0_EC:        2.308
+s_EC:         0.0046
+
+#
+# electron cluster phi shift within module
+#
+PhiModCorrection: TRUE
+phimodshift_file: ../input_180pb/presel_shift_vs_phimod_ptetabin.C
+phicrackeff_file: ../input_180pb/hPhiCrackEff.C
+
+#
+# Steering parameters
+#
+output_file: /dev/null
+runlumi_file: ../cal_regions/runlumi_180pb.map
+trgeff1_file: ../input_180pb/trig_eff_old_zvtx_pt_deteta.C
+trgeff1_start: 161973
+trgeff1_end:   178721
+trgeff2_file: ../input_180pb/trig_eff_new_zvtx_pt_deteta.C
+trgeff2_start: 178722
+trgeff2_end:   200000
+# either hmatrix or likelihood efficiency
+ideff_file: ../input_180pb/hmtrk_eff_deteta.C
+trkeff_file: ../input_180pb/trkEffVsEtaZvtx_10bin.C
+preseff_file: ../input_180pb/presel_eff_deteta.C
+
+FirstRun: 161973
+LastRun: 200000
+
+#
+# Which efficiencies should be applied?
+#
+Remove_Bad_Cal:            TRUE
+ZtrigEffDetEtaCorrection:  TRUE
+WtrigEffDetEtaCorrection:  TRUE
+PreSelEffDetEtaCorrection: TRUE
+
+# 0 = no requirement, 1=at least one, 2=at least two
+# req of electrons in Z events with a track match
+CutNZTrkMatch: 1
+# req of electrons in Z events passing ID cut
+CutNZID: 2 
+
+#should be false since track match is applied to data for Ws
+WtrkEffDetEtaCorrection:   FALSE
+#should be true when using track match for background subtraction
+WIDEffDetEtaCorrection:    TRUE
+
+
+
+rand_seed: 8675309
+
+#
+# FSR steering
+#
+merge_fsr_photons: TRUE
+merge_fsr_radius: 0.20
+include_photon_smearing_in_met: FALSE
+
+
+#
+# SysStat error propagation (make sure propagate_stat_error is FALSE)
+#
+
+# do*SysStat parameters are only considered if doSysStat is TRUE
+doSysStat:       FALSE
+
+# number of trials to run
+nSysStat:        100
+
+doTrigSysStat:   TRUE
+doIdSysStat:     TRUE
+doPreselSysStat: TRUE
+doTrkSysStat:    TRUE
+
+#
+# Efficiency stat error propogation
+# pse_* parameters are only considered if propogate_stat_error is TRUE
+#
+propogate_stat_error: FALSE
+eff_seed: 0
+pse_trigger: TRUE
+pse_id:      TRUE
+pse_presel:  TRUE
+pse_track:   TRUE
+
+#
+# Study of systematic error propogation
+#
+eff_trigger_scale: 1.0
+eff_id_scale:      1.0
+eff_presel_scale:  1.0
+eff_track_scale:   1.0
+
+#
+# Cuts
+#
+CutEtaCC:     1.05
+CutEtaECLowZ: 1.50
+CutEtaECLowW: 1.70
+CutEtaECHigh: 2.30
+
+CutMET: 25
+CutEPT: 25
+
+# remove phi module 17
+remove_module17: TRUE
+
+# zvtx cut for W EC and Z ECEC events on same side as zvtx
+do_zvtx_cut:  FALSE
+zvtx_cut:     30.0
+
+#Keep a final comment to avoid last-line-carraige-return issues

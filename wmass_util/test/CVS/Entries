@@ -1,0 +1,21 @@
+/BeamSpotManager_t.cpp/1.1/Sat Mar 26 00:21:38 2005//
+/CAFCaloCell_t.cpp/1.1.1.1/Thu Mar 10 18:19:52 2005//
+/CAFCaloTower_t.cpp/1.1.1.1/Thu Mar 10 18:19:52 2005//
+/CAFEMObj_t.cpp/1.1.1.1/Thu Mar 10 18:19:52 2005//
+/CAFMet_t.cpp/1.1.1.1/Thu Mar 10 18:19:52 2005//
+/CAFMuon_t.cpp/1.1/Sat Sep  3 22:45:44 2005//
+/CAFRatioMethod_t.cpp/1.1/Thu Mar 13 23:50:33 2008//
+/CAFTrack_t.cpp/1.1/Thu Mar 24 15:53:36 2005//
+/CAFWCand_t.cpp/1.1/Thu Mar 24 15:53:36 2005//
+/CAFZBevent_t.cpp/1.1/Wed Sep 18 20:37:42 2013//
+/CAFZCand_t.cpp/1.1/Thu Mar 24 15:53:36 2005//
+/CaloGeometryManager_t.cpp/1.1/Sat Mar 26 00:21:38 2005//
+/EMClusterPosCorr_t.cpp/1.1/Wed Nov  7 23:15:52 2007//
+/EfficiencyCorrection_t.cpp/1.1/Thu Mar 13 23:50:33 2008//
+/RatioMaker_t.cpp/1.1/Thu Mar 13 23:50:33 2008//
+/TriggerManager_t.cpp/1.1/Sun Apr 17 01:33:11 2005//
+/WZ_Utils_t.cpp/1.1/Thu Mar 24 15:53:36 2005//
+/WmassTrigger_t.cpp/1.1/Thu May  3 13:28:45 2012//
+/evtReweightManager_t.cpp/1.1/Thu Aug 30 21:17:52 2007//
+/hist_files_t.cpp/1.1.1.1/Thu Mar 10 18:19:52 2005//
+D

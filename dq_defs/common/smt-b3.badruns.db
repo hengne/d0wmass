@@ -1,0 +1,32 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >=255328 and q.run_number <= 262856) and (q.qual_group = 'SMT' and q.quality != 'REASONABLE') and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%' order by q.run_number asc ;
+    255328 SMT        BAD                  official/global_CMT
+    257186 SMT        BAD                  official/global_CMT
+    257187 SMT        BAD                  official/global_CMT
+    257188 SMT        BAD                  official/global_CMT
+    257189 SMT        BAD                  official/global_CMT
+    257242 SMT        BAD                  official/global_CMT
+    257349 SMT        BAD                  official/global_CMT
+    257648 SMT        BAD                  official/global_CMT
+    260933 SMT        BAD                  official/global_CMT
+    260937 SMT        BAD                  official/global_CMT
+    260938 SMT        BAD                  official/global_CMT
+    260940 SMT        BAD                  official/global_CMT
+    260944 SMT        BAD                  official/global_CMT
+    260951 SMT        BAD                  official/global_CMT
+    260952 SMT        BAD                  official/global_CMT
+    261201 SMT        BAD                  official/global_CMT
+    261475 SMT        BAD                  official/global_CMT
+    261531 SMT        BAD                  official/global_CMT
+    262005 SMT        BAD                  official/global_CMT
+    262151 SMT        BAD                  official/global_CMT
+    262783 SMT        BAD                  official/global_CMT
+    262784 SMT        BAD                  official/global_CMT
+    262786 SMT        BAD                  official/global_CMT
+    262787 SMT        BAD                  official/global_CMT
+    262801 SMT        BAD                  official/global_CMT
+
+25 rows selected.
+
+SQL>
+SQL> spool off

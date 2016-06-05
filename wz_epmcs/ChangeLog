@@ -1,0 +1,1383 @@
+111014 Jan stark@in2p3.fr
+        - First (credible) data tune for Run IIb3,4.
+
+091914 Jenny Holzbauer jholzbau@fnal.gov
+	- Modified EMSmear to accomodate new detetaadjust parameters split by runs (chooses parameters based on bool run3/4 settings in parameters file).  Modified EfficiencySmear to include a 3D loose track match efficiency with the additional dimension being luminosity (tight is unchanged, the dependence there is fairly weak and stats are lower).  The luminosity bins are wide so this efficiency has interpolated values and that method is added to PHistoTools.  The parameters file "data hack" lumi parameterization are set to null becaseu previous implementation was just the data efficiency rather than a ratio and thus duplicated the new version of the loose track match efficiency.  I also updated the energy scale and offset fits which include new detetaadjust values.
+
+081314 Jenny Holzbauer jholzbau@fnal.gov
+       - Bug fix to Wenucomp.  The QCD shape detector eta histogram used the eta distribution previously.  Now uses right histogram name.
+	
+081114 Jenny Holzbauer jholzbau@fnal.gov
+       - Modified the comparemacros to allow backgrounds to be applied to data histograms for W's in a variety of kinematic bins.  Also started a directory for background estimation scripts (modern versions, with automation).  Modified help output to descript new proceedure.  Code is backwards compatible.
+	
+080414 Jenny Holzbauer jholzbau@fnal.gov
+	-Modified EMSmear energy resolution section.  If energy (generator) is too small, sampling_exp can be very large, making exp(sampling_exp/sin(theta))/exp(sampling_exp) = 0/0 = nan.  Is very rare but can cause crashes if not resolved.
+	
+072514 Jenny Holzbauer jholzbau@fnal.gov
+	- Modified WZUtils getbin methods to have val >= rather than val >.  This is a bug fix for cases where, for instance, eta == 0 and the bin low edge in the parameters file is 0.  Now the return is bin 0 rather than bin -1 in such cases.  This prevents a crash in places like the leakage model, where histograms are accessed like histo[bin] and histo[-1] doesn't exist.
+
+071714 Jenny Holzbauer jholzbau@fnal.gov
+	- Updated energy scale and offset fits for MC
+	
+071614 Jenny Holzbauer jholzbau@fnal.gov
+	- Modified EMSmear 3.1 to use closest bin in case of overflow bin choice for pt, set, eta or upara.  This prevents loop until cut off in the while loop and reduces processing time by half.  Added initialize method to get, to move histogram/binning assignment so it only happens once per event.  Also updated trigger for new fits from Rafael, option 5.
+	
+071014 Jenny Holzbauer jholzbau@fnal.gov
+	- Added code (with Rafael) to allow vertex to be handled by rejection rather than weight.  Default is as a weight, as it has been applied in the past.  Switch is useful for uncertainty studies.
+	
+070314 Jenny Holzbauer jholzbau@fnal.gov
+	- Update of FSR model, includes energy interpolation for efficiency an dmore statistics.
+	
+061714 Jenny Holzbauer jholzbau@fnal.gov
+	- fixed bug (redeclaration of bool) which prevented application of EMID/hmx efficiency in ZAnalysis
+	
+051314 Jenny Holzbauer jholzbau@fnal.gov
+	- Added phi eff (by run) and energy scale/offset updates for MC.  
+
+051314 Jenny Holzbauer jholzbau@fnal.gov
+	- Updated the energy scale and offset values for data, splitting by runs this time.  Also updated phi efficiency for data, by run, and added code to allow run splitting.  Added code to allow extra leaves in the recoil fitting tree, to make post-processing versions of the eta imbalance histograms.  The rms/mean leaves are still stored, so tree is backwards compatible.
+	
+050714 Michelle mbrochma@fnal.gov
+        - changed SET/Lumi parameterization to have Run3 and Run4 version
+
+050414 Michelle mbrochma@fnal.gov
+        - added SET/Lumi parameterization and Jan's SET efficiencies in parameters.rc (but not parameters.rc.geant)	
+	
+040813 Rafael rclsa@fnal.gov
+	- EMF parametrization with full slow GEANT sample
+
+033114 Hengne Li Hengne.Li@cern.ch
+        - updated dUPara Model for fixing the dUpara distribution mis-match issue, 
+          see Jan's talk on Mar. 12, 2014, and Hengne's talk on Mar. 26, 2014
+
+032614 Jenny Holzbauer jholzbau@fnal.gov
+	- Activated new trigger values corresponding to option 4 (added 031014).  Added etflow values for data, not activated.
+	
+030214  Rafael rclsa@fnal.gov
+	- New leakage model 5
+	- Not activated (see presentation 03/19/14) (note from Jenny 051314- leakage model 5 was activated ~April 2014)
+	
+031214  James Kraus jakraus@fnal.gov
+        added True UTperp and True UTpara plots to the default plots created by compare_macros/wenucomp
+        in compare_macros/plot_util.cpp, changed debugging statements from "Diffent" to "Different" everywhere
+
+031014 Jenny Holzbauer jholzbau@fnal.gov
+	- Added new trigger option 4 to allow for run and lumi dependent triggers.  Parameters file still uses option 3 (no run/lumi dep) for now.
+	
+030914  Rafael Lopes de Sa rclsa@fnal.gov
+        - Small final adjustments in the FSR model 7 (especially in the algorithm for normalization)
+	- Activate it
+	
+030714  Rafael Lopes de Sa rclsa@fnal.gov
+	- Different binning for FSR model 7
+	- Smearing of the probability for multiple photons
+	- Fixed histograms for model
+	
+022014  Rafael Lopes de Sa rclsa@fnal.gov
+	- New MB libraries for data and MC, new FSR model, new auxiliary code in WZ_Utils.hpp.
+	
+021314  Jenny Holzbauer jholzbau@fnal.gov
+       - Updated track match efficiency (tight) for data, including the track pt requirement before efficiency calculation, as done for MC on 021114.  Also modified the HardRecoilManager to include the newest etflow option (from Rafael).
+	
+021314 Hengne Li  Hengne.Li@cern.ch
+       add protection in compare_macros to protect the crash due to missing ZB histograms when comparing full MC. 
+        Please un-comment the line "#define MORE_ZB_PLOTS" in either wenucomp.cpp or zeecomp.cpp to have the 
+       ZB library checking plots printed, but for this, you need to make sure the input full MC ROOT produced 
+       by wmass_analysis have the option "myname.doZBevent: true", otherwise the missign ZB histograms will make 
+       the comparison macros to crash. 
+  
+021214 Hengne Li  Hengne.Li@cern.ch
+        - update of the dUPara model to improve the description of the Zero Fraction
+        for MET>40 GeV and InstLumi>6, see Hengne's discussion in W mass meetings Feb. 5, 2014 and Feb. 12, 2014
+
+021114 Jenny Holzbauer jholzbau@fnal.gov
+	- updated track match efficiency (tight) now derived with track pt cut applied before efficiency is calculated, as is done in PMCS
+012014 Jenny Holzbauer jholzbau@fnal.gov
+	- Replaced dupara root files with versions that contain exactly the same histograms, but with fsumw2 information removed from them.  This saves memory when running PMCS.
+011914 Jenny Holzbauer jholzbau@fnal.gov
+       - Added new MB libraries and recent ZB libraries to parameters.rc.geant.  Modified code to accept only the runs separately, with separate numbers of lines and alpha_mb values.  
+       - Also updated for newer binned etflow model, which is also by run.  
+       - Modified the expected value in the hard recoil model to grab from the response vs zbset histogram rather than the response vs dphi histogram in the new hard recoil zbset model.  
+       - Added programs for making MB libraries to useful_scripts
+011314 Jenny Holzbauer jholzbau@fnal.gov
+       - Added update of hard recoil model with extra events, extra zpt bins and one extra luminosity bin.  Separate models exist for runs 3 and 4, data (HV loss) and MC (no HV loss).  Also changed parameters.rc to use the newest hard recoil model code (model 3)
+	- The code will now exit in default version (using zbset hard recoil model) if both Run3 and Run4 are set to true.  This is to avoid potential memory problems.  Code may be modified again in the future to allow simultaneous running.
+	- Miscellaneous updates for the range of the ZB set profile plot for Znunu and Znunu class has more wrappers around phi variables to force 0 to 2pi range.
+111013 Jenny Holzbauer jholzbau@fnal.gov
+	- Added new hard recoil model with zbset, luminosity and true phi dependencies, currently designed for run 3.  Other runs and data are coming next.  This model requires the use of a new environment variable, setenv HRLibraryRootPath /rooms/wmass/jenny/MC/HRLibrary.  The batch submission is also updated.
+
+092613 Jenny Holzbauer jholzbau@fnal.gov
+	- Added protections in write out of recoil smearing tree to prevent NAN's when there are 0 or 1 events.
+	
+092513 James Kraus jakraus@fnal.gov
+       Updated pmcsana.cpp to remove a bug in the calculation of phimod used by v6 of the outcone FSR model
+
+092313 Hengne hengne@fnal.gov
+       - Add function to return scalar Et of ZB without _scale_zb scaling.
+       - Add cut on true W mass
+       - Add histograms of Scalar Et of ZB
+       - fix a bug introduced in the major function ZAnalysis::analyzeEvent(..).
+         The variable "int type" which defines whether an event is CCCC CCEC or ECEC
+         is not given a value becuase the following line is wrongly removed in version 1.225:
+             type = zcand.Type(_CutEtaCC, _CutEtaEC1, ... );
+         Now it is added back.
+
+091713 Rafael rclsa@fnal.gov
+	- Change the precision of the recoil templates to double.
+	  This avoids truncation errors in grids with small steps (which was happening).
+
+091613 Rafael rclsa@fnal.gov
+	- Fix the "recoil fit reweighting", as pointed out by Jenny
+	- Protection against SAM definitions with very small number of files
+	- Update on the batch submition scripts to comply with the new SAMExpander
+
+091313 Rafael rclsa@fnal.gov
+	- Makes the dupara efficiency works when you provide external random number the same
+	  way as it works when you don't.
+	- Makes the recoil template also perform the electron simulation, 
+	  because of the dupara simulation, pedantically.
+	- Since it now takes care of the electron anyway, allows cut not only in event-based prop
+	  but also electron-based ones.
+
+090813 Jan  stark@in2p3.fr
+       - Fixed bug related to events with negative luminosity in the reading of binary ZB libraries.
+       - Optional cosmetic features for the chi plots in compare_macros.
+	
+090413 Hengne, hengne@fnal.gov
+        Additional cuts:
+           - Lower and upper cut on true pT(W).
+           - Lower and upper cut on true phi(W).
+        Additional plots:
+          - True pT(W). Inserted right after the page that shows the reconstructed pT(W)
+          - uT in slices of true pT(W), Two pages of 10 plots, in the end of the ps file. Same 10 bins as Z Pt slicing.
+          - True pT(W) in slices of uT. Again, two pages with ten plots. Same ten slices as above, but this times slices in true pT(W).
+
+090313 Mandy, rominsky@fnal.gov
+	- fixed the zee background file so that the tree isn't there.
+
+080713 James Kraus jakraus@fnal.gov
+       Updated the WZ_Utils.hpp functions related to the new out-of-cone FSR model.  The initial update was running slowly due to 
+       sub-optimal coding in one of the functions.  The updated code runs roughly as fast as the previous FSR model.
+
+073013 James Kraus jakraus@fnal.gov
+       Updated out-of-cone FSR code to run my new model.  Changed the parameters.rc.geant file to run the new configuration by default.  
+       The following lines of the parameters.rc.geant were modified:
+          merge_fsr_photons_model: 4 -->  merge_fsr_photons_model: 6
+          ZsimuFSRcracks:      TRUE  -->  ZsimuFSRcracks:      FALSE
+          WsimuFSRcracks:      TRUE  -->  WsimuFSRcracks:      FALSE
+       FSR model 5 is being used in the EC mods, and I wished to avoid confusion.
+
+060113 Jan  stark@in2p3.fr
+       Experimental version of new SET efficiency for W -> e nu MC. Based on Run IIb3 MC.
+	
+050913 Hengne Li hengne@fnal.gov
+        add executable to dump histograms from compare macros' outputed root files.
+         E.g. for Zee,
+          > dumpHist.exe zeecomp.root zeecomp_dumpHist.root
+           - zeecomp.root is the zeecomp output, 
+           - zeecomp_dumpHist.root is the new root file contains all histograms.
+         Same for Wenu, e.g. 
+          > dumpHist.exe wenucomp.root wenucomp_dumpHist.root
+
+043013 Hengne Li hengne@fnal.gov
+        added the dUPara Model parameters derived with complementary High Lumi CAEP sample.
+
+041613 Jenny Holzbauer jholzbau@fnal.gov
+	updated phi efficiency, added code for z and electron px, py, pz histograms, and the zpt, delta phi (e,e) histograms in all eta regions.  Updated weight files for zpt, delta phi (e,e) including run 4.
+041613 Jenny Holzbauer jholzbau@fnal.gov
+	Added code to make histograms for the zpt, delta phi (e,e) reweighting using same binning as previously.
+
+032813 Rafael Lopes de Sa, rclsa@fnal.gov
+	Modified Files:
+	        Makefile RecoilSmear.cpp RecoilSmear.hpp ZAnalysis.cpp
+	        ZNuNuAnalysis.cpp parameters.rc parameters.rc.geant
+	        parameters.rc.geant.znunu
+	Added Files:
+	        HardRecoil_Manager.cpp HardRecoil_Manager.hpp TH2rclsa.cpp
+	        TH2rclsa.h
+	Log Message:
+	New hard recoil model
+
+032913 Rafael Lopes de Sa, rclsa@fnal.gov
+	Modified Files:
+	        RecoilSmear.cpp
+	Log Message:
+	HardRecoil_Manager only initialized if needed
+
+031813 Mandy, rominsky@fnal.gov
+	- found more cout statements to remove 
+031813 Mandy, rominsky@fnal.gov 
+	- updated plot_util with new wtaunu background fraction
+	- added root file for wtaunu bkgd fraction
+	- updated wenucomp to look at new wtaunu rootfile 
+
+>>>>>>> 1.206
+021313 Hengne, hengne@fnal.gov
+       - Updated the dUPara Model to model 2b3 and 2b4 separately.
+       - Updated parameters.rc, adapt to the updated dUPara model.
+       - updated parameters.rc.geant, turned on the updated dUPara model as default, also updated the scale/offset Jenny fitted for the dUPara model update .
+
+020513 Hengne, hengne@fnal.gov
+       Updated the parameters.rc file:
+         - turned on the dUPara model update, 
+         - add Jenny's dedicated scale/offset fit for the updated dUPara Model,  
+         - turn back to a previous version of the trigger efficiency (i.e. the one fitted with pT range 25-100 GeV) 
+           seems to be able to describe better the data, need some study to understand.
+         - updated the Phi Efficiency
+       Updated the compare_macros, adjusted the Mt value to be 81.40 for drawing Wenu data plots: 
+        ./wenucomp  data.root     fastmc.root   1 0  0  1 0 81.40   
+
+020213 Jenny Holzbauer jholzbau@fnal.gov
+       Updated trigger efficiency to estimate with full data and using Mee method.  Updated the MC track matching to require the "other" (tag) electron to have a tight track match, to deal with reconstructed/truth vertex disagreement before revertexing issue.  Modified alpha_mb to be 1.0, which is a temporary value closer to the initial estimates we have than the current value in the parameters.rc.geant file.
+
+012813 Jenny Holzbauer jholzbau@fnal.gov
+	Modified EfficiencySmear to handle new trigger luminosity dependence.  Previous parameters files have an option of 3 for the trigger, which still defaults to no luminosity dependence.  If you use option 2, then luminosity dependence is included.
+
+012813 Jan  stark@in2p3.fr
+       Two changes for full MC:
+         - Switch off "TB correction"
+         - Tweak the SET efficiency for Z -> e e to approximately take into account the difference in the 
+           lumi spectra between Run IIb1/2 and Run IIb3/4.
+
+012313 Mandy Rominsky, rominsky@fnal.gov
+	New root file for the WTauNu background. The corresponding line in wenucomp also updated.
+
+012313 Hengne Li, hengne@fnal.gov
+       uncommented some codes in wenucomp.cpp that were wrongly commented before.  
+
+=======
+011813 Rafael Lopes de Sa, rclsa@fnal.gov
+       src/parameters.rc.geant New ZB MC ZB library.
+	
+011513 Hengne Li, hengne@fnal.gov
+       Added materials for the dUPara model for 2b3 and 2b4. Not yet turned on in the default configuration files.
+
+010313 Jenny Holzbauer jholzbau@fnal.gov
+       Added Heidi's new beamspot file for run2b3+4 to the p20 directory and parameters.rc
+	
+122012 Mandy Rominsky rominsky@fnal.gov
+	Added in the zee background root file 
+122012 Mandy Rominsky rominsky@fnal.gov
+	Updates to plot_util and wenucomp to include the new QCD and Zee backgro        unds. The uncertainties for the QCD background are also implemented here. 
+	
+
+121312 Jenny Holzbauer jholzbau@fnal.gov
+       Modified parameters.rc to include the new energy scale and offset parameters, divided by run3 vs run 4 and luminosity bin.  
+       The MC parameters are unchanged.
+
+120512 Daniel Boline ddboline@fnal.gov
+	Change default MC ZB library to samples with luminosity sampling/correction, ticknumber, and number of primary vertex information.
+
+11152012 Mandy Rominsky rominsky@fnal.gov
+	
+	- added three missing 3D histograms for QCD background,
+	which fixed a normalization issue
+	- updated the efficiency and fake rate for QCD background
+	with proper Phys. Eta coverage.
+        - fixed some other small potential bugs.
+
+110612 Mandy Rominsky rominsky@fnal.gov
+	Updated code with the phys eta 3d histograms (wenucomp) and with the 2d EFF andFR calculations (plot_util)
+	
+110112 Jenny Holzbauer jholzbau@fnal.gov
+       Updated the structure of the code for run3, run4 division and fixed bugs from last update 101512 (WAnalysis now has EfficiencySmear setting the run number as is done in ZAnalysis and track match already exists histogram errors are removed).  The division is now handled through three lines at the top of the parameter file, two bools (Run3, Run4) and an int (MiddleRunNumber).  MiddleRunNumber indicates the run number dividing the two runs and in general should not be changed.  The ZBlibrary and run dependent parameters use this information to assign the appropriate values in the PMCS code, so the user no longer needs to change any of these lines in the parameters file.  The ZBLibrary inputs in the parameters file are changed to become run dependent names.  The code will exit if both runs are set to false.  There is no Run12 option- the user should use the run12 publication version of PMCS (and corresponding ROOT version) for Run12 files.  This update includes changes to RecoilSmear, EMSmear, and EfficiencySmear as well as the parameter files.  
+	
+101712 Mandy Rominsky rominsky@fnla.gov
+       Updated plot_util to include the 2d parameterization of the fake rate and efficiency for the QCD background. Specifically the function plot_without_background_3d was changed. 
+	
+101512 Jenny Holzbauer jholzbau@fnal.gov
+       Updated tree2 in ZAnalysis to include flags for each of the different uncertainties separately and a few others (zvtx, type).  This means trkprob and em_hmX are now each a single efficiency rather than a product of several.  Added a fill for upara leaf.
+	
+101512 Jenny Holzbauer jholzbau@fnal.gov
+       Added new track matching efficiency histograms for data and MC, updated parameters files to use these as default.  Also updated EfficiencySmear and ZAnalysis to apply efficiency separately for runs2b 3 and 4 based on the ZB library run number, in the same way that it is done for the electron energy scale/offset (with EMSmear).
+	
+082412 Jenny Holzbauer jholzbau@fnal.gov
+       Changed parameters.rc.geant* wmass/width reweighting parameters back to previous correct values.  Also changed wmass reweight to false in these full MC comparison files
+
+082312 Jan  stark@in2p3.fr
+       Switch to Run IIb3,4 blinding in compare_macros.
+	
+082312 Hengne Li hengne@fnal.gov
+       - fix a crash in WAnalysis due to filling non-exist histograms
+       - change wmass reweight being true and do sigularity being false, as default in parameters.rc* files
+       - change Makefile to use new ZB Lib format as default.
+     
+
+080912 Jenny Holzbauer jholzbau@fnal.gov
+       Added new singularity variable (SV) to WZ_Utils and plots of it to WAnalysis.  Added functionality to make templates for the new variable and to study generator level plots (and templates).  PMCSEMObj has a new PDGID method for the generator study.  The templates use the same format as the other variables, including the same template map.  Histograms.hpp includes the new histograms and the parameters.rc, parameters.rc.run3, parameters.rc.run4 and similar for geant are updated to contain new flags for the SV.  The variable is drawn by default.  If the variable is drawn and templates are turned on, the SV templates will also be created.
+
+060612  Jenny Holzbauer jholzbau@fnal.gov
+	updates for one parameter file for pmcs resbos, separate energy scale, offset by run.  Now parameters.rc and parameters.rc.geant are default and will run both run2b3+4 simultaneously, applying the appropriate run dependent energy scale/offset based on run number.  The run number decision is done in EMSmear, W and Z analysis also have updates to allow this functionality.
+
+060212  Jenny Holzbauer jholzbau@fnal.gov
+	 New phi efficiency file for MC only is added, updated in parameters.rc.geant.
+
+053012  Jenny Holzbauer jholzbau@fnal.gov
+	updated hWcandElecPhi_CC input variable to AtDCA and modified if loop in WAnalysis to match ZAnalysis, moving setluminosity outside ppt selection (date in comment in code is 5/30/2012, around line 1300)
+
+052912  Jenny Holzbauer jholzbau@fnal.gov
+	MC PMCS parameters files with updated energy scale, offset for run2b3 and 4 separately (parameters.rc.geant.run3 and parameters.rc.geant.run4)
+
+052512  Jenny Holzbauer jholzbau@fnal.gov
+	code change to ZAnalysis if statement near line 3000, moved ppt requirement two lines down to allow Escale study to work.  Date in comment in code is 5/18/2012.  Also update of data parameters files for new energy scale/offset values.
+	
+051812 Rafael Lopes de Sa rclsa@fnal.gov
+	* parameters.rc.run3 and parameters.rc.run4: New location of ZB libraries and MB libraries to reflect Dan's most recent update.
+	Note: The wiki page is accordingly updated.
+	
+051112 Daniel ddboline@fnal.gov
+	Add NPV,ticknum,timelastl1accept information to ZB libraries, turned off by default in makefile for backwards compatibility
+	
+	
+042012 Daniel ddboline@fnal.gov
+	Do not use ZB events with instLumi less than or equal to zero.
+
+040412 Daniel ddboline@fnal.gov
+       Update p20/trigs.map to allow running over RunIIb3/4 data
+
+022312 Hengne Hengne.Li@in2p3.fr
+       Improved the "write_out_each_plot" feature in the making the comparison plots:
+        - in case of Wenu data, it can now print the backgrounds in each plot file.
+        - Besides a .eps file, it also print a .C file for each plot. One can modify the style later.
+        - all plot files will be printed into a subdirectory named "./plots"
+
+011812 Jan stark@in2p3.fr
+       Two changes to the "consistency check" mechanism:
+        - Allow for lower and upper cut on run number.
+        - Switch over from using CAL-based phimod TRK-based phimod.
+
+011812 Jan stark@in2p3.fr
+       Changes for the MC analysis:
+         - Make lumi-averaged recoil tune without Et flow fudge the default.
+         - Small adjustment to u|| efficiency in response to earlier updates elsewhere.
+       Changes for the data analysis:
+         - Activate by default the correction that I have discussed on slide 2 of my talk 
+           at the m(W) meeting on Dec 7th, 2011.
+         - Activate by default a simple correction for the effect that I have discussed 
+           on slides 7-10 of my talk at the m(W) meeting on April 20th, 2011.
+       Technicalities (both of these were originally driven by a need to reduce the memory consumption
+       in order to not hit the limit of the CAB worker nodes):
+         - More consequent use of the new "__USE_PDFS__" mechanism for lighter executable.
+         - Reduction of default memory consumption in WAnalysis.
+	
+120811 Daniel ddboline@fnal.gov
+	In wenucomp, set qcd_option = -1 when no option is specified, also cleanup code for pdf reweighting of resbos
+	
+112311 Rafael rclsa@fnal.gov
+	Recoil parameters for data and more auxiliary code for propagate uncertainty
+	
+110811 Jan stark@in2p3.fr
+	Add protection against infinite loops in the EMSmear::SmearEnergyUnderElecWindow method.
+
+110711 Jan stark@in2p3.fr
+       - Add "event counter" in WAnalysis (intended for efficiency measurements).
+       - Add infrastructure for det-eta-dependent EM scale adjustments. The intent is to correct for the fact that the CAL calibration based on Z -> e e does not take into account the effect of the underlying event. Not switched on by default.
+
+110111 Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+       - Recoil fit and Et Flow code.	
+
+101911 Hengne Li hengne.li@in2p3.fr
+       - also use scale and offset in lumi bins for FullMC, i.e. in parameters.rc.geant file. 
+
+101811 Hengne Li hengne.li@in2p3.fr
+       - Turn on new dUPara modeling as default for both FullMC and Data analyses with refitted scale and offset
+       - Add some codes for UPara Efficiency study, and other efficeincy studies such as the two electron correlation study.
+
+101411 Dan ddboline@fnal.gov
+	Updated Wtaunu background file.	
+
+091311 Jan stark@in2p3.fr
+       Tweak for the W -> e nu data analysis that should have been included in previous commits:
+       Adjust "global" normalisation between lumi bins in SET efficiency to take into account recent changes on 
+       other parts of the efficiency model (including the u|| efficiency).
+
+090911 Jan stark@in2p3.fr
+       Switch on by default several recent developments for the data analysis:
+       - New (rough) tune of the u|| efficiency for W -> e nu.
+       - First-principles model of the lumi/eta dependence of the CAL gains.
+       - Fix imperfection in the SET efficiency for the smallest inst. lumis
+
+090611 Jan stark@in2p3.fr
+       - Make code sufficiently C++ compliant for GCC 4.3 .
+       - Make SAM support optional (for easier compilation at non-D0 sites).
+
+090611 Hengne Li Hengne.Li@lpsc.in2p3.fr
+       - add dUParaLibrary option with additional PhyEta and DetEta dependence
+       - add dUParaEff option with additional PhyEta dependence
+       - add dUParaLibrary option to use dEPara instead of the transverse dUPara for
+         the modeling
+       - add dUParaEff option to use dEPara instead of the transverse dUPara for the
+         modeling
+       - add addtional efficiency "hacking" option "AddOnEff"
+       - extend "externalRndm[16]" to "externalRndm[18]" for the AddOnEff in ZAnalaysis.cpp
+       - corrected some bugs
+
+081811 Jan stark@in2p3.fr
+       Commit various updates for the data analysis that have been developed over the past few months.
+       So far, these are code updates only; none of the new features are activated by default in the parameter file.
+       - First-principles model of the lumi/eta-dependence of the CAL response for electrons.
+       - Fix crashes in EM template loop.
+       - Possibility to use results from recoil ET flow studies.
+       - Code for sensitivity studies:
+          - phi-dependence of electron energy scale
+          - reweighting in electron eta
+       - Fix bug in filling of phi* histograms.
+       - Additional cuts in the "consistency check" mechanism.
+       - Possibility to cut on Z phi.
+       - Get Z -> nu nu analysis into a usable state again.
+       - Restore reproducibility in the pseudo-random choice of the ZB library file.
+
+080211 Hengne Li hengne.li@fnal.gov
+       - EMSmear.hpp EMSmear.cpp :
+         - Add new method of Phi smearing and Phi extrapolation
+         - Add new of PhiMod Efficiency and Response model
+         - Add function to apply Scale also on dE
+         - Add new dUParaLib model again in 11 DetEta bins (experimental)
+       - Change hardcoded parameters CC_XSHIFT and CC_YSHIFT to have correct Phi extrapolation in PCalTools.hpp
+       - Update PHistoTools.hpp to protect out of axis range
+       - Add new emobjs collection "emobjs_gen_raw_wfsr", defined as with in-cone FSR
+         merged but without FSR efficiency and response applied. It is to be used as
+         a better reference in several efficiency and response modeling.
+         - Modified files: pmcsana.h, pmcsana.cpp, PMCSEMObj.hpp, PMCSEMObj.cpp, PMCSEvent.cpp PMCSEvent.hpp
+       - Extend DataHack model with additional DetEta dependence in SETefficiencySmear.cpp SETefficiencySmear.hpp
+       - Extend _makeASCIIfile_Eresponse functionality in WAnalysis.cpp and ZAnalysis.cpp
+       - Not yet turn on Phi smearing/extrapolation and PhiMod efficiency/response, need some further investigation 
+         before. 
+         - The experimental parameters.rc.geant file with all these features turned on is also committed at:
+            "wz_epmcs/experimental/parameters.rc.geant_Aug1_C0_PhiModEff0_PhiModRespAug1_NoDUPE_WSETEff_SOunit_UT30"
+
+072911 Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+        *** RecoilSmear.hpp(.cpp) - Changed TMatrixT and TVectorT templates to specific implementations
+	                            TMatrixD and TVectorD.
+
+062011 Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+	*** RecoilSmear.hpp(.cpp) - Code to shift recoil parameters and do
+	propagation of uncertainty
+	*** parameters.rc(.geant) - New recoil parameters for data and parameters
+	for the option above	
+
+060511 Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+	*** EfficiencySmear.hpp, EfficiencySmear.cpp - Reweigh code to study the recoil
+	*** PMCSRecoil.hpp, PMCSRecoil.cpp - Luminosity information in the recoil class
+	*** RecoilSmear.hpp, RecoilSmear.cpp - Recoil smearing in luminosity bins
+	*** ZAnalysis.hpp, ZAnalysis.cpp - Correct small bugs in the template makeing code
+	*** parameters.rc, parameters.rc.geant - New value for the recoil smearing (only MC)
+	*** histograms.hpp - Extra histograms to study the recoil
+	*** WAnalyzis.hpp, EMSmear.cpp, SETEfficiency_LumiDispatch.cpp - Some small C++ syntax modification to compile with GCC4
+
+052711 Alex Melnitchouk melnit@fnal.gov
+052511 -- introduced PhiMod-dependent Energy response correction
+          based on FullMC response profile from Hengne;
+          by default this correction is turned off
+          in parameters.rc.geant (Use_Simple_EMrespCorr_vs_PhiMod: false)
+       -- updated EM response model for Full MC as mentioned in 05/25/11 MW meeting talk
+	  Scale_CC:  1.00103
+	  Offset_CC: 0.0317204
+ 
+052211 Alex Melnitchouk melnit@fnal.gov
+       introduced FoldedPhiMod-dependent EM response model for full MC;
+       more info in 05/25/11 MW meeting talk;
+       default settings in parameters.rc.geant are
+       CrackCBsim:	    true
+       CrackCB_crlimit:     0.5
+       CrackCB_n:	    10.0
+       CrackCB_alphaOffset: 0.0
+       CrackCB_alphaSlope:  0.0
+       CrackCB_PeakShiftOffset:  -0.006
+       CrackCB_PeakShiftSlope: 0.031
+
+050611 Hengne Hengne.Li@in2p3.fr
+       - Updated Data dUPara Library with extended boundaries of UPara from (-15,15) GeV to (-30, 30) GeV
+         - p20/dUParaMeanAndSmearFunctions_SETUParaLumi_Data_Mar22_UT30.root
+         - not turned on as default
+       - Added missing parameter of upara-dependent Scale/Offset in parameters.rc
+         - not turned on 
+050211 Hengne Hengne.Li@in2p3.fr
+       - Updated dUPara Library with extended boundaries of UPara from (-15, 15)GeV to (-30, 30)GeV
+         - p20/dUParaMeanAndSmearFunctions_SETUParaLumi_Feb14_UT30.root 
+         - not turned on as default.
+       - Added option to use upara-dependent Scale and Offset (and correlations with lumi-dependent one), 
+         - Modifications in EMSmear, ZAnalysis and WAnalysis. 
+         - Not turned on as default. 
+       - Extended option "makeASCIIfile_Eresponse", with more print out. 
+042711 Dan ddboline@fnal.gov
+       Change range of Electron Energy histograms to be consistent with wmass_analysis
+
+042611 Dan ddboline@fnal.gov
+       Added background to the overlay comparisons in wenucomp.
+
+041411 Jan stark@in2p3.fr
+       Implemented code for phi star reweighting studies.
+       Implemented code for uT reweighting sensitivity studies.
+       New SET efficiency from full MC now also fully operational for Z -> e e.
+       Propagated recent developments from the MC closure test to the data analysis.
+       It is now time for a full refit of the recoil, both in data and MC. Will make CVS tag v02-03-02 for 
+       this purpose.
+	
+040911 Hengne Hengne.Li@in2p3.fr
+        This update is to fix the issue of binning effect in the ElecPt distribution remaining in the last update 
+          of the dUPara->dE translation model (EnergySim_ElecWindowOption: 5). (see my talk on April 6, 2011 
+          on the W mass meeting) 
+         1) The update relaxed the lower boundary of the ElecPt range to allow migritions from below 25GeV :
+           - for dUPara=0, added smooth option "CAEPSmoothdUZero: 3", which gives a dedicated
+              smoothing in ElecPt; and re-derived the parameters with a relaxed ElecPt cut 
+              at 15 GeV (instead of at 25GeV). The new parameter file is 
+                  p20/derive_duzero_model_caep.par_2011April8
+           - for dUPara>0, relaxed the ElecPt lower boundary to 15 GeV (from 25GeV) in the latest
+              parameter file p20/derive_duplus_model_caep.par_2011April6 
+         2) Up to now, we can claim the Lumi dependence of the energy response is correctly carried out
+             by our dUPara Model. 
+            The Scale and Offset are refitted. Lumi depending Scale/Offset option is turned off. 
+            
+040611 Hengne Hengne.Li@in2p3.fr
+        Updated the dUPara->dE Translation Model as I shown today, corresponding option is 
+           EnergySim_ElecWindowOption:  5
+         in the parameters.rc.geant file. To go one step before, change it to be 3 .
+        The next step is to remove the binning effect in electron Pt. 
+
+033111 Hengne Hengne.Li@in2p3.fr
+        A first attempt to use the decomposed Wenu sample to derive dUPara Library, dUPara 
+         Efficiency and dUPara->dE translation. Only parameter update, no model update.
+        I turned on this update by default in the MC analysis, and turned off 
+         "doCCscale_lumidep". This does not promise a good result. We know that current model
+         is not perfect; only part of the sample (~300k) is used to update the parameters; 
+         and the Scale and Offset are to be updated accordingly. 
+        To turn off this update, simply keep using the previous parameter.rc.geant file. 
+         
+033011 Daniel Boline ddboline@fnal.gov
+	Added script to convert result from pmcs into background file for compare_macros.
+
+032211 Hengne Hengne.Li@in2p3.fr
+       Propagate recent updates of the dUPara Model and dUPara->dE translation model developed from FullMC to Data analysis.
+         - dUPara Model : UParaCorrOption==3 && OptionOfUParaCorrOption3==2 , derived from Wenu data for data analysis
+         - dUPara->dE translation Model: EnergySim_ElecWindowOption==3 , parameters updates, same numbers as FullMC
+
+032211 Jan stark@in2p3.fr
+       Submitted a lot of material for the MC closure test that has been developed over the past six months.
+       The most important items are:
+        - new FSR model,
+	- new model of energy leakage out of the electron cone,
+	- new EM energy scale (with explicit lumi dependence - this is a kludge, cf. meeting on March 16th),
+	- new SET efficiency (with explicit lumi dependence),
+	- introduced expliciy lumi dependence in the u|| efficiency.
+       The new SET efficiency is fully operational for W -> e nu, but not for Z -> e e.
+       The next things to be committed: SET efficiency for Z -> e e and propagation of all these improvements
+       to the data analysis.
+	
+022311 Hengne Hengne.Li@in2p3.fr
+        - update for EnergySim_ElecWindowOption==3: 
+          - add "geant_RunIIb/ZB_Bin0_Feb14" dir, using no-noise version of no-ZB-ovl single electron sample.
+        - add model "UParaCorrOption==3 && OptionOfUParaCorrOption3==2" : 
+          - model dUPara=0 and dUPara>0 separately, add Lumi dependence.
+        - add model "EnergySim_ElecWindowOption==4":
+          - model dE separately when dUPara=0 and dUPara>0. 
+          - dUPara=0: dE = f(SET, Lumi, Eta, dUPara)
+          - dUPara>0: dE = f(SET, Lumi, Eta, ElecPt)
+
+021111 Daniel Boline ddboline@fnal.gov
+	Update recoil-library code.
+	
+012811 Hengne hengne.li@in2p3.fr
+       Update UParaCorrOption==3: Using SET to replace Lumi, thus the dUPara is modeled as a function of UPara and SET.
+        Modified files: 
+          - EMSmear.hpp EMSmear.cpp : the implementation
+          - PMCSEMObj.hpp : add storage of ScalarEt, needed by this model.
+          - WAnalysis.cpp ZAnanalysis.cpp : corresponding update to store ScalarEt in PMCSEMObj objects. 
+          - parameters.rc parameters.rc.geant : corresponding update of parameters.
+
+012511 Daniel Boline ddboline@fnal.gov
+	Added more generator level plots.
+
+012211 Hengne hengne.li@in2p3.fr
+       Updated the UParaCorr Model. Model the Mean and Smear of dUPara separately. Mean dUPara is modeled as a smooth
+         function of Lumi and UPara; dUPara Smear is modeled as discrete histograms in bins of Lumi and UPara.
+         Thus dUPara = mean*smear. The functions and histograms are derived from Wenu FullMC.
+        Modified 4 files : EMSmear.cpp, EMSmear.hpp, parameters.rc.geant, parameters.rc
+        Added 1 root file : p20/dUParaMeanAndSmearFunctions.root
+        Not turned on by default. To use this model, one need to change "UParaCorrOption: 3 " in parameters.rc(.geant) files.
+
+011011 Hengne hengne.li@in2p3.fr
+        modified parameter.rc.geant: added missing parameter "FillZBRunNumTree" introduced before. Turned off by default.
+
+122910 Daniel Boline ddboline@fnal.gov
+	Added a number of generator level plots and modified definition of the raw generated electron for plots.
+
+120610 Alex Melnitchouk melnit@fnal.gov
+       updated zee bkgd fraction in plot_util.cpp
+       (dropped -- "non ICD correction" intoroduced 080410 -- 
+       plan to justify dropping it at the upcoming w mass meeting)
+
+120310 Hengne Hengne.Li@in2p3.fr
+       added my efficiency study package I have developed for the Track Match Efficiency 
+        Ratio study and Trigger Effciency study. It is in the directory:
+         wz_epmcs/useful_scripts/efficiency_hengne
+
+120310 Hengne Hengne.Li@in2p3.fr
+       updated parameters.rc:
+         - updated Trigger Efficiency parameters
+         - updated Data Hack parameters
+         - turned off TB Correction by default
+         - changed recoil fine tuning parameters and UParaEff parameters (tone by hand, need a fitted version)
+ 
+112610 Alex Melnitchouk melnit@fnal.gov
+       qcd background calculation updated (plot_util.cpp) with
+       Hengne's Zee data measured tight track match efficiency;
+      
+112310 Hengne Hengne.Li@in2p3.fr
+       - Make ZTree2 also store CCEC ECEC electrons in ZAnalaysis for track match efficiency studies 
+       - Add a tree in ZAnalysis storing ZB Run/Evt numbers, for trigger efficiency study, turned off by default
+       - add new DataHack parameters in parameters.rc, and some other required parameters
+110110 Daniel
+    A fix to Rafaels fix.
+
+102710 Rafael
+       - Fixing some bugs introduced in the last modification.
+	 I accidentally made the name of the trk eff histograms for data and mc differents.
+	 Fixed now.
+
+102010 Rafael rafael.lopesdesa@stonybrook.edu
+       - Added histograms for EC fitting
+       - The LHAPDF code now generates all the mT, pT and MET distributions at once as histograms
+         (there is a correspondent code in wzfitter to use these histograms).
+       - Updated track match efficiency for EC electrons. 
+
+------- rtag v02-03-00 --------
+	
+101510 Hengne Hengne.Li@in2p3.fr
+       - Introduced a new option of Data Hack on SET efficiency using 3 independent Data/FullMC efficiency ratios:
+         dependences on ElecPt, SET and InstLumi.
+       - The functionality is implemented in SETefficiencySmear.cpp/hpp and corresponding modifications in 
+         ZAnalaysis.cpp/hpp and WAnalysis.cpp/hpp
+       - It is not turned on in default.
+101410 Dan ddboline@fnal.gov
+	Add deltaZPhi and ZMass vs. Zpt histograms to ZAnalysis
+	
+101310  Alex melnit@fnal.gov
+        two updates concerning comparison plots,
+        specifically, comparisons involving wenu pmcs:
+	plot_util.cpp
+	701d700
+	< 	  k1->Add(bkg_signal);
+	704a704,713
+	> 
+	>       // set QCD bkgd errors to zero for the purpose of chi plots
+	>       // as discussed at M(W) meeting 10/13/10
+	>       // and then add it to k1	 
+	>       for(int i=0; i<=bkg_signal->GetEntries(); i++){
+	>          bkg_signal->SetBinError(i,0.0);
+	>       }
+	>       k1->Add(bkg_signal);
+
+	wenucomp.cpp
+	 85c85,88
+	<               <<"              ./wenucomp  data.root     fullmc.root   0 5  0"<<endl<<endl;
+	---
+	>               <<"              ./wenucomp  data.root     fullmc.root   0 5  0"<<endl
+	>               <<"------------------------------------------------------------"<<endl
+	>               <<"for comparisons involving Run2B wenu pmcs please use <qcd_bkg_type> option 1 "<<endl<<endl;
+
+        
+100810  Dan ddboline@fnal.gov
+	- Add code for PDF uncertainties with RESBOS
+	- updated recoil-library code
+	- change default values for consistency check
+100710  Hengne Hengne.Li@in2p3.fr
+        - Add ZCandPhi_bin in bins of PT(ee) comparison in zeecomp.cpp
+100210  Jan stark@in2p3.fr
+	- Add possibility to cut on the number of FSR photons.
+	- New histograms for track pT in W -> e nu.
+	- Introduce the possibility to have two separate models of energy leakage from 
+	  the electron cone into the recoil: one for electrons with in-cone FSR and one 
+	  for electrons without.
+	  This feature is not used so far.
+093010  Hengne Hengne.Li@in2p3.fr
+        Modified compare_macros/zeecomp.cpp:
+          - add ZCandPhi comparison.
+093010  Hengne Hengne.Li@in2p3.fr
+        Modified ZAnalysis.hpp/.cpp, parameters.rc, parameters.rc.geant 
+          - added ZPt lower cut : CutZPT_lower
+        Modified parameters.rc :
+          - updated refitted Constant_CC, Scale_CC and Offset_CC
+092710  Hengne Hengne.Li@in2p3.fr
+        Changed parameters.rc, TBCorr for Data is put in:
+          - Keep using Scale_CC=1 and Offset_CC=0
+          - Recoil Fine Tuning adjusted a little by hand (need a refit)
+          - Comparison looks better except Zee MET mis-match increased 
+            a little (to be understood)
+092310  Hengne Li Hengne.Li@in2p3.fr 
+        - uParaCorr binning is reduced to be 5 bins in both InstLumi and UPara, in order
+          to avoid empty histograms in making the correction library for the data analysis,
+          while keeping a strict W selection. For MC analysis, no degradation can be observed 
+          in the comparison plots after this change. 
+        - dUParaEff is turned on by default in data analysis
+        - Previous TB correction is turned off, no TB correction at this time.
+        - Modified files are: 
+                  EMSmear.cpp, parameter.rc, parameters.rc.geant
+        - Newly added files: 
+                 ./p20/uParaCorr_13towers_runIIb_23Sept2010.root
+                 ./geant_RunIIb/uParaCorr_13towers_runIIb_bugfix_23Sept2010.root
+091510  Jan stark@in2p3.fr
+	- EM scale/offset refit following previous updates to EM model.
+	- adjust EM constant term following previous updates to EM model.
+	 - Update SET efficiency following the previous updates.
+	   The W part is OK, but the Z -> e e part is very experimental 
+	   and will be updated once more soon.
+091310  Jan stark@in2p3.fr
+	- Add possibility to cut on trailing FSR photon.
+	- Implement (optional) extensions to the model of FSR response: 
+	  explicit eta and eta/E dependence (off by default).
+091310  Hengne Li Hengne.Li@in2p3.fr
+        apply recent updates of FullMC analysis also to Data analysis:
+         - add dUParaEff
+         - update dECorr (dUPara->dE relation)
+         - uParaCorr Library root file
+         - FSR update 
+         - Constant re-fit after all above
+         - Scale/Offset re-fit after all above
+083110  Hengne Li Hengne.Li@in2p3.fr
+        - updates in dUParaEff (in EMSmear.hpp/cpp): 
+            - separate W and Z 
+            - Finer binning in elecPt
+        - curresponding updates in parameters.rc.geant, 
+           and reset Scale_CC=1, Offset_CC=0, for Jan to update SET efficiency.
+082510  Jan stark@in2p3.fr
+	- Add first simple tune of transverse component of the hard recoil.
+	- New model of SET efficiency for W -> e nu.
+082410  Hengne Li Hengne.Li@in2p3.fr
+        - corresponding Scale_CC and Offset_CC updates in parameters.rc.geant
+          for the previous update in dUParaEff.
+082410  Hengne Li Hengne.Li@in2p3.fr
+        - corrected 2 small bugs in EMSmear
+        - introduced switch of smoothing dUParaEff
+        - corresponding updates in parameters.rc.geant
+081710  Hengne Li Hengne.Li@in2p3.fr
+        - Add Jan's FSR update
+        - Add refitted Scale_CC and Offset_CC 
+081310  Hengne Li Hengne.Li@in2p3.fr
+        Files changed:
+            - src/parameters.rc.geant
+               upated dE_elec correction parameters
+            - geant_RunIIb/ZB_Bin0/*.C
+               corresponding updates of dE_elec correction parameters
+081110  Alex Melnitchouk melnit@fnal.gov 
+        made pmcs tag v02-02-00
+
+081110  Hengne Li Hengne.Li@in2p3.fr
+        Files changed: 
+            - src/parameters.rc.geant : 
+                  update dUParaEff parameters based on new electron window definition
+            - src/EMSmear.cpp : 
+                  correct a potential bug in dUParaEff
+            - geant_RunIIb/uParaCorr_13towers_runIIb_wen_uEvt_bugfix.rot :
+                  update based on new electron window definition.
+080610  Hengne Li Hengne.Li@in2p3.fr
+        - introduced dUPara Efficiency in UPara Correction
+          - modified EMSmear.cpp/hpp, WAnalysis.cpp, ZAnalysis.cpp and parameters.rc.geant
+          - new added uParaCorr_13towers_runIIb_wen_uEvt_bugfix.root
+080410  Alex Melnitchouk melnit@fnal.gov
+        plot_util.cpp:
+        const double zee_bkg_fraction = 0.0117;//+-0.0002 , before 080410 (icd region only) used to be 0.0108;
+
+072810  Alex Melnitchouk melnit@fnal.gov
+        small piece of code in in plot_util.cpp for qcd bkgd error 
+        propagation to MW, commented out by default
+
+072210  Alex Melnitchouk melnit@fnal.gov
+        a small macro plot.C to plot backgrounds in compare_macros folder
+
+070910 Dan Boline ddboline@fnal.gov
+	Final commit to old recoil_unfolding code to add electron-eta information, fix SET efficiency.
+	First commit of new unfolding code, uses root trees, includes zphi dependence.
+
+070810 Jan stark@in2p3.fr
+       First simple implementation of alternative, simplified and smoothed versions of the "Data Hack". Not used by default yet.
+       Cleaned up some code rot.
+
+070710 Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+       * ZAnalysis.cpp ZAnalysis.hpp RecoilSmear.hpp RecoilSmear.cpp parameters.rc.geant
+	  All related to the template code for the recoil:
+	   -- Some bug corrections I've found some time ago but didn't 
+	   -- Template for "trans" parameters introduced by Jan at some point.
+	
+062810 Alex Melnitchouk melnit@fnal.gov
+       -- full MC based Zee to Wenu correction to track match efficiency 
+       -- modified file plot_util.cpp
+
+062710 Alex Melnitchouk melnit@fnal.gov
+       -- hacks for dealing with negaive efficiencies 
+          and negative number of background events in some (PT,MT) bins.
+       -- // next line is protection from negative efficiency at high PT which can happen with latest (committed to CVS 062610) Efficiency vs PT parameterization
+          if (epsilon<0.) epsilon=0.;
+       -- // set background in (j=ELEC.PT, k="PLOTTED VARIABLE (e.g. MT)") 2D bin to zero
+          // if it was found to be negative
+          // (it can go negative if Efficincy*N_Loose < N_tight,
+          //  and this condition is subject to fluctuations of N_Loose and N_tight)
+          if (num_bkgd<0.){
+              num_bkgd=0.;
+              err_num_bg_trk=0.;
+          }
+       -- Yet to be shown to the group and approved.
+       -- modified file plot_util.cpp
+
+062610 Alex Melnitchouk melnit@fnal.gov
+       update concerns QCD backgrounds:
+       -- comments and clean up in plot::plot_without_background_3d(...)
+       -- eliminate loop over elec. det. eta since we parameterize eff and fr only as a function of PT
+       -- latest FR and EFF parameterization in plot::plot_without_background_3d(...)
+          (plots available at 062310 MW meeting agenda)
+       -- switched to matrix method error calculation in void matrix(...) ,
+          which follows prescription in D0Note 4564
+          (done in terms of statistically independent samples)
+       -- modified files plot_util.cpp, matrix.cpp 
+
+061610 Dan Boline ddboline@fnal.gov
+       Fixed bug in pmcsana.cpp introduced in previous commit.
+
+061510 Dan Boline ddboline@fnal.gov
+       Updates for the library method, affecting:
+          EfficiencySmear.hpp
+          RecoilSmear.cpp
+          pmcsana.cpp
+          pmcsana.h
+       modification of run_pmcs to allow for running parallel jobs over a single sam definition on cab, affecting:
+          Makefile
+          pmcsana.cpp
+          pmcsana.h
+          SAMExpander.cpp
+          SAMExpander.hpp
+      hist_files.cpp is modified to use TDirectoryFile in root v5 and TDirectory in v4
+
+061410 Hengne Hengne.Li@in2p3.fr
+       Implement TB correction in MINUIT codes in ZAnalysis.hpp/cpp
+
+061110 Dan Boline ddboline@fnal.gov
+        More updates to useful_scripts/recoil_unfolding for run2b
+
+061110 Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+	* parameters.rc.geant: Hadronic recoil fit result for pythia events.
+
+061110 Hengne Hengne.Li@in2p3.fr
+       updated function ApplyTopBottomAsym_B() in RecoilSmear.cpp
+         - better organized, well commented.
+         - prepared for application in MINUIT
+
+060810 Dan ddboline@fnal.gov
+       modified useful_scripts/recoil_unfolding to make it compile with recent wz_epmcs
+
+060810 Jan stark@in2p3.fr
+       Fix a major bug in the model of energy leakage from the electrons to the recoil.
+       Introduce three new fudge factors that are intended for sensitivity studies related to all aspects of
+       energy flow from the recoil into the electron cones and vice versa.
+
+060310 Jan stark@in2p3.fr
+       Improved protection against non-existing files for TB correction. 
+
+052810 Rafael rafael.lopesdesa@stonybrook.edu
+       	* RecoilSmear.cpp: Fixing bug introduced last time.
+
+052510 Jan stark@in2p3.fr
+       Implement fudging parameters for the "transverse component" of the hard and "spectator quark" parts
+       of the recoil (c.f. my presentation at the m(W) meeting on May 19th).
+       Add a new option for the pT(e) perturbations in the SET efficiency model. The new option allows
+       for an explicit eta-dependence in the model of the perturbations.
+
+051710 Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+	* RecoilSmear.cpp, RecoilSmear.hpp: Modified Hengne's code to save last TB application
+	* ZAnalysis.cpp: Modified the template generation code for the recoil fit to use the new TB Library.	
+
+051810 Hengne Li Hengne.Li@in2p3.fr
+       Introduced the TB Correction method based on TBLibrary:
+        modified:
+        - parameters.rc.geant :   
+          add TBCorrection_Option : 1 for old TBCorrection; 2 for library based..
+          add TBLibrary: tblib_fix3_3d.root
+          change MBLibrary: hengne/MC/MBZBLibrary/Library_MCMB_SETfudged5bins_SubtractBifurcate7mod3_deKinked_phishift.txt
+        - RecoilSmear.hpp/cpp :
+          add method ApplyTopBottomAsym_B()
+          add corresponding parameters for ApplyTopBottomAsym_B()
+        - ZAnalysis.hpp/cpp :
+          add parameter _TB_Correction_Option
+          modified all the corresponding switches, only when _TB_Correction_Option==1 old TBCorrection would be applied.
+        - New environment variable TBLibraryRootPath is introduced to give the path of the TBLibrary.
+          Don't forget to setenv/export TBLibraryRootPath, e.g. at fnal TBLibraryRootPath=/rooms/wmass/hengne/TBLibrary
+
+051710 Dan Boline ddboline@fnal.gov
+       recoil calculation was double counting tau momenta, will now only do this if tau is stable particle.
+
+051410 Alex Melnitchouk melnit@fnal.gov
+       introduced ON/OFF switch for LooseTrackMatchEffciency:
+       ApplyLooseTrackMatchEfficiency: TRUE
+       modified:
+       parameters.rc parameters.rc.geant EfficiencySmear.hpp EfficiencySmear.cpp     
+
+051310 Alex Melnitchouk melnit@fnal.gov
+       introduced ON/OFF switch for TrackMatchEffciency:
+       ApplyTrackMatchEfficiency: TRUE
+       modified:
+       parameters.rc parameters.rc.geant EfficiencySmear.hpp EfficiencySmear.cpp     
+
+050810 Alex Melnitchouk melnit@fnal.gov
+       put missing fullmc electron phi efficiency update:
+       wz_epmcs/geant_RunIIb/ElecPhiEff_FullMC_RunIIb.C
+
+043010 Alex Melnitchouk melnit@fnal.gov
+       * parameters.rc, parameters.rc.geant -- latest U|| efficiency correction
+         parameters from Patrice (in Patrice's email of today)     
+
+042810 Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+	* parameters.rc, parameters.rc.geant - Hadronic Recoil Parameters updated 
+
+042410 Alex Melnitchouk melnit@fnal.gov
+       turn on additional electron phi comparisons
+       in zeecomp and wenucomp;
+       now new data samples posted on d0wiki today 
+       should be used for data-to-pmcs comparisons             
+
+042210 Sahal sahal@fnal.gov
+       in pdfreweight function fixed a bug relating to determining the pdf's of the aniproton (needed a -ve sign)
+042110 Alex Melnitchouk melnit@fnal.gov
+       updated wtaunu bkgd fraction to latest number,
+       now it's consistent with the fractions sent to Jan and Sahal on March 27
+       (the effect will be tiny, this is mostly for accounting purposes)
+
+tagged v02-01-03
+
+042110 Sahal sahal@fnal.gov
+	removed the fortran directory. replaced Makefile, parameters.rc and parameters.rc.geant by their "_runIIb ocunterparts"
+        This is now a RunIIb (and later) branch. 
+        files Makefile_runIIb, and parameters_runIIb* have been removed
+042110 Sahal sahal@fnal.gov
+       Edited code to work with LHAPDF v5_6_0, the files in the fortan directory are no longer required for RunIIb. 
+       the RunIIa compilation (using Makefile) will probably fail now -- but why do we keep it ?
+042010 Sahal sahal@fnal.gov
+	added the new Scalar ET efficiency correction for Data and turned it on. 
+        Added capability to made Mt templates for Z events.
+
+tagged v02-01-02
+
+041610#2Alex Melnitchouk melnit@fnal.gov       
+        * removing fatal error bug reported by Pierre today 
+          and adding instructions related to running scripts from Sahal
+          (parameters_runIIb.rc parameters_runIIb.rc.geant);
+        * updates in ZAnalysis.cpp, histograms.hpp
+          related to TagandProbe loose track efficiency estimation
+        * updates in compare_macros:
+            * zeecomp.cpp include comparison of more electron phi histograms,
+              these are turned off by default, will turn on a bit later
+              when all our samples are made with sufficiently new
+              pmcs and wmass_analysis, to turn on (same as in wenucomp.cpp)
+              a user needs to ucomment this line in zeecomp.cpp
+              //#define MORE_ELECTRON_PHI_HISTOGRAMS
+            * zee bkg fraction set to 0.0108 reported at 041410 meeting,
+              this number is expected to be updated slightely
+              after considering !ICR region
+
+041610  Sahal sahal@fnal.gov
+	edited useful_scripts/eff_rat_study:
+	previously separate pices of code FitEffLum_fast.C and FitEffLum_MC.C have been merger into FitEFFLum.C, 
+	where the Loop(bool,int) controls whether we run over fast_mc, full_mc, or data, and whether we look at the background
+041610  Alex Melnitchouk melnit@fnal.gov       
+        related to elecron phi and TagandProbe biases;
+        modified ZAnalysis.hpp ZAnalysis.cpp histograms.hpp parameters_runIIb.rc;
+        new histograms added; current histograms should remain unaffected.        
+           
+041410  Sahal sahal@fnal.gov
+	updated Recoil parameters using RCLSA fit to data presented in wmass meeting today
+041310  Sahal sahal@fnal.gov
+	Changed SETresponseModel to 0 ( switch back to constant SET response, from sahal's function.
+	updated to new efficiencies. updated some parameters.
+041310  Jan stark@in2p3.fr
+	Changes to the data and MC parameter files to switch over the main branch to the new 
+	bug-fixed full MC; propagate these developments to the data.
+        Will tag as v02-01-01.
+041310  Alex Melnitchouk melnit@fnal.gov
+        more histograms in histograms.hpp
+        (ElecPhi for Z, same as done for W earlier;
+        M vs PT for Tag and Probe Loose Track Efficiency Studies
+        in sync with EffAnalysis of wmass_analysis)
+
+041310  Jan stark@in2p3.fr
+        Tagged as v02-00-04 and created two new branches:
+	  v02-00-04-ovlbuginco-br
+	  v02-00-04-ovlbugcons-br
+	Discussed in detail on our mailing list. 
+	
+040710  Patrice lebrun@in2p3.fr
+        added UparaOverPte and CosUphi efficiency studies
+	
+040710  Sahal sahal@fnal.gov
+	added new background subtracted efficiencies to p20 directory -- NOT used by default
+
+033110  Alex Melnitchouk melnit@fnal.gov
+        updated electron phi efficiency
+        ../p20/ElecPhiEff_Data_RunIIb.C
+        (results with this new efficiency were shown at W mass meeting today)        
+    
+032810  Jan stark@in2p3.fr
+	Add plots of the a_T and a_L observables in Z -> e e.
+	This code has been used extensively in Run IIa for comparisons with Mika,
+	but it had never been included in CVS before.
+
+032710  Alex Melnitchouk melnit@fnal.gov
+        propagated "more electron phi histograms" into wenucomp:
+          * for running wenucomp on the samples that do not
+            have more electron phi histograms this updated can be ignored
+          * for running wenucomp on the samples that do have new
+            electron phi histograms (those produced with HEAD 
+            wmass_analysis and/or pmcs after 032610)
+            a user needs to ucomment this line in wenucomp.cpp
+            //#define MORE_ELECTRON_PHI_HISTOGRAMS
+          * modified files : bkgd_shape_zee_new_shifted.root,
+            bkgd_shape_wtaunu_new_shifted.root,  wenucomp.cpp
+
+032610  Alex Melnitchouk melnit@fnal.gov
+        * more ElecPhi histograms plus small fixes
+          (e.g. using PhiTrkAtDCA instead of PhiTrkAtEM3 for Px, Py calculation);
+          backward compatible; 
+          fixes did not affect comparison plots ;
+          Modified Files: histograms.hpp WAnalysis.cpp 
+        * restrict smeared physics phi to 0-2pi range in EMSmear.cpp
+        * switch to phi of track at dca for electron phi efficiency in EfficiencySmear.cpp
+
+032610  TAG v02-00-03
+
+032510 Sahal sahal@fnal.gov
+        ZAnalysis.cpp Random numbers for passesAllNonUparallelCuts were being drawn with 2 less numbers than required (TEMPLATE PATH ONLY)
+        EMSmear.cpp Tracking Bug Fix from 032010 needed to be reintroduced
+        SETefficiencySmear.cpp added some brackets to explicitly definereturn value (unnecesary change)
+
+032510 RCLSA rafael.lopesdesa@stonybrook.edu
+	* ZAnalysis.cpp Bug on the random number for recoil smearing corrected
+	* ZAnalysis.hpp
+	* EMSmear.cpp
+	* EMSmear.hpp
+	
+032310  Alex Melnitchouk melnit@fnal.gov
+        updated ../p20/ElecPhiEff_Data_RunIIb.C
+        this removes *big bug* (referred to in 03/22/10 email
+        introduced 03/20/10), some inconsistencies still remain
+        and should be follow up on soon
+
+032310  Sahal sahal@fnal
+        updated trigger efficiency numbers for v15 and v16 -- which needed to be redone due to a bug in wmass_analysis
+
+032010  Alex Melnitchouk melnit@fnal.gov
+        new ../p20/ElecPhiEff_Data_RunIIb.C
+        old one saved as ../p20/ElecPhiEff_Data_RunIIb.012910.C
+
+032010 Sahal sahal@fnal.gov
+	Fixed Problem with Track smearing (EMSmear.cpp)
+
+031810 RCLSA rafael.lopesdesa@stonybrook.edu
+
+ 	* EMSmear.cpp Final adjustments in random numbers for the recoil fit
+	* EMSmear.hpp
+
+	* EfficiencySmear.cpp Trigs.map file location is now setup in the configuration file
+	* parameters_runIIb.rc
+	* parameters_runIIb.rc.geant
+
+	* PMCSZCand.cpp Option to unfold Delta Phi distributions
+	* PMCSZCand.hpp
+	* histograms.hpp
+
+	* ZAnalysis.cpp Correct some bugs in the template generation code and adjusted my own code to Sahal's last changes (see below). Please, refer to a cvs diff to see exact changes.
+	* ZAnalysis.hpp
+	
+031710 Version prior to these changes has been tagged with v02-00-02
+	EMSmear.cpp /EMSmear.hpp: The method SmearEnergyUnderElectronWindow was still pulling a random number when external random numbers were passed. This has been fixed.
+	The Method SmearEnergy now takes a pointer to an external random number array, which in turn gets passed to wz_utils::flipCrystalBall. There is still a random number drawn in wz_utils which cannot be controlled during template making
+	in the CC smearTrk is called before SmearEnergy for consistency.
+
+	EfficiencySmear.cpp: Phi Tracking efficiency depends on dummy->Uniform(0.0,UpperBound),while external random numbers are drawn on the interval dummy->Uniform(0.0,1), so the relevant number is scaled by Upper bound
+
+	PMCSEMObj.cpp: Track transport to phi position at em3 will now depend on the trkpt. Also, this will depend on the smeared parameters for a smeared emobj.
+		
+	setEfficiencySmear: A second randon number is required when passing external random numbers to SETefficiencysmear. This is now taken care off.
+
+	parameters are updated for data.
+
+	ZAnalysis: MANY MANY Changes, please diff the versions for a complete description:
+	this is revision 1.95, which should be compared to revision 1.94.
+	Random numbers for all efficiencies are now predetermined, and may be kept the same in the regular and template paths, although this is not the default. Template makers have been modified to take advantage of this. The SETefficiency requirement of a second random number has been addressed for all template making processes. smearenergy now passes prechewed random numbers when in template making mode.
+	
+	
+
+031110 Dan ddboline@fnal.gov
+       Added code to do simplify PDF reweighting, can now be enabled through single line in the Makefile.
+
+030610 Jan stark@in2p3.fr
+       Switch on SET efficiency also for W data - this should have gone in on Feb 22nd already.
+	wz_utils::flipCrystalBall: now takes external random numbers for template making.
+
+030110 Sahal sahal@fnal.gov
+       Fixed bug with loose and tight track match efficiencies.
+
+021610  Alex Melnitchouk melnit@fnal.gov
+        * first pass Run2B backgrounds 
+          (wtaunu and qcd so far, zee remains from Run2a)
+        * modified files
+          bkgd_shape_wtaunu_new_shifted.root 
+          plot_util.cpp 
+          wenucomp.cpp 
+        * new files:
+          bkgd_shape_wtaunu_new_shifted.Run2a_bkgd.root
+          (this is saved Run2A version of bkgd_shape_wtaunu_new_shifted.root)
+        * for W->enu data-PMCS comparison with Run2B backgrounds
+          need to set qcd_bkg_type=1,
+          then PT-dependent efficiency and PT-dependent fake rate will be used
+          (both based on 02/24/10 W Mass meeting talk about backgrounds; 
+          constant efficiency parameterization produces unphysical bkgd shape,
+          constant fake rate is not too bad, but PT-dependent rate gives slightly better agreement)
+        * you are going to see 
+          "Error in <TH1D::Add>: Attempt to add histograms with different number of bins"
+          which comes from Luminosity histogram for Z->ee background,
+          this error should disappear when Z->ee background gets 
+          Run2B updated
+        * to roll back to Run2A backgrounds:
+          get earlier revisions of plot_util.cpp, wenucomp.cpp
+          and "cp bkgd_shape_wtaunu_new_shifted.Run2a_bkgd.root bkgd_shape_wtaunu_new_shifted.root"
+
+022410  Rafael Lopes de Sa rafael.lopesdesa@stonybrook.edu
+	. Wrote a new template generation function for the hadronic recoil
+	  smearing fit
+	  ZAnalysis::ZHadronicRecoilBifurcateStudy
+	  ZAnalysis::ZHadronicRecoilBifurcateProcess
+	. Added the configuration parameters for these function in the rc files
+	. Wrote a fitter script for the output
+	  useful_scripts/recoil_fit/
+	
+022310  Alex Melnitchouk melnit@fnal.gov        
+        * modified EfficiencySmear.cpp 
+          in EfficiencySmear::passesElecPhiEff
+          switched from _pphi to _tkrphiem3
+          this gets rid of overflow messages,
+          more related info should be available in 022410 presentation
+
+022210  Sahal sahal@fnal.gov
+	updated TBalpha / TBbeta parameters in parameters_runIIb.rc
+	updated electronicNoiseFactor in parameters_runIIb.rc.geant
+	added ability to fit electronicNoiseFactor to ZAnalysis
+	Added new class PMCSTH1 which is a clone of TH1D which allows us to predetermine the random number drawn in GetRandom
+	added ability for ResolutionStudyJan and TBStudy to use the same random numbers for passesRecoilCuts as the regular path
+	ResolutionStudyJan now uses predetermined Random numbers when calling SmearEnergyUnderElectronWindow
+	Major changes to TagProbeEffStudies to match wmass_analysis EffAnalysis including changing vtx binning, and looseTrkEff determination
+	change WAnalysis application of loosetrkmatch to be separate from that of the Preselection efficiency
+	
+
+022210  Jan stark@in2p3.fr
+        * New model of SET efficiency from full MC. 
+	* Changes to "consistency check" facility:
+	   - allow for multiple cuts to be applied at the same time,
+	   - add pT(e) cuts.
+        * Back out undocumented "features" in parameters_runIIb.rc.geant that have been
+	  introduced in recent updates.
+	
+021610 Sahal sahal@fnal.gov
+       Added first pass at background subtracted efficiencies (new histograms in /p20/, and new paramreter file
+
+021010  Sahal sahal@fnal.gov
+	modified EfficiencySmear.cpp and pmcsana.cpp Zanalysis, and WAnalysis to choose ZB events from one particular trigger region (v15, v16a, v16b)
+	added histograms required to fit for electronicNoiseFactor, and code to make templates (ZAnalysis)
+	Added electronicNoiseFactor use to W mode.,  of EMSmear applyuparacorr
+	
+	
+
+020310  Sahal sahal@fnal.gov
+	Added Luminosity based SET Efficiency Data /MC ratio correction, and control switches to turn of the use of this ratio 'DataHack' (SETEficiency.*pp)
+	Modified ZAnalysis and Wanalysis to use the new SETEfficiency Constructor.
+	in ZAnalysis corrected the application of the preselTrk (LooseTrkEf)
+	added required parameters to parameter files.
+	
+	
+020110  Alex Melnitchouk melnit@fnal.gov
+        * moved ElecPhiEff_FullMC_RunIIb.C
+          from ../p20/ to ../geant/
+          where full MC related RunIIb files have been kept
+
+013010  Alex Melnitchouk melnit@fnal.gov
+        this is continuation of 012910 entry
+        about electron phi efficiency:
+        * small fix in EfficiencySmear.cpp 
+        * full suite of tests completed to verify
+          the same behaviour as in the comparison plots 
+          uploaded to January 20 meeting agenda
+        * turned on electron phi efficiency for both zee and wenu 
+          in both parameters_runIIb.rc and parameters_runIIb.rc.geant :
+          ZElecPhiEffCorrection: TRUE
+          WElecPhiEffCorrection: TRUE
+
+012910  Alex Melnitchouk melnit@fnal.gov
+        !!!!! SO FAR WE ARE ONLY CERTAIN THAT THIS CODE COMPILES (MORE SOON) !!!
+        * Electron Phi Efficiency additions
+        * controlled by
+          parameters_runIIb.rc:ZElecPhiEffCorrection: FALSE
+          parameters_runIIb.rc:WElecPhiEffCorrection: FALSE
+          parameters_runIIb.rc.geant:ZElecPhiEffCorrection: FALSE
+          parameters_runIIb.rc.geant:WElecPhiEffCorrection: FALSE
+        * application of these efficiencies is implemented 
+          in connection with tracking efficiency,
+          i.e. if the flags above are turned on, then
+          passesTrkEff = passesTrkEff && passesElecPhiEff
+        * modified files:
+          ../p20/ElecPhiEff_Data_RunIIb.C ../p20/ElecPhiEff_FullMC_RunIIb.C 
+          EfficiencySmear.cpp EfficiencySmear.hpp 
+          WAnalysis.cpp WAnalysis.hpp 
+          ZAnalysis.cpp ZAnalysis.hpp 
+          parameters_runIIb.rc parameters_runIIb.rc.geant
+        !!!!! SO FAR WE ARE ONLY CERTAIN THAT THIS CODE COMPILES (MORE SOON) !!!
+  
+012710 Sahal sahal@fnal.gov
+	fixed invertEtaImbalanceCut implementation in ZAnalysis
+	added control parameter for writing out text file of overlay events
+	added 2D template making function for tracking (radiationlength vs C_CC -- Track Scale)
+	updated TB para for Full MC
+
+012010 Sahal sahal@fnal.gov
+	added new beamshape file to p20 directory, and edited parameters_runIIb.rc(.geant) to use it
+	added code to made 2D templates for radLength, and C_CC (trk Scale Parameter) to ZAnalysis
+	added code to randomly choose which electron passes the SET Efficiency "first" changes made to ZAanalysis, WAnaalysis, SETEfficiencySmear, and parameter files. 
+
+011310 Sahal sahal@fnal.gov
+	Added to W/ZAnalysis
+	2D and Profile histograms of SET V Lumi. Made corresponding changes to histograms.hpp  
+
+011210 Sahal sahal@fnal.gov
+	Modified ZAnalysis so that the cuts on the tails of the EtaImbalance distribution could be applied to the analysis
+	Modified RecoilSmear to be able to read in a vector of ZBLibrary filenames, and randomly pick one file to be used
+	added parameters required for these changes to the standard runIIb files
+
+010810 Patrice lebrun@in2p3.fr
+	To facilitate Upara studies UPara_cut hs been replace by two cuts Upara_lowcut and Upara_highcut
+	The same facility has been added in wmass_analysis to allow comparaison beetween full and fast MC
+
+122909  Jan stark@in2p3.fr
+        Undo some collateral damage that has been introduced by recent commits:
+        * Comment out debug print-out in SET efficiency code
+	* put uT cut for Z -> ee back to 30 GeV
+	* switch off by default the production of "root tree 2", this tree is intended for special studies 
+
+this update is to be tagged as v01-00-95
+122809  Alex Melnitchouk melnit@fnal.gov
+        *EMSmear.cpp 
+         treatment of Crystal Ball function parameter alpha
+         based on recent Crystal Ball function tuning for Run2B data:
+         if (alpha<0.0001) alpha=0.0001;
+        *parameters_runIIb.rc
+         current best parameters (CC) for:
+         EMscale, Constant term of EM resolution, Noise term, 
+         Crystal Ball function parameters (near phi-cracks), 
+         peak shift parameters (near phi-cracks);
+         cvs diff parameters_runIIb.rc
+         diff -r1.31 parameters_runIIb.rc
+	 209,210c209,210
+	 < Scale_CC:		     1.0138
+	 < Offset_CC:		     0.018
+	 ---
+	 > Scale_CC:		     1.01076
+	 > Offset_CC:		     0.08559
+	 215,216c215,216
+	 < Constant_CC: 	     0.0163
+	 < Noise_CC:		     0.29
+	 ---
+	 > Constant_CC: 	     0.017723
+	 > Noise_CC:		     0.0
+	 242,245c242,245
+	 < CrackCB_alphaOffset: 1.5
+	 < CrackCB_alphaSlope:  7.0
+	 < CrackCB_PeakShiftOffset: 0.0
+	 < CrackCB_PeakShiftSlope:  0.0
+	 ---
+	 > CrackCB_alphaOffset: 1.71
+	 > CrackCB_alphaSlope:  6.75
+	 > CrackCB_PeakShiftOffset: 0.0062
+	 > CrackCB_PeakShiftSlope:  0.0035
+
+
+122709  Alex Melnitchouk melnit@fnal.gov
+	*parameters_runIIb.rc
+         to be in agreement with 122309 updates,
+         modified the piece relevant for submission to cab,
+         see 121609 update (this piece remains commented out by default)
+        *SETefficiencySmear.cpp
+         commented out some lines per Sahal's advice:
+	 cvs diff SETefficiencySmear.cpp
+	 Index: SETefficiencySmear.cpp
+	 ===================================================================
+	 RCS file: /cvsroot/d0cvs/wz_epmcs/src/SETefficiencySmear.cpp,v
+	 retrieving revision 1.14
+	 diff -r1.14 SETefficiencySmear.cpp
+	 251,253c251,253
+	 <   gROOT->ProcessLine(TString(".x ../p20/seteff2.C"));
+	 <   _hsetEff = (TH1D *)gROOT->FindObject("seteff2");
+	 <   _hsetEff->Integral();
+	 ---
+	 >   //gROOT->ProcessLine(TString(".x ../p20/seteff2.C"));
+	 >   //_hsetEff = (TH1D *)gROOT->FindObject("seteff2");
+	 >   //_hsetEff->Integral();
+        *compare_macros/plot_util.cpp
+         code for writing out m,mt,pte,chi histograms into a root file
+         chi2histo_zee.root or chi2histo_wen.root
+         (commented out by default)
+
+122309  Sahal Yacoob sahal@fnal.gov
+	in src/
+	*SETefficiencySmear.cpp/hpp:
+		Added function DataHack to apply binned ratio of DATA to MC efficiencies
+	parameters_runIIb.rc(.geant) -- modified constructors to take take additional parameters.
+		Added parameters for DataHack function (all 1 for Full MC)
+	ZAnalysis.cpp /.hpp (WAnalysis.cpp / hpp)
+		Added datamembers to read in parameters for DataHack, and applied changes for new 
+		SETefficiencySmear constructors
+122309  Sahal Yacoob sahal@fnal.gov
+	in src/
+	*parameters_runIIb.rc:  changed default ZBLibrary to /rooms/surete/sahal/RunIIb/DATA/MBZBLibrary/
+				binary_library_data_0.root
+				First FINAL library for data
+122309  Sahal Yacoob sahal@fnal.gov
+	in src/
+	*EMSmear.cpp:	Introduced electronicNoiseFactor = 0.65 in Full MC, and
+			1.00 in Data to correct for additional resolution 
+			smearing introduced by drawing the EM cone correction 
+			from a histogram -- not a random number. We effectively 			scale the RMS of the histogram by 0.65
+	*EMSmear.hpp:   added data member
+	*ZAnalysis.*pp:	Added methods and data members to write out a TTree with 
+			information concerning the event -- used for SET efficiency
+	parameters_runIIb.rc: included required control parameters for changes above. 
+			modified ZBLibrary to latest MC Library (Binary)
+	parameters_runIIb.rc: included required control parameters for changes above. 
+			modified ZBLibrary to latest MC Library (Binary)
+			Included RLdS's new Recoil parameters
+ 	The new ZBLibrary default does not contain events with Cal based error flags, 
+	or events which were never used as overlay on the farms.
+	in /useful_scripts/useful_scripts/eff_bkg_study/
+	Added the code used to analyse the Tree output from ZAnalysis, and to 
+	calculate the SET efficiencies (bg subtracted)
+	
+121609  Alex Melnitchouk melnit@fnal.gov
+	*zeecomp.cpp:    in pmcs plot mass in categories based on PhiMod rather than TruePhiMod
+	*histograms.hpp: correct mis-labeled as "Z candidate pt" histogram labels (mis-labeling showed up only in pmcs vs pmcs comparison)
+	*parameters_runIIb.rc, parameters_runIIb.rc.geant:
+	 relevant for job submissions to cab -- introduce a few lines
+	 (commented out by default) that can be used for proper handling of zb/mb library location
+
+
+121409  Alex Melnitchouk melnit@fnal.gov
+	*new functionality was introduced but turned off by default 	      
+	*hence modifications have zero effect on the modeled 
+	distributions wrt to previous version (verified with zeecomp)
+ 	*updates are related to electron response and resolution 
+	modeling near phi-cracks, including both main path and template making
+	*relevant only for real data
+	*modified files: 
+	histograms.hpp 
+	EMSmear.hpp EMSmear.cpp
+	ZAnalysis.hpp ZAnalysis.cpp
+	parameters_runIIb.rc parameters_runIIb.rc.geant
+
+101509 Patrice lebrun@in2p3.fr  Tag: v01-00-94
+	*New makefiles to be used at FNAL and ccin2p3 as well
+	*Need to do a setup lhapdf
+	*The path of ZB and MB libraries is given relatively to a path defined by the following variable
+	*Wanalysis* and Zanalysis* have been rewritten for U para efficiencies studies.
+	New parameter MakeU_parControlPlot introduced

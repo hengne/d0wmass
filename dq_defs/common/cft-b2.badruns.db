@@ -1,0 +1,35 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >=237342 and q.run_number <= 252918) and (q.qual_group = 'CFT' and q.quality = 'BAD' and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') order by q.run_number asc ;
+    242743 CFT        BAD                  official/global_CMT
+    242745 CFT        BAD                  official/global_CMT
+    242746 CFT        BAD                  official/global_CMT
+    242747 CFT        BAD                  official/global_CMT
+    242748 CFT        BAD                  official/global_CMT
+    242749 CFT        BAD                  official/global_CMT
+    242750 CFT        BAD                  official/global_CMT
+    242752 CFT        BAD                  official/global_CMT
+    242754 CFT        BAD                  official/global_CMT
+    242756 CFT        BAD                  official/global_CMT
+    242757 CFT        BAD                  official/global_CMT
+    242759 CFT        BAD                  official/global_CMT
+    242762 CFT        BAD                  official/global_CMT
+    245901 CFT        BAD                  official/global_CMT
+    245902 CFT        BAD                  official/global_CMT
+    245903 CFT        BAD                  official/global_CMT
+    245904 CFT        BAD                  official/global_CMT
+    245905 CFT        BAD                  official/global_CMT
+    245906 CFT        BAD                  official/global_CMT
+    246043 CFT        BAD                  official/global_CMT
+    246044 CFT        BAD                  official/global_CMT
+    247013 CFT        BAD                  official/global_CMT
+    247014 CFT        BAD                  official/global_CMT
+    247015 CFT        BAD                  official/global_CMT
+    247016 CFT        BAD                  official/global_CMT
+    247018 CFT        BAD                  official/global_CMT
+    247019 CFT        BAD                  official/global_CMT
+    247020 CFT        BAD                  official/global_CMT
+
+28 rows selected.
+
+SQL>
+SQL> spool off

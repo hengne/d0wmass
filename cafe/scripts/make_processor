@@ -1,0 +1,85 @@
+#!/bin/sh
+#
+# Create the boiler-plate code for a Processor
+# implementation.
+#
+
+usage()
+{
+    echo "usage: `basename $0` <package> <processor>"
+}
+
+if [ $# -ne 2 ]; then
+    usage
+    exit 1
+fi
+
+if [ ! -d $1 ]; then
+    usage
+    exit 1
+fi
+
+if [ -f $1/$1/${2}.hpp ]; then
+    echo "Processor already exists ?"
+    exit 1
+fi
+
+[ -d ${1}/scripts ] || mkdir -p ${1}/scripts
+
+cat >${1}/${1}/${2}.hpp <<EOF
+#ifndef ${1}_${2}_HPP_
+#define ${1}_${2}_HPP_
+
+#include "cafe/Processor.hpp"
+
+class ${2} : public cafe::Processor {
+public:
+    ${2}(const char *name);
+    bool processEvent(cafe::Event& event);
+private:
+public:
+    ClassDef(${2},0);
+};
+
+#endif // ${1}_${2}_HPP_
+EOF
+
+cat >${1}/src/${2}.cpp <<EOF
+
+#include "${1}/${2}.hpp"
+#include "cafe/Event.hpp"
+
+${2}::${2}(const char *name)
+    : cafe::Processor(name)
+{
+}
+
+bool ${2}::processEvent(cafe::Event& event)
+{
+    return true;
+}
+
+ClassImp($2);
+
+EOF
+
+cat >${1}/src/${2}_t.cpp <<EOF
+
+#include "${1}/${2}.hpp"
+
+int main()
+{
+    ${2} p("test");
+}
+
+EOF
+
+cat >${1}/src/${2}_linkdef.h <<EOF
+#pragma link C++ class ${2}+;
+EOF
+
+cat >>${1}/scripts/rootrc <<EOF
++Plugin.Processor:  ${2}   ${2}       ${1}   "${2}(const char *)"
+EOF
+
+echo ${2} >> ${1}/src/COMPONENTS

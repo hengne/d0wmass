@@ -1,0 +1,12 @@
+This directory contains the input files and code used to calculate the run2b34 QCD background 
+
+
+runfr2d.C : macro to make the 2d histograms, also used for consistency checks
+
+
+fit_FR_Mandy.C: makes projections of the 2d histograms and fits them, spits out parameters ready to input to plot_util.C
+hist_fr_pteta.root: Input for fit_FR_Mandy.C
+
+fit_Eff_Jenny.C: macro to make projections and fit tight track eff
+DataTrackMatchEff_tighteff_run34_etapt_forhengne.C: macro for the tight track efficiecny, input for fit_EFF_Jenny.C
+

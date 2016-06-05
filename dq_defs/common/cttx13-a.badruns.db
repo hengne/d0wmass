@@ -1,0 +1,1616 @@
+SQL>
+SQL> select q.run_number, q.qual_group, r.trig_config_name from runs.runs r, runs.run_quality q, runs.run_quality_params p where (q.run_number >= 151817 and q.run_number <= 219000 and q.qual_group = 'CTT') and (r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') and (p.run_number = q.run_number and ( p.par_name = 'cr13stat' and p.par_value != 'GOOD' and p.par_value != 'REASONABLE' ) ) order by q.run_number asc ;
+    193797 CTT        official/global_CMT
+    193800 CTT        official/global_CMT
+    193803 CTT        official/global_CMT
+    194500 CTT        official/global_CMT
+    194504 CTT        official/global_CMT
+    194505 CTT        official/global_CMT
+    194506 CTT        official/global_CMT
+    194523 CTT        official/global_CMT
+    194524 CTT        official/global_CMT
+    194525 CTT        official/global_CMT
+    194526 CTT        official/global_CMT
+    194527 CTT        official/global_CMT
+    194528 CTT        official/global_CMT
+    194529 CTT        official/global_CMT
+    194530 CTT        official/global_CMT
+    194531 CTT        official/global_CMT
+    194532 CTT        official/global_CMT
+    194533 CTT        official/global_CMT
+    195315 CTT        official/global_CMT
+    195316 CTT        official/global_CMT
+    195317 CTT        official/global_CMT
+    195318 CTT        official/global_CMT
+    195319 CTT        official/global_CMT
+    195320 CTT        official/global_CMT
+    195324 CTT        official/global_CMT
+    195325 CTT        official/global_CMT
+    195328 CTT        official/global_CMT
+    195329 CTT        official/global_CMT
+    195330 CTT        official/global_CMT
+    195331 CTT        official/global_CMT
+    195332 CTT        official/global_CMT
+    195333 CTT        official/global_CMT
+    195334 CTT        official/global_CMT
+    196121 CTT        official/global_CMT
+    196123 CTT        official/global_CMT
+    196124 CTT        official/global_CMT
+    196125 CTT        official/global_CMT
+    196239 CTT        official/global_CMT
+    196241 CTT        official/global_CMT
+    201537 CTT        official/global_CMT
+    201538 CTT        official/global_CMT
+    201539 CTT        official/global_CMT
+    201580 CTT        official/global_CMT
+    201581 CTT        official/global_CMT
+    201582 CTT        official/global_CMT
+    201583 CTT        official/global_CMT
+    201585 CTT        official/global_CMT
+    201670 CTT        official/global_CMT
+    201671 CTT        official/global_CMT
+    201672 CTT        official/global_CMT
+    201673 CTT        official/global_CMT
+    201710 CTT        official/global_CMT
+    201712 CTT        official/global_CMT
+    201713 CTT        official/global_CMT
+    201714 CTT        official/global_CMT
+    201715 CTT        official/global_CMT
+    201716 CTT        official/global_CMT
+    201717 CTT        official/global_CMT
+    201922 CTT        official/global_CMT
+    201923 CTT        official/global_CMT
+    201929 CTT        official/global_CMT
+    201933 CTT        official/global_CMT
+    202021 CTT        official/global_CMT
+    202022 CTT        official/global_CMT
+    202024 CTT        official/global_CMT
+    202025 CTT        official/global_CMT
+    202026 CTT        official/global_CMT
+    202027 CTT        official/global_CMT
+    202097 CTT        official/global_CMT
+    202098 CTT        official/global_CMT
+    202099 CTT        official/global_CMT
+    202101 CTT        official/global_CMT
+    202102 CTT        official/global_CMT
+    202103 CTT        official/global_CMT
+    202105 CTT        official/global_CMT
+    202106 CTT        official/global_CMT
+    202107 CTT        official/global_CMT
+    202108 CTT        official/global_CMT
+    202109 CTT        official/global_CMT
+    202120 CTT        official/global_CMT
+    202121 CTT        official/global_CMT
+    202152 CTT        official/global_CMT
+    202185 CTT        official/global_CMT
+    202186 CTT        official/global_CMT
+    202187 CTT        official/global_CMT
+    202277 CTT        official/global_CMT
+    202279 CTT        official/global_CMT
+    202332 CTT        official/global_CMT
+    202364 CTT        official/global_CMT
+    202380 CTT        official/global_CMT
+    202433 CTT        official/global_CMT
+    202476 CTT        official/global_CMT
+    202761 CTT        official/global_CMT
+    202765 CTT        official/global_CMT
+    202766 CTT        official/global_CMT
+    202767 CTT        official/global_CMT
+    202768 CTT        official/global_CMT
+    202771 CTT        official/global_CMT
+    202772 CTT        official/global_CMT
+    202773 CTT        official/global_CMT
+    202776 CTT        official/global_CMT
+    202777 CTT        official/global_CMT
+    202778 CTT        official/global_CMT
+    202852 CTT        official/global_CMT
+    202853 CTT        official/global_CMT
+    202854 CTT        official/global_CMT
+    202855 CTT        official/global_CMT
+    202860 CTT        official/global_CMT
+    202861 CTT        official/global_CMT
+    202863 CTT        official/global_CMT
+    202866 CTT        official/global_CMT
+    202868 CTT        official/global_CMT
+    202869 CTT        official/global_CMT
+    202870 CTT        official/global_CMT
+    202898 CTT        official/global_CMT
+    202902 CTT        official/global_CMT
+    202903 CTT        official/global_CMT
+    202904 CTT        official/global_CMT
+    202906 CTT        official/global_CMT
+    202907 CTT        official/global_CMT
+    202908 CTT        official/global_CMT
+    202923 CTT        official/global_CMT
+    202924 CTT        official/global_CMT
+    202925 CTT        official/global_CMT
+    202926 CTT        official/global_CMT
+    202927 CTT        official/global_CMT
+    202928 CTT        official/global_CMT
+    202929 CTT        official/global_CMT
+    202930 CTT        official/global_CMT
+    202948 CTT        official/global_CMT
+    202949 CTT        official/global_CMT
+    202950 CTT        official/global_CMT
+    202951 CTT        official/global_CMT
+    202952 CTT        official/global_CMT
+    202953 CTT        official/global_CMT
+    202954 CTT        official/global_CMT
+    202955 CTT        official/global_CMT
+    202956 CTT        official/global_CMT
+    202957 CTT        official/global_CMT
+    202958 CTT        official/global_CMT
+    202965 CTT        official/global_CMT
+    202966 CTT        official/global_CMT
+    202967 CTT        official/global_CMT
+    202968 CTT        official/global_CMT
+    202969 CTT        official/global_CMT
+    202970 CTT        official/global_CMT
+    202983 CTT        official/global_CMT
+    202985 CTT        official/global_CMT
+    202986 CTT        official/global_CMT
+    202987 CTT        official/global_CMT
+    202988 CTT        official/global_CMT
+    202989 CTT        official/global_CMT
+    202990 CTT        official/global_CMT
+    202996 CTT        official/global_CMT
+    202997 CTT        official/global_CMT
+    202998 CTT        official/global_CMT
+    202999 CTT        official/global_CMT
+    203000 CTT        official/global_CMT
+    203001 CTT        official/global_CMT
+    203003 CTT        official/global_CMT
+    203004 CTT        official/global_CMT
+    203005 CTT        official/global_CMT
+    203008 CTT        official/global_CMT
+    203009 CTT        official/global_CMT
+    203010 CTT        official/global_CMT
+    203014 CTT        official/global_CMT
+    203015 CTT        official/global_CMT
+    203016 CTT        official/global_CMT
+    203017 CTT        official/global_CMT
+    203018 CTT        official/global_CMT
+    203019 CTT        official/global_CMT
+    203020 CTT        official/global_CMT
+    203022 CTT        official/global_CMT
+    203024 CTT        official/global_CMT
+    203025 CTT        official/global_CMT
+    203033 CTT        official/global_CMT
+    203034 CTT        official/global_CMT
+    203035 CTT        official/global_CMT
+    203036 CTT        official/global_CMT
+    203037 CTT        official/global_CMT
+    203038 CTT        official/global_CMT
+    203397 CTT        official/global_CMT
+    203398 CTT        official/global_CMT
+    203399 CTT        official/global_CMT
+    203486 CTT        official/global_CMT
+    204091 CTT        official/global_CMT
+    204092 CTT        official/global_CMT
+    204093 CTT        official/global_CMT
+    204094 CTT        official/global_CMT
+    204095 CTT        official/global_CMT
+    204096 CTT        official/global_CMT
+    204189 CTT        official/global_CMT
+    204705 CTT        official/global_CMT
+    204753 CTT        official/global_CMT
+    204757 CTT        official/global_CMT
+    204758 CTT        official/global_CMT
+    204759 CTT        official/global_CMT
+    204760 CTT        official/global_CMT
+    204763 CTT        official/global_CMT
+    204764 CTT        official/global_CMT
+    204810 CTT        official/global_CMT
+    204812 CTT        official/global_CMT
+    204814 CTT        official/global_CMT
+    204816 CTT        official/global_CMT
+    204990 CTT        official/global_CMT
+    204991 CTT        official/global_CMT
+    204992 CTT        official/global_CMT
+    204993 CTT        official/global_CMT
+    205316 CTT        official/global_CMT
+    205317 CTT        official/global_CMT
+    205333 CTT        official/global_CMT
+    205420 CTT        official/global_CMT
+    205421 CTT        official/global_CMT
+    205458 CTT        official/global_CMT
+    205460 CTT        official/global_CMT
+    205462 CTT        official/global_CMT
+    205496 CTT        official/global_CMT
+    205497 CTT        official/global_CMT
+    205499 CTT        official/global_CMT
+    205500 CTT        official/global_CMT
+    205501 CTT        official/global_CMT
+    205513 CTT        official/global_CMT
+    205514 CTT        official/global_CMT
+    205527 CTT        official/global_CMT
+    205553 CTT        official/global_CMT
+    205563 CTT        official/global_CMT
+    205681 CTT        official/global_CMT
+    205682 CTT        official/global_CMT
+    205683 CTT        official/global_CMT
+    205684 CTT        official/global_CMT
+    205685 CTT        official/global_CMT
+    205687 CTT        official/global_CMT
+    205688 CTT        official/global_CMT
+    205731 CTT        official/global_CMT
+    205732 CTT        official/global_CMT
+    205733 CTT        official/global_CMT
+    205735 CTT        official/global_CMT
+    205741 CTT        official/global_CMT
+    205758 CTT        official/global_CMT
+    205759 CTT        official/global_CMT
+    205760 CTT        official/global_CMT
+    205762 CTT        official/global_CMT
+    205767 CTT        official/global_CMT
+    205768 CTT        official/global_CMT
+    205769 CTT        official/global_CMT
+    206348 CTT        official/global_CMT
+    206349 CTT        official/global_CMT
+    206350 CTT        official/global_CMT
+    206351 CTT        official/global_CMT
+    206352 CTT        official/global_CMT
+    206353 CTT        official/global_CMT
+    206354 CTT        official/global_CMT
+    206355 CTT        official/global_CMT
+    206356 CTT        official/global_CMT
+    206618 CTT        official/global_CMT
+    206622 CTT        official/global_CMT
+    206691 CTT        official/global_CMT
+    206692 CTT        official/global_CMT
+    206813 CTT        official/global_CMT
+    207071 CTT        official/global_CMT
+    207072 CTT        official/global_CMT
+    207073 CTT        official/global_CMT
+    207074 CTT        official/global_CMT
+    207077 CTT        official/global_CMT
+    207082 CTT        official/global_CMT
+    207083 CTT        official/global_CMT
+    207084 CTT        official/global_CMT
+    207093 CTT        official/global_CMT
+    207094 CTT        official/global_CMT
+    207095 CTT        official/global_CMT
+    207096 CTT        official/global_CMT
+    207216 CTT        official/global_CMT
+    207230 CTT        official/global_CMT
+    207231 CTT        official/global_CMT
+    207232 CTT        official/global_CMT
+    207233 CTT        official/global_CMT
+    207234 CTT        official/global_CMT
+    207289 CTT        official/global_CMT
+    207290 CTT        official/global_CMT
+    207291 CTT        official/global_CMT
+    207292 CTT        official/global_CMT
+    207293 CTT        official/global_CMT
+    207294 CTT        official/global_CMT
+    207295 CTT        official/global_CMT
+    207298 CTT        official/global_CMT
+    207303 CTT        official/global_CMT
+    207753 CTT        official/global_CMT
+    207754 CTT        official/global_CMT
+    207755 CTT        official/global_CMT
+    207756 CTT        official/global_CMT
+    207757 CTT        official/global_CMT
+    207768 CTT        official/global_CMT
+    207770 CTT        official/global_CMT
+    207865 CTT        official/global_CMT
+    207942 CTT        official/global_CMT
+    208014 CTT        official/global_CMT
+    208046 CTT        official/global_CMT
+    208284 CTT        official/global_CMT
+    208807 CTT        official/global_CMT
+    209075 CTT        official/global_CMT
+    209151 CTT        official/global_CMT
+    209156 CTT        official/global_CMT
+    209157 CTT        official/global_CMT
+    209298 CTT        official/global_CMT
+    209299 CTT        official/global_CMT
+    209300 CTT        official/global_CMT
+    209301 CTT        official/global_CMT
+    209692 CTT        official/global_CMT
+    209779 CTT        official/global_CMT
+    210204 CTT        official/global_CMT
+    211645 CTT        official/global_CMT
+    211704 CTT        official/global_CMT
+    211705 CTT        official/global_CMT
+    211843 CTT        official/global_CMT
+    211844 CTT        official/global_CMT
+    211860 CTT        official/global_CMT
+    211871 CTT        official/global_CMT
+    211886 CTT        official/global_CMT
+    211888 CTT        official/global_CMT
+    213339 CTT        official/global_CMT
+    213382 CTT        official/global_CMT
+
+321 rows selected.
+
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >= 151817 and q.run_number <= 219000 and q.qual_group = 'CTT') and (r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') and ( not exists (select '' from runs.run_crates c where r.run_number=c.run_number and c.crate_dec=19) ) order by q.run_number asc ;
+    151817 CTT        UNKNOWN              official/global_CalMuon
+    151831 CTT        UNKNOWN              official/global_CalMuon
+    151852 CTT        UNKNOWN              official/global_CalMuon
+    151853 CTT        UNKNOWN              official/global_CalMuon
+    151854 CTT        UNKNOWN              official/global_CalMuon
+    151855 CTT        UNKNOWN              official/global_CalMuon
+    151892 CTT        UNKNOWN              official/global_CalMuon
+    151893 CTT        UNKNOWN              official/global_CalMuon
+    151894 CTT        UNKNOWN              official/global_CalMuon
+    151895 CTT        UNKNOWN              official/global_CalMuon
+    151896 CTT        UNKNOWN              official/global_CalMuon
+    151897 CTT        UNKNOWN              official/global_CalMuon
+    151909 CTT        UNKNOWN              official/global_CalMuon
+    151911 CTT        UNKNOWN              official/global_CalMuon
+    151936 CTT        UNKNOWN              official/global_CalMuon
+    151964 CTT        UNKNOWN              official/global_CalMuon
+    151965 CTT        UNKNOWN              official/global_CalMuon
+    151967 CTT        UNKNOWN              official/global_CalMuon
+    151968 CTT        UNKNOWN              official/global_CalMuon
+    151969 CTT        UNKNOWN              official/global_CalMuon
+    151970 CTT        UNKNOWN              official/global_CalMuon
+    151975 CTT        UNKNOWN              official/global_CalMuon
+    151976 CTT        UNKNOWN              official/global_CalMuon
+    152128 CTT        UNKNOWN              official/global_CalMuon
+    152145 CTT        UNKNOWN              official/global_CalMuon
+    152148 CTT        UNKNOWN              official/global_CalMuon
+    152155 CTT        UNKNOWN              official/global_CalMuon
+    152173 CTT        UNKNOWN              official/global_CalMuon
+    152185 CTT        UNKNOWN              official/global_CalMuon
+    152186 CTT        UNKNOWN              official/global_CalMuon
+    152211 CTT        UNKNOWN              official/global_CalMuon
+    152212 CTT        UNKNOWN              official/global_CalMuon
+    152213 CTT        UNKNOWN              official/global_CalMuon
+    152243 CTT        UNKNOWN              official/global_CalMuon
+    152250 CTT        UNKNOWN              official/global_CalMuon
+    152284 CTT        UNKNOWN              official/global_CalMuon
+    152285 CTT        UNKNOWN              official/global_CalMuon
+    152295 CTT        UNKNOWN              official/global_CalMuon
+    152297 CTT        UNKNOWN              official/global_CalMuon
+    152300 CTT        UNKNOWN              official/global_CalMuon
+    152415 CTT        UNKNOWN              official/global_CalMuon
+    152417 CTT        UNKNOWN              official/global_CalMuon
+    152419 CTT        UNKNOWN              official/global_CalMuon
+    152420 CTT        UNKNOWN              official/global_CalMuon
+    152421 CTT        UNKNOWN              official/global_CalMuon
+    152422 CTT        UNKNOWN              official/global_CalMuon
+    152531 CTT        UNKNOWN              official/global_CalMuon
+    152533 CTT        UNKNOWN              official/global_CalMuon
+    152535 CTT        UNKNOWN              official/global_CalMuon
+    152552 CTT        UNKNOWN              official/global_CalMuon
+    152553 CTT        UNKNOWN              official/global_CalMuon
+    152555 CTT        UNKNOWN              official/global_CalMuon
+    152560 CTT        UNKNOWN              official/global_CalMuon
+    152561 CTT        UNKNOWN              official/global_CalMuon
+    152564 CTT        UNKNOWN              official/global_CalMuon
+    152565 CTT        UNKNOWN              official/global_CalMuon
+    152566 CTT        UNKNOWN              official/global_CalMuon
+    152567 CTT        UNKNOWN              official/global_CalMuon
+    152568 CTT        UNKNOWN              official/global_CalMuon
+    152569 CTT        UNKNOWN              official/global_CalMuon
+    152581 CTT        UNKNOWN              official/global_CalMuon
+    152582 CTT        UNKNOWN              official/global_CalMuon
+    152583 CTT        UNKNOWN              official/global_CalMuon
+    152627 CTT        UNKNOWN              official/global_CalMuon
+    152629 CTT        UNKNOWN              official/global_CalMuon
+    152635 CTT        UNKNOWN              official/global_CalMuon
+    152637 CTT        UNKNOWN              official/global_CalMuon
+    152640 CTT        UNKNOWN              official/global_CalMuon
+    152641 CTT        UNKNOWN              official/global_CalMuon
+    152645 CTT        UNKNOWN              official/global_CalMuon
+    152646 CTT        UNKNOWN              official/global_CalMuon
+    152648 CTT        UNKNOWN              official/global_CalMuon
+    152649 CTT        UNKNOWN              official/global_CalMuon
+    153170 CTT        UNKNOWN              official/global_CalMuon
+    153174 CTT        UNKNOWN              official/global_CalMuon
+    153175 CTT        UNKNOWN              official/global_CalMuon
+    153176 CTT        UNKNOWN              official/global_CalMuon
+    153177 CTT        UNKNOWN              official/global_CalMuon
+    153178 CTT        UNKNOWN              official/global_CalMuon
+    153179 CTT        UNKNOWN              official/global_CalMuon
+    153180 CTT        UNKNOWN              official/global_CalMuon
+    153181 CTT        UNKNOWN              official/global_CalMuon
+    153182 CTT        UNKNOWN              official/global_CalMuon
+    153190 CTT        UNKNOWN              official/global_CalMuon
+    153192 CTT        UNKNOWN              official/global_CalMuon
+    153303 CTT        UNKNOWN              official/global_CalMuon
+    153304 CTT        UNKNOWN              official/global_CalMuon
+    153309 CTT        UNKNOWN              official/global_CalMuon
+    153310 CTT        UNKNOWN              official/global_CalMuon
+    153311 CTT        UNKNOWN              official/global_CalMuon
+    153312 CTT        UNKNOWN              official/global_CalMuon
+    153313 CTT        UNKNOWN              official/global_CalMuon
+    153314 CTT        UNKNOWN              official/global_CalMuon
+    153315 CTT        UNKNOWN              official/global_CalMuon
+    153316 CTT        UNKNOWN              official/global_CalMuon
+    153317 CTT        UNKNOWN              official/global_CalMuon
+    153318 CTT        UNKNOWN              official/global_CalMuon
+    153319 CTT        UNKNOWN              official/global_CalMuon
+    153320 CTT        UNKNOWN              official/global_CalMuon
+    153321 CTT        UNKNOWN              official/global_CalMuon
+    153322 CTT        UNKNOWN              official/global_CalMuon
+    153323 CTT        UNKNOWN              official/global_CalMuon
+    153331 CTT        UNKNOWN              official/global_CalMuon
+    153332 CTT        UNKNOWN              official/global_CalMuon
+    153333 CTT        UNKNOWN              official/global_CalMuon
+    153334 CTT        UNKNOWN              official/global_CalMuon
+    153335 CTT        UNKNOWN              official/global_CalMuon
+    153336 CTT        UNKNOWN              official/global_CalMuon
+    153337 CTT        UNKNOWN              official/global_CalMuon
+    153340 CTT        UNKNOWN              official/global_CalMuon
+    153342 CTT        UNKNOWN              official/global_CalMuon
+    153343 CTT        UNKNOWN              official/global_CalMuon
+    153368 CTT        UNKNOWN              official/global_CalMuon
+    153373 CTT        UNKNOWN              official/global_CalMuon
+    153375 CTT        UNKNOWN              official/global_CalMuon
+    153378 CTT        UNKNOWN              official/global_CalMuon
+    153379 CTT        UNKNOWN              official/global_CalMuon
+    153380 CTT        UNKNOWN              official/global_CalMuon
+    153381 CTT        UNKNOWN              official/global_CalMuon
+    153382 CTT        UNKNOWN              official/global_CalMuon
+    153407 CTT        UNKNOWN              official/global_CalMuon
+    153408 CTT        UNKNOWN              official/global_CalMuon
+    153409 CTT        UNKNOWN              official/global_CalMuon
+    153412 CTT        UNKNOWN              official/global_CalMuon
+    153414 CTT        UNKNOWN              official/global_CalMuon
+    153416 CTT        UNKNOWN              official/global_CalMuon
+    153417 CTT        UNKNOWN              official/global_CalMuon
+    153441 CTT        UNKNOWN              official/global_CalMuon
+    153442 CTT        UNKNOWN              official/global_CalMuon
+    153443 CTT        UNKNOWN              official/global_CalMuon
+    153444 CTT        UNKNOWN              official/global_CalMuon
+    153446 CTT        UNKNOWN              official/global_CalMuon
+    153447 CTT        UNKNOWN              official/global_CalMuon
+    153450 CTT        UNKNOWN              official/global_CalMuon
+    153484 CTT        UNKNOWN              official/global_CalMuon
+    153485 CTT        UNKNOWN              official/global_CalMuon
+    153486 CTT        UNKNOWN              official/global_CalMuon
+    153487 CTT        UNKNOWN              official/global_CalMuon
+    153488 CTT        UNKNOWN              official/global_CalMuon
+    153789 CTT        UNKNOWN              official/global_CalMuon
+    153790 CTT        UNKNOWN              official/global_CalMuon
+    153791 CTT        UNKNOWN              official/global_CalMuon
+    153792 CTT        UNKNOWN              official/global_CalMuon
+    153795 CTT        UNKNOWN              official/global_CalMuon
+    153796 CTT        UNKNOWN              official/global_CalMuon
+    153797 CTT        UNKNOWN              official/global_CalMuon
+    153798 CTT        UNKNOWN              official/global_CalMuon
+    153800 CTT        UNKNOWN              official/global_CalMuon
+    153803 CTT        UNKNOWN              official/global_CalMuon
+    153806 CTT        UNKNOWN              official/global_CalMuon
+    153808 CTT        UNKNOWN              official/global_CalMuon
+    153869 CTT        UNKNOWN              official/global_CalMuon
+    153870 CTT        UNKNOWN              official/global_CalMuon
+    153879 CTT        UNKNOWN              official/global_CalMuon
+    153880 CTT        UNKNOWN              official/global_CalMuon
+    153881 CTT        UNKNOWN              official/global_CalMuon
+    153889 CTT        UNKNOWN              official/global_CalMuon
+    153975 CTT        UNKNOWN              official/global_CalMuon
+    153976 CTT        UNKNOWN              official/global_CalMuon
+    153977 CTT        UNKNOWN              official/global_CalMuon
+    153982 CTT        UNKNOWN              official/global_CalMuon
+    153983 CTT        UNKNOWN              official/global_CalMuon
+    153984 CTT        UNKNOWN              official/global_CalMuon
+    154006 CTT        UNKNOWN              official/global_CalMuon
+    154007 CTT        UNKNOWN              official/global_CalMuon
+    154008 CTT        UNKNOWN              official/global_CalMuon
+    154041 CTT        UNKNOWN              official/global_CalMuon
+    154042 CTT        UNKNOWN              official/global_CalMuon
+    154043 CTT        UNKNOWN              official/global_CalMuon
+    154044 CTT        UNKNOWN              official/global_CalMuon
+    154045 CTT        UNKNOWN              official/global_CalMuon
+    154367 CTT        UNKNOWN              official/global_CalMuon
+    154368 CTT        UNKNOWN              official/global_CalMuon
+    154372 CTT        UNKNOWN              official/global_CalMuon
+    154373 CTT        UNKNOWN              official/global_CalMuon
+    154481 CTT        UNKNOWN              official/global_CalMuon
+    154483 CTT        UNKNOWN              official/global_CalMuon
+    154485 CTT        UNKNOWN              official/global_CalMuon
+    154487 CTT        UNKNOWN              official/global_CalMuon
+    154488 CTT        UNKNOWN              official/global_CalMuon
+    154489 CTT        UNKNOWN              official/global_CalMuon
+    154490 CTT        UNKNOWN              official/global_CalMuon
+    154492 CTT        UNKNOWN              official/global_CalMuon
+    154494 CTT        UNKNOWN              official/global_CalMuon
+    154565 CTT        UNKNOWN              official/global_CalMuon
+    154566 CTT        UNKNOWN              official/global_CalMuon
+    154568 CTT        UNKNOWN              official/global_CalMuon
+    154569 CTT        UNKNOWN              official/global_CalMuon
+    154570 CTT        UNKNOWN              official/global_CalMuon
+    154571 CTT        UNKNOWN              official/global_CalMuon
+    154572 CTT        UNKNOWN              official/global_CalMuon
+    154573 CTT        UNKNOWN              official/global_CalMuon
+    154574 CTT        UNKNOWN              official/global_CalMuon
+    154577 CTT        UNKNOWN              official/global_CalMuon
+    154578 CTT        UNKNOWN              official/global_CalMuon
+    154579 CTT        UNKNOWN              official/global_CalMuon
+    154597 CTT        UNKNOWN              official/global_CalMuon
+    154598 CTT        UNKNOWN              official/global_CalMuon
+    154599 CTT        UNKNOWN              official/global_CalMuon
+    154603 CTT        UNKNOWN              official/global_CalMuon
+    154604 CTT        UNKNOWN              official/global_CalMuon
+    154605 CTT        UNKNOWN              official/global_CalMuon
+    154606 CTT        UNKNOWN              official/global_CalMuon
+    154607 CTT        UNKNOWN              official/global_CalMuon
+    154610 CTT        UNKNOWN              official/global_CalMuon
+    154612 CTT        UNKNOWN              official/global_CalMuon
+    154615 CTT        UNKNOWN              official/global_CalMuon
+    154616 CTT        UNKNOWN              official/global_CalMuon
+    154638 CTT        UNKNOWN              official/global_CalMuon
+    154639 CTT        UNKNOWN              official/global_CalMuon
+    154640 CTT        UNKNOWN              official/global_CalMuon
+    154641 CTT        UNKNOWN              official/global_CalMuon
+    154660 CTT        UNKNOWN              official/global_CalMuon
+    154662 CTT        UNKNOWN              official/global_CalMuon
+    154671 CTT        UNKNOWN              official/global_CalMuon
+    154672 CTT        UNKNOWN              official/global_CalMuon
+    154673 CTT        UNKNOWN              official/global_CalMuon
+    154674 CTT        UNKNOWN              official/global_CalMuon
+    154675 CTT        UNKNOWN              official/global_CalMuon
+    154682 CTT        UNKNOWN              official/global_CalMuon
+    154920 CTT        UNKNOWN              official/global_CalMuon
+    154925 CTT        UNKNOWN              official/global_CalMuon
+    154929 CTT        UNKNOWN              official/global_CalMuon
+    154930 CTT        UNKNOWN              official/global_CalMuon
+    154932 CTT        UNKNOWN              official/global_CalMuon
+    154934 CTT        UNKNOWN              official/global_CalMuon
+    154935 CTT        UNKNOWN              official/global_CalMuon
+    154938 CTT        UNKNOWN              official/global_CalMuon
+    154939 CTT        UNKNOWN              official/global_CalMuon
+    155119 CTT        UNKNOWN              official/global_CalMuon
+    155120 CTT        UNKNOWN              official/global_CalMuon
+    155121 CTT        UNKNOWN              official/global_CalMuon
+    155206 CTT        UNKNOWN              official/global_CalMuon
+    155210 CTT        UNKNOWN              official/global_CalMuon
+    155222 CTT        UNKNOWN              official/global_CalMuon
+    155223 CTT        UNKNOWN              official/global_CalMuon
+    155224 CTT        UNKNOWN              official/global_CalMuon
+    155231 CTT        UNKNOWN              official/global_CalMuon
+    155232 CTT        UNKNOWN              official/global_CalMuon
+    155233 CTT        UNKNOWN              official/global_CalMuon
+    155234 CTT        UNKNOWN              official/global_CalMuon
+    155237 CTT        UNKNOWN              official/global_CalMuon
+    155240 CTT        UNKNOWN              official/global_CalMuon
+    155241 CTT        UNKNOWN              official/global_CalMuon
+    155245 CTT        UNKNOWN              official/global_CalMuon
+    155276 CTT        UNKNOWN              official/global_CalMuon
+    155277 CTT        UNKNOWN              official/global_CalMuon
+    155281 CTT        UNKNOWN              official/global_CalMuon
+    155290 CTT        UNKNOWN              official/global_CalMuon
+    155293 CTT        UNKNOWN              official/global_CalMuon
+    155465 CTT        UNKNOWN              official/global_CalMuon
+    155466 CTT        UNKNOWN              official/global_CalMuon
+    155541 CTT        UNKNOWN              official/global_CalMuon
+    155544 CTT        UNKNOWN              official/global_CalMuon
+    155547 CTT        UNKNOWN              official/global_CalMuon
+    155549 CTT        UNKNOWN              official/global_CalMuon
+    155553 CTT        UNKNOWN              official/global_CalMuon
+    155554 CTT        UNKNOWN              official/global_CalMuon
+    155601 CTT        UNKNOWN              official/global_CalMuon
+    155605 CTT        UNKNOWN              official/global_CalMuon
+    157476 CTT        UNKNOWN              official/global_CalMuon
+    157477 CTT        UNKNOWN              official/global_CalMuon
+    157478 CTT        UNKNOWN              official/global_CalMuon
+    157482 CTT        UNKNOWN              official/global_CalMuon
+    157483 CTT        UNKNOWN              official/global_CalMuon
+    157484 CTT        UNKNOWN              official/global_CalMuon
+    157531 CTT        UNKNOWN              official/global_CalMuon
+    157536 CTT        UNKNOWN              official/global_CalMuon
+    157572 CTT        UNKNOWN              official/global_CalMuon
+    157573 CTT        UNKNOWN              official/global_CalMuon
+    157574 CTT        UNKNOWN              official/global_CalMuon
+    157575 CTT        UNKNOWN              official/global_CalMuon
+    157576 CTT        UNKNOWN              official/global_CalMuon
+    157577 CTT        UNKNOWN              official/global_CalMuon
+    157581 CTT        UNKNOWN              official/global_CalMuon
+    157591 CTT        UNKNOWN              official/global_CalMuon
+    157595 CTT        UNKNOWN              official/global_CalMuon
+    157596 CTT        UNKNOWN              official/global_CalMuon
+    157597 CTT        UNKNOWN              official/global_CalMuon
+    157702 CTT        UNKNOWN              official/global_CalMuon
+    157705 CTT        UNKNOWN              official/global_CalMuon
+    157708 CTT        UNKNOWN              official/global_CalMuon
+    157709 CTT        UNKNOWN              official/global_CalMuon
+    157713 CTT        UNKNOWN              official/global_CalMuon
+    158031 CTT        UNKNOWN              official/global_CalMuon
+    158033 CTT        UNKNOWN              official/global_CalMuon
+    158034 CTT        UNKNOWN              official/global_CalMuon
+    158035 CTT        UNKNOWN              official/global_CalMuon
+    158036 CTT        UNKNOWN              official/global_CalMuon
+    158040 CTT        UNKNOWN              official/global_CalMuon
+    158041 CTT        UNKNOWN              official/global_CalMuon
+    158061 CTT        UNKNOWN              official/global_CalMuon
+    158062 CTT        UNKNOWN              official/global_CalMuon
+    158063 CTT        UNKNOWN              official/global_CalMuon
+    158064 CTT        UNKNOWN              official/global_CalMuon
+    158068 CTT        UNKNOWN              official/global_CalMuon
+    158069 CTT        UNKNOWN              official/global_CalMuon
+    158574 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158575 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158576 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158578 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158579 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158792 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158793 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158794 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158795 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158796 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158797 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158798 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158799 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158800 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158801 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158802 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158803 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158821 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158823 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158824 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158825 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158826 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158827 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158971 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158972 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158973 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158974 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158975 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158976 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158977 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158978 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158979 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158981 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158982 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158983 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158993 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158994 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158995 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158996 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158997 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158998 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    158999 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159001 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159002 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159027 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159028 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159029 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159030 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159033 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159040 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159044 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159698 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159699 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159700 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159701 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159702 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159703 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159704 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159705 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159706 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159707 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159763 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159764 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159765 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159766 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159767 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159768 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159769 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159770 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159771 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159773 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159774 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159775 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    159776 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160141 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160142 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160143 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160144 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160145 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160196 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160198 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160205 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160206 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160207 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160208 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160209 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160210 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160214 CTT        UNKNOWN              official/global_CalMuon_noL2
+    160215 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160216 CTT        UNKNOWN              official/global_CalMuon_noL2
+    160217 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160218 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160219 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160220 CTT        UNKNOWN              official/global_CalMuon_noL2
+    160221 CTT        UNKNOWN              official/global_CalMuon_noL2
+    160223 CTT        UNKNOWN              official/global_CalMuon_noL2
+    160224 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160225 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160226 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160227 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160228 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160229 CTT        UNKNOWN              official/global_CalMuon_noL2MU
+    160689 CTT        UNKNOWN              official/global_CMT
+    160690 CTT        UNKNOWN              official/global_CMT
+    160692 CTT        UNKNOWN              official/global_CMT
+    160693 CTT        UNKNOWN              official/global_CMT
+    160699 CTT        UNKNOWN              official/global_CMT
+    160700 CTT        UNKNOWN              official/global_CMT
+    160704 CTT        UNKNOWN              official/global_CMT
+    161020 CTT        UNKNOWN              official/global_CMT
+    161023 CTT        UNKNOWN              official/global_CMT
+    161025 CTT        UNKNOWN              official/global_CMT
+    161026 CTT        UNKNOWN              official/global_CMT
+    161028 CTT        UNKNOWN              official/global_CMT
+    161029 CTT        UNKNOWN              official/global_CMT
+    161030 CTT        UNKNOWN              official/global_CMT
+    161031 CTT        UNKNOWN              official/global_CMT
+    161041 CTT        UNKNOWN              official/global_CMT
+    161048 CTT        UNKNOWN              official/global_CMT
+    161049 CTT        UNKNOWN              official/global_CMT
+    161053 CTT        UNKNOWN              official/global_CMT
+    161083 CTT        UNKNOWN              official/global_CMT
+    161098 CTT        UNKNOWN              official/global_CMT
+    161099 CTT        UNKNOWN              official/global_CMT
+    161101 CTT        UNKNOWN              official/global_CMT
+    161106 CTT        UNKNOWN              official/global_CMT
+    161110 CTT        UNKNOWN              official/global_CMT
+    161186 CTT        UNKNOWN              official/global_CMT
+    161187 CTT        UNKNOWN              official/global_CMT
+    161188 CTT        UNKNOWN              official/global_CMT
+    161189 CTT        UNKNOWN              official/global_CMT
+    161191 CTT        UNKNOWN              official/global_CMT
+    161192 CTT        UNKNOWN              official/global_CMT
+    161193 CTT        UNKNOWN              official/global_CMT
+    161194 CTT        UNKNOWN              official/global_CMT
+    161195 CTT        UNKNOWN              official/global_CMT
+    161196 CTT        UNKNOWN              official/global_CMT
+    161197 CTT        UNKNOWN              official/global_CMT
+    161198 CTT        UNKNOWN              official/global_CMT
+    161199 CTT        UNKNOWN              official/global_CMT
+    161200 CTT        UNKNOWN              official/global_CMT
+    161201 CTT        UNKNOWN              official/global_CMT
+    161202 CTT        UNKNOWN              official/global_CMT
+    161293 CTT        UNKNOWN              official/global_CMT
+    161294 CTT        UNKNOWN              official/global_CMT
+    161296 CTT        UNKNOWN              official/global_CMT
+    161297 CTT        UNKNOWN              official/global_CMT
+    161299 CTT        UNKNOWN              official/global_CMT
+    161300 CTT        UNKNOWN              official/global_CMT
+    161301 CTT        UNKNOWN              official/global_CMT
+    161303 CTT        UNKNOWN              official/global_CMT
+    161307 CTT        UNKNOWN              official/global_CMT
+    161308 CTT        UNKNOWN              official/global_CMT
+    161309 CTT        UNKNOWN              official/global_CMT
+    161310 CTT        UNKNOWN              official/global_CMT
+    161311 CTT        UNKNOWN              official/global_CMT
+    161619 CTT        UNKNOWN              official/global_CMT
+    161620 CTT        UNKNOWN              official/global_CMT
+    161621 CTT        UNKNOWN              official/global_CMT
+    161622 CTT        UNKNOWN              official/global_CMT
+    161623 CTT        UNKNOWN              official/global_CMT
+    161624 CTT        UNKNOWN              official/global_CMT
+    161627 CTT        UNKNOWN              official/global_CMT
+    161628 CTT        UNKNOWN              official/global_CMT
+    161629 CTT        UNKNOWN              official/global_CMT
+    161630 CTT        UNKNOWN              official/global_CMT
+    161863 CTT        UNKNOWN              official/global_CMT
+    161928 CTT        UNKNOWN              official/global_CMT
+    161972 CTT        UNKNOWN              official/global_CMT
+    161973 CTT        UNKNOWN              official/global_CMT
+    161977 CTT        UNKNOWN              official/global_CMT
+    162005 CTT        UNKNOWN              official/global_CMT
+    162006 CTT        UNKNOWN              official/global_CMT
+    162007 CTT        UNKNOWN              official/global_CMT
+    162008 CTT        UNKNOWN              official/global_CMT
+    162009 CTT        UNKNOWN              official/global_CMT
+    162011 CTT        UNKNOWN              official/global_CMT
+    162012 CTT        UNKNOWN              official/global_CMT
+    162013 CTT        UNKNOWN              official/global_CMT
+    162014 CTT        UNKNOWN              official/global_CMT
+    162015 CTT        UNKNOWN              official/global_CMT
+    162017 CTT        UNKNOWN              official/global_CMT
+    162042 CTT        UNKNOWN              official/global_CMT
+    162049 CTT        UNKNOWN              official/global_CMT
+    162050 CTT        UNKNOWN              official/global_CMT
+    162051 CTT        UNKNOWN              official/global_CMT
+    162052 CTT        UNKNOWN              official/global_CMT
+    162053 CTT        UNKNOWN              official/global_CMT
+    162064 CTT        UNKNOWN              official/global_CMT
+    162067 CTT        UNKNOWN              official/global_CMT
+    162069 CTT        UNKNOWN              official/global_CMT
+    162070 CTT        UNKNOWN              official/global_CMT
+    162071 CTT        UNKNOWN              official/global_CMT
+    162073 CTT        UNKNOWN              official/global_CMT
+    162076 CTT        UNKNOWN              official/global_CMT
+    162077 CTT        UNKNOWN              official/global_CMT
+    162078 CTT        UNKNOWN              official/global_CMT
+    162079 CTT        UNKNOWN              official/global_CMT
+    162080 CTT        UNKNOWN              official/global_CMT
+    162081 CTT        UNKNOWN              official/global_CMT
+    162082 CTT        UNKNOWN              official/global_CMT
+    162083 CTT        UNKNOWN              official/global_CMT
+    162099 CTT        UNKNOWN              official/global_CMT
+    162100 CTT        UNKNOWN              official/global_CMT
+    162101 CTT        UNKNOWN              official/global_CMT
+    162102 CTT        UNKNOWN              official/global_CMT
+    162103 CTT        UNKNOWN              official/global_CMT
+    162104 CTT        UNKNOWN              official/global_CMT
+    162105 CTT        UNKNOWN              official/global_CMT
+    162107 CTT        UNKNOWN              official/global_CMT
+    162108 CTT        UNKNOWN              official/global_CMT
+    162109 CTT        UNKNOWN              official/global_CMT
+    162153 CTT        UNKNOWN              official/global_CMT
+    162154 CTT        UNKNOWN              official/global_CMT
+    162155 CTT        UNKNOWN              official/global_CMT
+    162156 CTT        UNKNOWN              official/global_CMT
+    162157 CTT        UNKNOWN              official/global_CMT
+    162345 CTT        UNKNOWN              official/global_CMT
+    162347 CTT        UNKNOWN              official/global_CMT
+    162351 CTT        UNKNOWN              official/global_CMT
+    162458 CTT        UNKNOWN              official/global_CMT
+    162468 CTT        UNKNOWN              official/global_CMT
+    162521 CTT        UNKNOWN              official/global_CMT
+    162523 CTT        UNKNOWN              official/global_CMT
+    162527 CTT        UNKNOWN              official/global_CMT
+    162576 CTT        UNKNOWN              official/global_CMT
+    162577 CTT        UNKNOWN              official/global_CMT
+    162578 CTT        UNKNOWN              official/global_CMT
+    162580 CTT        UNKNOWN              official/global_CMT
+    162581 CTT        UNKNOWN              official/global_CMT
+    162583 CTT        UNKNOWN              official/global_CMT
+    162586 CTT        UNKNOWN              official/global_CMT
+    162587 CTT        UNKNOWN              official/global_CMT
+    162588 CTT        UNKNOWN              official/global_CMT
+    162592 CTT        UNKNOWN              official/global_CMT
+    162593 CTT        UNKNOWN              official/global_CMT
+    162594 CTT        UNKNOWN              official/global_CMT
+    162595 CTT        UNKNOWN              official/global_CMT
+    162599 CTT        UNKNOWN              official/global_CMT
+    162602 CTT        UNKNOWN              official/global_CMT
+    162622 CTT        UNKNOWN              official/global_CMT
+    162624 CTT        UNKNOWN              official/global_CMT
+    162626 CTT        UNKNOWN              official/global_CMT
+    162627 CTT        UNKNOWN              official/global_CMT
+    162628 CTT        UNKNOWN              official/global_CMT
+    162629 CTT        UNKNOWN              official/global_CMT
+    162630 CTT        UNKNOWN              official/global_CMT
+    163063 CTT        UNKNOWN              official/global_CMT
+    163065 CTT        UNKNOWN              official/global_CMT
+    163066 CTT        UNKNOWN              official/global_CMT
+    163067 CTT        UNKNOWN              official/global_CMT
+    163069 CTT        UNKNOWN              official/global_CMT
+    163070 CTT        UNKNOWN              official/global_CMT
+    163071 CTT        UNKNOWN              official/global_CMT
+    163072 CTT        UNKNOWN              official/global_CMT
+    163074 CTT        UNKNOWN              official/global_CMT
+    163075 CTT        UNKNOWN              official/global_CMT
+    163076 CTT        UNKNOWN              official/global_CMT
+    163084 CTT        UNKNOWN              official/global_CMT
+    163086 CTT        UNKNOWN              official/global_CMT
+    163087 CTT        UNKNOWN              official/global_CMT
+    163088 CTT        UNKNOWN              official/global_CMT
+    163089 CTT        UNKNOWN              official/global_CMT
+    163090 CTT        UNKNOWN              official/global_CMT
+    163091 CTT        UNKNOWN              official/global_CMT
+    163092 CTT        UNKNOWN              official/global_CMT
+    163093 CTT        UNKNOWN              official/global_CMT
+    163094 CTT        UNKNOWN              official/global_CMT
+    163095 CTT        UNKNOWN              official/global_CMT
+    163099 CTT        UNKNOWN              official/global_CMT
+    163100 CTT        UNKNOWN              official/global_CMT
+    163101 CTT        UNKNOWN              official/global_CMT
+    163102 CTT        UNKNOWN              official/global_CMT
+    163116 CTT        UNKNOWN              official/global_CMT
+    163118 CTT        UNKNOWN              official/global_CMT
+    163119 CTT        UNKNOWN              official/global_CMT
+    163120 CTT        UNKNOWN              official/global_CMT
+    163121 CTT        UNKNOWN              official/global_CMT
+    163171 CTT        UNKNOWN              official/global_CMT
+    163172 CTT        UNKNOWN              official/global_CMT
+    163174 CTT        UNKNOWN              official/global_CMT
+    163175 CTT        UNKNOWN              official/global_CMT
+    163176 CTT        UNKNOWN              official/global_CMT
+    163223 CTT        UNKNOWN              official/global_CMT
+    163226 CTT        UNKNOWN              official/global_CMT
+    163227 CTT        UNKNOWN              official/global_CMT
+    163228 CTT        UNKNOWN              official/global_CMT
+    163229 CTT        UNKNOWN              official/global_CMT
+    163304 CTT        UNKNOWN              official/global_CMT
+    163305 CTT        UNKNOWN              official/global_CMT
+    163307 CTT        UNKNOWN              official/global_CMT
+    163318 CTT        UNKNOWN              official/global_CMT
+    163319 CTT        UNKNOWN              official/global_CMT
+    163321 CTT        UNKNOWN              official/global_CMT
+    163323 CTT        UNKNOWN              official/global_CMT
+    163324 CTT        UNKNOWN              official/global_CMT
+    163349 CTT        UNKNOWN              official/global_CMT
+    163385 CTT        UNKNOWN              official/global_CMT
+    163386 CTT        UNKNOWN              official/global_CMT
+    163387 CTT        UNKNOWN              official/global_CMT
+    163389 CTT        UNKNOWN              official/global_CMT
+    163483 CTT        UNKNOWN              official/global_CMT
+    163485 CTT        UNKNOWN              official/global_CMT
+    163486 CTT        UNKNOWN              official/global_CMT
+    163488 CTT        UNKNOWN              official/global_CMT
+    163490 CTT        UNKNOWN              official/global_CMT
+    163491 CTT        UNKNOWN              official/global_CMT
+    163492 CTT        UNKNOWN              official/global_CMT
+    163493 CTT        UNKNOWN              official/global_CMT
+    163494 CTT        UNKNOWN              official/global_CMT
+    163495 CTT        UNKNOWN              official/global_CMT
+    163496 CTT        UNKNOWN              official/global_CMT
+    163497 CTT        UNKNOWN              official/global_CMT
+    163498 CTT        UNKNOWN              official/global_CMT
+    163523 CTT        UNKNOWN              official/global_CMT
+    163524 CTT        UNKNOWN              official/global_CMT
+    163525 CTT        UNKNOWN              official/global_CMT
+    163526 CTT        UNKNOWN              official/global_CMT
+    163527 CTT        UNKNOWN              official/global_CMT
+    163528 CTT        UNKNOWN              official/global_CMT
+    163529 CTT        UNKNOWN              official/global_CMT
+    163530 CTT        UNKNOWN              official/global_CMT
+    163637 CTT        UNKNOWN              official/global_CMT
+    163641 CTT        UNKNOWN              official/global_CMT
+    163642 CTT        UNKNOWN              official/global_CMT
+    163643 CTT        UNKNOWN              official/global_CMT
+    163645 CTT        UNKNOWN              official/global_CMT
+    163647 CTT        UNKNOWN              official/global_CMT
+    163935 CTT        UNKNOWN              official/global_CMT
+    163938 CTT        UNKNOWN              official/global_CMT
+    163939 CTT        UNKNOWN              official/global_CMT
+    163941 CTT        UNKNOWN              official/global_CMT
+    163943 CTT        UNKNOWN              official/global_CMT
+    163946 CTT        UNKNOWN              official/global_CMT
+    163948 CTT        UNKNOWN              official/global_CMT
+    163972 CTT        UNKNOWN              official/global_CMT
+    163973 CTT        UNKNOWN              official/global_CMT
+    163974 CTT        UNKNOWN              official/global_CMT
+    163976 CTT        UNKNOWN              official/global_CMT
+    163984 CTT        UNKNOWN              official/global_CMT
+    163987 CTT        UNKNOWN              official/global_CMT
+    163988 CTT        UNKNOWN              official/global_CMT
+    163998 CTT        UNKNOWN              official/global_CMT
+    164007 CTT        UNKNOWN              official/global_CMT
+    164016 CTT        UNKNOWN              official/global_CMT
+    164018 CTT        UNKNOWN              official/global_CMT
+    164145 CTT        UNKNOWN              official/global_CMT
+    164150 CTT        UNKNOWN              official/global_CMT
+    164153 CTT        UNKNOWN              official/global_CMT
+    164155 CTT        UNKNOWN              official/global_CMT
+    164163 CTT        UNKNOWN              official/global_CMT
+    164166 CTT        UNKNOWN              official/global_CMT
+    164167 CTT        UNKNOWN              official/global_CMT
+    164169 CTT        UNKNOWN              official/global_CMT
+    164170 CTT        UNKNOWN              official/global_CMT
+    164171 CTT        UNKNOWN              official/global_CMT
+    164172 CTT        UNKNOWN              official/global_CMT
+    164223 CTT        UNKNOWN              official/global_CMT
+    164225 CTT        UNKNOWN              official/global_CMT
+    164230 CTT        UNKNOWN              official/global_CMT
+    164239 CTT        UNKNOWN              official/global_CMT
+    164241 CTT        UNKNOWN              official/global_CMT
+    164243 CTT        UNKNOWN              official/global_CMT
+    164395 CTT        UNKNOWN              official/global_CMT
+    164401 CTT        UNKNOWN              official/global_CMT
+    164496 CTT        UNKNOWN              official/global_CMT
+    164497 CTT        UNKNOWN              official/global_CMT
+    164499 CTT        UNKNOWN              official/global_CMT
+    164500 CTT        UNKNOWN              official/global_CMT
+    164502 CTT        UNKNOWN              official/global_CMT
+    164503 CTT        UNKNOWN              official/global_CMT
+    164504 CTT        UNKNOWN              official/global_CMT
+    164537 CTT        UNKNOWN              official/global_CMT
+    164539 CTT        UNKNOWN              official/global_CMT
+    164541 CTT        UNKNOWN              official/global_CMT
+    164542 CTT        UNKNOWN              official/global_CMT
+    164952 CTT        UNKNOWN              official/global_CMT
+    164963 CTT        UNKNOWN              official/global_CMT
+    164967 CTT        UNKNOWN              official/global_CMT
+    164999 CTT        UNKNOWN              official/global_CMT
+    165000 CTT        UNKNOWN              official/global_CMT
+    165001 CTT        UNKNOWN              official/global_CMT
+    165008 CTT        UNKNOWN              official/global_CMT
+    165011 CTT        UNKNOWN              official/global_CMT
+    165589 CTT        UNKNOWN              official/global_CMT
+    165590 CTT        UNKNOWN              official/global_CMT
+    165591 CTT        UNKNOWN              official/global_CMT
+    165594 CTT        UNKNOWN              official/global_CMT
+    165596 CTT        UNKNOWN              official/global_CMT
+    165597 CTT        UNKNOWN              official/global_CMT
+    165599 CTT        UNKNOWN              official/global_CMT
+    165600 CTT        UNKNOWN              official/global_CMT
+    165601 CTT        UNKNOWN              official/global_CMT
+    165635 CTT        UNKNOWN              official/global_CMT
+    165639 CTT        UNKNOWN              official/global_CMT
+    165640 CTT        UNKNOWN              official/global_CMT
+    165645 CTT        UNKNOWN              official/global_CMT
+    165646 CTT        UNKNOWN              official/global_CMT
+    165652 CTT        UNKNOWN              official/global_CMT
+    165653 CTT        UNKNOWN              official/global_CMT
+    165662 CTT        UNKNOWN              official/global_CMT
+    165663 CTT        UNKNOWN              official/global_CMT
+    165665 CTT        UNKNOWN              official/global_CMT
+    165666 CTT        UNKNOWN              official/global_CMT
+    165669 CTT        UNKNOWN              official/global_CMT
+    165670 CTT        UNKNOWN              official/global_CMT
+    165684 CTT        UNKNOWN              official/global_CMT
+    165685 CTT        UNKNOWN              official/global_CMT
+    165686 CTT        UNKNOWN              official/global_CMT
+    165688 CTT        UNKNOWN              official/global_CMT
+    165690 CTT        UNKNOWN              official/global_CMT
+    165692 CTT        UNKNOWN              official/global_CMT
+    165694 CTT        UNKNOWN              official/global_CMT
+    165715 CTT        UNKNOWN              official/global_CMT
+    165716 CTT        UNKNOWN              official/global_CMT
+    165717 CTT        UNKNOWN              official/global_CMT
+    165718 CTT        UNKNOWN              official/global_CMT
+    165719 CTT        UNKNOWN              official/global_CMT
+    165763 CTT        UNKNOWN              official/global_CMT
+    165764 CTT        UNKNOWN              official/global_CMT
+    165765 CTT        UNKNOWN              official/global_CMT
+    165766 CTT        UNKNOWN              official/global_CMT
+    165894 CTT        UNKNOWN              official/global_CMT
+    165897 CTT        UNKNOWN              official/global_CMT
+    165899 CTT        UNKNOWN              official/global_CMT
+    165901 CTT        UNKNOWN              official/global_CMT
+    165903 CTT        UNKNOWN              official/global_CMT
+    165905 CTT        UNKNOWN              official/global_CMT
+    165906 CTT        UNKNOWN              official/global_CMT
+    165973 CTT        UNKNOWN              official/global_CMT
+    165974 CTT        UNKNOWN              official/global_CMT
+    165975 CTT        UNKNOWN              official/global_CMT
+    165977 CTT        UNKNOWN              official/global_CMT
+    165978 CTT        UNKNOWN              official/global_CMT
+    165979 CTT        UNKNOWN              official/global_CMT
+    165980 CTT        UNKNOWN              official/global_CMT
+    165982 CTT        UNKNOWN              official/global_CMT
+    165984 CTT        UNKNOWN              official/global_CMT
+    165985 CTT        UNKNOWN              official/global_CMT
+    165986 CTT        UNKNOWN              official/global_CMT
+    166063 CTT        UNKNOWN              official/global_CMT
+    166112 CTT        UNKNOWN              official/global_CMT
+    166113 CTT        UNKNOWN              official/global_CMT
+    166114 CTT        UNKNOWN              official/global_CMT
+    166115 CTT        UNKNOWN              official/global_CMT
+    166116 CTT        UNKNOWN              official/global_CMT
+    166295 CTT        UNKNOWN              official/global_CMT
+    166297 CTT        UNKNOWN              official/global_CMT
+    166302 CTT        UNKNOWN              official/global_CMT
+    166308 CTT        UNKNOWN              official/global_CMT
+    166312 CTT        UNKNOWN              official/global_CMT
+    166313 CTT        UNKNOWN              official/global_CMT
+    166314 CTT        UNKNOWN              official/global_CMT
+    166315 CTT        UNKNOWN              official/global_CMT
+    166316 CTT        UNKNOWN              official/global_CMT
+    166317 CTT        UNKNOWN              official/global_CMT
+    166318 CTT        UNKNOWN              official/global_CMT
+    166319 CTT        UNKNOWN              official/global_CMT
+    166331 CTT        UNKNOWN              official/global_CMT
+    166332 CTT        UNKNOWN              official/global_CMT
+    166334 CTT        UNKNOWN              official/global_CMT
+    166335 CTT        UNKNOWN              official/global_CMT
+    166337 CTT        UNKNOWN              official/global_CMT
+    166339 CTT        UNKNOWN              official/global_CMT
+    166481 CTT        UNKNOWN              official/global_CMT
+    166482 CTT        UNKNOWN              official/global_CMT
+    166483 CTT        UNKNOWN              official/global_CMT
+    166484 CTT        UNKNOWN              official/global_CMT
+    166485 CTT        UNKNOWN              official/global_CMT
+    166486 CTT        UNKNOWN              official/global_CMT
+    166488 CTT        UNKNOWN              official/global_CMT
+    166492 CTT        UNKNOWN              official/global_CMT
+    166493 CTT        UNKNOWN              official/global_CMT
+    166503 CTT        UNKNOWN              official/global_CMT
+    166504 CTT        UNKNOWN              official/global_CMT
+    166505 CTT        UNKNOWN              official/global_CMT
+    166506 CTT        UNKNOWN              official/global_CMT
+    166507 CTT        UNKNOWN              official/global_CMT
+    166520 CTT        UNKNOWN              official/global_CMT
+    166521 CTT        UNKNOWN              official/global_CMT
+    166522 CTT        UNKNOWN              official/global_CMT
+    166524 CTT        UNKNOWN              official/global_CMT
+    166530 CTT        UNKNOWN              official/global_CMT
+    166531 CTT        UNKNOWN              official/global_CMT
+    166532 CTT        UNKNOWN              official/global_CMT
+    166776 CTT        UNKNOWN              official/global_CMT
+    166777 CTT        UNKNOWN              official/global_CMT
+    166778 CTT        UNKNOWN              official/global_CMT
+    166779 CTT        UNKNOWN              official/global_CMT
+    166782 CTT        UNKNOWN              official/global_CMT
+    166830 CTT        UNKNOWN              official/global_CMT
+    166835 CTT        UNKNOWN              official/global_CMT
+    166847 CTT        UNKNOWN              official/global_CMT
+    166849 CTT        UNKNOWN              official/global_CMT
+    166850 CTT        UNKNOWN              official/global_CMT
+    166851 CTT        UNKNOWN              official/global_CMT
+    166852 CTT        UNKNOWN              official/global_CMT
+    166853 CTT        UNKNOWN              official/global_CMT
+    166855 CTT        UNKNOWN              official/global_CMT
+    166866 CTT        UNKNOWN              official/global_CMT
+    166868 CTT        UNKNOWN              official/global_CMT
+    166869 CTT        UNKNOWN              official/global_CMT
+    166870 CTT        UNKNOWN              official/global_CMT
+    166871 CTT        UNKNOWN              official/global_CMT
+    166872 CTT        UNKNOWN              official/global_CMT
+    166890 CTT        UNKNOWN              official/global_CMT
+    166892 CTT        UNKNOWN              official/global_CMT
+    166893 CTT        UNKNOWN              official/global_CMT
+    166894 CTT        UNKNOWN              official/global_CMT
+    166898 CTT        UNKNOWN              official/global_CMT
+    166899 CTT        UNKNOWN              official/global_CMT
+    166900 CTT        UNKNOWN              official/global_CMT
+    166901 CTT        UNKNOWN              official/global_CMT
+    166903 CTT        UNKNOWN              official/global_CMT
+    166905 CTT        UNKNOWN              official/global_CMT
+    166907 CTT        UNKNOWN              official/global_CMT
+    166909 CTT        UNKNOWN              official/global_CMT
+    166910 CTT        UNKNOWN              official/global_CMT
+    166928 CTT        UNKNOWN              official/global_CMT
+    166936 CTT        UNKNOWN              official/global_CMT
+    166937 CTT        UNKNOWN              official/global_CMT
+    166938 CTT        UNKNOWN              official/global_CMT
+    166940 CTT        UNKNOWN              official/global_CMT
+    166941 CTT        UNKNOWN              official/global_CMT
+    166943 CTT        UNKNOWN              official/global_CMT
+    166945 CTT        UNKNOWN              official/global_CMT
+    166947 CTT        UNKNOWN              official/global_CMT
+    166990 CTT        UNKNOWN              official/global_CMT
+    166992 CTT        UNKNOWN              official/global_CMT
+    167003 CTT        UNKNOWN              official/global_CMT
+    167008 CTT        UNKNOWN              official/global_CMT
+    167010 CTT        UNKNOWN              official/global_CMT
+    167012 CTT        UNKNOWN              official/global_CMT
+    167013 CTT        UNKNOWN              official/global_CMT
+    167014 CTT        UNKNOWN              official/global_CMT
+    167015 CTT        UNKNOWN              official/global_CMT
+    167019 CTT        UNKNOWN              official/global_CMT
+    167020 CTT        UNKNOWN              official/global_CMT
+    167021 CTT        UNKNOWN              official/global_CMT
+    167092 CTT        UNKNOWN              official/global_CMT
+    167093 CTT        UNKNOWN              official/global_CMT
+    167094 CTT        UNKNOWN              official/global_CMT
+    167098 CTT        UNKNOWN              official/global_CMT
+    167099 CTT        UNKNOWN              official/global_CMT
+    167100 CTT        UNKNOWN              official/global_CMT
+    167180 CTT        UNKNOWN              official/global_CMT
+    167181 CTT        UNKNOWN              official/global_CMT
+    167182 CTT        UNKNOWN              official/global_CMT
+    167184 CTT        UNKNOWN              official/global_CMT
+    167190 CTT        UNKNOWN              official/global_CMT
+    167191 CTT        UNKNOWN              official/global_CMT
+    167192 CTT        UNKNOWN              official/global_CMT
+    167194 CTT        UNKNOWN              official/global_CMT
+    167250 CTT        UNKNOWN              official/global_CMT
+    167254 CTT        UNKNOWN              official/global_CMT
+    167255 CTT        UNKNOWN              official/global_CMT
+    167256 CTT        UNKNOWN              official/global_CMT
+    167257 CTT        UNKNOWN              official/global_CMT
+    167260 CTT        UNKNOWN              official/global_CMT
+    167261 CTT        UNKNOWN              official/global_CMT
+    167262 CTT        UNKNOWN              official/global_CMT
+    167284 CTT        UNKNOWN              official/global_CMT
+    167285 CTT        UNKNOWN              official/global_CMT
+    167286 CTT        UNKNOWN              official/global_CMT
+    167287 CTT        UNKNOWN              official/global_CMT
+    167288 CTT        UNKNOWN              official/global_CMT
+    167293 CTT        UNKNOWN              official/global_CMT
+    167294 CTT        UNKNOWN              official/global_CMT
+    167300 CTT        UNKNOWN              official/global_CMT
+    167308 CTT        UNKNOWN              official/global_CMT
+    167309 CTT        UNKNOWN              official/global_CMT
+    167311 CTT        UNKNOWN              official/global_CMT
+    167313 CTT        UNKNOWN              official/global_CMT
+    167314 CTT        UNKNOWN              official/global_CMT
+    167315 CTT        UNKNOWN              official/global_CMT
+    167322 CTT        UNKNOWN              official/global_CMT
+    167324 CTT        UNKNOWN              official/global_CMT
+    167325 CTT        UNKNOWN              official/global_CMT
+    167546 CTT        UNKNOWN              official/global_CMT
+    167661 CTT        UNKNOWN              official/global_CMT
+    167662 CTT        UNKNOWN              official/global_CMT
+    167663 CTT        UNKNOWN              official/global_CMT
+    167664 CTT        UNKNOWN              official/global_CMT
+    167678 CTT        UNKNOWN              official/global_CMT
+    167827 CTT        UNKNOWN              official/global_CMT
+    167830 CTT        UNKNOWN              official/global_CMT
+    167881 CTT        UNKNOWN              official/global_CMT
+    167882 CTT        UNKNOWN              official/global_CMT
+    167883 CTT        UNKNOWN              official/global_CMT
+    167884 CTT        UNKNOWN              official/global_CMT
+    167885 CTT        UNKNOWN              official/global_CMT
+    167886 CTT        UNKNOWN              official/global_CMT
+    167887 CTT        UNKNOWN              official/global_CMT
+    167888 CTT        UNKNOWN              official/global_CMT
+    167891 CTT        UNKNOWN              official/global_CMT
+    167950 CTT        UNKNOWN              official/global_CMT
+    167951 CTT        UNKNOWN              official/global_CMT
+    167952 CTT        UNKNOWN              official/global_CMT
+    167953 CTT        UNKNOWN              official/global_CMT
+    167954 CTT        UNKNOWN              official/global_CMT
+    168022 CTT        UNKNOWN              official/global_CMT
+    168023 CTT        UNKNOWN              official/global_CMT
+    168024 CTT        UNKNOWN              official/global_CMT
+    168025 CTT        UNKNOWN              official/global_CMT
+    168028 CTT        UNKNOWN              official/global_CMT
+    168029 CTT        UNKNOWN              official/global_CMT
+    168030 CTT        UNKNOWN              official/global_CMT
+    168031 CTT        UNKNOWN              official/global_CMT
+    168032 CTT        UNKNOWN              official/global_CMT
+    168033 CTT        UNKNOWN              official/global_CMT
+    168134 CTT        UNKNOWN              official/global_CMT
+    168135 CTT        UNKNOWN              official/global_CMT
+    168136 CTT        UNKNOWN              official/global_CMT
+    168137 CTT        UNKNOWN              official/global_CMT
+    168138 CTT        UNKNOWN              official/global_CMT
+    168149 CTT        UNKNOWN              official/global_CMT
+    168150 CTT        UNKNOWN              official/global_CMT
+    168151 CTT        UNKNOWN              official/global_CMT
+    168152 CTT        UNKNOWN              official/global_CMT
+    168153 CTT        UNKNOWN              official/global_CMT
+    168154 CTT        UNKNOWN              official/global_CMT
+    168155 CTT        UNKNOWN              official/global_CMT
+    168156 CTT        UNKNOWN              official/global_CMT
+    168157 CTT        UNKNOWN              official/global_CMT
+    168382 CTT        UNKNOWN              official/global_CMT
+    168383 CTT        UNKNOWN              official/global_CMT
+    168388 CTT        UNKNOWN              official/global_CMT
+    168389 CTT        UNKNOWN              official/global_CMT
+    168390 CTT        UNKNOWN              official/global_CMT
+    168391 CTT        UNKNOWN              official/global_CMT
+    168392 CTT        UNKNOWN              official/global_CMT
+    168393 CTT        UNKNOWN              official/global_CMT
+    168464 CTT        UNKNOWN              official/global_CMT
+    168465 CTT        UNKNOWN              official/global_CMT
+    168466 CTT        UNKNOWN              official/global_CMT
+    168498 CTT        UNKNOWN              official/global_CMT
+    168499 CTT        UNKNOWN              official/global_CMT
+    168500 CTT        UNKNOWN              official/global_CMT
+    168501 CTT        UNKNOWN              official/global_CMT
+    168502 CTT        UNKNOWN              official/global_CMT
+    168503 CTT        UNKNOWN              official/global_CMT
+    168504 CTT        UNKNOWN              official/global_CMT
+    168505 CTT        UNKNOWN              official/global_CMT
+    168506 CTT        UNKNOWN              official/global_CMT
+    168507 CTT        UNKNOWN              official/global_CMT
+    168510 CTT        UNKNOWN              official/global_CMT
+    168511 CTT        UNKNOWN              official/global_CMT
+    168512 CTT        UNKNOWN              official/global_CMT
+    168513 CTT        UNKNOWN              official/global_CMT
+    168514 CTT        UNKNOWN              official/global_CMT
+    168515 CTT        UNKNOWN              official/global_CMT
+    168516 CTT        UNKNOWN              official/global_CMT
+    168522 CTT        UNKNOWN              official/global_CMT
+    168523 CTT        UNKNOWN              official/global_CMT
+    168524 CTT        UNKNOWN              official/global_CMT
+    168525 CTT        UNKNOWN              official/global_CMT
+    168526 CTT        UNKNOWN              official/global_CMT
+    168560 CTT        UNKNOWN              official/global_CMT
+    168561 CTT        UNKNOWN              official/global_CMT
+    168562 CTT        UNKNOWN              official/global_CMT
+    168563 CTT        UNKNOWN              official/global_CMT
+    168564 CTT        UNKNOWN              official/global_CMT
+    168567 CTT        UNKNOWN              official/global_CMT
+    168570 CTT        UNKNOWN              official/global_CMT
+    168571 CTT        UNKNOWN              official/global_CMT
+    168587 CTT        UNKNOWN              official/global_CMT
+    168588 CTT        UNKNOWN              official/global_CMT
+    168590 CTT        UNKNOWN              official/global_CMT
+    169170 CTT        UNKNOWN              official/global_CMT
+    169171 CTT        UNKNOWN              official/global_CMT
+    169172 CTT        UNKNOWN              official/global_CMT
+    169183 CTT        UNKNOWN              official/global_CMT
+    169190 CTT        UNKNOWN              official/global_CMT
+    169191 CTT        UNKNOWN              official/global_CMT
+    169192 CTT        UNKNOWN              official/global_CMT
+    169193 CTT        UNKNOWN              official/global_CMT
+    169200 CTT        UNKNOWN              official/global_CMT
+    169201 CTT        UNKNOWN              official/global_CMT
+    169208 CTT        UNKNOWN              official/global_CMT
+    169213 CTT        UNKNOWN              official/global_CMT
+    169216 CTT        UNKNOWN              official/global_CMT
+    169217 CTT        UNKNOWN              official/global_CMT
+    169218 CTT        UNKNOWN              official/global_CMT
+    169219 CTT        UNKNOWN              official/global_CMT
+    169220 CTT        UNKNOWN              official/global_CMT
+    169221 CTT        UNKNOWN              official/global_CMT
+    169224 CTT        UNKNOWN              official/global_CMT
+    169225 CTT        UNKNOWN              official/global_CMT
+    169226 CTT        UNKNOWN              official/global_CMT
+    169287 CTT        UNKNOWN              official/global_CMT
+    169289 CTT        UNKNOWN              official/global_CMT
+    169290 CTT        UNKNOWN              official/global_CMT
+    169298 CTT        UNKNOWN              official/global_CMT
+    169309 CTT        UNKNOWN              official/global_CMT
+    169315 CTT        UNKNOWN              official/global_CMT
+    169521 CTT        UNKNOWN              official/global_CMT
+    169522 CTT        UNKNOWN              official/global_CMT
+    169523 CTT        UNKNOWN              official/global_CMT
+    169524 CTT        UNKNOWN              official/global_CMT
+    169528 CTT        UNKNOWN              official/global_CMT
+    169538 CTT        UNKNOWN              official/global_CMT
+    169539 CTT        UNKNOWN              official/global_CMT
+    169540 CTT        UNKNOWN              official/global_CMT
+    169541 CTT        UNKNOWN              official/global_CMT
+    169549 CTT        UNKNOWN              official/global_CMT
+    170246 CTT        UNKNOWN              official/global_CMT
+    170247 CTT        UNKNOWN              official/global_CMT
+    170332 CTT        UNKNOWN              official/global_CMT
+    170333 CTT        UNKNOWN              official/global_CMT
+    170334 CTT        UNKNOWN              official/global_CMT
+    170335 CTT        UNKNOWN              official/global_CMT
+    172174 CTT        UNKNOWN              official/global_CMT
+    172175 CTT        UNKNOWN              official/global_CMT
+    172176 CTT        UNKNOWN              official/global_CMT
+    172177 CTT        UNKNOWN              official/global_CMT
+    172178 CTT        UNKNOWN              official/global_CMT
+    172179 CTT        UNKNOWN              official/global_CMT
+    172486 CTT        UNKNOWN              official/global_CMT
+    172487 CTT        UNKNOWN              official/global_CMT
+    172493 CTT        UNKNOWN              official/global_CMT
+    172579 CTT        UNKNOWN              official/global_CMT
+    172580 CTT        UNKNOWN              official/global_CMT
+    172581 CTT        UNKNOWN              official/global_CMT
+    172582 CTT        UNKNOWN              official/global_CMT
+    172590 CTT        UNKNOWN              official/global_CMT
+    172591 CTT        UNKNOWN              official/global_CMT
+    172594 CTT        UNKNOWN              official/global_CMT
+    172595 CTT        UNKNOWN              official/global_CMT
+    172596 CTT        UNKNOWN              official/global_CMT
+    172597 CTT        UNKNOWN              official/global_CMT
+    172603 CTT        UNKNOWN              official/global_CMT
+    172604 CTT        UNKNOWN              official/global_CMT
+    172605 CTT        UNKNOWN              official/global_CMT
+    172606 CTT        UNKNOWN              official/global_CMT
+    174641 CTT        REASONABLE           official/global_CMT
+    174642 CTT        REASONABLE           official/global_CMT
+    174645 CTT        REASONABLE           official/global_CMT
+    174646 CTT        REASONABLE           official/global_CMT
+    174647 CTT        REASONABLE           official/global_CMT
+    175514 CTT        UNKNOWN              official/global_CMT
+    175629 CTT        REASONABLE           official/global_CMT
+    175631 CTT        REASONABLE           official/global_CMT
+    175640 CTT        REASONABLE           official/global_CMT
+    175641 CTT        REASONABLE           official/global_CMT
+    175642 CTT        REASONABLE           official/global_CMT
+    175644 CTT        REASONABLE           official/global_CMT
+    175645 CTT        REASONABLE           official/global_CMT
+    175820 CTT        REASONABLE           official/global_CMT
+    175826 CTT        REASONABLE           official/global_CMT
+    175827 CTT        REASONABLE           official/global_CMT
+    176761 CTT        REASONABLE           official/global_CMT
+    177205 CTT        REASONABLE           official/global_CMT
+    177209 CTT        REASONABLE           official/global_CMT
+    177215 CTT        REASONABLE           official/global_CMT
+    177793 CTT        SPECIAL              official/global_CMT
+    177794 CTT        SPECIAL              official/global_CMT
+    177795 CTT        SPECIAL              official/global_CMT
+    178093 CTT        REASONABLE           official/global_CMT
+    178096 CTT        REASONABLE           official/global_CMT
+    178098 CTT        REASONABLE           official/global_CMT
+    178100 CTT        REASONABLE           official/global_CMT
+    178101 CTT        REASONABLE           official/global_CMT
+    178103 CTT        REASONABLE           official/global_CMT
+    178119 CTT        REASONABLE           official/global_CMT
+    178120 CTT        BAD                  official/global_CMT
+    178121 CTT        BAD                  official/global_CMT
+    178122 CTT        REASONABLE           official/global_CMT
+    178123 CTT        REASONABLE           official/global_CMT
+    178124 CTT        REASONABLE           official/global_CMT
+    178280 CTT        BAD                  official/global_CMT
+    178282 CTT        BAD                  official/global_CMT
+    178283 CTT        BAD                  official/global_CMT
+    178519 CTT        REASONABLE           official/global_CMT
+    178521 CTT        REASONABLE           official/global_CMT
+    178522 CTT        REASONABLE           official/global_CMT
+    179899 CTT        REASONABLE           official/global_CMT
+    179900 CTT        REASONABLE           official/global_CMT
+    179901 CTT        REASONABLE           official/global_CMT
+    179902 CTT        REASONABLE           official/global_CMT
+    180734 CTT        GOOD                 official/global_CMT
+    180735 CTT        GOOD                 official/global_CMT
+    180736 CTT        GOOD                 official/global_CMT
+    185464 CTT        GOOD                 official/global_CMT
+    185465 CTT        GOOD                 official/global_CMT
+    185466 CTT        GOOD                 official/global_CMT
+    185467 CTT        GOOD                 official/global_CMT
+    185468 CTT        GOOD                 official/global_CMT
+    185469 CTT        GOOD                 official/global_CMT
+    185571 CTT        GOOD                 official/global_CMT
+    185572 CTT        GOOD                 official/global_CMT
+    185573 CTT        GOOD                 official/global_CMT
+    185574 CTT        GOOD                 official/global_CMT
+    185575 CTT        GOOD                 official/global_CMT
+    185576 CTT        GOOD                 official/global_CMT
+    185577 CTT        GOOD                 official/global_CMT
+    185779 CTT        REASONABLE           official/global_CMT
+    185780 CTT        REASONABLE           official/global_CMT
+    185781 CTT        GOOD                 official/global_CMT
+    185782 CTT        REASONABLE           official/global_CMT
+    185783 CTT        GOOD                 official/global_CMT
+    185784 CTT        REASONABLE           official/global_CMT
+    185785 CTT        REASONABLE           official/global_CMT
+    185789 CTT        GOOD                 official/global_CMT
+    185790 CTT        REASONABLE           official/global_CMT
+    185791 CTT        REASONABLE           official/global_CMT
+    185792 CTT        GOOD                 official/global_CMT
+    185793 CTT        REASONABLE           official/global_CMT
+    185796 CTT        GOOD                 official/global_CMT
+    185797 CTT        REASONABLE           official/global_CMT
+    185798 CTT        REASONABLE           official/global_CMT
+    185799 CTT        GOOD                 official/global_CMT
+    185800 CTT        REASONABLE           official/global_CMT
+    185801 CTT        GOOD                 official/global_CMT
+    185802 CTT        REASONABLE           official/global_CMT
+    185803 CTT        REASONABLE           official/global_CMT
+    185804 CTT        GOOD                 official/global_CMT
+    185805 CTT        REASONABLE           official/global_CMT
+    185806 CTT        GOOD                 official/global_CMT
+    185807 CTT        REASONABLE           official/global_CMT
+    188501 CTT        BAD                  official/global_CMT
+    188973 CTT        REASONABLE           official/global_CMT
+    188974 CTT        REASONABLE           official/global_CMT
+    188975 CTT        REASONABLE           official/global_CMT
+    188977 CTT        REASONABLE           official/global_CMT
+    188978 CTT        REASONABLE           official/global_CMT
+    188979 CTT        REASONABLE           official/global_CMT
+    188980 CTT        REASONABLE           official/global_CMT
+    189772 CTT        REASONABLE           official/global_CMT
+    190305 CTT        BAD                  official/global_CMT
+    191355 CTT        REASONABLE           official/global_CMT
+    191356 CTT        REASONABLE           official/global_CMT
+    191357 CTT        REASONABLE           official/global_CMT
+    191358 CTT        REASONABLE           official/global_CMT
+    191359 CTT        REASONABLE           official/global_CMT
+    191360 CTT        REASONABLE           official/global_CMT
+    193085 CTT        GOOD                 official/global_CMT
+    193086 CTT        REASONABLE           official/global_CMT
+    194498 CTT        UNKNOWN              official/global_CMT
+    194499 CTT        UNKNOWN              official/global_CMT
+    194500 CTT        BAD                  official/global_CMT
+    194501 CTT        BAD                  official/global_CMT
+    194504 CTT        BAD                  official/global_CMT
+    194505 CTT        BAD                  official/global_CMT
+    194506 CTT        BAD                  official/global_CMT
+    194523 CTT        BAD                  official/global_CMT
+    194524 CTT        BAD                  official/global_CMT
+    194525 CTT        BAD                  official/global_CMT
+    194526 CTT        BAD                  official/global_CMT
+    196121 CTT        BAD                  official/global_CMT
+    196123 CTT        BAD                  official/global_CMT
+    196124 CTT        BAD                  official/global_CMT
+    196125 CTT        BAD                  official/global_CMT
+    201671 CTT        BAD                  official/global_CMT
+    201672 CTT        BAD                  official/global_CMT
+    201673 CTT        BAD                  official/global_CMT
+    201706 CTT        UNKNOWN              official/global_CMT
+    201707 CTT        UNKNOWN              official/global_CMT
+    201708 CTT        UNKNOWN              official/global_CMT
+    201709 CTT        UNKNOWN              official/global_CMT
+    201710 CTT        BAD                  official/global_CMT
+    201712 CTT        BAD                  official/global_CMT
+    201713 CTT        BAD                  official/global_CMT
+    201714 CTT        BAD                  official/global_CMT
+    201715 CTT        BAD                  official/global_CMT
+    201716 CTT        BAD                  official/global_CMT
+    201717 CTT        BAD                  official/global_CMT
+    201922 CTT        BAD                  official/global_CMT
+    201928 CTT        UNKNOWN              official/global_CMT
+    201929 CTT        BAD                  official/global_CMT
+    201931 CTT        UNKNOWN              official/global_CMT
+    201933 CTT        BAD                  official/global_CMT
+    202022 CTT        BAD                  official/global_CMT
+    202024 CTT        BAD                  official/global_CMT
+    202025 CTT        BAD                  official/global_CMT
+    202026 CTT        BAD                  official/global_CMT
+    202027 CTT        BAD                  official/global_CMT
+    202097 CTT        BAD                  official/global_CMT
+    202098 CTT        BAD                  official/global_CMT
+    202099 CTT        BAD                  official/global_CMT
+    202100 CTT        UNKNOWN              official/global_CMT
+    202101 CTT        BAD                  official/global_CMT
+    202103 CTT        BAD                  official/global_CMT
+    202105 CTT        BAD                  official/global_CMT
+    202106 CTT        BAD                  official/global_CMT
+    202107 CTT        BAD                  official/global_CMT
+    202108 CTT        BAD                  official/global_CMT
+    202109 CTT        BAD                  official/global_CMT
+    202120 CTT        BAD                  official/global_CMT
+    202121 CTT        BAD                  official/global_CMT
+    202152 CTT        BAD                  official/global_CMT
+    202185 CTT        BAD                  official/global_CMT
+    202186 CTT        BAD                  official/global_CMT
+    202187 CTT        BAD                  official/global_CMT
+    202761 CTT        BAD                  official/global_CMT
+    202765 CTT        BAD                  official/global_CMT
+    202766 CTT        BAD                  official/global_CMT
+    202767 CTT        BAD                  official/global_CMT
+    202768 CTT        BAD                  official/global_CMT
+    202771 CTT        BAD                  official/global_CMT
+    202772 CTT        BAD                  official/global_CMT
+    202773 CTT        BAD                  official/global_CMT
+    202775 CTT        UNKNOWN              official/global_CMT
+    202776 CTT        BAD                  official/global_CMT
+    202777 CTT        BAD                  official/global_CMT
+    202778 CTT        BAD                  official/global_CMT
+    202852 CTT        BAD                  official/global_CMT
+    202853 CTT        BAD                  official/global_CMT
+    202854 CTT        BAD                  official/global_CMT
+    202855 CTT        BAD                  official/global_CMT
+    202856 CTT        UNKNOWN              official/global_CMT
+    202858 CTT        UNKNOWN              official/global_CMT
+    202860 CTT        BAD                  official/global_CMT
+    202863 CTT        BAD                  official/global_CMT
+    202866 CTT        BAD                  official/global_CMT
+    202869 CTT        BAD                  official/global_CMT
+    202870 CTT        BAD                  official/global_CMT
+    202898 CTT        BAD                  official/global_CMT
+    202899 CTT        UNKNOWN              official/global_CMT
+    202900 CTT        UNKNOWN              official/global_CMT
+    202901 CTT        UNKNOWN              official/global_CMT
+    202902 CTT        BAD                  official/global_CMT
+    202903 CTT        BAD                  official/global_CMT
+    202904 CTT        BAD                  official/global_CMT
+    202906 CTT        BAD                  official/global_CMT
+    202907 CTT        BAD                  official/global_CMT
+    202908 CTT        BAD                  official/global_CMT
+    202922 CTT        UNKNOWN              official/global_CMT
+    202923 CTT        BAD                  official/global_CMT
+    202924 CTT        BAD                  official/global_CMT
+    202925 CTT        BAD                  official/global_CMT
+    202926 CTT        BAD                  official/global_CMT
+    202927 CTT        BAD                  official/global_CMT
+    202928 CTT        BAD                  official/global_CMT
+    202929 CTT        BAD                  official/global_CMT
+    202930 CTT        BAD                  official/global_CMT
+    202998 CTT        BAD                  official/global_CMT
+    203397 CTT        BAD                  official/global_CMT
+    203398 CTT        BAD                  official/global_CMT
+    203399 CTT        BAD                  official/global_CMT
+    203486 CTT        BAD                  official/global_CMT
+    204090 CTT        SPECIAL              official/global_CMT
+    204091 CTT        BAD                  official/global_CMT
+    204092 CTT        BAD                  official/global_CMT
+    204093 CTT        BAD                  official/global_CMT
+    204094 CTT        BAD                  official/global_CMT
+    204095 CTT        BAD                  official/global_CMT
+    204096 CTT        BAD                  official/global_CMT
+    204097 CTT        SPECIAL              official/global_CMT
+    204742 CTT        UNKNOWN              official/global_CMT
+    204753 CTT        BAD                  official/global_CMT
+    204757 CTT        BAD                  official/global_CMT
+    204758 CTT        BAD                  official/global_CMT
+    204759 CTT        BAD                  official/global_CMT
+    204760 CTT        BAD                  official/global_CMT
+    204763 CTT        BAD                  official/global_CMT
+    204764 CTT        BAD                  official/global_CMT
+    204810 CTT        BAD                  official/global_CMT
+    204812 CTT        BAD                  official/global_CMT
+    204814 CTT        BAD                  official/global_CMT
+    204816 CTT        BAD                  official/global_CMT
+    206343 CTT        UNKNOWN              official/global_CMT
+    206344 CTT        UNKNOWN              official/global_CMT
+    206345 CTT        UNKNOWN              official/global_CMT
+    206346 CTT        UNKNOWN              official/global_CMT
+    206347 CTT        UNKNOWN              official/global_CMT
+    206348 CTT        BAD                  official/global_CMT
+    206349 CTT        BAD                  official/global_CMT
+    206350 CTT        BAD                  official/global_CMT
+    206351 CTT        BAD                  official/global_CMT
+    206352 CTT        BAD                  official/global_CMT
+    206353 CTT        BAD                  official/global_CMT
+    206354 CTT        BAD                  official/global_CMT
+    206355 CTT        BAD                  official/global_CMT
+    206356 CTT        BAD                  official/global_CMT
+    207231 CTT        BAD                  official/global_CMT
+    207232 CTT        BAD                  official/global_CMT
+    207233 CTT        BAD                  official/global_CMT
+    207234 CTT        BAD                  official/global_CMT
+    208033 CTT        UNKNOWN              official/global_CMT
+    208046 CTT        BAD                  official/global_CMT
+    208282 CTT        UNKNOWN              official/global_CMT
+    208284 CTT        BAD                  official/global_CMT
+    209298 CTT        BAD                  official/global_CMT
+    209299 CTT        BAD                  official/global_CMT
+    209300 CTT        BAD                  official/global_CMT
+    209301 CTT        BAD                  official/global_CMT
+
+1283 rows selected.
+
+SQL>
+SQL> spool off

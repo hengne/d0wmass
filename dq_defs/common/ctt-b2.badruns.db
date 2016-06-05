@@ -1,0 +1,57 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >=237342 and q.run_number <= 252918) and (q.qual_group = 'CTT' and q.quality != 'GOOD' and q.quality != 'REASONABLE' and q.quality != 'UNKNOWN' and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') order by q.run_number asc ;
+    242743 CTT        BAD                  official/global_CMT
+    242744 CTT        BAD                  official/global_CMT
+    242745 CTT        BAD                  official/global_CMT
+    242746 CTT        BAD                  official/global_CMT
+    242747 CTT        BAD                  official/global_CMT
+    242748 CTT        BAD                  official/global_CMT
+    242749 CTT        BAD                  official/global_CMT
+    242750 CTT        BAD                  official/global_CMT
+    242752 CTT        BAD                  official/global_CMT
+    242754 CTT        BAD                  official/global_CMT
+    242756 CTT        BAD                  official/global_CMT
+    242757 CTT        BAD                  official/global_CMT
+    242759 CTT        BAD                  official/global_CMT
+    242762 CTT        BAD                  official/global_CMT
+    242905 CTT        BAD                  official/global_CMT
+    244110 CTT        BAD                  official/global_CMT
+    244111 CTT        BAD                  official/global_CMT
+    244112 CTT        BAD                  official/global_CMT
+    244113 CTT        BAD                  official/global_CMT
+    244114 CTT        BAD                  official/global_CMT
+    244115 CTT        BAD                  official/global_CMT
+    244116 CTT        BAD                  official/global_CMT
+    244117 CTT        BAD                  official/global_CMT
+    244118 CTT        BAD                  official/global_CMT
+    244119 CTT        BAD                  official/global_CMT
+    244120 CTT        BAD                  official/global_CMT
+    244121 CTT        BAD                  official/global_CMT
+    244122 CTT        BAD                  official/global_CMT
+    245490 CTT        BAD                  official/global_CMT
+    245735 CTT        BAD                  official/global_CMT
+    245736 CTT        BAD                  official/global_CMT
+    245737 CTT        BAD                  official/global_CMT
+    245901 CTT        BAD                  official/global_CMT
+    245902 CTT        BAD                  official/global_CMT
+    245903 CTT        BAD                  official/global_CMT
+    245904 CTT        BAD                  official/global_CMT
+    245905 CTT        BAD                  official/global_CMT
+    245906 CTT        BAD                  official/global_CMT
+    246043 CTT        BAD                  official/global_CMT
+    246044 CTT        BAD                  official/global_CMT
+    246491 CTT        BAD                  official/global_CMT
+    247013 CTT        BAD                  official/global_CMT
+    247014 CTT        BAD                  official/global_CMT
+    247015 CTT        BAD                  official/global_CMT
+    247016 CTT        BAD                  official/global_CMT
+    247018 CTT        BAD                  official/global_CMT
+    247019 CTT        BAD                  official/global_CMT
+    247020 CTT        BAD                  official/global_CMT
+    252648 CTT        BAD                  official/global_CMT
+    252649 CTT        BAD                  official/global_CMT
+
+50 rows selected.
+
+SQL>
+SQL> spool off

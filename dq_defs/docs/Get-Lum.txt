@@ -1,0 +1,65 @@
+# Calculate the Luminosity for a run range.
+
+#=====> data set definition:
+
+# The following is the constraints used for the post-shutdown 2007 data
+# skimming.
+
+setup sam
+sam translate constraints --dim="(((appl_name recon_root, d0reco and version p20.12.00) \
+and data_tier thumbnail) and trig_config_type physics) and file_name recoT_all_%"
+
+# == defname = CSG_Skim_p20.12.00
+#  OR create our own:
+# sam create definition --group=dzero --defName=xxx \
+#  --dim="(((appl_name recon_root, d0reco and version p20.12.00) and data_tier thumbnail) |
+#  and trig_config_type physics) and file_name recoT_all_&"
+
+#=====> genLBNtables --format <form> -pass <pass> -skim <skim> -defname <defname>
+# output not_skimmed/*parentage
+
+setup lm_tools -t
+genLBNtables -format TMB -pass p21pass4 -skim none -defname CSG_Skim_p20.12.00
+
+#=====> getLuminosity --stage3 --ignoremissingstreams \
+#                     --runrange <filelist> <parentpath> <runrangelist>
+
+# arguments to --runrange are:
+#    filelist = file in cwd containing list of files you want to get lum for
+#    parentpath = directory containing parentage files
+#    runranglist = file with "trigger 1st-run last-run" on each line
+# generate these files:
+
+# create filelist
+rm -f 000-none.files
+ls -1 not_skimmed |  sed -e 's/.parentage//' > 000-files.list
+
+# parentpath is the path to the "not_skimmed" (skim=none) directory, a
+#   subdirectory of the cwd where you ran the genLBNtables command above.
+
+#  and runrangelist
+rm -f 000-runrange.list
+echo "JT125_L3J125 237342 238297" > 000-runrange.list
+
+# OR you can make a runrangelist that contains one run per line. 
+# If you do that, then you can sum runs as you wish, including changing
+# badruns list.
+touch 000-runrange.list
+ls not_skimmed | sed -e "s#.*#cat not_skimmed/\0 | cut -f3 -d' ' | sort -n -u >> \
+     000-runrange.list#" | sh
+cat 000-runrange.list | sort -n -u | sed -e "s/.*/JT125_L3J125 \0 \0/" > tmp
+mv -f tmp 000-runrange.list
+
+getLuminosity --stage3 --ignoremissingstreams --runrange 001-none.files ./not_skimmed \
+        000-runrange.list 2>&1 > 000-output.lumi
+
+# output 001-none.files*caf and *sum
+#        recorded/reconstructed/parentagebad*badlbns
+#        000-output.lumi (basically concatenation of *sum)
+
+=====> Make run/lum file:
+cat 000-output.lumi | grep recorded | grep "with bad" | sed -e 's/^.*[0-9]-//; s/ and.*://; s/ pb.*//' \
+        > 000-none.run_lum
+
+=====> dq_checker_sums.sh
+

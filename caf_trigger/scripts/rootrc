@@ -1,0 +1,73 @@
++Plugin.Processor: cafTriggerEfficiency cafTriggerEfficiency caf_trigger "cafTriggerEfficiency(const char *)"
++Plugin.Processor: cafTriggerOutput cafTriggerOutput caf_trigger "cafTriggerOutput(const char *)"
+
++Plugin.Processor: MatchObjectsL2L3 MatchObjectsL2L3 trigeff_cafe "MatchObjectsL2L3(const char *)"
++Plugin.Processor: MatchObjectsL2Reco MatchObjectsL2Reco trigeff_cafe "MatchObjectsL2Reco(const char *)"
++Plugin.Processor: MatchObjectsL3Reco MatchObjectsL3Reco trigeff_cafe "MatchObjectsL3Reco(const char *)"
++Plugin.Processor: L2L3MatchTest L2L3MatchTest trigeff_cafe "L2L3MatchTest(const char *)"
++Plugin.Processor: L2RecoMatchTest L2RecoMatchTest trigeff_cafe "L2RecoMatchTest(const char *)"
++Plugin.Processor: L3RecoMatchTest L3RecoMatchTest trigeff_cafe "L3RecoMatchTest(const char *)"
++Plugin.Processor: MatchL1CalTileReco MatchL1CalTileReco trigeff_cafe "MatchL1CalTileReco(const char *)"
++Plugin.Processor: MatchL1CalTowerReco MatchL1CalTowerReco trigeff_cafe "MatchL1CalTowerReco(const char *)"
++Plugin.Processor: MatchL1MuonReco MatchL1MuonReco trigeff_cafe "MatchL1MuonReco(const char *)"
++Plugin.Processor: MatchL1TrackReco MatchL1TrackReco trigeff_cafe "MatchL1TrackReco(const char *)"
+
++Plugin.Processor: probProcessor probProcessor caf_trigger "probProcessor(const char *)"
++Plugin.Processor: probTemplate probTemplate caf_trigger "probTemplate(const char *)"
++Plugin.Processor: probTemplate_combine probTemplate_combine caf_trigger "probTemplate_combine(const char *)"
+
+
++Plugin.Processor: probTestEffUtil probTestEffUtil caf_trigger "probTestEffUtil(const char *)"
+
++Plugin.Processor: TriggerProbability TriggerProbability caf_trigger "TriggerProbability(const char *)"
+
++Plugin.Processor: Probability_Muon Probability_Muon caf_trigger "Probability_Muon(const char *)"
+
++Plugin.Processor: Probability_nMuon Probability_nMuon caf_trigger "Probability_nMuon(const char *)" 
++Plugin.Processor: Probability_nEM Probability_nEM caf_trigger "Probability_nEM(const char *)" 
+
++Plugin.Processor: MuonTriggerMatch MuonTriggerMatch caf_trigger "MuonTriggerMatch(const char *)"  
++Plugin.Processor: MuonTriggerORMatch caf_trigger::MuonTriggerORMatch caf_trigger "MuonTriggerORMatch(const char *)"
+
++Plugin.Processor: TriggerMap TriggerMap caf_trigger "TriggerMap(const char *)"
++Plugin.Processor: TriggerSelection caf_trigger::TriggerSelection caf_trigger "TriggerSelection(const char*)"
+
+
++Plugin.Processor: Probability_Muon_L1 Probability_Muon_L1 caf_trigger "Probability_Muon_L1(const char *)"
++Plugin.Processor: Probability_Muon_L2 Probability_Muon_L2 caf_trigger "Probability_Muon_L2(const char *)"
++Plugin.Processor: Probability_Muon_L3 Probability_Muon_L3 caf_trigger "Probability_Muon_L3(const char *)"
+
++Plugin.Processor: Probability_TopEMu_L1 Probability_TopEMu_L1 caf_trigger "Probability_TopEMu_L1(const char *)"
++Plugin.Processor: Probability_TopEMu_L2 Probability_TopEMu_L2 caf_trigger "Probability_TopEMu_L2(const char *)"
++Plugin.Processor: Probability_TopEMu_L3 Probability_TopEMu_L3 caf_trigger "Probability_TopEMu_L3(const char *)"
+
++Plugin.Processor: Probability_MuJets Probability_MuJets caf_trigger "Probability_MuJets(const char *)"
+
++Plugin.Processor: Probability_TopEJets_L1 Probability_TopEJets_L1 caf_trigger "Probability_TopEJets_L1(const char *)"
++Plugin.Processor: Probability_TopEJets_L2 Probability_TopEJets_L2 caf_trigger "Probability_TopEJets_L2(const char *)"
++Plugin.Processor: Probability_TopEJets_L3 Probability_TopEJets_L3 caf_trigger "Probability_TopEJets_L3(const char *)"
+
++Plugin.Processor: Probability_EJets Probability_EJets caf_trigger "Probability_EJets(const char *)"
+
++Plugin.Processor: Probability_TopAllJets_L1 Probability_TopAllJets_L1 caf_trigger "Probability_TopAllJets_L1(const char *)"
++Plugin.Processor: Probability_TopAllJets_L2 Probability_TopAllJets_L2 caf_trigger "Probability_TopAllJets_L2(const char *)"
++Plugin.Processor: Probability_TopAllJets_L3 Probability_TopAllJets_L3 caf_trigger "Probability_TopAllJets_L3(const char *)"
+
+
++Plugin.Processor:  MatchEMTriggers caf_trigger::MatchEMTriggers caf_trigger "MatchEMTriggers(const char *)"
++Plugin.Processor:  EMTriggerMatch caf_trigger::EMTriggerMatch caf_trigger "EMTriggerMatch(const char *)"
++Plugin.Processor:  JetTriggerMatch   caf_trigger::JetTriggerMatch       caf_trigger   "JetTriggerMatch(const char *)"
+
++Plugin.Processor:  TriggerORProbability TriggerORProbability caf_trigger "TriggerORProbability(const char *)"
+
++Plugin.Processor:  probQCDJet caf_trigger::probQCDJet caf_trigger "probQCDJet(const char *)"
+
++Plugin.Processor: Probability_MuJetsORSingleMuonOR caf_trigger::Probability_MuJetsORSingleMuonOR caf_trigger "Probability_MuJetsORSingleMuonOR(const char *)"
+
++Plugin.Processor: Probability_EJetsORSingleEMOR caf_trigger::Probability_EJetsORSingleEMOR caf_trigger "Probability_EJetsORSingleEMOR(const char *)"
+
++Plugin.Processor: TriggerCounter TriggerCounter caf_trigger "TriggerCounter(const char *)"
+
++Plugin.Processor: Probability_MuTauORSingleMuonOR caf_trigger::Probability_MuTauORSingleMuonOR caf_trigger "Probability_MuTauORSingleMuonOR(const char *)"
+
++Plugin.Processor: TauTriggerMatch TauTriggerMatch caf_trigger "TauTriggerMatch(const char *)"  

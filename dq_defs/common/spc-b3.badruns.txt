@@ -1,0 +1,5 @@
+255519      # dual gain
+255520      # dual gain
+260933      # lumi scans, HV and threshold
+260937      # lumi scans, HV and threshold
+262609      # lumi scans

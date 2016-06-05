@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.20">
+ <TITLE>User Guide to Common Analysis Format: Available Processors [BEGINNER] </TITLE>
+ <LINK HREF="UserGuide-8.html" REL=next>
+ <LINK HREF="UserGuide-6.html" REL=previous>
+ <LINK HREF="UserGuide.html#toc7" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="UserGuide-8.html">Next</A>
+<A HREF="UserGuide-6.html">Previous</A>
+<A HREF="UserGuide.html#toc7">Contents</A>
+<HR>
+<H2><A NAME="s7">7.</A> <A HREF="UserGuide.html#toc7">Available <CODE>Processors</CODE> <B>[BEGINNER]</B> </A></H2>
+
+<P>This section describes various existing <CODE>Processor</CODE> classes that can
+be re-used by an analyzer. Often they do simple things, but having
+them available and configurable saves a lot of trivial programming tasks.</P>
+
+<H2><A NAME="ss7.1">7.1</A> <A HREF="UserGuide.html#toc7.1">Creating Histograms <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>We have shown an example of how to implement a simple <CODE>Processor</CODE> that
+creates a histogram and write it to a file. This is such a common task,
+that there is a standard <CODE>Hist1D</CODE> package available. You configure
+it with the following parameters:</P>
+<P>
+<PRE>
+cafe.Run:         Hist1D(MuonHisto)
+MuonHisto.Draw:   Muon.Pt()
+MuonHisto.Select: Muon.Pt() > 1.5 &amp;&amp; Muon.Pt() &lt; 100.0 &amp;&amp; Muon.Eta() &lt; 2.0
+MuonHisto.Title:  "Muon pT"
+MuonHisto.Bins:   100 0. 100
+</PRE>
+</P>
+
+<P>Creates a new histogram with the given (optional) title. The name of the histogram is
+taken from the name of the <CODE>Processor</CODE>, i.e. <CODE>MuonHisto</CODE> in this case.</P>
+
+<P>Into which file and/or directory will the histogram be written ? That depends on the
+<EM>current</EM> directory for the <CODE>Processor</CODE>. The easiest way is to specify the
+output file in the top level configuration:</P>
+<P>
+<PRE>
+cafe.Output: myhistos.root
+</PRE>
+</P>
+<P>All histograms will go into this file. However, it is often useful to structure
+the output file itself. Every <CODE>Group</CODE> can actually define a directory in the
+current file and each of its children will write its histogram into that directory:</P>
+<P>
+<PRE>
+cafe.Run:    Group(mygroup) ...
+cafe.Output: myhists.root
+
+mygroup.Run:       Hist1D(test)
+mygroup.Directory: MyDirectory
+
+test.Draw:   ...
+</PRE>
+</P>
+<P>In this case the <CODE>test</CODE> histogram will be stored in the <CODE>MyDirectory</CODE> folder
+inside the <CODE>myhistos.root</CODE> file.</P>
+
+<H2><A NAME="ss7.2">7.2</A> <A HREF="UserGuide.html#toc7.2">Hist2D and Hist3D</A>
+</H2>
+
+<P>There are also 2 and 3-dimensional histograms available. The <CODE>.Draw</CODE> entry
+will use two or three specifications, separated by a colon, and the <CODE>Bins:</CODE>
+entry takes 6 or 9 parameters, 3 for each dimension (number of bins, minimum,
+maximum).</P>
+<P>
+<PRE>
+cafe.Run:   Hist2(test)
+test.Draw:  Muon.Eta():Muon.Pt()
+</PRE>
+</P>
+
+<H2><A NAME="ss7.3">7.3</A> <A HREF="UserGuide.html#toc7.3">Selecting Events <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>
+<PRE>
+cafe.Run:            Select(DimuonEvents)
+DimuonEvents.Select: Muon[0].Pt() > 10.0 &amp;&amp; Muon[1].Pt() > 5.0
+</PRE>
+</P>
+<P>The expression in the <CODE>DimuonEvents.Select</CODE> entry follows the syntax
+used by the <CODE>TTree::Draw()</CODE> command in ROOT. If it evaluates to false, the
+<CODE>Processor</CODE> rejects the event.</P>
+
+<H2><A NAME="ss7.4">7.4</A> <A HREF="UserGuide.html#toc7.4">Selecting Events by Trigger <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>
+<PRE>
+cafe.Run:              Trigger(DimuonEvents)
+DimuonEvents.Triggers: 2MU_A_L2M0 2MU_A_L2ETAPHI
+</PRE>
+</P>
+<P>Select events by trigger names. While you can use the <CODE>Select</CODE> Processor as well,
+this version is much easier to use and faster.</P>
+
+<H2><A NAME="ss7.5">7.5</A> <A HREF="UserGuide.html#toc7.5">Adding Friends <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>
+<PRE>
+cafe.Run:      Friend(MyFriend)
+MyFriend.File: %f-myvars.root
+MyFriend.Tree: MyTree
+</PRE>
+</P>
+<P>Whenever a new input file is opened, this package will try to open a corresponding
+file whose name is derived from the input file name (the <CODE>%f</CODE>), plus the
+<CODE>-myvars.root</CODE> suffix. It then adds the <CODE>TTree</CODE> as a friend to the 
+standard tree, so all branches are transparently available.</P>
+
+<H2><A NAME="ss7.6">7.6</A> <A HREF="UserGuide.html#toc7.6">Conditional Execution <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>
+<PRE>
+cafe.Run:          If(GoodEvent)
+
+GoodEvent.Select:  Muon[0].Pt() > 15.0 &amp;&amp; Muon[1].Pt() > 10.
+GoodEvent.Then:    ProcessGood,Passed
+GoodEvent.Else:    ProcessBad,Passed
+</PRE>
+</P>
+<P>This controller will evaluate the <CODE>GoodEvent.Select</CODE> expression, and 
+execute the Processors in the <CODE>Then</CODE> variable if it true. Otherwise, the
+Processors in the <CODE>Else</CODE> variable are executed.</P>
+
+<H2><A NAME="ss7.7">7.7</A> <A HREF="UserGuide.html#toc7.7">Permutations <B>[ADVANCED]</B></A>
+</H2>
+
+
+<P>
+<PRE>
+cafe.Run:             BadRuns BadLBNs Permute(AllPermuations)
+AllPermutations.Run:  Select(pTCuts) Select(MetCut) Select(deltaPhiCut)
+</PRE>
+</P>
+<P>This controller will execute all permutations of its children. It does this
+by creating a new <CODE>Controller</CODE> for every permutation. Furthermore, each
+controller will have a different default directory, so histograms created
+in the children will end up in different places.</P>
+
+<H2><A NAME="ss7.8">7.8</A> <A HREF="UserGuide.html#toc7.8">Creating Subsets of Particles <B>[ADVANCED]</B></A>
+</H2>
+
+
+<P>
+<PRE>
+cafe.Run:            SelectObjects(GoodJets)
+
+GoodJets.Select:     Jets.Pt() > 10.0 &amp;&amp; Jets.emfrac() &lt; 0.15
+GoodJets.ToBranch:   "GoodJets"
+GoodJets.FromBranch: "Jets"
+</PRE>
+</P>
+
+<H2><A NAME="ss7.9">7.9</A> <A HREF="UserGuide.html#toc7.9">Writing out Events <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>
+<PRE>
+cafe.Run:        Select(GoodEvents),Write(MyFile)
+
+GoodEvents.Select: Muon.nseg() == 3
+MyFile.File:       MySkim.root
+</PRE>
+</P>
+<P>Write out events into the specified file. Note that this is different from the
+<CODE>cafe.Output</CODE> file which is used to store histograms. The <CODE>Write</CODE> object
+will store the events themselves.</P>
+
+<H2><A NAME="ss7.10">7.10</A> <A HREF="UserGuide.html#toc7.10">Controller/Group <B>[ADVANCED]</B></A>
+</H2>
+
+
+<P>Apart from executing the methods of its children, a <CODE>Controller</CODE> provides
+a number of additional features. The only required configuration option is
+<CODE>Run</CODE>, all the others are optional.</P>
+<P>
+<PRE>
+cafe.Run:  Group(test)
+
+test.Run:       Proc1,Proc2,Proc3
+test.Output:    results.root
+test.Directory: Results
+test.Debug:     2
+</PRE>
+</P>
+<P>The <CODE>Output</CODE> parameter allows you to create a new ROOT file. Typically, this is
+only done on the top-level. </P>
+<P>The <CODE>Directory</CODE> parameter allows to create a new 
+directory in the current file. This can be used in intermediate <CODE>Controller</CODE>s to
+differentiate between different execution paths.</P>
+<P>The <CODE>Debug</CODE> parameter sets the debug level for all its children. This level can be
+checked inside a <CODE>Processor</CODE> via the <CODE>debug()</CODE> method.</P>
+
+
+<HR>
+<A HREF="UserGuide-8.html">Next</A>
+<A HREF="UserGuide-6.html">Previous</A>
+<A HREF="UserGuide.html#toc7">Contents</A>
+</BODY>
+</HTML>

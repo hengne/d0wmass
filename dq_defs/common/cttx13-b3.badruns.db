@@ -1,0 +1,11 @@
+SQL>
+SQL> select q.run_number, q.qual_group, r.trig_config_name from runs.runs r, runs.run_quality q, runs.run_quality_params p where (q.run_number > 255328 and q.run_number <= 262856 and q.qual_group = 'CTT') and (r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') and (p.run_number = q.run_number and ( p.par_name = 'cr13stat' and p.par_value != 'GOOD' and p.par_value != 'REASONABLE' ) ) order by q.run_number asc ;
+
+no rows selected
+
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number > 255328 and q.run_number <= 262856 and q.qual_group = 'CTT') and (r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') and ( not exists (select '' from runs.run_crates c where r.run_number=c.run_number and c.crate_dec=19) ) order by q.run_number asc ;
+    262005 CTT        BAD                  official/global_CMT
+
+SQL>
+SQL> spool off

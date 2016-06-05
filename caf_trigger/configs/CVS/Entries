@@ -1,0 +1,25 @@
+/CafTrigger_EJets.config/1.2/Tue Mar  7 22:54:29 2006//Tp21-br-116
+/CafTrigger_Emu.config/1.4/Tue Mar  7 22:54:29 2006//Tp21-br-116
+/CafTrigger_MuJets.config/1.6/Wed Apr 12 16:34:29 2006//Tp21-br-116
+/CafTrigger_WZ.config/1.1/Wed Apr 12 17:13:47 2006//Tp21-br-116
+/ElectronHistos.config/1.2/Fri Feb 10 00:56:20 2006//Tp21-br-116
+/JetHistos.config/1.2/Wed Feb  8 20:36:43 2006//Tp21-br-116
+/MuTauTriggerMatch.config/1.1.2.1/Tue Feb 10 22:33:16 2009//Tp21-br-116
+/MuTau_TriggersOR_TurnOns-base.config/1.1.2.2/Wed Feb 11 00:07:25 2009//Tp21-br-116
+/MuonHistos.config/1.1/Wed Feb  8 04:54:30 2006//Tp21-br-116
+/MuonMatching.config/1.1/Wed Jul 26 19:22:48 2006//Tp21-br-116
+/MuonTriggerORMatch-base.config/1.1.4.6/Thu Sep 30 23:43:16 2010//Tp21-br-116
+/README/1.1.2.1/Thu Nov 15 09:11:59 2007//Tp21-br-116
+/TriggerSelectionByTriggerVersion.config/1.1/Wed Jul 26 20:14:41 2006//Tp21-br-116
+/caf_trigger_dimuon.config/1.1/Mon Apr 24 13:53:24 2006//Tp21-br-116
+/caf_trigger_ejets.config/1.1/Wed Apr 19 15:29:07 2006//Tp21-br-116
+/caf_trigger_singlemuon.config/1.1/Wed Apr 12 17:13:47 2006//Tp21-br-116
+/caf_trigger_toptrigger_ejets-base.config/1.2/Thu May 25 19:41:17 2006//Tp21-br-116
+/caf_trigger_toptrigger_ejets-new.config/1.1/Wed May  3 15:58:38 2006//Tp21-br-116
+/caf_trigger_toptrigger_ejets.config/1.10/Wed Apr 19 15:27:21 2006//Tp21-br-116
+/caf_trigger_toptrigger_emu.config/1.4/Thu Apr 20 18:24:51 2006//Tp21-br-116
+/caf_trigger_toptrigger_mujets-base.config/1.2/Tue May 23 04:20:00 2006//Tp21-br-116
+/caf_trigger_toptrigger_mujets-new.config/1.1/Wed May  3 15:58:38 2006//Tp21-br-116
+/caf_trigger_toptrigger_mujets.config/1.6/Tue May  2 22:31:49 2006//Tp21-br-116
+/caf_trigger_toptrigger_multijets.config/1.1/Sat May 20 00:27:29 2006//Tp21-br-116
+D

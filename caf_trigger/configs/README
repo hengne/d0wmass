@@ -1,0 +1,4 @@
+Configs located in this directory serve as EXAMPLES only 
+ - if you use top_cafe, please use configs at top_cafe/configs/trigger
+ - if you use vjets_cafe, please use configs at vjets_cafe/configs/trigger
+ - if you use other package to run cafe, please consult with author of that package

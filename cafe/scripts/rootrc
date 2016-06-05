@@ -1,0 +1,51 @@
+#
+# The main cafe .rootrc file.
+#
+
+# 
+# This tells cafe how to open and read a list of files, depending on the
+# URL.
+#
++Plugin.Expander:  ^listfile:  cafe::FilelistExpander cafe "FilelistExpander(const char *)"
++Plugin.Expander:  ^filelist:  cafe::FilelistExpander cafe "FilelistExpander(const char *)"
++Plugin.Expander:  ^sam:       cafe::SAMExpander  cafe_sam "SAMExpander(const char *)"
++Plugin.Expander:  ^samgrid:   cafe::SAMGridExpander cafe_sam "SAMGridExpander(const char *)"
++Plugin.Expander:  ^eventlist: cafe::EventListExpander cafe "EventListExpander(const char *)"
++Plugin.Expander:  ^stageinlist: cafe::StageinlistExpander cafe "StageinlistExpander(const char *)"
++Plugin.Expander:  *           cafe::FileExpander cafe     "FileExpander(const char *)"
+
+#
+# This tells cafe which package to load and which class to instantiate.
+#
++Plugin.Processor:  Group   cafe::Controller cafe   "Controller(const char *)"
++Plugin.Processor:  Select  cafe::Select     cafe   "Select(const char *)"
++Plugin.Processor:  If      cafe::If         cafe   "If(const char *)"
++Plugin.Processor:  IfPr    cafe::IfPr       cafe   "IfPr(const char *)"
++Plugin.Processor:  Fork    cafe::Fork       cafe   "Fork(const char *)"
++Plugin.Processor:  OR      cafe::OR         cafe   "OR(const char *)"
++Plugin.Processor:  Write   cafe::Write      cafe   "Write(const char *)"
++Plugin.Processor:  Read    cafe::Read       cafe   "Read(const char *)"
++Plugin.Processor:  Friend  cafe::Friend     cafe   "Friend(const char *)"
++Plugin.Processor:  Hist1D  cafe::Hist1D     cafe   "Hist1D(const char *)"
++Plugin.Processor:  Hist2D  cafe::Hist2D     cafe   "Hist2D(const char *)"
++Plugin.Processor:  Hist3D  cafe::Hist3D     cafe   "Hist3D(const char *)"
++Plugin.Processor:  Trigger cafe::Trigger    cafe   "Trigger(const char *)"
++Plugin.Processor:  Permute cafe::Permute    cafe   "Permute(const char *)"
++Plugin.Processor:  BadLBNs cafe::BadLBNs    cafe   "BadLBNs(const char *)"
++Plugin.Processor:  GoodRuns cafe::GoodRuns  cafe   "GoodRuns(const char *)"
++Plugin.Processor:  Passed  cafe::Processor cafe    "Processor(const char *)"
++Plugin.Processor:  None    cafe::Processor cafe    "Processor(const char *)"
++Plugin.Processor:  Timer   cafe::Timer      cafe   "Timer(const char *)"
++Plugin.Processor:  EventFlags    cafe::EventFlags    cafe "EventFlags(const char *)"
++Plugin.Processor:  SelectObjects cafe::SelectObjects cafe "SelectObjects(const char *)"
++Plugin.Processor:  ConfigDumper  cafe::ConfigDumper  cafe "ConfigDumper(const char *)"
++Plugin.Processor:  EventList    cafe::EventList   cafe "EventList(const char *)"
++Plugin.Processor:  Stat         cafe::Stat        cafe "Stat(const char *)"
++Plugin.Processor:  EventMultiSplitter    cafe::EventMultiSplitter       cafe   "EventMultiSplitter(const char *)"
++Plugin.Processor:  RemoveObjects cafe::RemoveObjects cafe "RemoveObjects(const char *)"
++Plugin.Processor:  AssociatedTracks cafe::AssociatedTracks cafe "AssociatedTracks(const char *)"
++Plugin.Processor:  RandomProcessor  cafe::RandomProcessor     cafe   "RandomProcessor(const char *)"
++Plugin.Processor:  StatusFileProcessor  cafe::StatusFileProcessor     cafe   "StatusFileProcessor(const char *)"
+
++Plugin.Processor:  ^(      cafe::Controller cafe   "Controller(const char *)"
++Plugin.Processor:  *       cafe::Function   cafe   "Function(const char *)"

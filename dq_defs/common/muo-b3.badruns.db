@@ -1,0 +1,42 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >=255328 and q.run_number <= 262856) and (q.qual_group = 'MUO' and q.quality != 'REASONABLE') and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%' order by q.run_number asc ;
+    255392 MUO        SPECIAL              official/global_CMT
+    255393 MUO        SPECIAL              official/global_CMT
+    255510 MUO        BAD                  official/global_CMT
+    255512 MUO        BAD                  official/global_CMT
+    255513 MUO        BAD                  official/global_CMT
+    255514 MUO        BAD                  official/global_CMT
+    255515 MUO        BAD                  official/global_CMT
+    255516 MUO        BAD                  official/global_CMT
+    255518 MUO        BAD                  official/global_CMT
+    255519 MUO        BAD                  official/global_CMT
+    255520 MUO        BAD                  official/global_CMT
+    255582 MUO        BAD                  official/global_CMT
+    255583 MUO        BAD                  official/global_CMT
+    255585 MUO        BAD                  official/global_CMT
+    255838 MUO        SPECIAL              official/global_CMT
+    255839 MUO        SPECIAL              official/global_CMT
+    255840 MUO        SPECIAL              official/global_CMT
+    255841 MUO        SPECIAL              official/global_CMT
+    255842 MUO        SPECIAL              official/global_CMT
+    255843 MUO        SPECIAL              official/global_CMT
+    256105 MUO        BAD                  official/global_CMT
+    257186 MUO        BAD                  official/global_CMT
+    257187 MUO        BAD                  official/global_CMT
+    258585 MUO        SPECIAL              official/global_CMT
+    258586 MUO        SPECIAL              official/global_CMT
+    258587 MUO        SPECIAL              official/global_CMT
+    259286 MUO        SPECIAL              official/global_CMT
+    259287 MUO        SPECIAL              official/global_CMT
+    259288 MUO        SPECIAL              official/global_CMT
+    259289 MUO        SPECIAL              official/global_CMT
+    261531 MUO        SPECIAL              official/global_CMT
+    262474 MUO        BAD                  official/global_CMT
+    262475 MUO        BAD                  official/global_CMT
+    262476 MUO        BAD                  official/global_CMT
+    262477 MUO        BAD                  official/global_CMT
+
+35 rows selected.
+
+SQL>
+SQL> spool off

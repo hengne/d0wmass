@@ -1,0 +1,86 @@
+plot_Efficiency_CountingTrks.Full.MC.LUMISPLIT.C
+plot_Efficiency_TP.FullMC.C
+read config-customized wmass_analysis output histograms and produce
+track match efficiency curves for full MC 
+(included in RunIIb QCD background note )
+corresponding macros for 
+background-subtracted efficiency for DATA
+are in
+/wzfitter/updates20082009/ptdependent_bkgsubtrackted_trkmatcheff
+
+note that all of the above concerns tight track match efficiency
+as a function of PT.
+
+for loose track match efficiency we use wtree and ztree instead
+of histograms (see below --
+tight track match efficiency is reproduced
+with macros below that run on wtree and ztree
+and loose track match efficiency is calculated in
+a similar way) 
+
+
+runzlong.C and runwlong.C:
+read ttrees and make pt spectrum plot under cut flow of many cuts
+output: canvas with plots still in ROOT session
+
+runz.C and runw.C:
+calculate track match efficiencies from same ttrees as above
+(to choose b/w tight and loose track match efficiency
+need to edit these file;
+be careful with cc-fid requirement
+and how they combine with track match requirements)
+output: efficiency histograms and other relevant histograms
+are saved in the root file
+
+
+plot_z_and_w_eff.C
+loop over several root files produced by runz.C and runw.C
+(one file -- one variable, e.g. pte, lumi, etc.)
+and plot either efficiency or denominator, or numerator,
+or product of efficiencies
+z and w histograms overlaid.
+Has two main modes:
+-- #define EFFICIENCY_9VAR
+    this one was used for MC efficiencies
+-- #define EFFICIENCYANDRATIO
+   this one was used to make plot of pte, lumi, set
+   on one canvas; in this mode the macro may need
+   to be run twice if one wants to display
+   polynomial fits: first produce the ratios
+   and save them in .C file, then insert this .C
+   file in fitwithpol3_and_save_fitresults.C
+   and follow instructions that are there to fit the ratios,
+   and save fit results (central values, +- 1 sigma curves)
+   in root files; then run plot_z_and_w_eff.C again,
+   this time also drawing the functions just described
+
+
+fitwithpol3_and_save_fitresults.C
+this is kind of a template,
+copy and paste body of .C file with canvas and histograms
+produced with plot_z_and_w_eff.C run in EFFICIENCYANDRATIO mode,
+then follow instructions written inside fitwithpol3_and_save_fitresults.C;
+this is made for three pads now (three variables), need to run
+once per pad with modifications described inside fitwithpol3_and_save_fitresults.C;
+output are root files, again, one per pad, with 3-rd order
+polynomial fits to historam ratios.
+
+
+
+
+runzregions.C
+read z ttree and fill histograms of many variables
+split into three kinematic regions
+output: root file with histograms
+
+plotzregions.C
+read rootfile produced by runzregions.C
+and produce plots for each variable
+(three histograms overlaid)
+output: .eps and .gif file for each variable
+these .eps and .gif files are then used in
+/work/bhatia-clued0/melnit/public/080410/zregions.html
+
+similarly for wen events from wtree made by WAnalysis use 
+runwregions.C
+plotwregions.C

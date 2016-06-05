@@ -1,0 +1,57 @@
+{
+//=========Macro generated from canvas: pad3/
+//=========  (Fri Mar 19 17:30:40 2004) by ROOT version3.03/09
+   
+   TH1 *hPhi16CrackEff = new TH1F("hPhi16CrackEff","phi16track",50,0,1);
+   hPhi16CrackEff->SetEntries(1539);
+   hPhi16CrackEff->SetBinContent(1,0.0917431);
+   hPhi16CrackEff->SetBinContent(2,0.458716);
+   hPhi16CrackEff->SetBinContent(3,0.856269);
+   hPhi16CrackEff->SetBinContent(4,0.856269);
+   hPhi16CrackEff->SetBinContent(5,0.825688);
+   hPhi16CrackEff->SetBinContent(6,1.19266);
+   hPhi16CrackEff->SetBinContent(7,1.1315);
+   hPhi16CrackEff->SetBinContent(8,1.07034);
+   hPhi16CrackEff->SetBinContent(9,1.03976);
+   hPhi16CrackEff->SetBinContent(10,1.00917);
+   hPhi16CrackEff->SetBinContent(11,0.795107);
+   hPhi16CrackEff->SetBinContent(12,1.03976);
+   hPhi16CrackEff->SetBinContent(13,0.978593);
+   hPhi16CrackEff->SetBinContent(14,1.40673);
+   hPhi16CrackEff->SetBinContent(15,0.672783);
+   hPhi16CrackEff->SetBinContent(16,1.22324);
+   hPhi16CrackEff->SetBinContent(17,1.1315);
+   hPhi16CrackEff->SetBinContent(18,1.19266);
+   hPhi16CrackEff->SetBinContent(19,0.948012);
+   hPhi16CrackEff->SetBinContent(20,0.703364);
+   hPhi16CrackEff->SetBinContent(21,0.795107);
+   hPhi16CrackEff->SetBinContent(22,1.10092);
+   hPhi16CrackEff->SetBinContent(23,1.10092);
+   hPhi16CrackEff->SetBinContent(24,1.03976);
+   hPhi16CrackEff->SetBinContent(25,1.25382);
+   hPhi16CrackEff->SetBinContent(26,0.88685);
+   hPhi16CrackEff->SetBinContent(27,1.34557);
+   hPhi16CrackEff->SetBinContent(28,1.16208);
+   hPhi16CrackEff->SetBinContent(29,1.25382);
+   hPhi16CrackEff->SetBinContent(30,0.795107);
+   hPhi16CrackEff->SetBinContent(31,0.917431);
+   hPhi16CrackEff->SetBinContent(32,0.978593);
+   hPhi16CrackEff->SetBinContent(33,1.07034);
+   hPhi16CrackEff->SetBinContent(34,0.917431);
+   hPhi16CrackEff->SetBinContent(35,1.03976);
+   hPhi16CrackEff->SetBinContent(36,0.978593);
+   hPhi16CrackEff->SetBinContent(37,1.16208);
+   hPhi16CrackEff->SetBinContent(38,0.978593);
+   hPhi16CrackEff->SetBinContent(39,0.672783);
+   hPhi16CrackEff->SetBinContent(40,1.07034);
+   hPhi16CrackEff->SetBinContent(41,0.856269);
+   hPhi16CrackEff->SetBinContent(42,1.03976);
+   hPhi16CrackEff->SetBinContent(43,1.00917);
+   hPhi16CrackEff->SetBinContent(44,1.31498);
+   hPhi16CrackEff->SetBinContent(45,1.00917);
+   hPhi16CrackEff->SetBinContent(46,0.795107);
+   hPhi16CrackEff->SetBinContent(47,0.703364);
+   hPhi16CrackEff->SetBinContent(48,0.550459);
+   hPhi16CrackEff->SetBinContent(49,0.458716);
+   hPhi16CrackEff->SetBinContent(50,0.183486);
+}

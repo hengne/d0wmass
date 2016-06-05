@@ -1,0 +1,221 @@
+0) to obtain the run range:
+
+Run DB:
+http://d0db.fnal.gov/run/runQuery.html
+Enter Start time < 2008-01-31 > 2007-08-06 (for example)
+Trigger List Name official/global%
+Recording On
+
+DQ DB:
+<= & >= above run numbers.
+
+
+setup sam
+
+# Get recocert files (Reco version p20.12.00):
+sam translate constraints \
+      --dim="appl_name recocert and version p20.12.00"
+sam translate constraints \
+      --dim="data_tier root-histogram and version p20.12.00"
+
+# Get all runs that have been reco'd
+sam translate constraints \
+      --dim="data_tier thumbnail and version p20.12.% and \
+      trig_config_type physics and physical_datastream_name all%" | \
+          sort -t"_" -k4,4 -k3,3
+
+# Get list of missing recocert files for all runs reco'd by p20.12.00
+rm -f xx
+setup sam
+sam translate constraints \
+      --dim="data_tier thumbnail and version p20.12.00 and \
+      trig_config_type physics and physical_datastream_name all_%" | \
+          egrep -v "File|Event|^\$" | cut -d"_" -f4 | sort -u  > xx
+
+ls for i in `cat xx`
+do
+  /prj_root/2639/quality_data/recocert/jobs/check_recocert_files.py ${i} \
+   p20.12.00
+done |less
+
+============================
+
+1) to obtain the badruns lists for all of the detectors except CALOFF
+   a) edit the file dq_defs/scripts/dq_sql.sh to change the run range.
+   b) run it in a clean directory.
+      dq_sql.sh
+   c) cp calon-b1.badruns calon-b1.badruns.over
+      cp calon-b2.badruns calon-b2.badruns.over
+      cp calon-b3.badruns calon-b3.badruns.over
+      cp calon-b4.badruns calon-b4.badruns.over
+
+2) - obtain the CALOFF for Run2b lists from Lidija Zivkovic
+   - you should have
+     = caloff-2pk.badruns 
+     = caloff-a.badlbns (won't have changed)
+     = caloff-b1.badlbns
+     = caloff-b1.badruns
+     = caloff-b1.cert (certified files)
+     = caloff-b1.sca.badruns
+     = caloff-b2.badlbns
+     = caloff-b2.badruns
+     = caloff-b2.cert (certified files (post Aug 07 shutdown))
+     = caloff-b2.hot.badlbns
+     = caloff-b2.hot.badruns
+     = caloff-b3.badlbns
+     = caloff-b3.badruns
+     = caloff-b3.cert (certified files (post Aug 09 shutdown))
+     = caloff-b4.badlbns
+     = caloff-b4.badruns
+     = caloff-b4.cert (certified files (post Aug 10 shutdown))
+     = caloff-nocert-b1.badruns      (nocert will be overwritten)
+     = caloff-nocert-b1.badruns.txt  (change this by hand)
+     = caloff-nocert-b2.badruns      (nocert will be overwritten)
+     = caloff-nocert-b2.badruns.txt  (change this by hand)
+     = caloff-nocert-b3.badruns
+     = caloff-nocert-b3.badruns.txt
+     = caloff-nocert-b4.badruns
+     = caloff-nocert-b4.badruns.txt
+and
+     = caloff-prelim.badruns (should change each time)
+   - merge the runs from previous releases into these files.
+
+3) # copy the files that are done by hand from the previous version
+   cp ../bsmove-*.badruns .
+   cp ../cps-*.badruns .
+   cp ../ctt-nocert*.badruns.txt .
+   cp ../fps-*.badruns .
+   cp ../l1caltrk-b4.badruns .
+   cp ../l1muon-b4.badruns .
+   cp ../solenoid*.badruns .
+   cp ../spc-*.badruns ../spc-*.badruns.txt .
+   cp ../stt-*.badruns .
+   cp ../toroid*.badruns .
+   cp ../trigv16*.badruns .
+
+   cp ../cft-*.badlbns .
+   cp ../ctt-*.badlbns .
+   cp ../l1cal-*.badlbns .
+   cp ../muo-*.badlbns .
+   cp ../smt-*.badlbns .
+   cp ../solenoid*.badlbns .
+   cp ../spc-b4.badlbns . ../spc-*.badlbns.txt
+   cp ../toroid*.badlbns .
+
+   from the previous version. Edit them as necessary.
+
+4) sort the caloff files (all others have already been done)
+
+for i in `ls caloff* | egrep -v "\.txt|~"`
+do
+   rm -f tt
+   wc -l ${i}
+   cat ${i} | tr " " "\n" | egrep -v "^$" > tt
+   mv tt ${i}
+   wc -l ${i}
+   sort -u -o ${i} ${i}
+   wc -l ${i}
+done
+
+5) # find caloff-nocert-b3/b4.badruns
+   rm -f caloff-nocert-b3.badruns
+   egrep -v -f caloff-b3.cert all-b3.runs > caloff-nocert-b3.badruns
+
+   rm -f caloff-nocert-b4.badruns
+   egrep -v -f caloff-b4.cert all-b4.runs > caloff-nocert-b4.badruns
+
+6) check which ones weren't in the audit file and why
+   add any that don't show up otherwise in spc-b4.badruns
+   and add a comment into spc-b4.badruns.txt to give the reason
+
+   Don't do -b2 or -b3 any longer. Runs have disappeared from Mikes audit file
+   just use the previous release's.
+
+   cp ../no-audit-b2.* .
+   cp ../no-audit-b3.* .
+
+   for j in b4
+   do
+     rm -f no-audit-${j}.list
+     for i in `cat all-${j}.runs`
+     do
+       zz=`egrep "\-${i}\-" $audit`
+       if test "x${zz}" = "x"
+       then
+         echo ${i}
+       fi
+     done > no-audit-${j}.list
+     wc -l no-audit-${j}.list
+     cat solenoid-${j}.badruns toroid-${j}.badruns | cut -d "#" -f1 | \
+         sed -e s"/ //g" | egrep -v "^$" >> no-audit-${j}.list
+     sort -u -o no-audit-${j}.list no-audit-${j}.list
+     wc -l no-audit-${j}.list
+
+     if test "${j}" == "b3"
+     then
+       ver="p20.12.%"
+     else
+       ver="p20.18.%"
+     fi
+     echo ${ver}
+
+     rm -f no-audit-${j}.chk
+     for i in `cat no-audit-${j}.list`
+     do
+       echo "===== ${i}" \
+       `sam translate constraints \
+        --dim="run_number ${i} and data_tier raw and \
+        trig_config_type physics and physical_datastream_name all%" \
+        --summary | grep "File Count"` \
+        `check_recocert.py ${i} ${ver}`
+       sql-run.sh ${i}
+     done > no-audit-${j}.chk
+     wc -l no-audit-${j}.chk
+  done
+
+7) if above makes sense, ie no-audit-*.chk is runs with no files, mag off
+   runs etc then adjust the all-*.runs and *-nocert-*.badruns lists
+
+   for j in b2 b3 b4
+   do
+     rm -f tt
+     wc -l all-${j}.runs
+     grep -v -f no-audit-${j}.list all-${j}.runs > tt
+     mv tt all-${j}.runs
+     wc -l all-${j}.runs
+
+     for i in caloff-nocert-${j}.badruns ctt-nocert-${j}.badruns
+     do
+       cp -p ${i} ${i}.orig
+       rm -f tt
+       echo "=== ${i}"
+       wc -l ${i}
+       grep -v -f no-audit-${j}.list ${i} > tt
+       mv tt ${i}
+       wc -l ${i}
+     done
+   done
+
+7a) create *nocert*.txt files from the *nocert*.badruns and previous versions
+    of it. Add comments to all runs.
+
+8) remove any runs that are in caloff*.cert and caloff*.badruns from calon*.badruns
+     for i in b1 b2 b3 b4
+     do
+       rm -f tt
+       wc -l calon-${i}.badruns
+       egrep -v -f caloff-${i}.cert calon-${i}.badruns > tt
+       mv tt calon-${i}.badruns
+       wc -l calon-${i}.badruns
+       egrep -v -f caloff-${i}.badruns calon-${i}.badruns > tt
+       mv tt calon-${i}.badruns
+       wc -l calon-${i}.badruns
+    done
+
+     # calon-*.badruns should be empty now, but may not be.
+
+9) Edit example*dqdef and VERSION to add the new information
+
+
+10) see dq_checker.txt for instructions on calculating the luminosity
+   for the data set.

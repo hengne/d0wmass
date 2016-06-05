@@ -1,0 +1,26 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number > 219000 and q.run_number <= 234913) and (q.qual_group = 'CAL1' and q.quality = 'BAD' and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') order by q.run_number asc ;
+    224981 CAL1       BAD                  official/global_CMT
+    224982 CAL1       BAD                  official/global_CMT
+    224983 CAL1       BAD                  official/global_CMT
+    227427 CAL1       BAD                  official/global_CMT
+    227428 CAL1       BAD                  official/global_CMT
+    227429 CAL1       BAD                  official/global_CMT
+    227431 CAL1       BAD                  official/global_CMT
+    227432 CAL1       BAD                  official/global_CMT
+    227433 CAL1       BAD                  official/global_CMT
+    227434 CAL1       BAD                  official/global_CMT
+    227440 CAL1       BAD                  official/global_CMT
+    229423 CAL1       BAD                  official/global_CMT
+    229455 CAL1       BAD                  official/global_CMT
+    229476 CAL1       BAD                  official/global_CMT
+    229477 CAL1       BAD                  official/global_CMT
+    229478 CAL1       BAD                  official/global_CMT
+    229713 CAL1       BAD                  official/global_CMT
+    229714 CAL1       BAD                  official/global_CMT
+    229850 CAL1       BAD                  official/global_CMT
+
+19 rows selected.
+
+SQL>
+SQL> spool off

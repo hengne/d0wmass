@@ -1,0 +1,221 @@
+body
+{
+    background-color:   #888888;
+}
+
+:link
+{
+    color:              #eeeeee;
+    text-decoration:    none;
+    font-weight:        bold;
+}
+
+:visited
+{
+    color:              #eeeeee;
+    text-decoration:    none;
+    font-weight:        bold;
+}
+
+:hover
+{
+    color:              #000000;
+    text-decoration:    none;
+}
+
+h1
+{
+    color:              #eeeeee;
+    font-family:        Verdana, sans-serif;
+}
+
+p
+{
+    font-family:        Arial, serif;
+    color:              #444444;
+
+}
+
+p.name
+{
+    margin-left:        100pt;
+    font-family:        serif;
+    font-size:          80%;
+}
+
+p.postheader
+{
+    margin-left:        50pt;
+    margin-right:       70pt;
+    color:              #000000;
+    font-family:        Georgia, sans-serif;
+    line-height:        100%;
+}
+
+p.postsubheader
+{
+    margin-left:        70pt;
+    margin-right:       70pt;
+    color:              #000000;
+    font-family:        Georgia, sans-serif;
+    line-height:        100%;
+}
+
+p.post
+{
+    margin-left:        50pt;
+    margin-right:       70pt;
+    padding-left:       30pt;
+    padding-right:      30pt;
+    background-color:   #cccccc;
+    color:              #000000;
+    font-family:        Verdana, Georgia, sans-serif;
+    line-height:        180%
+}
+
+hr.bluedark
+{
+    padding-left:       10pt;
+    padding-right:      0pt;
+    
+    color:              #ABDEBD;
+    background-color:   #ABDEBD;
+    height:             5px;
+    border-bottom:      10px;
+}
+
+hr.white
+{
+    padding-left:       10pt;
+    padding-right:      0pt;
+    
+    color:              #ffffff;
+    background-color:   #ffffff;
+    height:             5px;
+    border-bottom:      10px;
+}
+
+div.thumbbox {
+    margin-left:        70pt;
+    margin-right:       70pt;
+    padding-left:       30pt;
+    padding-right:      30pt;
+    background-color:   #e9edea;
+    color:              #d8e836;
+    font-family:        Verdana, Georgia, sans-serif;
+    line-height:        180%
+}
+
+div.thumbbox p
+{
+    font-family:        Arial, serif;
+    color:              #007d69;
+    line-height:        100%;
+    font-size:          90%;
+    font-style:         italic;
+
+}
+
+div.picturebox {
+    text-align:         center;
+    
+    margin-left:        70pt;
+    margin-right:       70pt;
+    padding-left:       30pt;
+    padding-right:      30pt;
+    background-color:   #e9edea;
+    color:              #000000;
+    font-family:        Verdana, Georgia, sans-serif;
+    line-height:        180%
+}
+
+div.textbox {
+    margin-left:        50pt;
+    margin-right:       70pt;
+    padding-left:       30pt;
+    padding-right:      30pt;
+    background-color:   #4d590d;
+    color:              #000000;
+    font-family:        Verdana, Georgia, sans-serif;
+    line-height:        180%
+}
+
+div.textbox p
+{
+    font-family:        Arial, serif;
+    color:              #e9edea;
+
+}
+
+div.spacer
+{
+    clear: both;
+}
+
+div.floatnorm
+{
+    float:              left;
+    width:              120px;
+    padding:            10px;
+}
+
+div.floatnorm p.divimg
+{
+    text-align:         center;
+    color:              #4a611c;
+    font-family:        Georgia, sans-serif;
+    font-size:          100%;
+    font-style:         normal;
+    line-height:        100%;
+}
+
+div.floatvert
+{
+    text-align:         center;
+    float:              left;
+    width:              120px;
+    padding:            10px;
+}
+
+div.floatvert p.divimg
+{
+    text-align:         center;
+    color:              #4a661c;
+    font-family:        Georgia, sans-serif;
+    font-size:          100%;
+    font-style:         normal;
+    line-height:        100%;
+}
+
+img.thumbnailnorm
+{
+    width:              120px;
+    height:             80px;
+
+    border:             1px solid #ffffff;
+    margin:             20px 15px 25px 0;
+}
+
+img.thumbnailvert
+{
+    width:              80px;
+    height:             120px;
+
+    border:             1px solid #ffffff;
+    margin:             0 15px 0px 0;
+}
+
+img
+{
+    border:             0px solid #000000;
+}
+
+div.itemhide
+{
+    display:none
+}
+
+div.itemshow
+{
+    display:block
+}

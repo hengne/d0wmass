@@ -1,0 +1,366 @@
+#!/usr/bin/env cafe
+# Configuration file in TEnv format.
+# 
+#
+# Use this for electron channel and set doMuon to false
+# for full MC events with ZB overlay
+cafe.Run:       SkimEvents(myname) EvtSelector(myname) CafeDataQualityProcessor(myCafeDataQualityProcessor) ObjSelector(myname) ZAnalysis(myname) WAnalysis(myname)
+# for full MC events without ZB overlay
+#cafe.Run:       EvtSelector(myname) ObjSelector(myname) ZAnalysis(myname) WAnalysis(myname)
+# use this for muon channel and set doMuon to true
+#cafe.Run:       EvtSelector(myname) ObjSelector(myname) JPsiMuAnalysis(myname)  ZMuAnalysis(myname) CosmicMuAnalysis(myname)
+# use this for ZNuNuAnalysis
+#cafe.Run:       EvtSelector(myname) ObjSelector(myname) ZNuNuAnalysis(myname)
+
+cafe.Input:     listfile:file.list
+cafe.Events:    0
+
+# dependence
+cafe.Packages:  dq_util caf_dq wmass_util wmass_blinding_util wmass_analysis 
+
+# only select events pass the following triggers
+# need to add Trigger(cafe) in the cafe.Run processes in order to use it
+# currently we don't really need this since EvtSelector already did similar things
+myname.Triggers:  EM_HI_SH, E1_SHT20, E1_SHT22, E1_SHT25
+
+#need this on to do any trigger study
+#code runs faster with it off
+myname.extractTriggerObjects:      false
+
+# used by SkimEvents to remove some bad events
+myname.eventlist:  goodMCEvents.txt
+
+#data quality 
+myCafeDataQualityProcessor.dqdef: dq_defs/common/2002-04-19.2006-09-20/2006-11-30.CALO.CFT.MUON.SMT.dqdef
+myCafeDataQualityProcessor.mode: MonteCarlo
+
+# general parameters for all processors
+myname.Output:       result.root
+myname.debugLevel:   0               # debug level
+myname.ReVertexing:  true            # revertexing and recalculate missingEt from all calorimeter cells 
+myname.PV_displaced_Limit:  2.       # if the distance of d0reco primary vertex and the track primary vertex is greater than this value, will do the revertexing and recalculate electron pT and met
+myname.met_only_use_Selected_emobjs: true  # met calculated with em correction applied only on selected em objects (often only electron(s) from W or Z decays)
+
+myname.doMuon:       false           # Use Muon channel to check momentum response and resolution, non-linearity
+myname.MCStudy:      true            # smear generator-level electrons and muons, compare with full reco
+myname.uParaEffStudy:  false         # study uparallel efficiency, and if this is turned on, the definition for good electrons is changed, and you will get different mass, Mt, electron pT and met distributions 
+myname.Nu_CC:          false         # for ful MC studies, can require Nu in CC to study the bias due to tag-probe method used in Zee events
+myname.Nu_EC:          false         # for ful MC studies, can require Nu in EC to study the bias due to tag-probe method used in Zee events
+myname.PhiCrackEffStudy: false       # study phi crack efficiency
+myname.performEMFstudy:  false       # perform EMF study
+
+myname.makeEfficStudyFile:  false    # write text file for efficiency studies
+
+# cuts used in EvtSelector
+# remove duplicated events
+myname.Remove_Duplicated_Events:   false
+
+# cuts used in EMSelector
+myname.DetEtaCC:          1.05      # detector eta cut for CC
+myname.DetEtaEC1:         1.5       # low detector eta cut for EC
+myname.DetEtaEC2:         2.3       # high detector eta cut for EC
+
+myname.ElecPtCut:         25.       # electron pT cut for good EM object
+myname.ElecPtCut_Probe:   15.       # electron pT cut for probe EM object
+# for ZAnalysis:
+myname.ElecPtCut1_Lo:         25.       # low electron pT cut for highest pt good EM object
+myname.ElecPtCut2_Lo:         25.       # low electron pT cut for second good EM object
+myname.ElecPtCut1_Hi:         1000.       # high electron pT cut for highest pt good EM object
+myname.ElecPtCut2_Hi:         1000.       # high electron pT cut for second good EM object
+
+myname.EMFracCut:         0.9       # electron emfraction cut
+myname.IsoCut:            0.15      # electron isolation cut
+myname.HM7Cut:            12.       # electron hm7 cut for CC region only
+myname.HM8Cut:            20.       # electron hm8 cut for EC region only
+
+# spatial track match
+myname.NumZSpatialTrk:    1         # number of spatial track matches for Z electrons (1 means >=1)
+
+# cuts used in TrkSelector
+myname.PtCut_Trk:         12.       # track pT cut
+myname.coneSize_Trk:      0.2       # track isolation cone size
+myname.sumPtCut_Trk:      2.0       # sum pT for tracks inside the cone size
+myname.TrkIsolated:       true      # select isolated tracks
+
+# primary vertex cut (cm)
+# if you do not need this, you can set myname.VtxCut=9999.
+myname.VtxCut:            60.       # maximal |PVz| allowed in an event [cm]
+myname.NumVtxCut:         1         # minimal number of d0reco vertices in an event
+myname.useMCvertex:       false     # use true MC vertex for MET, recoil, mainly for Z->nunu studies
+
+#
+# cuts used to study QCD background
+# take 2EMhighpT sample, invert HMx7 and HMx8 cuts
+# drop the track matching requirement to get QCD background shape
+# Need to run the program twice, one for signal and one for background
+#
+myname.QCDBkgStudy:      false
+myname.InvertHM7Cut:     30
+myname.InvertHM8Cut:     40
+
+# removes cut on in_phi_fiducial
+# bins mass in categories of electron phimod 
+myname.StudyPhiMod:	false
+
+# uses extrapolated track phi position for fiducial cuts
+myname.UseTrackPhiFiducial: false
+
+#
+# study SM backgrounds (ZTauTau, W+X) for Zee events
+#
+myname.SMBkgStudy:       false
+
+# cuts used in MCSelector
+# add FSR for MC study
+myname.addFSR:            true
+myname.MCElecPtCut:       10.
+myname.computeMCRecoil:   false
+
+# smearing parameters
+myname.A_Resolution: 0.0014
+myname.B_Resolution: 0.016
+myname.C_Scale: 1.002
+myname.C_Scale_Nonlinear: 0.0926
+myname.eta_Resolution:    0.002
+myname.phi_Resolution:    0.0004
+myname.Scale:             0.978
+myname.Offset:            1.122
+myname.Sampling:          0.21
+myname.Noise:             0.16
+myname.Constant:          0.0
+
+#
+# dorawCellsRecoil
+# if it is set to true, myname.met_only_use_Selected_emobjs also must be set to true
+#
+myname.dorawCellsRecoil:  true
+myname.useConsistentMET:  true
+
+#
+# write electron information into a root tuple for some special studies
+#
+myname.createRootTree: false
+
+#
+#  consistency checks: vary selection cuts such as low/high luminosity, low/high SET, etc to check W mass
+#  two main control parameters introduced:
+#         the code works only when myname.consistency_check is set to true
+#         will revert the cut when myname.invert_cuts=true
+#     If we have myname.invert_cuts: true and myname.ScalarEt_cut: 50., we want to look at events with ScalarEt>50 GeV
+#                                    false                                                             ScalarEt<50 GeV
+#
+myname.consistency_check:   false
+myname.cut_under_study:     runNo_cut
+myname.invert_cut:          false
+myname.runNo_cut:           202471
+myname.InstLumi_cut:        1.
+myname.ScalarEt_cut:        50.
+myname.UPara_lowcut:           -15.
+myname.UPara_highcut:           15.
+myname.ElecEta_cut:         1.05  # means at least one electron have |detEta|<0.8
+myname.ElecDetEta_cut:      0.8   # means at least one electron have |detEta|<0.8
+myname.ElecPhiMod_cut:      0.8   # means at least electron are within 80% of the phi module
+
+# cuts used for ZAnalysis
+myname.ZMassCut1:          70.       # Z boson mass cut
+myname.ZMassCut2:          110.      # Z boson mass cut
+myname.ZUtCut:             15.       # Z boson Ut upper cut
+myname.ZUtCut_lower:       0.        # Z boson Ut lower cut
+myname.ZScalarEtCut:       10000.    # Z boson scalarEt upper cut
+myname.ZScalarEtCut_lower: 0.        # Z boson scalarEt lower cut
+
+# cuts used for WAnalysis
+myname.ScalarEtStudy:     false     # study scalar Et (ONLY used for full MC events)
+myname.WMetCut:           25.       # W missingEt Cut
+myname.WMtCut1:           50.       # W boson Mt cut
+myname.WMtCut2:           200.      # W boson Mt cut
+myname.WUtCut:            15.       # W boson Ut cut
+myname.StudyEOverP:       true      # study E/p using electrons
+myname.ZEEbkgStudy:       false     # study Z -> e e background in W sample
+myname.ZEEbkgStudyTruth:  false     # study Z -> e e background in W sample (at truth level)
+myname.dump_W_ZeeBkg:     false     # dump Z -> e e background by requiring no back-to-back high pT isolated track with the EM cluster
+
+# for ratio method
+doRatioMethod:            false
+
+# cuts used in TrigObjectSelector
+# only look at L1/L2/L3 trigger objects with pT > TrigObjPtCut
+# used only to make the code faster
+myname.TrigObjPtCut_L1:      2.5    # maximum L1 pT cut is 3 GeV for CEM(1,3)CEM(1,9)
+myname.TrigObjPtCut_L2:      10.    # maximum L2 pT cut is 11 for EM(1, 11, 0.2)
+myname.TrigObjPtCut_L3:      18.    # maximum L3 pT cut is 20 for ELE_LOOSE_SHT_T(1,20)
+
+# cuts used in EffAnalysis
+# trigger list
+# currently these numbers are hard-coded in EvtSelector
+# triglist_flag: 0 for v8-10, 1 for v11, 2 for v12, 3 for v13, 4 for v14
+#
+# v8-10:  161973 - 174807
+#         EM_HI_SH
+# v11:    174896 - 178721
+#         EM_HI_SH
+# v12:    178098 - 194566
+#         E1_SHT20
+# v13:    194577 - 207216
+#         E1_SHT22
+# v14:    207218 - 
+#         E1_SHT25
+#
+# WARNING: only need ONE space between trigger names
+# otherwise config.getVString will have trouble to understand these names
+#
+myname.TrigNames_V0810:         EM_HI_SH
+myname.TrigNames_V11:           EM_HI_SH
+myname.TrigNames_V12:           E1_SHT20
+myname.TrigNames_V13:           E1_SHT22
+myname.TrigNames_V14:           E1_SHT25 
+#
+myname.truthMode: 0
+#
+myname.TPhmx_DoTheTrackFirst:       true
+myname.TPtrk_IncludeECtag:          true
+myname.TPtrk_DoTheStepByStepThing:  false
+
+# cuts used in FakeAnalysis
+# definition of good jets
+myname.jetN90Cut:             1             # jet N90
+myname.jetpTCut:              20            # jet pT
+myname.jetEMFracCut1:         0.05          # jet EMFraction Cut1
+myname.jetEMFracCut2:         0.95          # jet EMFraction Cut2
+myname.jetCHFracCut:          0.4           # jet CHFraction Cut
+myname.jetHCRatioCut:         10.           # jet HCRatio Cut
+myname.jetTracks:             1             # jet tracks Cut
+
+myname.DetEtaCC_Jet:          0.8           # detector coverage for good jet
+myname.DetEtaEC1_Jet:         1.5           # detector coverage for good jet
+myname.DetEtaEC2_Jet:         2.5           # detector coverage for good jet
+
+myname.Angle_Jet_EM_Cut:      0.25          # angle seperation betwen EM and Jet
+myname.DPhi_Jet_EM_Cut:       2.8           # phi seperation between EM and Jet
+
+myname.MetCut_FakeRate:       10.           # missing Et cut to get fake rate
+
+# used for make recoil file for Matt's studies
+myname.makeRecoilFile:              false
+myname.useUnCorrRecoil:             false
+myname.useConstantCorrRecoil:       false
+myname.useParameterizedCorrRecoil:  false
+myname.useParamConeCorrRecoil:      false
+myname.dumpElecInfo:                false
+
+# used by ZAnalysis for recoil ET flow studies and 
+# for dumping generator/reco recoil to an ascii file.
+# NOTE: 2 good EM reco objects with a good spatial track match each are always required.
+# NOTE: "Tight" MC electron cuts must be always tighter than "Loose" ones, i.e. 
+#       pT_cut("Tight")>pT_cut("Loose") and |eta_cut("Tight")|<|eta_cut("Loose")|. 
+#
+myname.ZCand2Trks_EtFlow_ElecLoose_nMin:    0     # how many loose MC electrons? (valid for full MC only)
+myname.ZCand2Trks_EtFlow_ElecLoose_EtaMax:  2.5   # loose |eta| cut (valid for full MC only)
+myname.ZCand2Trks_EtFlow_ElecLoose_PtMin:   0.0   # loose pT cut (valid for full MC only)
+myname.ZCand2Trks_EtFlow_ElecTight_nMin:    0     # how many tight MC electrons? (valid for full MC only)
+myname.ZCand2Trks_EtFlow_ElecTight_EtaMax:  1.3   # tight |eta| cut (valid for full MC only)
+myname.ZCand2Trks_EtFlow_ElecTight_PtMin:   0.0   # tight pT cut (valid for full MC only)
+myname.ZCand2Trks_EtFlow_studies:           false # do ET flow studies ?
+myname.ZCand2Trks_EtFlow_studies_TowCut:    120.
+myname.ZCand2Trks_EtFlow_studies_inputfile: zee_relative_response_per_phi_tower.dat
+myname.ZCand2Trks_dumpRecoilInfo:           false # dump reco recoil and true Z from ET flow studies ? (valid for full MC only)
+myname.ZCand2Trks_dumpRecoilFile:           zee_unsuppressedzb_recoil_dump.txt
+
+# used by ZNuNuAnalysis for recoil ET flow studies and 
+# for dumping generator/reco recoil to an ascii file.
+# NOTE: "Tight" neutrino cuts must be always tighter than "Loose" ones, i.e. 
+#       pT_cut("Tight")>pT_cut("Loose") and |eta_cut("Tight")|<|eta_cut("Loose")|. 
+# NOTE: Keep MCStudy_ZNuNu=true for ZNuNuAnalysis processor, and MCStudy_ZNuNu=false
+#       for ZAnalysis, WAnalysis, etc. To run on Z->nunu MC always use:
+#       cafe.Run: EvtSelector(myname) ObjSelector(myname) ZNuNuAnalysis(myname)
+#
+myname.ZNuNu_SETCutMin:        0.    # SET lower cut (i.e. raw SET)
+myname.ZNuNu_SETCutMax:        10000.# SET upper cut (i.e. raw SET)
+myname.ZNuNu_UtCutMin:         0.    # UT lower cut  (i.e. raw MET)
+myname.ZNuNu_UtCutMax:         1000. # UT upper cut  (i.e. raw MET)
+myname.ZNuNu_NuLoose_nMin:     2     # how many loose neutrinos?
+myname.ZNuNu_NuLoose_EtaMax:   2.5   # loose |eta| cut
+myname.ZNuNu_NuLoose_PtMin:    0.0   # loose pT cut
+myname.ZNuNu_NuTight_nMin:     2     # how many tight neutrinos?
+myname.ZNuNu_NuTight_EtaMax:   1.3   # tight |eta| cut
+myname.ZNuNu_NuTight_PtMin:    0.0   # tight pT cut
+myname.ZNuNu_EtFlow_studies:   false # do ET flow studies ?
+myname.ZNuNu_EtFlow_studies_TowCut: 120.
+myname.ZNuNu_EtFlow_studies_inputfile: znunu_relative_response_per_phi_tower.dat
+myname.ZNuNu_dumpRecoilInfo:   false # dump reco recoil and true Z from ET flow studies ?
+myname.ZNuNu_dumpRecoilFile:   znunu_nozb_recoil_dump.txt
+myname.MCStudy_ZNuNu:          false # instruct ObjSelector to pass event even w/o good EM objs
+
+#
+# parameters used to correct for EM cluster position
+# taken from em_util/EMClusterPosCorr_v2_mc.rcp
+#
+myname.correctionVersion:    2
+myname.Zlimit:               150.
+
+myname.rShiftCor:            false
+myname.rShift:               -0.2, +0.2, +0.0, +0.0
+myname.rShiftN:              0.5, +0.0, +0.06, +0.2
+myname.rShiftS:              0.4, +0.4, +0.05, +0.3
+myname.zShiftCor:            0.25
+myname.phiShift:             0.0
+
+myname.zTwistCor:            false
+myname.zTwistFactor:         0.5
+myname.zTwistOffset:         0.25
+myname.zTwistECFactorPos:    0.25
+myname.zTwistECOffsetPos:    0.
+myname.zTwistECFactorNeg:    -0.25
+myname.zTwistECOffsetNeg:    0.
+
+myname.etaPhiModCor:         true
+myname.ccEtaCor:             -1.36E-3
+myname.ccPhiCorAmp:          0., 0., 0., 0.
+myname.ccPhiCorP1:           0., 0., 0., 0.
+myname.ecEtaCorPos:          1.3E-3
+myname.ecEtaCorNeg:          1.3E-3
+myname.ecPhiCorFactor:       -8E-4
+myname.ecPhiCorOffset:       0.0
+
+myname.correctZ:             true
+myname.zCentre:              -3.0
+myname.zCentreN:             -5.1, -5.2, -3.45, -5.3
+myname.zCentreS:             1.4, 1.3,0.45, 1.7
+
+myname.correctXY:            true
+myname.xCentre:              -0.35
+myname.yCentre:              -0.45
+myname.xCentreN:             0.5
+myname.xCentreS:             0.0
+myname.yCentreN:             0.0
+myname.yCentreS:             0.0
+
+myname.alphaCorr:            false
+
+myname.correctEC_XYPhi:      true
+myname.xFacN:                0.1
+myname.xFacS:                0.167
+myname.xOffN:                0.08
+myname.xOffS:                0.14
+myname.yFacN:                0.1
+myname.yFacS:                0.147
+myname.yOffN:                -0.03
+myname.yOffS:                0.02
+
+myname.correctRZ:            true
+myname.rLimit:               90.
+myname.rCorrECInnerNeg:      -5.12E-6, 6.97E-4, -2.73E-2, 2.83E-1
+myname.rCorrECInnerPos:      -3.69E-6, 5.0E-4, -1.94E-2, 1.64E-1
+myname.rCorrECOuterNeg:      -7.53, 8.24E-2
+myname.rCorrECOuterPos:      -12.09, 1.32E-1
+
+myname.zCorrCC:               -2.24424E-10, -2.8095E-7, 1.60926E-6, -6.00983E-4, -4.37829E-3
+
+myname.zCorrZLim:             1.1
+myname.zCorrFactorPos:        2.398
+myname.zCorrOffsetPos:        0.02
+myname.zCorrFactorNeg:        1.84
+myname.zCorrOffsetNeg:        0.04
+
+# partial read
+cafe.PartialReads: 1

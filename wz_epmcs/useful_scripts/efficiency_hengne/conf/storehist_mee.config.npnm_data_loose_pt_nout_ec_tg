@@ -1,0 +1,32 @@
+
+
+string inputfile  /prj_root/5670/wmass1/hengne/wmass/cafe/head20100928/cabout/dt_zee_tag3_trigeff3/result.root 
+string outputfile rootfiles/meehists_npnm_data_loose_pt_nout_ec_tg.root
+
+// based on electron or event?
+bool ElectronBasis true
+
+// dependence var is of electrons?
+bool ElectronDepVar true 
+
+string ZTreeName z
+
+string MeeVarName mee
+
+double_array MeeVarBins 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129  130 131 132 133 134 135 136 137 138 139 140
+
+string DepVarName pt 
+
+//double_array DepVarBins 39 41 43 45 
+double_array DepVarBins 0 25 27 29 31 33 35 37 39 41 43 45 47 49 51 53 57 61 65 70 75 80 90 100
+
+string_array HistNames hnp_ hnm_
+
+
+string BaseSelection emf[0]>0.9&&emf[1]>0.9&&phifidcal[0]==1&&phifidcal[1]==1&&pt[0]>25&&pt[1]>25&&iso[0]<0.15&&iso[1]<0.15&&((cc[0]&&hm7[0]<12)||(abs(deteta[0])>1.5&&abs(deteta[0])<2.3&&hm8[0]<20))&&((cc[1]&&hm7[1]<12)||(abs(deteta[1])>1.5&&abs(deteta[1])<2.3&&hm8[1]<20))&&mee>60.&&mee<130. 
+
+string_array BaseSelectionVec trkspat[0]==1&&cc[0]==1&&passtrig[1]==1 !(trkspat[0]==1)&&cc[0]==1&&passtrig[1]==1
+string_array BaseSelectionVec2 trkspat[1]==1&&cc[1]==1&&passtrig[0]==1 !(trkspat[1]==1)&&cc[1]==1&&passtrig[0]==1
+
+
+

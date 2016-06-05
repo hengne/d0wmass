@@ -1,0 +1,53 @@
+SQL>
+SQL> select q.run_number, q.qual_group, r.trig_config_name from runs.runs r, runs.run_quality q, runs.run_quality_params p where (q.run_number > 219000 and q.run_number <= 234913 and q.qual_group = 'CTT') and (r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') and (p.run_number = q.run_number and ( p.par_name = 'cr13stat' and p.par_value != 'GOOD' and p.par_value != 'REASONABLE' ) ) order by q.run_number asc ;
+    223015 CTT        official/global_CMT
+    223568 CTT        official/global_CMT
+    223570 CTT        official/global_CMT
+    223573 CTT        official/global_CMT
+    223578 CTT        official/global_CMT
+    223635 CTT        official/global_CMT
+    223637 CTT        official/global_CMT
+    223640 CTT        official/global_CMT
+    223641 CTT        official/global_CMT
+    223745 CTT        official/global_CMT
+    223747 CTT        official/global_CMT
+    223957 CTT        official/global_CMT
+    224059 CTT        official/global_CMT
+    224062 CTT        official/global_CMT
+    224081 CTT        official/global_CMT
+    224084 CTT        official/global_CMT
+    224086 CTT        official/global_CMT
+    224146 CTT        official/global_CMT
+    224158 CTT        official/global_CMT
+    224179 CTT        official/global_CMT
+    224182 CTT        official/global_CMT
+    224205 CTT        official/global_CMT
+    224207 CTT        official/global_CMT
+    224208 CTT        official/global_CMT
+    224239 CTT        official/global_CMT
+    224266 CTT        official/global_CMT
+    224278 CTT        official/global_CMT
+    224288 CTT        official/global_CMT
+    224338 CTT        official/global_CMT
+    224391 CTT        official/global_CMT
+    224394 CTT        official/global_CMT
+    224395 CTT        official/global_CMT
+    224495 CTT        official/global_CMT
+    224619 CTT        official/global_CMT
+    227048 CTT        official/global_CMT
+    227070 CTT        official/global_CMT
+    227101 CTT        official/global_CMT
+    230468 CTT        official/global_CMT
+
+38 rows selected.
+
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number > 219000 and q.run_number <= 234913 and q.qual_group = 'CTT') and (r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') and ( not exists (select '' from runs.run_crates c where r.run_number=c.run_number and c.crate_dec=19) ) order by q.run_number asc ;
+    222530 CTT        GOOD                 official/global_CMT
+    222532 CTT        GOOD                 official/global_CMT
+    222533 CTT        GOOD                 official/global_CMT
+    222536 CTT        GOOD                 official/global_CMT
+    224115 CTT        BAD                  official/global_CMT
+
+SQL>
+SQL> spool off

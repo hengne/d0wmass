@@ -1,0 +1,13 @@
+238141    crashed reco (133 evts)
+238142    crashed reco (272 evts)
+245737    crashed recocert (95 evts)
+249128    crashed recocert (1 evt!)
+249631    crashed reco - bad muon data
+249637    crashed reco - bad muon data
+249638    crashed reco - bad muon data
+249649    crashed reco - bad muon data
+249650    crashed reco - bad muon data
+249651    crashed reco - bad muon data
+249654    crashed reco - bad muon data
+249655    crashed reco - bad muon data
+249856    crashed recocert (1 evt)

@@ -1,0 +1,13 @@
+From Ken Herner (kherner@fnal.gov)
+
+** Read before you use v15 SPCs **
+
+The Tau SPC files had offline tau NN cuts of 0.9,0.9,0.95, respectively, 
+so if analyzers aren't going to use those cuts, the tau object efficiencies 
+should be remeasured relative to those new cuts.
+
+The Single MU OR files were done with probe pT cut down to 10 GeV.
+
+** Example configs location: caf_trigger/configs/MuTau*.config ***
+
+

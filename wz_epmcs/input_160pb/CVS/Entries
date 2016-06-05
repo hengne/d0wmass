@@ -1,0 +1,24 @@
+/PreselEffEtaPlots.C/1.1/Fri May 28 20:01:50 2004//
+/TrigEffPlotRunsGE178722.C/1.1/Fri May 28 20:01:50 2004//
+/TrigEffPlotRunsGE178722BothTight.C/1.1/Fri May 28 20:01:50 2004//
+/TrigEffPlotRunsGE178722_pt_deteta.C/1.1/Fri May 28 20:01:50 2004//
+/TrigEffPlotRunsGE178722_zvtx_pt_deteta.C/1.1/Fri May 28 20:01:50 2004//
+/TrigEffPlotRunsLE178721.C/1.1/Fri May 28 20:01:50 2004//
+/TrigEffPlotRunsLE178721BothTight.C/1.1/Fri May 28 20:01:50 2004//
+/TrigEffPlotRunsLE178721_pt_deteta.C/1.1/Fri May 28 20:01:50 2004//
+/TrigEffPlotRunsLE178721_zvtx_pt_deteta.C/1.1/Fri May 28 20:01:50 2004//
+/emHmDetEtaPlot.C/1.1/Fri May 28 20:01:50 2004//
+/fakeRateEtaPlot.C/1.1/Fri May 28 20:01:50 2004//
+/hDeltaTrkCalPhi.C/1.1/Fri May 28 20:01:50 2004//
+/hPhi16CrackEff.C/1.1/Fri May 28 20:01:50 2004//
+/hPhiCrackEff.C/1.1/Fri May 28 20:01:50 2004//
+/hPhiModShift.C/1.1/Fri May 28 20:01:50 2004//
+/parameters.rc/1.2/Fri May 28 20:46:54 2004//
+/presel_deltaphi_scatter_CC.C/1.1/Fri May 28 20:01:51 2004//
+/presel_eff_eta.C/1.1/Fri May 28 20:01:51 2004//
+/trkEffFoldProbeBgsubPlots.C/1.1/Fri May 28 20:01:51 2004//
+/trkEffProbeBgsubHresPlots.C/1.1/Fri May 28 20:01:51 2004//
+/trkEffProbeBgsubPlots.C/1.1/Fri May 28 20:01:51 2004//
+/trkEffVsEtaZvtx.C/1.1/Fri May 28 20:01:51 2004//
+/trkEffVsEtaZvtx_oldbins.C/1.1/Fri May 28 20:01:51 2004//
+D

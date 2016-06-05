@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.20">
+ <TITLE>User Guide to Common Analysis Format: Extending the CAF Tree [ADVANCED]</TITLE>
+ <LINK HREF="UserGuide-7.html" REL=next>
+ <LINK HREF="UserGuide-5.html" REL=previous>
+ <LINK HREF="UserGuide.html#toc6" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="UserGuide-7.html">Next</A>
+<A HREF="UserGuide-5.html">Previous</A>
+<A HREF="UserGuide.html#toc6">Contents</A>
+<HR>
+<H2><A NAME="s6">6.</A> <A HREF="UserGuide.html#toc6">Extending the CAF Tree <B>[ADVANCED]</B></A></H2>
+
+<P>Sometimes the information in the CAF tree is not enough for a given
+analysis, or a group of people wants to share derived variables without
+recalculating them every time they need them. In these cases the
+CAF tree should be extended.</P>
+<P>Let's assume the following: we want to produce some additional information
+for every event that we see in our <CODE>Processor</CODE> and write it to a new 
+output file. For this purpose we create a <CODE>TTree</CODE> and add a new branch
+to it. </P>
+<P>
+<PRE>
+#include "cafe/Processor.hpp"
+#include "MyVariables.hpp"
+
+class MyProducer : public Processor {
+public:
+   
+   void inputFileOpened(TFile *input_file) 
+   {
+       std::string input_name = input_File->GetName();
+       input_name = input_name.substr(0, input_name.rfind('.')) + "-myvar.root";
+       outfile = new TFile(input_name.c_str(), "RECREATE");
+       tree    = new TTree("MyTree");
+       tree->Branch("MyAnalysis", "MyVariables", &amp; myVariables, 32000, 99);
+   }
+
+   void inputFileClosing(TFile *input_file)
+   {
+       outfile->Write();
+       outfile->Close();
+       delete outfile;
+   }
+
+   bool processEvent(cafe::Event&amp; event)
+   {
+       // calculate myVariables
+       tree->Fill();
+   }
+
+public:
+   TFile       *outfile;
+   TTree       *tree;
+   MyVariables *myVariables;
+};
+</PRE>
+</P>
+<P>In this example we create for every input file a new file called
+after the original name and <CODE>-myvar.root</CODE> appended.</P>
+<P>In a later run, we want to use the information we created together
+with the original file. The typical way to do this is to add 
+the tree in the new file as a friend, and then use the methods described
+in 
+<A HREF="UserGuide-3.html#ExtendEvent">Extending cafe::Event</A>.</P>
+<P>An example is here:</P>
+<P>
+<PRE>
+   class AddMyVariables : public Processor {
+   public:
+      void begin(cafe::Event&amp; event)
+      {
+          event.addBranch&lt;MyVariables>("MyAnalysis");
+      }
+
+      // ...
+      void inputFileOpened(TFile *file)
+      {
+         std::string input_name = input_File->GetName();
+         input_name = input_name.substr(0, input_name.rfind('.')) + "-myvar.root";
+         myfile = TFile::Open(input_name.c_str(), "READ");
+         if(myfile.IsOpen()) {
+             if(TTree *mytree = (TTree *)myfile.Get("MyTree")) {
+                TTree *caf_tree = (TTree *)file->Get("TMBTree");
+                caf_tree->AddFriend(mytree);
+             }
+         }
+      }
+
+      void inputFileClosing(TFile *file) 
+      {
+          myfile->Close();
+          delete myfile;
+      }
+
+   private:
+      TFile *myfile;
+   };
+</PRE>
+</P>
+<P>However, you should try to re-use some of the existing utilities described
+in the next section instead of writing this code yourself.</P>
+<P>An alternative to the above is to extend the existing tree with new
+branches and write the output all to one file. This makes mostly sense
+if a selection is applied at the same time, so the output tree is
+different from the input tree. The only difference is that you would
+clone the input tree before adding your own branch.</P>
+<P>
+<PRE>
+    void inputFileOpened(TFile *file) {
+       // [...]
+       TTree *caf_tree = (TTree *)file.Get("TMBTree");
+       TTree *mytree = caf_tree->CloneTree(0);
+       mytree->Branch(...);
+       // [...]
+       save_addressess = true;
+    }
+
+    bool processEvent(cafe::Event&amp; event) {
+        // calculate variables
+        mytree->Fill();   // write both event and myVariables
+    }
+</PRE>
+</P>
+
+<HR>
+<A HREF="UserGuide-7.html">Next</A>
+<A HREF="UserGuide-5.html">Previous</A>
+<A HREF="UserGuide.html#toc6">Contents</A>
+</BODY>
+</HTML>

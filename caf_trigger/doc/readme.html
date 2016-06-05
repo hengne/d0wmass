@@ -1,0 +1,327 @@
+<html>
+
+<head>
+<title>caf_trigger: a D0 software package</title>
+
+<link rel="stylesheet" type="text/css"
+href="d0.css" />
+
+</head>
+
+<body>
+
+<h1>Using caf_trigger</h1>
+
+<h4>English Documentation Updated as of Jan 10/05</h4>
+
+<h4>v01-01-01</h4>
+
+<p>
+<ul>
+<li><a href="#framework">The Package Framework</a>
+<li><a href="#running">Running The Package</a>
+<li><a href="#templateprocessor">Creating Ones Probability Processor</a>
+<li><a href="http://www.phys.ualberta.ca/~kwchan/d0/">Back to the D0RunII information page</a>
+</ul>
+</p>
+
+<p>
+If one wishes to use the caf_trigger package for ones trigger studies, one must first retrieve the package from the CVS repository.
+</p>
+
+<p class="commands">
+&gt; setup d0cvs
+<br>
+&gt; cvs checkout caf_trigger version-tag
+</p>
+
+<p>
+Of course, one may have already retrieved the package in this fashion. In this case, one will be guided throughout this documentation upon the features and methods available.
+</p>
+
+<p>
+One must also retrieve the eff_utils package.
+</p>
+
+<!-- This section describes the package framework -->
+<h2><a name="framework">The Package Framework</a></h2>
+
+<p>
+CAFe runs on processors, and processors are run through a config file. Documentation on the config files shall follow this, but first, lets allow oneself to be familiar with the flow of the running processors.
+</p>
+
+<OBJECT data="processorflow.jpg"
+        type="image/jpg">
+The Process Flow
+</OBJECT>
+<p class="caption">
+The process flow shown relates to the common situation where the user may use more than one plug-between processor.
+</p>
+
+<p>
+One would be wondering at this time, what use one would find with these processors and how one would use such a framework. One must first be introduced to these processors, and one would begin with the cafTriggerEfficiency processor.
+</p>
+<br>
+<h3>cafTriggerEfficiency</h3>
+<p>
+This processor is the initializer. When one places a probability processor after this processor in the flow, one will be passed various quantities for ones calculations.
+<ul>
+<li>Physics objects: Electrons, Muons, Jets and the Missing ET.
+<li>Number of physics objects in each event.
+<li>The trigger list version and the associated luminosities.
+</ul>
+The necessary turn-on curves and other quantities one will require will be initialized in the probability processors. One should not concern oneself with this unless one desires to change the programming.
+</p>
+
+<h3>probProcessor</h3>
+<p>
+This is where one would find the heart of ones combinatorical calculations. This is a flexible area and I shall provide some examples of how one could use or create such processors.
+
+<ul>
+<li>Most of the time, there will be 3 processors run, in this chain, between the cafTriggerEfficiency processor and the cafTriggerOutput processor.
+<li>One may wish to merely have the outputs of two different signal channels in order to quickly look at event weights for those channels. For instance, mu+jets and e+jets signal channels.
+<li>When creating new probability processors for triggers, one may wish to test two sets of combinatorics to see how changes made to the combinatorics will affect ones event weights or the final average weight given at the end of running.
+<li>When creating a new trigger, one should split the combinatorics into L1, L2, and L3 processors with a final 4th processor to combine the first 3. This is the PREFERRED method.
+<li>There may be triggers that require the combination of two already existing processors, for example e+jets with an alljets trigger. A third processor can be put into this internal chain to combine the first two event weights.
+<li>The values of the event weight shall be placed within the mEvtw map. If one wishes to pass variables to the next event for ones own processor to use, one merely has to pass the variable along in another map name to the event.
+</ul>
+
+</p>
+
+
+<h3>cafTriggerOutput</h3>
+<p>
+This is the final piece of the processor chain and a crucial component in the framework. The following is performed by this processor:
+
+<ul>
+<li>Output in plain text of each probability processor one has placed in the chain. This output is based on what is passed into the mEvtw variable at the end of each process event in each probability processor.
+<br>
+The output is organized by ones signal channel name, which can have the following variations:
+<ul>
+<li>_channel + " Sigmas: " + "1"
+<li>_channel + " Sigmas: " + "-1"
+</ul>
+<li>Output a histogram of the event weights. This allows one to determine the distribution of the probabilities calculated by ones processor for purposes of debugging the combinatorics. It is suggested that one should split ones processors into the different levels of the trigger to have a diagnostic histogram for each level automatically generated.
+<li>Output into each event, the event weight of ones processors. One is then able to create a histogram weighted with the values from ones processors.
+</ul>
+
+</p>
+
+<p>
+This concludes the package framework. As one can see, it has a simple flow to it. The workings of a probability processor shall be delved into in detail in a later section, as well as actually running the package.
+</p>
+
+
+<!-- This section describes running the package -->
+<h2><a name="running">Running The Package</a></h2>
+
+<p>
+All CAFe packages are run in the same fashion; The main executable "cafe" is run and usually it is run with a config file of some sort. The config file allows one to input changes on run-time, much like a command line executable but on a much larger scale. One should have a look at the following config file for a detailed example.
+</p>
+
+<p class="important">
+The following is known as probmuw_w_l2m3_trk10.config. It is run using the command: cafe probmuw_w_l2m3_trk10.config. The outputs go to the file d0evtwt.root as histograms. All lines beginning with "#" are comments and have no affect on the execution of the config file. All of the config files I've used are available in the examples/ folder.
+</p>
+<p class="code">
+#The main run command. It runs 4 groups of processors in a chain. It draws a histogram before any probabilities are calculated, calculates the event weights for a signal channel, then draws 3 histograms with these event weights. One without any sigma variations, one with +1 sigma variation and one with -1 sigma variation.
+</p>
+<p class="commands">
+cafe.Run:               Group(Hist1DBefore),Group(mycaftrig),Group(Hist1DAfter),Group(Hist1DAftersig1),Group(Hist1DAftersig2)
+</p>
+<p class="code">
+#This section is another staple of CAFe where one would state the package one intends to use, the input file of interest, and finally the output file for any outputs from any processors that will be run. Note that the eff_utils package is required for this to run.
+</p>
+<p class="commands">
+cafe.Packages:          eff_utils caf_trigger
+<br>
+cafe.Input:             d0tmba_p18.01.00_zmumu_reco_tsim_mc.root
+<br>
+cafe.Output:            d0evtwt.root
+</p>
+
+<p class="code">
+#This chunk is the portion of the config file pertinent to caf_trigger itself and not any other processors. One should pay attention to the detailed explanation of each line.
+</p>
+<p class="commands">
+#This .Run: command, chains together 3 of our processors. The initialization, the probability processor of interest and the output processor.
+</p>
+<p class="code">
+mycaftrig.Run:          cafTriggerEfficiency(mycaftrig),Group(Muw_w_l2m3_trk10),cafTriggerOutput(mycaftrig)
+</p>
+<p class="commands">
+#The next 3 options allow one to choose the branch in the caf file tree that one wishes to use.
+<br>
+mycaftrig.embranch:     EMscone
+<br>
+mycaftrig.mubranch:     Muons
+<br>
+mycaftrig.jetbranch:    JCCA
+</p>
+<p class="code">
+#The lumi and triglist options set the luminosity weights for each triggerlist. Note: If one has v11, v13, v14 listed, then under lumi, the first number will correspond to v11, the second to v13, and the third to v14
+</p>
+<p class="commands">
+mycaftrig.lumi:         11.,35.,50.
+<br>
+mycaftrig.triglist:     v11,v12,v13
+</p>
+<p class="code">
+#This sets the output of the event weight in a histogram which ranges from 0 to 1. histosBins sets the number of bins of that histogram. The histogram will be placed in the cafe.Output file. Note that for the .histos: option, one would select the channel names defined for each level.
+</p>
+<p class="commands">
+mycaftrig.histos:       Muw_w_l2m3_trk10_L1,Muw_w_l2m3_trk10_L2,Muw_w_l2m3_trk10_L3
+<br>
+mycaftrig.histosBins:   50
+</p>
+<p class="code">
+#This flag turns on the +1, -1 sigma calculations. If one does not require the sigma calculations, one should set this flag to false as they are computationally intensive.
+</p>
+<p class="commands">
+mycaftrig.sigma:        true
+</p>
+
+<p class="code">
+#Specifies the channel to put into the event as "_globalWeightKey". This is a float put into the event of the event weight under the stated key. Processors before and after caf_trigger can send an event weight for caf_trigger to multiply with, or grab an event weight to use after caf_trigger. We will submit the combined L1, L2, and L3 probabilities here to the next processors that may wish to use it.
+</p>
+<p class="commands">
+mycaftrig.globalWeight: Muw_w_l2m3_trk10_combine
+</p>
+<p class="code">
+#This is the Muw_w_l2m3_trk10 group defined earlier. It defines the 3 processors for each level, and the combination processor in the correct order. Order is important!
+</p>
+<p class="commands">
+Muw_w_l2m3_trk10.Run:       probMuw_w_l2m3_trk10_L1(Muw_w_l2m3_trk10),probMuw_w_l2m3_trk10_L2(Muw_w_l2m3_trk10),probMuw_w_l2m3_trk10_L3(Muw_w_l2m3_trk10),probMuw_w_l2m3_trk10_combine(Muw_w_l2m3_trk10)
+</p>
+<p class="code">
+#Here is where one would choose which levels one would wish to combine. One may combine (L1, L2), (L1, L3), (L2, L3) or (L1, L2, L3).
+</p>
+<p class="commands">
+Muw_w_l2m3_trk10.combine:   Muw_w_l2m3_trk10_L1,Muw_w_l2m3_trk10_L2,Muw_w_l2m3_trk10_L3
+</p>
+<p class="code">
+#This is where we tell the processors that yes, we would like the sigma calculations to be done.
+</p>
+<p class="commands">
+Muw_w_l2m3_trk10.sigma:     true
+</p>
+<p class="code">
+#This is the first group in cafe.Run. It configures the users chosen histogram, which in this case is Muon.Pt()
+</p>
+<p class="commands">
+Hist1DBefore.Run:       Hist1D(Hist1DBefore)
+<br>
+Hist1DBefore.Title:     "Muon.pt before"
+<br>
+Hist1DBefore.Bins:      50 0.0 100.0
+<br>
+Hist1DBefore.Draw:      Muon.Pt()
+<br>
+Hist1DBefore.Weight:    1.0
+</p>
+
+<p class="code">
+#This is the first group after caf_trigger in cafe.Run. It configures a histogram of Muon.Pt(), weighting each event with the event weight given by caf_trigger. The weight is named caf_triggerWeight channel.
+</p>
+<p class="commands">
+Hist1DAfter.Run:        Hist1D(Hist1DAfter)
+<br>
+Hist1DAfter.Title:      "Muon.pt after"
+<br>
+Hist1DAfter.Bins:       50 0.0 100.0
+<br>
+Hist1DAfter.Draw:       Muon.Pt()
+<br>
+Hist1DAfter.Weight:     caf_triggerWeight Muw_w_l2m3_trk10_combine
+</p>
+
+<p class="code">
+#This is one of the groups after caf_trigger in cafe.Run. It configures a histogram of Muon.Pt(), weighting each event with the event weight sigma +1 given by caf_trigger. One must set .sigma: true for this to be available. The weight is named caf_triggerWeight channel Sigmas: 1.
+</p>
+<p class="commands">
+Hist1DAftersig1.Run:        Hist1D(Hist1DAftersig1)
+<br>
+Hist1DAftersig1.Title:      "Muon.pt after Sigma +1"
+<br>
+Hist1DAftersig1.Bins:       50 0.0 100.0
+<br>
+Hist1DAftersig1.Draw:       Muon.Pt()
+<br>
+Hist1DAftersig1.Weight:     caf_triggerWeight Muw_w_l2m3_trk10_combine Sigmas: 1
+
+</p>
+
+<p class="code">
+#This is one of the groups after caf_trigger in cafe.Run. It configures a histogram of Muon.Pt(), weighting each event with the event weight sigma -1 given by caf_trigger. One must set .sigma: true for this to be available. The weight is named caf_triggerWeight channel Sigmas: -1.
+</p>
+<p class="commands">
+Hist1DAftersig2.Run:        Hist1D(Hist1DAftersig2)
+<br>
+Hist1DAftersig2.Title:      "Muon.pt after Sigma -1"
+<br>
+Hist1DAftersig2.Bins:       50 0.0 100.0
+<br>
+Hist1DAftersig2.Draw:       Muon.Pt()
+<br>
+Hist1DAftersig2.Weight:     caf_triggerWeight Muw_w_l2m3_trk10_combine Sigmas: -1
+</p>
+
+<p>
+Now, after one executes cafe histo.config, one will recieve as output the event weights on ones terminal window in plain text. One will also find that the output file is filled with histograms. With these histograms, one may create a final histogram showing all of the pertinent information as shown below.
+</p>
+
+<OBJECT data="electronweight.jpg"
+        type="image/jpg">
+Z-&gt;ee Monte-Carlo, electron channel weighted
+</OBJECT>
+
+<p class="caption">
+Z-&gt;ee Monte-Carlo, weighted with the top group's choice of the electron channel (L3, EM_OR), for 1 object of N, passing the trigger.
+</p>
+
+<p>
+Of course, for our MUW_W_L2M3_TRK10 trigger, the outputs are shown at this <a href="probmuw_w_l2m3_trk10_output.html">link</a> [<a href="probmuw_w_l2m3_trk10_output.html">link</a>]
+
+<p>
+The explanation above pertains to the basic running of the package with a single processor but it shows the flexibility of the package. One may also chain packages together provided that the other packages use _globalWeightKey as the key for the event weight.
+<br>
+<br>
+cafe.Run: Group(Hist1DBefore),Group(mybtag),Group(mycaftrig),Group(myothereventweightcalculator),Group(Hist1DAfter)
+<br>
+In the fake sequence above, caf_trigger would be passed an event weight from a b-tagging package, which it multiplies with its own event weight. It may then pass this event weight to another package to do with it as it pleases before finally outputting to another histogram processor.
+</p>
+
+
+<!-- This section describes the template probability processor -->
+<h2><a name="templateprocessor">Creating Ones Probability Processor</a></h2>
+
+<p>
+There are a few probability processors that one may use as an example, but for the purposes of creation, one has the option of using the processor probTemplate. The main files of probTemplate are,
+<ul>
+<li>src/probTemplate.cpp
+<li>src/probTemplate_linkdef.h
+<li>caf_trigger/probTemplate.hpp
+</ul>
+Of course, one may use this template probability file to test ones own combinatorics, but one may wish their work to have more permanence. Hence, one must make the following changes.
+<ol>
+<li>First, one must change the names of the files to a similar name such as probSignalChannel.
+<li>One must then change all references to Template, within the above files, to ones own SignalChannel.
+<li>One must next edit the rootrc file within /scripts/rootrc and add the following (all on a single line, as the others):
+<p class="code">
++Plugin.Processor: probSignalChannel probSignalChannel caf_trigger "probSignalChannel(const char *)"
+</p>
+<li>Finally, one must add probSignalChannel to /src/COMPONENTS
+</ol>
+</p>
+
+<p>
+What about the processor itself? Where does one place ones code within this framework? Let's look at the two main files where one must place their code.
+<ul>
+<li><a href="templatecpp.html">The source file for the processor</a>
+<li><a href="templatehpp.html">The header file for the processor</a>
+</ul>
+One may find perfect examples of ways to create ones probability processor by looking to the existing processors that are included in this package. The best example would be the one we have looked at here. probmuw_w_l2m3_trk10_L1, probmuw_w_l2m3_trk10_L2, probmuw_w_l2m3_trk10_L3, and probmuw_w_l2m3_trk10_combine.
+</p>
+
+</body>
+
+</html>

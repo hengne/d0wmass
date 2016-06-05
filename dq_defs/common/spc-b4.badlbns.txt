@@ -1,0 +1,2 @@
+8233387     # bad lumi - beginning of a loss spike
+8233393     # bad lumi - end of the loss spike. The ones in between are done by the lumi system

@@ -1,0 +1,55 @@
+
+Use this with t05.02.00 or later or p17 only.
+
+See
+
+http://www-d0.fnal.gov/Run2Physics/working_group/data_format/devel/index.html
+
+for the latest version to use for tmb_tree
+
+setup D0RunII t05.02.00
+setenv LINK_SHARED yes   ( or 'export LINK_SHARED=yes')
+newrel -t t05.02.00 work
+cd work
+d0setwa
+setup d0cvs
+addpkg -h cafe
+
+cp cafe/doc/cafe.config $SRT_PRIVATE_CONTEXT
+
+ln -s /work/wensley-clued0/rhauser-scratch/input.root
+
+./shbin/$SRT_SUBDIR/cafe 
+
+This executes what is configured in 'cafe.config'. You should add
+the shared binary directory to your path:
+
+set path = ( $SRT_PRIVATE_CONTEXT/shbin/$SRT_SUBDIR $path )
+  or 
+export PATH=$SRT_PRIVATE_CONTEXT/shbin/$SRT_SUBDIR:${PATH}
+
+
+[ Any entry in the configuration file can be overwritten on the command line: ]
+
+./shbin/$SRT_SUBDIR/cafe pT_High.Select: 'Muon.pT() > 15.0'
+
+./shbin/$SRT_SUBDIR/cafe cafe.Run: 'Select[pT_Low],Passed'
+
+./shbin/$SRT_SUBDIR/cafe cafe.Run: 'Group[WriteTest]'
+
+If the first entry on the command line is a file, it is used for
+configuration:
+
+cafe cafe/doc/histos.config
+
+If the first line of the configuration files has:
+
+#!/usr/bin/env cafe
+
+and you make the configuration file executable, you can run it
+directly:
+
+chmod a+x cafe.config
+
+./cafe.config
+

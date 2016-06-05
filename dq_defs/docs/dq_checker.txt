@@ -1,0 +1,371 @@
+Obtaining the luminosity lost by the dq_defs, total and for each detector.
+
+cd <working area> # You'll need ~7GB of disk space.
+
+# if ${MAILTO} is non-null you will get email at the start and end of the
+#     dq_checker.sh run
+   export MAILTO="your email address"
+for example
+   export MAILTO=jonckheere@fnal.gov
+
+# ${EXEDIR} is used below, no longer in the scripts.
+export EXEDIR=`/bin/pwd`
+
+   cvs checkout -r v2011-09-30 dq_defs
+OR
+   ln -s <checked out version of dq_defs> dq_defs
+cd dq_defs  # MUST cd there. It needs to know where it is.
+source setup_dq_defs.sh
+cd ${EXEDIR}
+
+
+# create badLBNList by concatenation
+rm -f badLBNList
+cat dq_defs/common/tmp/*.badlbns > badLBNList
+
+# concatenate all but cttx13 badruns into all.badruns
+rm -f all.badruns
+touch all.badruns
+
+     cat dq_defs/common/tmp/caloff-[a,b]*.badruns >> all.badruns
+     cat dq_defs/common/tmp/calon-*.badruns >> all.badruns
+     cat dq_defs/common/tmp/calt*.badruns >> all.badruns
+     cat dq_defs/common/tmp/cft-*.badruns >> all.badruns
+     #cat dq_defs/common/tmp/cps-*.badruns >> all.badruns
+     #cat dq_defs/common/tmp/ctt-a.badruns >> all.badruns
+     cat dq_defs/common/tmp/ctt-b*.badruns >> all.badruns
+     #cat dq_defs/common/tmp/fps-*.badruns >> all.badruns
+     cat dq_defs/common/tmp/l1caltrk-*.badruns >> all.badruns
+     cat dq_defs/common/tmp/l1muon-*.badruns >> all.badruns
+     cat dq_defs/common/tmp/muo-*.badruns >> all.badruns
+     cat dq_defs/common/tmp/smt-*.badruns >> all.badruns
+     #cat dq_defs/common/tmp/stt-*.badruns >> all.badruns
+     cat dq_defs/common/tmp/solenoid*.badruns >> all.badruns
+     cat dq_defs/common/tmp/toroid*.badruns >> all.badruns
+     cat dq_defs/common/tmp/trigv16.8*.badruns >> all.badruns
+
+     #cat dq_defs/common/tmp/bsmove-*.badruns >> all.badruns
+     cat dq_defs/common/tmp/caloff-nocert-*.badruns >> all.badruns
+     #cat dq_defs/common/tmp/caloff-prelim.badruns >> all.badruns
+     cat dq_defs/common/tmp/ctt-nocert-*.badruns >> all.badruns
+     cat dq_defs/common/tmp/spc-*.badruns >> all.badruns
+
+     #cat dq_defs/common/tmp/caloff-2pk.badruns >> all.badruns
+     #cat dq_defs/common/tmp/cttx13-*.badruns >> all.badruns
+
+wc -l all.badruns
+sort -u -o all.badruns all.badruns
+wc -l all.badruns
+
+# caloff-prelim.badruns, cps-*.badruns, ctt-a.badruns and fps-*.badruns
+#     are NOT in all.badruns
+
+# concatenate all into one per subdetector
+rm -f cal.badruns
+  cat dq_defs/common/tmp/caloff-[a,b]*.badruns \
+    dq_defs/common/tmp/calon-*.badruns | sort -u > cal.badruns
+rm -f calt.badruns
+  cat dq_defs/common/tmp/calt-*.badruns | sort -u > calt.badruns
+rm -f cft.badruns
+  cat dq_defs/common/tmp/cft-*.badruns | sort -u > cft.badruns
+rm -f cps.badruns
+  cat dq_defs/common/tmp/cps-*.badruns | sort -u > cps.badruns
+rm -f ctt.badruns
+  cat dq_defs/common/tmp/ctt-[a,b]*.badruns | sort -u > ctt.badruns
+rm -f fps.badruns
+  cat dq_defs/common/tmp/fps-*.badruns | sort -u > fps.badruns
+rm -f l1.badruns
+  cat dq_defs/common/tmp/l1caltrk-*.badruns \
+    dq_def/common/l1muon-*.badruns | sort -u > l1.badruns
+rm -f muo.badruns
+  cat dq_defs/common/tmp/muo-*.badruns | sort -u > muo.badruns
+rm -f smt.badruns
+  cat dq_defs/common/tmp/smt-*.badruns | sort -u > smt.badruns
+rm -f stt.badruns
+  cat dq_defs/common/tmp/stt-*.badruns | sort -u > stt.badruns
+rm -f mag.badruns
+  cat dq_defs/common/tmp/solenoid*.badruns \
+      dq_defs/common/tmp/toroid*.badruns | sort -u > mag.badruns
+rm -f trig.badruns
+  cat dq_defs/common/tmp/trigv16.8*.badruns | sort -u > trig.badruns
+
+rm -f bsmove.badruns
+  cat dq_defs/common/tmp/bsmove-*.badruns | sort -u > bsmove.badruns
+rm -f caloff-nocert.badruns
+  cat dq_defs/common/tmp/caloff-nocert*.badruns | sort -u > caloff-nocert.badruns
+rm -f caloff-prelim.badruns 
+  cat dq_defs/common/tmp/caloff-prelim.badruns \
+      dq_defs/common/tmp/caloff-2pk.badruns > caloff-prelim.badruns
+rm -f ctt-nocert.badruns
+  cat dq_defs/common/tmp/ctt-nocert*.badruns | sort -u > ctt-nocert.badruns
+rm -f nocert.badruns
+  cat dq_defs/common/tmp/*nocert*.badruns | sort -u > nocert.badruns
+rm -f spc.badruns
+  cat dq_defs/common/tmp/spc-*.badruns | sort -u > spc.badruns
+
+rm -f cttx13.badruns
+  cat dq_defs/common/tmp/cttx13-*.badruns | sort -u > cttx13.badruns
+
+
+# create two badruns lists. The list is the absolute or relative paths to 
+# each of the above badruns files, one per line. If you use a relative
+# path, it is relative to the location where you run the sum program.
+# There is one using the lbns (all and cal) and one without (all the rest)
+# The first badruns list will be done including the badlbns lists.
+# The second will be done without a badlbns list.
+
+rm -f badruns-lbn.list
+cat <<EOF > badruns-lbn.list
+../../all.badruns
+../../cal.badruns
+../../caloff-nocert.badruns
+../../caloff-prelim.badruns
+EOF
+
+rm -f badruns-nolbn.list
+cat <<EOF > badruns-nolbn.list
+../../calt.badruns
+../../cft.badruns
+../../ctt.badruns
+../../ctt-nocert.badruns
+../../nocert.badruns
+../../l1.badruns
+../../muo.badruns
+../../smt.badruns
+../../spc.badruns
+../../bsmove.badruns
+../../cttx13.badruns
+../../cps.badruns
+../../fps.badruns
+../../mag.badruns
+../../trig.badruns
+EOF
+
+# do one run with the lbn list and one without.
+#    The lbn one will be used for all lists which include the calorimeter,
+#    since badlbns are only calorimeter. The nolbn one will be used for all
+#    others.
+
+
+#################### fetch the luminosity data ####################
+
+setup sam
+setup lm_tools -d
+
+############ Run2a  ###############
+rm -f 2a.def
+cat <<EOF > 2a.def
+num=3
+DEF1="CSskim-QCD-PASS3-p17.09.03"
+DEF2="CSskim-QCD-PASS3-p17.09.06"
+DEF3="CSskim-QCD-PASS3-p17.09.06b"
+
+o1="2a-1.log"
+o2="2a-2.log"
+o3="2a-3.log"
+
+PASS="p17pass3"
+SKIM="QCD"
+
+EOF
+
+############ Run2b1 pre-shutdown 07 - fixed (2b1)  ###############
+rm -f 2b1.def
+cat <<EOF > 2b1.def
+num=1
+DEF1="CSskim-QCD-PASS2-p21.03.00-allfix2007"
+
+o1="2b1-1.log"
+
+PASS="p21pass2fixed"
+SKIM="QCD"
+EOF
+
+############ Run2b2 post-shutdown 07 ###############
+rm -f 2b2.def
+cat <<EOF > 2b2.def
+num=5
+DEF1="CSskim-QCD-PASS4-p21.08.00-allfix2008"
+DEF2="CSskim-QCD-PASS4-p21.08.00-p20.12.01"
+DEF3="CSskim-QCD-PASS4-p21.08.00-p20.12.02"
+DEF4="CSskim-QCD-PASS4-p21.08.00-p20.12.04"
+DEF5="CSskim-QCD-PASS4-p21.12.00-p20.12.05-allfix"
+
+o1="2b2-1.log"
+o2="2b2-2.log"
+o3="2b2-3.log"
+o4="2b2-4.log"
+o5="2b2-5.log"
+
+PASS="p21pass4fixed"
+SKIM="QCD"
+EOF
+
+############ Run2b3 post-shutdown 09 ###############
+rm -f 2b3.def
+cat <<EOF > 2b3.def
+num=3
+DEF1="CSskim-QCD-PASS5-p21.18.00-p20.16.07-fix"
+DEF2="CSskim-QCD-PASS5-p21.18.00-p20.16.07-reduced"
+DEF3="CSskim-QCD-PASS5-p21.18.00-p20.16.08"
+
+o1="2b3-1.log"
+o2="2b3-2.log"
+o3="2b3-3.log"
+
+PASS="p21pass5fixed"
+SKIM="QCD"
+EOF
+
+############ Run2b4 post-shutdown 10 ###############
+rm -f 2b4.def
+cat <<EOF > 2b4.def
+num=5
+DEF1="CSskim-QCD-PASS6-p21.20.00-p20.18.02b"
+DEF2="CSskim-QCD-PASS6-p21.20.00-p20.18.02b-fix"
+DEF3="CSskim-QCD-PASS6-p21.21.00-p20.18.03"
+DEF4="CSskim-QCD-PASS6-p21.22.00-p20.18.04"
+DEF5="CSskim-QCD-PASS6-p21.22.00-p20.18.05"
+
+o1="2b4-1.log"
+o2="2b4-2.log"
+o3="2b4-3.log"
+o4="2b4-4.log"
+o5="2b4-5.log"
+
+
+PASS="p21pass6fixed"
+SKIM="QCD"
+EOF
+
+#### loop over the periods #####
+
+#for i in  a b1 b2 b3 b4
+#do
+for i in b4
+do
+   cd ${EXEDIR}
+   . 2${i}.def
+
+   mkdir -p ${EXEDIR}/2${i}
+   cd ${EXEDIR}/2${i}
+
+   for j in `seq 1 ${num}`
+   do
+      case ${j} in
+         1) DEF=${DEF1};;
+         2) DEF=${DEF2};;
+         3) DEF=${DEF3};;
+         4) DEF=${DEF4};;
+         5) DEF=${DEF5};;
+         *) echo "Unrecognised case ${j}"; exit 1;;
+      esac
+      genLBNtables -type DB -format TMB -pass ${PASS} -skim ${SKIM} -defname ${DEF} 2>&1 > 2${i}-${j}.log &
+   done
+
+   cd ${EXEDIR}
+done
+
+############ Run2 checker ###############
+#***** WAIT for the above jobs to finish, doesn't take *too* long *****#
+
+#for i in a b1 b2 b3 b4
+for i in b4
+do
+   for t in lbn nolbn
+   do
+      mkdir -p ${EXEDIR}/2${i}/${t}
+      if test "${t}" = "lbn"
+      then
+         cp ${EXEDIR}/badLBNList ${EXEDIR}/2${i}/${t}
+      fi
+      cd ${EXEDIR}/2${i}/${t}
+
+      SKIM="QCD"
+      if test "${i}" = "a"
+      then
+         TRIG="JT_125TT"
+      else
+         TRIG="JT125_L3J125"
+      fi
+
+      if test ! -L ${SKIM}
+      then
+         echo link ${SKIM}
+         ln -s ../${SKIM} ${SKIM}
+      fi
+
+# This will run for a ****LONG**** time. So put it into the background and
+# wait for the "finish" email
+      dq_checker.sh ${TRIG} ${SKIM} DB 2>&1 > 00checker.log &
+
+      cd ${EXEDIR}
+   done
+done
+
+#################### Sum the data ####################
+
+# When the jobs are done:
+
+# Now run the summing program once for each run range.
+
+# The total luminosity and runs will tell you the effect of the LBNs alone
+# all.badruns will give you the total effect of dq
+# cal.badruns will give you the calorimeter alone, all of it.
+
+# run in lbn and nolbn directories
+# The default run range is 0-9999999
+
+for i in a b1 b2 b3 b4
+do
+   for t in lbn nolbn
+   do
+      cp ${EXEDIR}/badruns-${t}.list ${EXEDIR}/2${i}/${t}/
+   done
+done
+
+# usage:
+#  dq_checker_sums.sh ${SKIM} <list of badruns lists> <firstrun> <lastrun> > <range>.out
+
+=== 2[a|b1|b2|b3|b4] - sums
+
+SKIM="QCD"
+
+rm -f ranges.list
+cat <<EOF > ranges.list
+2a  151817 178514 > 02-2q-03-2q.out # 19 Apr 02 - 30 Jun 03
+2a  178515 194677 > 03-3q-04-2q.out #  1 Jul 03 - 30 Jun 04
+2a  194678 207869 > 04-3q-05-2q.out #  1 Jul 04 - 30 Jun 0
+2a  207870 215670 > 05-3q-06-1q.out #  1 Jul 05 - 22 Feb 06
+2a  151817 215670 > 2a.out          # 19 Apr 02 - 22 Feb 06
+2b1 222028 229307 > 06-3q-06-4q.out # 13 Jun 06 - 31 Dec 06
+2b1 229308 234913 > 07-1q-07-3q.out #  1 Jan 07 -  4 Aug 07
+2b1 222028 234913 > 2b1.out         # 13 Jun 06 -  4 Aug 07
+2b2 237342 241191 > 07-4q-08-1q.out # 28 Oct 07 - 31 Mar 08
+2b2 241192 245473 > 08-2q-08-3q.out #  1 Apr 08 - 12 Sep 08
+2b2 245474 247960 > 08-4q-08-4q.out # 12 Sep 08 - 11 Dec 08
+2b2 247961 250235 > 09-1q-09-1q.out # 11 Dec 08 - 13 Mar 09
+2b2 250236 252918 > 09-2q-09-2q.out # 13 Mar 09 - 13 Jun 09
+2b2 237342 252918 > 2b2.out         # 28 Oct 07 - 13 Jun 09
+2b3 255328 258006 > 09-4q-09-4q.out # 15 Sep 09 - 31 Dec 09
+2b3 258007 260822 > 10-1q-10-1q.out #  1 Jan 10 - 30 Apr 10
+2b3 260823 262856 > 10-2q-10-2q.out #  1 May 10 - 18 Jul 10
+2b3 255328 262856 > 2b3.out         # 15 Sep 09 - 18 Jul 10
+2b4 264071 267794 > 10-4q-10-4q.out # 21 Aug 10 - 25 Dec 10
+2b4 267795 270507 > 11-1q-11-1q.out #  6 Jan 11 - 31 Mar 11
+2b4 270508 273183 > 11-2q-11-2q.out #  1 Feb 11 - 30 Jun 11
+2b4 273184 275727 > 11-3q-11-3q.out #  1 Jul 11 - 30 Sep 11
+2b4 264071 275727 > 2b4.out         # 21 Aug 10 - 30 Sep 11
+EOF
+
+while read epoch first last redir file rest
+do
+   for i in lbn nolbn
+   do
+      cd ${EXEDIR}/${epoch}/${i}
+      echo "${epoch} ${first} ${last} ${redir} ${file} ${i} ${rest} `/bin/pwd`"
+      rm -f ${file}
+      dq_checker_sums.sh ${SKIM} badruns-${i}.list ${first} ${last} > ${file} &
+   done
+done < ranges.list
+cd ${EXEDIR}

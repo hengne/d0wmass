@@ -1,0 +1,27 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >=264071 and q.run_number <= 275727) and (q.qual_group = 'CTT' and q.quality = 'UNKNOWN' and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') order by q.run_number asc ;
+    265873 CTT        UNKNOWN              official/global_CMT
+    268484 CTT        UNKNOWN              official/global_CMT
+    268572 CTT        UNKNOWN              official/global_CMT
+    269371 CTT        UNKNOWN              official/global_CMT
+    269372 CTT        UNKNOWN              official/global_CMT
+    269373 CTT        UNKNOWN              official/global_CMT
+    269375 CTT        UNKNOWN              official/global_CMT
+    269376 CTT        UNKNOWN              official/global_CMT
+    269377 CTT        UNKNOWN              official/global_CMT
+    269379 CTT        UNKNOWN              official/global_CMT
+    269391 CTT        UNKNOWN              official/global_CMT
+    269393 CTT        UNKNOWN              official/global_CMT
+    269396 CTT        UNKNOWN              official/global_CMT
+    269397 CTT        UNKNOWN              official/global_CMT
+    269399 CTT        UNKNOWN              official/global_CMT
+    269400 CTT        UNKNOWN              official/global_CMT
+    269401 CTT        UNKNOWN              official/global_CMT
+    269402 CTT        UNKNOWN              official/global_CMT
+    269404 CTT        UNKNOWN              official/global_CMT
+    269948 CTT        UNKNOWN              official/global_CMT
+
+20 rows selected.
+
+SQL>
+SQL> spool off

@@ -1,0 +1,1257 @@
+#
+# debug flag
+#
+debug: FALSE
+
+# PDF reweighting
+# Code based on P. Verdier and K. Harder's CAF code caf_lhapdfsrc
+# Currently it only does the reweighting for CTEQ6L 41 PDF sets
+# the PDF reweighting factors PDFReweightFactor[41] are defined 
+# as static variables in pmcsana.cpp 
+# WARNING: Only use this if you are using real PMCS output
+# Since the output from resbos does not contain x and q information
+#  J. Zhu  05-18-2006
+PDFReweight:   false
+PDFori:        cteq6l.LHpdf
+PDForiSubSet:  0
+
+# dump mc truth in pmcsana
+dump_mctruth: false
+
+##
+#Decide which run(s) will be used.  MiddleRunNumber is the boundry between the runs for _ZBrunNum  = pmcsevent.GetRunNo();
+#Run12 is not an option here- for run12 settings, see publication PMCS version in CVS for that run set.  It uses a different ROOT version as well.
+#ZBLibrary and various settings like energy scale and track match efficiency are controlled by this switch.
+Run3: true
+Run4: false
+MiddleRunNumber: 263000
+##
+
+# phi star reweighting
+phistarReweight:      false
+phistarReweight_File: none
+
+#how often you get an update on the screen
+update_frequency: 100000
+
+# this option depends whether you are reading unweighted
+# or weighted events, if you are reading weighted events,
+# reweight must be set to TRUE
+reweight: FALSE
+
+##Make U_par control plots AND DO NOT PERFORM ANY ANALYSES
+MakeU_parControlPlot: FALSE
+
+#study fZ?
+doFzStudy: FALSE
+
+#
+# W/Z mass/width reweighting, used to measure W and Z mass
+#
+wmass_reweight:  FALSE
+wwidth_reweight: FALSE
+wmass_default: 80.450
+wwidth_default: 2.071
+wmass_step: 0.005
+wwidth_step: 0.020
+
+zmass_reweight: FALSE
+zmass_default: 91.188
+zwidth_default: 2.478
+zmass_step: 0.005
+
+#make generator-level plots?
+makeZGenPlots: FALSE
+
+#make smearing-check plots?
+makeCheckSmearingPlots: FALSE
+
+#
+# apply energy smearing to electrons or photons with pT > pT_cut
+#
+pT_cut:          5.0
+
+#
+# vertex resolution, it depends whether the generator
+# level events have vertex=0 or not, if generator-level
+# events already have vertex smeared, need to set it to false
+# VtxSmear_Option = 0, just use a simple gaussian smearing
+# VtxSmear_Option = 1, use Heidi's reweighting function that depends on run number
+#                      and instantaneous luminosity
+# ALWAYS set VtxSmear_Option=0 for GEANT MC
+#
+smearVertex:     TRUE
+VtxSmear_Option: 0
+VtxResolution:   25.
+BeamSpotShape_file: ../p17/beamshape.txt
+
+# remove events with fabs(vtx) > zvtx_cut
+do_zvtx_cut:  TRUE
+zvtx_cut:     60.0
+
+# use tag probe method to study efficies, similar to wmass_analysis/EffAnalysis.cpp
+StudyEfficiencies:       FALSE
+#
+StudyEfficienciesTruth:  TRUE
+TruthMode:               2
+
+#
+# random seed
+#
+rand_seed: 8675309
+
+# cuts on leading and trailing FSR photon
+#
+cutOnLeadingFSR:   false
+LeadingFSR_ETmin:  -1.0
+LeadingFSR_ETmax:  999999.0
+LeadingFSR_dRmin:  -1.
+LeadingFSR_dRmax:  999999.0
+LeadingFSR_xmin:   -1.0
+LeadingFSR_xmax:   2.0
+cutOnTrailingFSR:  false
+TrailingFSR_ETmin:  -1.0
+TrailingFSR_ETmax:  999999.0
+#
+cutOnFSRnPhot:   false
+FSR_nPhot_min:   -1
+FSR_nPhot_max:   99999
+
+#
+# FSR steering
+# photons that are close to electrons are merged using the cone size 
+# merge_fsr_radius_CC in eta-phi space and merge_fsr_radius_EC in unit of cm
+#
+merge_fsr_photons: TRUE
+merge_fsr_photons_model: 1
+merge_fsr_photons_model_file:  not_applicable_for_model_1
+merge_fsr_photons_model_file2: not_applicable_for_model_1
+merge_fsr_radius_CC: 0.30
+merge_fsr_radius_EC: 10.
+
+#
+# probability for photon to reach the calorimeter (in cone)
+#
+simulate_merge_fsr_photons_in_cone_prob:   TRUE
+merge_fsr_photons_in_cone_prob_p0:   9.92348e-01
+merge_fsr_photons_in_cone_prob_p1:   3.59046e-02
+merge_fsr_photons_in_cone_prob_p2:   -5.59621e-02
+merge_fsr_photons_in_cone_prob_p3:   1.37822
+
+#
+# merged photon response (in cone)
+# measured with single photon events without offline zero-suppression
+#
+simulate_merge_fsr_photons_in_cone_response:   TRUE
+merge_fsr_photons_in_cone_response_p0:   4.62706e-01, 6.46662e-01, 8.03910e-01, 8.22713e-01, 7.63027e-01, 6.41772e-01, 4.65462e-01, 7.27810e-01
+merge_fsr_photons_in_cone_response_p1:   3.45654e-01, 4.30006e-01, 2.90801e-01, 2.54659e-01, 3.41107e-01, 3.40774e-01, 1.76852e-01, 2.86177e-01
+merge_fsr_photons_in_cone_response_p2:   5.33583e-02, 5.99887e-02, 2.63033e-02, 2.92819e-02, 5.85076e-02, 6.26568e-02, 2.43338e-02, 4.02406e-02
+merge_fsr_photons_in_cone_response_p3:   8.29533e-01, 8.25624e-01, 9.73359e-01, 8.84230e-01, 7.71796e-01, 6.91162e-01, 9.55666e-01, 8.55417e-01
+merge_fsr_photons_in_cone_response_p4:   2.04356e-01, 1.46698e-01, 9.07536e-02, 8.34457e-02, 9.86168e-02, 1.52112e-01, 2.26995e-01, 1.18375e-01
+merge_fsr_photons_in_cone_response_p5:   -2.29424e-02, -1.96224e-02, -1.32367e-02, -1.27348e-02, -1.49495e-02, -2.11892e-02, -2.69047e-02, -1.64936e-02
+ 
+#
+# probability for photon to reach the calorimeter (out cone)
+# used for photons in the recoil system
+#
+simulate_merge_fsr_photons_out_cone_prob:   TRUE
+merge_fsr_photons_out_cone_prob_p0:   -1.58032e-01
+merge_fsr_photons_out_cone_prob_p1:   2.45845
+merge_fsr_photons_out_cone_prob_p2:   -1.76540
+merge_fsr_photons_out_cone_prob_p3:   4.24790e-01
+merge_fsr_photons_out_cone_prob_p4:   1.62415
+
+#
+# merged photon response in the recoil system (out cone)
+# measured with single photon events without offline zero-suppression
+#
+simulate_merge_fsr_photons_out_cone_response:   TRUE
+merge_fsr_photons_out_cone_response_p0:  5.68259e-02, 2.88532e-01, 4.59594e-01, 4.59114e-01, 4.42621e-01, 2.41474e-01, 3.27777e-01, 4.79588e-01
+merge_fsr_photons_out_cone_response_p1:  1.08769, 9.93338e-01, 1.04490, 1.04901, 1.01112, 1.31026, -5.08173e-01, 5.65743e-01
+merge_fsr_photons_out_cone_response_p2:  3.58174e-01, 2.85096e-01, 2.31565e-01, 2.58067e-01, 2.41918e-01, 3.33382e-01, 8.84406e-02, 1.54401e-01
+merge_fsr_photons_out_cone_response_p3:  6.05850e-01, 6.35210e-01, 7.43998e-01, 6.50468e-01, 7.09069e-01, 5.79489e-01, 5.08173e-01, 8.98137e-01
+merge_fsr_photons_out_cone_response_p4:  2.16265e-01, 1.97965e-01, 1.51098e-01, 1.41550e-01, 1.56932e-01, 1.98291e-01, 2.17761e-01, 1.68613e-01
+merge_fsr_photons_out_cone_response_p5:  -1.99736e-02, -2.52254e-02, -2.07907e-02, -1.99572e-02, -2.20248e-02, -2.54660e-02, -2.03654e-02, -2.17370e-02
+
+#
+# photons with pT < pT_cut and well separated from electrons 
+# will be included as part of the recoil system and later used
+# in the final missing Et calculation
+# 
+merge_fsr_photons_recoil: TRUE
+
+#
+# photons with pT > pT_cut and well separated from electrons 
+# will be treated as separate EM clusters, electron energy smearing will be applied 
+# and also be used in the final missing Et calculation
+# 
+# Decided to turn it off 04/16/2007 since we will only correct the electron(s) from 
+# W or Z decays in data
+#
+merge_fsr_photons_met: FALSE
+
+#
+# output file
+#
+output_file_wen: result_wen.root
+output_file_zee: result_zee.root
+
+# option to make ROOT file containing Z info for fitting
+# for most cases, you only need to set makeROOTfile_for_ZFIT or
+#    makeROOTfile_for_WFIT to true 
+makeROOTfile_for_ZFIT: FALSE
+makegenROOTfile_for_ZFIT: FALSE 
+
+# option to make ASCII file containing Z info for detector studies
+makeASCIIfile_for_detector: FALSE
+
+#option to make ROOT file containing W info for fitting
+makeROOTfile_for_WFIT: FALSE
+makegenROOTfile_for_WFIT: FALSE 
+
+#
+# instantaneous luminosity profile measured from W/Z data
+# if use METSmear_Option==3, the luminosity will be picked up from the ZeroBias library
+# otherwise, wz_epmcs randomly picks up one luminosity according to
+# this distribution and use it as the luminosity for this MC event
+#
+instlumi_file: ../geant/InstLumi_WZ_Geant.C
+
+#
+# Electron parameters for CC
+# Physics eta, phi resolution means track direction resolution
+# Detector eta, phi resolution means calorimeter position resolution
+#
+EtaResolution_Phys_CC:    0.002
+PhiResolution_Phys_CC:    0.0004
+EtaResolution_Det_CC:     0.007
+PhiResolution_Det_CC:     0.007
+Scale_CC:                 1.001514
+Offset_CC:                -0.087
+# for ResolutionSmear_Option=2, sampling_CC will not be used
+# we will use Sampling_CC1, Sampling_CC2 and Sampling_CCexp for sampling
+# but we still use Contant_CC and Noise_CC here
+Sampling_CC:              0.30 
+Constant_CC:              0.0
+Noise_CC:                 0.29
+
+#
+# Options for smearing calorimeter resolution
+# ResolutionSmear_Option = 0, will use Sampling_CC/sqrt(E)
+# ResolutionSmear_Option = 1, will use Sampling_CC/sqrt(E_t)
+# ResolutionSmear_Option = 2, will use Jan's smearing function: 
+#    S = (Sampling_CC1 + Sampling_CC2/sqrt(E)) * exp(Sampling_CCexp/sin(theta)) / exp(Sampling_CCexp)
+#    and then use S/sqrt(E)
+# ResolutionSmear_Option = 3, in principle like option 2, but all the 
+#    parameters in option 2 are taken from a (hard-coded) parameterisation 
+#    as a function of only one parameter: the number of fudge radiation 
+#    lengths.
+ResolutionSmear_Option:     2
+
+# parameters for Jan's smearing function
+Sampling_CC1:     0.152035
+Sampling_CC2:     0.151266
+Sampling_CCexp0:   1.39247
+Sampling_CCexp1:   1.45474
+Sampling_CCexp2:   10.3506
+
+# use Crystall Ball response function in CC ??
+CrackCBsim:          false
+CrackCB_crlimit:     0.2
+CrackCB_n:           10.0
+CrackCB_alphaOffset: 1.5
+CrackCB_alphaSlope:  7.0
+
+# control flag to simulate electron energy below electron window
+# IF EnergySim_ElecWindowOption = 0, Energies below electron window is divided into two parts:
+#       \delta E = UParaCorr/sin(theta) + Delta_ZSUP (UE contribution and zero-suppression effect)
+#  where UParaCorr is described in the recoil system simulation
+#  and Delta_ZSUP is zero-suppression effect on tower energy measurement and real electron energy measurement
+#
+# IF EnergySim_ElecWindowOption = 1, use the method proposed by Jan and measured by Feng
+#   take the energy difference between single energy electron without and with non-zero-suppressed ZB overlay
+#   (offline zero-suppression applied for both samples), and parameterize the energy difference as a function 
+#   of underlying event energy below electron window. In PMCS, we first read the underlying event below electron
+#   window from UParaCorr_CC_Hist file, and then use the parameterization to get the corrected energy, to do 
+#   it this way, UE and zero-suppression effect are combined together
+#
+# The code always uses EnergySim_ElecWindowOption=0 for EC electrons EVEN IF EnergySim_ElecWindowOption is set to 1
+#
+EnergySim_ElecWindow:     TRUE
+EnergySim_ElecWindowOption:  1
+
+# only used for EnergySim_ElecWindowOption = 1
+# the energy difference is parameterized as y = p0 + p1*log(x) + p2*log(x)*log(x)
+# for 10 eta bins
+P0_EnergyDiff_Electron_With_Without_ZBOverlay: 0.6442, 0.6584, 0.6894, 0.3977, 0.5456, 0.2786, 0.4195, 0.7877, 0.3514, 0.4152, 0.9174
+P1_EnergyDiff_Electron_With_Without_ZBOverlay: 0.1177, 0.1467, 0.1796, -0.0138, 0.1053, -0.0785, -0.0057, 0.2220, -0.0381, -0.0043, 0.2939
+P2_EnergyDiff_Electron_With_Without_ZBOverlay: 0.0061, 0.0108, 0.0149, -0.0136, 0.0058, -0.0211, -0.0120, 0.0189, -0.0146, -0.0102, 0.0292
+EnergyDiff_FirstBin: 0.1925, 0.1653, 0.1500, 0.0904, 0.1522, 0.1115, 0.1160, 0.1367, 0.1405, 0.1655, 0.1574
+
+# true electron energy that leaks outside the electron cone (GeV)
+# not applied on electron energy corrections, only applied on recoil system
+# for the CC we have three models:
+#   1: one number for the average energy leaked per electron
+#   2: one number for the average transverse energy leaked per electron
+#   3: Jan's more detailed parameterisation
+ENERGY_OUTCONE_MODEL_Elec_CC:  1
+ENERGY_OUTCONE_Elec_CC:        0.084
+ENERGY_OUTCONE_Elec_EC:        0.
+ENERGY_OUTCONE_JanModel_FileName_Elec_CC:  ../geant/ELEAK_model_v1.root
+
+# overall ZSUP effects on cell energy measurement and real electron energy (GeV)
+# it decreases the measured electron energy
+#
+# set ZSUPCorrOption = 0, will use average value
+# otherwise it will use the eta parameterization for CC region, still use the average value for EC region
+# the parameterization is: a + b * eta + c * eta * eta
+#
+ZSUPCorrOption:             1
+# -N * ZSUP_UE + ZSUP_Elec
+Delta_ZSUP_CC:              -0.611
+Delta_ZSUP_EC:              0.
+ZSUP_CC_V_ElecEta_Parameters: -0.6956, -0.0123, 0.0579 
+
+#
+# E-loss corrections are derived from zero-suppressed single energy electrons (no MB overlay)
+# so the zero-suppression effect on the electron has been PARTIALLY taken into account during E-loss correction
+# the zero-suppression effect for single energy electrons with and without MB overlay are different
+# the real electrons observed in the detector always have MB overlay
+#
+ZSUP_CC_Elec_NoMBOverlay:  -0.733
+
+#
+# calorimeter non-linearity and average pT of electrons from Z decay
+# should I use average electron pT or electron energy ???
+# 
+# Energy smearing function: 
+#    E_smear1 = Scale_CC*E_true + Offset_CC
+#    E_smear2 = E_smear1 + Energy_nonlineariry*(E_smear1-ZElec_AvePt)
+#    E_smear = E_smear2 + energy resolution term
+#
+Energy_Nonlinearity_CC:      0.0
+ZElec_AvePt_CC:              43.0
+
+Energy_Nonlinearity_EC:      0.0
+ZElec_AvePt_EC:              43.0
+
+#
+# Electron parameters for EC
+# Physics eta, phi resolution means track direction resolution
+# Detector eta, phi resolution means calorimeter position resolution
+#
+EtaResolution_Phys_EC:    0.003
+PhiResolution_Phys_EC:    0.0004
+EtaResolution_Det_EC:     0.006
+PhiResolution_Det_EC:     0.006
+Scale_EC:                 0.9990
+Offset_EC:                0.5744
+Noise_EC:                 0.0
+# for ResolutionSmear_Option=2, this parameter will not be used
+Sampling_EC:              0.196
+Constant_EC:              0.004
+
+# parameters for Jan's smearing function
+Sampling_EC1:     0.206
+Sampling_EC2:     0.
+Sampling_ECexp0:   0.
+Sampling_ECexp1:   0.
+Sampling_ECexp2:   0.
+
+# simulate the response of electron vs track phi mod in CC
+simulate_elecResponse_V_TrkPhiMod:   false
+# average E/p value for events with 0.1<cal PhiMod<0.9, need this to scale down the elecResponse curve in elecEOverP_V_TrkPhiMod_FileName
+average_EOverP:                      0.998 
+elecEOverP_V_TrkPhiMod_FileName:     ../geant/EOverP_V_TrkPhiMod.C
+
+#
+# this method overlays Z recoil from data or MC, and will do hard component and soft component together
+# if read_recoil_file is set to TRUE, it will not read Zerobias and Minbias library files
+# if IsRecoilpTBinningSmeared is set to TRUE, this method will correct for discrepancies between generator
+# and smeared boson pT, when binning the recoil library
+#
+make_recoil_file:   FALSE
+read_recoil_file:   FALSE
+IsRecoilpTBinningSmeared:  TRUE
+isCConly: TRUE
+recoilRootFileName: recoilhists.root
+instlumi_runNo_file: ../geant/instlumi_runNo.C
+num_recoil_pT_bins: 156
+recoil_pT_bin_edges: 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 4.25, 4.5, 4.75, 5.0, 5.25, 5.5, 5.75, 6.0, 6.25, 6.5, 6.75, 7.0, 7.25, 7.5, 7.75, 8.0, 8.25, 8.5, 8.75, 9.0, 9.25, 9.5, 9.75, 10.0, 10.25, 10.5, 10.75, 11.0, 11.25, 11.5, 11.75, 12.0, 12.33, 12.66, 13.0, 13.33, 13.66, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5, 21.0, 21.5, 22.0, 22.5, 23.0, 23.5, 24.0, 24.5, 25.0,25.5, 26.0, 26.5, 27.0, 27.5, 28.0, 28.5, 29.0, 29.5, 30.0, 30.5, 31.0, 31.5, 32.0, 32.5, 33.0, 33.5, 34.0, 34.5, 35.0,35.5, 36.0, 36.5, 37.0, 37.5, 38.0, 38.5, 39.0, 39.5, 40.0, 40.5, 41.0, 41.5, 42.0, 42.5, 43.0, 43.5, 44.0, 44.5, 45.0, 45.5, 46.0, 46.5, 47.0, 47.5, 48.0, 48.5, 49.0, 49.5, 50.0, 51.0, 52.0, 53.0, 54.0, 55.0, 56.0, 57.0, 58.0, 59.0, 60.0, 62.0, 64.0, 66.0, 68.0, 70.0, 72.0, 74.0, 76.0, 78.0, 80.0, 84.0, 88.0, 92.0, 96.0, 100.0, 105.0, 110.0, 120.0, 160.0
+
+#
+# Hadronic parameters
+# Momentum_SmearOption_HAD = 0 will use pT_smear = Scale_HAD * pT_true + Offset_HAD
+#                          = 1 will use a bifurcated function and use Scale_HAD and Offset_HAD as two input parameters
+#                          = 2 will use pT_smear = Scale_HAD_A + Scale_HAD_B * Log(pT_true) + Scale_HAD_C * Log(pT_true) * Log(pT_true)
+#
+
+Momentum_SmearOption_HAD:  3
+
+# only used for Momentum_SmearOption_HAD=0
+Scale_HAD:           1.
+Offset_HAD:          0.
+
+# only used for Momentum_SmearOption_HAD=1
+Scale_HAD_bifurcate_A:     1.
+Scale_HAD_bifurcate_B:     0.
+Scale_HAD_bifurcate_Tau:   7.48405
+Relsampling_HAD_bifurcate_A:  1.
+Relsampling_HAD_bifurcate_B:  0.
+EtFlowFudge:                  0
+RelRespTrans:                 1.
+RelResnTrans:                 1.
+RelTauTrans:                  1.5
+Relconst_HAD_bifurcate:       0.
+Relphi_HAD_bifurcate_A:       1.
+Relphi_HAD_bifurcate_B:       0.
+RelconstPhi_HAD_bifurcate:    0.
+
+Use_RecoilSmear_LumiDep:               false
+Use_EtFlowFudge_LumiDep:               false
+Use_alpha_mb_LumiDep:                  false
+
+
+#NOTE: Must set path as HRLibraryRootPath /rooms/wmass/jenny/MC/HRLibrary
+#NOTE: This section currently requires that user run only run2b3 OR run2b4 (see flags at start of file) because of memory issues.  Code exits if both are true.
+HardRecoil_FileName: HR_MC_withHV_NEW_morezpt_Run3.root
+HardRecoil_FileName_run4: HR_MC_withHV_NEW_morezpt_Run4.root
+
+HardRecoil_pTbins: 52
+HardRecoil_pTbins_edges: 0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0, 33.0, 36.0, 39.0, 42.0, 45.0, 49.0, 55.0, 70.0, 100.0, 500.0
+HardRecoil_zbsetmodel: true
+HardRecoil_pTbinsSET: 15
+HardRecoil_pTbinsSET_edges: 0.0, 1.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 15.0, 20.0, 25.0, 30., 40.0, 50.0, 70.0, 1000.0
+
+
+HardRecoil_lumibins: 7
+HardRecoil_lumibins_edges: 0.0, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0, 30.0 
+HardRecoil_dphibins: 6
+HardRecoil_dphibins_edges: 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 7.0 
+
+#each column is a zpt bin
+HardRecoil_zphirespbins: 16
+HardRecoil_zphirespbins_edges: 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 15.0, 20.0, 30., 1000.0
+
+HardRecoil_zphiresp_Mean:       2.38014 0.920448 0.615771 0.513329 0.480057 0.47857 0.486527 0.496291 0.505474 0.513423 0.520377 0.527459 0.53826 0.557182 0.583601 0.634998
+HardRecoil_zphiresp_ParameterA: 2.38579 0.923015 0.614859 0.512379 0.478773 0.479812 0.485022 0.496549 0.502942 0.512673 0.521247 0.52536 0.539312 0.557323 0.583199 0.634615
+HardRecoil_zphiresp_ParameterB: 0.00445057 0.00710014 0.0135291 0.014413 0.0166363 0.0125208 0.0155151 0.0134396 0.0154122 0.0134928 0.00858106 0.013326 0.00830536 0.00795463 0.00748321 0.00510814
+HardRecoil_zphiresp_ParameterC: -0.0029095 -0.00416521 -0.00637959 -0.00680805 -0.00809794 -0.00655725 -0.00755235 -0.0068625 -0.00724153 -0.00660569 -0.00458596 -0.00629994 -0.00457458 -0.00409689 -0.00370962 -0.00250717
+HardRecoil_zphiresp_ParameterD: 0.000289555 0.000482345 0.000682565 0.000729482 0.000895779 0.000736959 0.000840741 0.000771015 0.000796478 0.000730279 0.000524331 0.00069537 0.000532859 0.000464059 0.000414646 0.000279498
+
+
+HardRecoil_zphiresp_Mean_run4:       2.41485 0.936438 0.627214 0.523231 0.490268 0.48678 0.495424 0.505842 0.514764 0.522125 0.529645 0.53617 0.546245 0.564551 0.589536 0.639529
+HardRecoil_zphiresp_ParameterA_run4: 2.39228 0.936273 0.62419 0.518331 0.485582 0.481826 0.490894 0.499106 0.511442 0.516244 0.525442 0.529873 0.543842 0.560603 0.586289 0.638344
+HardRecoil_zphiresp_ParameterB_run4: 0.0476108 0.0130944 0.0176833 0.0201925 0.0193617 0.0198072 0.0188566 0.0222348 0.0177494 0.0187278 0.0173636 0.018472 0.0132691 0.0145272 0.0107916 0.00558326
+HardRecoil_zphiresp_ParameterC_run4: -0.0174204 -0.00571485 -0.0076103 -0.00833845 -0.00808004 -0.00810402 -0.00780399 -0.00914942 -0.00773328 -0.00747499 -0.00752906 -0.00731753 -0.00576374 -0.00616057 -0.0044253 -0.00225312
+HardRecoil_zphiresp_ParameterD_run4: 0.00163343 0.000550913 0.000767465 0.000825092 0.000808941 0.000795791 0.000773362 0.000923628 0.000795057 0.000732078 0.000785733 0.000717897 0.000589569 0.000634973 0.000444676 0.00021438
+
+
+#Version from March 2013
+#NOTE: Must set path as HRLibraryRootPath /rooms/wmass/jenny/MC/HRLibrary
+#HardRecoil_FileName: HardRecoil_Resp_vs_DPhi_032213.root
+#HardRecoil_pTbins: 34
+#HardRecoil_pTbins_edges: 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0, 35.0, 45.0, 55.0, 70.0, 100.0
+#HardRecoil_zbsetmodel: false
+
+#Prelimiary version (November 2013) without full stats or extra zpt bins or extra lumi bin.  Not compatible with current code requirement of two files for zbsetmodel
+#NOTE: Must set path as HRLibraryRootPath /rooms/wmass/jenny/MC/HRLibrary
+#HardRecoil_FileName: HR_MC_noHV_Run3.root
+#HardRecoil_pTbins: 46
+#HardRecoil_pTbins_edges: 0.0, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 4.5, 5.0, 5.5, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0, 33.0, 36.0, 39.0, 42.0, 45.0, 49.0, 55.0, 70.0, 100.0, 500.0
+#HardRecoil_zbsetmodel: true
+#HardRecoil_pTbinsSET: 15
+#HardRecoil_pTbinsSET_edges: 0.0, 1.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 15.0, 20.0, 25.0, 30., 40.0, 50.0, 70.0, 1000.0
+#
+#HardRecoil_lumibins: 6
+#HardRecoil_lumibins_edges: 0.0, 2.0, 3.0, 4.0, 5.0, 6.0, 30.0 
+#HardRecoil_dphibins: 6
+#HardRecoil_dphibins_edges: 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 7.0 
+#
+#each column is a zpt bin
+#HardRecoil_zphirespbins: 16
+#HardRecoil_zphirespbins_edges: 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 15.0, 20.0, 30., 1000.0
+#
+#HardRecoil_zphiresp_Mean:       2.409 0.934359 0.623862 0.520526 0.486794 0.484874 0.491468 0.503032 0.511012 0.518824 0.525392 0.533304 0.543008 0.563333 0.588358 0.639349
+#HardRecoil_zphiresp_ParameterA: 2.3682 0.930259 0.624297 0.519894 0.488472 0.485755 0.489177 0.501092 0.508966 0.517195 0.525234 0.531542 0.544407 0.563247 0.586034 0.640272
+#HardRecoil_zphiresp_ParameterB: 0.0424291 0.0135606 0.0122028 0.0126041 0.0131188 0.0113372 0.0168989 0.0171554 0.0148311 0.0134363 0.0127166 0.0135818 0.00635142 0.00895629 0.0104361 0.00303779
+#HardRecoil_zphiresp_ParameterC: -0.013021 -0.00605574 -0.00598003 -0.00633782 -0.0069369 -0.00600407 -0.00832526 -0.0085095 -0.00708318 -0.00633779 -0.00654062 -0.00666368 -0.00368538 -0.00450579 -0.00473113 -0.00174103
+#HardRecoil_zphiresp_ParameterD: 0.00119712 0.000658587 0.000640365 0.000715427 0.000778526 0.00068379 0.000946187 0.000966164 0.000782681 0.000688487 0.000744798 0.000752132 0.000437231 0.000503147 0.000512838 0.000200762
+
+
+# To propagate uncertainties to the W mass
+#
+# It will generate templates for Mt MET and pT
+# for n (amplitude) sigmas in the direction
+# of a particular eigenvector
+#
+# Eigenvectors 1, 2, 3: scale
+# Eigenvectors 4, 5   : resolution
+#
+WMass_Recoil_Templates_Shift:               false
+WMass_Recoil_Templates_Varying_Eigenvector: 1
+WMass_Recoil_Templates_Varying_Amplitude:   1.0
+WMass_Recoil_Templates_Varying_Lumi_Bin: 0
+Scale_Cov_Matrix_1:  1.0000000  0.000000  0.000000
+Scale_Cov_Matrix_2:  0.0000000  1.000000  0.000000
+Scale_Cov_Matrix_3:  0.0000000  0.000000  1.000000
+Resolution_Cov_Matrix_1:  1.000000  0.000000
+Resolution_Cov_Matrix_2:  0.000000  1.000000
+
+# only used for Momentum_SmearOption_HAD=2
+Scale_HAD_A:           1.
+Scale_HAD_B:           0.
+Scale_HAD_C:           0.
+
+#
+# True recoil phi direction smearing (based on J. Stark's talk 08/30/2006)
+# sigma(phi) = A/pT + B, set both of them to 0 will turn off the smearing
+#
+phi_smear_true_recoil_A:    1.
+phi_smear_true_recoil_B:    0.
+
+#
+# hadronic resolution
+#
+Sampling_HAD:        1.
+Constant_HAD_CC:     0.
+
+# underlying event effect on missing Et measurement
+# METSmear_Option=0, just use a simple gaussian function
+#     with width=underlying to do smearing
+# METSmear_Option=1, use METx-METy distribution from minbias events
+#     where the instantaneous luminosity profile is the same as the profile from W/Z events
+# METSmear_Option=2, use met resolution measured from different luminosity regions,
+#    MetX and MetY resolutions are parameterized with two gaussian functions,
+#    the width of one gaussian function is fixed to 3.5, and the other one is allowed to change,
+#    the contribution of the second gaussian function is 20% of the contribution from the first gaussian function
+#               exp(-(x-mean)^2/(2*sigma*sigma)) + 0.2 * exp(-(x-mean)^2/(2*3.5*3.5))
+# METSmear_Option=3, use metx and mety information from the ascii files provided by Jan
+#    separately for minbias and zerobias events
+#
+
+METSmear_Option:     3
+underlying:          3.02
+metxmety_file:       ../input/metx_mety.C
+
+InstLumi_Bins:       0.2, 0.25, 0.3, 0.325, 0.355, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.775, 0.85, 1.0, 1.25
+MetX_mean:           0.23999, 0.26315, 0.25741, 0.26064, 0.27580, 0.27773, 0.28500, 0.27675, 0.28600, 0.26968, 0.28118, 0.26800, 0.27480, 0.26493, 0.27236, 0.23339, 0.25823
+MetX_sigma:          1.68422, 1.71534, 1.72660, 1.72822, 1.72920, 1.76032, 1.77508, 1.78147, 1.83578, 1.85404, 1.86003, 1.84662, 1.91956, 1.95875, 2.01863, 2.10949, 2.44116
+MetY_mean:           0.19796, 0.18555, 0.14184, 0.12036, 0.12649, 0.09512, 0.09088, 0.08813, 0.08787, 0.08063, 0.07286, 0.08040, 0.06692, 0.03120, 0.04375, 0.01470, 0.11234
+MetY_sigma:          1.62410, 1.66161, 1.67839, 1.67341, 1.69771, 1.70728, 1.74255, 1.75019, 1.78407, 1.79581, 1.79712, 1.81646, 1.87552, 1.91943, 1.98792, 2.08976, 2.44951
+
+# we need to make sure that W/Z events and minbias events have the 
+# same event multiplity, not just instantaneous luminosity profile
+# which means: sigma*t*L_mb/(1-e^(-sigma*t*L_mb)) = 1 + sigma*t*L_w
+# the solution to this equation can be parameterized as:
+#     L_mb = A0 + A1*Lw + A2*pow(Lw, 2) + A3*pow(Lw, 3) + A4*pow(Lw, 4)
+# A0, A1, A2, A3 and A4 are listed below
+Factors_Lw_Lmb:   0.00038, 1.999465, -0.013143, 0.000154, -0.000001
+
+#
+# scale factor to reflect the difference between underlying event contribution below
+# electron window and the real minbias events
+# only used for METSmear_Option = 0, 1, 2
+#
+alpha_mb_overlay:  1.0
+
+#
+# minbias and zerobias library files
+#
+#MBLibrary_file:  /rooms/wmass/DATA/MBZBLibrary/Library_MBnvtxLE1_SETfudged5bins_SubtractBifurcate7mod3.txt
+##Use relative path to path defined by ZBLibraryRootPath and MBLibraryRootPath
+#MBLibrary_file: hengne/MC/MBZBLibrary/Library_MCMB_SETfudged5bins_SubtractBifurcate7mod3_deKinked_phishift.txt
+#MBLibrary_file: Library_MCMB_SETfudged5bins_SubtractBifurcate7mod3_deKinked_phishift.txt
+#ZBLibrary_file_Run34: binary_library_MC_Run2b34_raw2sim_npv_sampled.root
+#ZBLibrary_file_Run3: binary_library_MC_Run2b3_raw2sim_npv_sampled.root
+#ZBLibrary_file_Run4: binary_library_MC_Run2b4_raw2sim_npv_sampled.root
+#ZBLibrary_file_Run34: binary_library_MC_runIIb34_killcell_DQ.root
+#ZBLibrary_file_Run3: binary_library_MC_runIIb3_killcell_DQ.root
+#ZBLibrary_file_Run4: binary_library_MC_runIIb4_killcell_DQ.root
+#ZBLibrary_file_is_binary: true
+#MBLibrary_file_lines: 62275	
+#ZBLibrary_file_lines: 1779000
+
+
+#MBLibraries may only be run with run3 true, run4 false OR run3 false, run4 true
+MBLibrary_file_Run3: mblibtest_default_Run3_nozeroset_newmax_setpow0.60_small_smaller_zerofrac0.06.txt
+MBLibrary_file_Run4: mblibtest_default_Run4_nozeroset_newmax_setpow0.60_small_smaller_zerofrac0.06.txt
+
+ZBLibrary_file_Run34: Lib_RunIIb34_21Msinglenu_killcell_dq.root
+ZBLibrary_file_Run3: Lib_RunIIb3_21Msinglenu_killcell_dq.root
+ZBLibrary_file_Run4: Lib_RunIIb4_21Msinglenu_killcell_dq.root
+ZBLibrary_file_is_binary: true
+
+MBLibrary_file_lines_Run3: 2069316
+MBLibrary_file_lines_Run4: 2235871
+
+#
+# parameter used to reflect the difference between underlying events
+# for W events and real minbias events
+# only used for METSmear_Option == 3
+#
+# NOTE: we actually scale by sqrt(alpha_mb) and sqrt(alpha_zb) inside the code
+#
+alpha_mb_Run3:    0.
+alpha_mb_Run4:    0.
+alpha_mb_trans:  -1.0
+alpha_zb:    0.
+
+# Data file for Mikolaj's SET model
+SETmodelDatafile: ../geant/ScalarEt_input_model=3.root
+
+#
+# Fudge factor to describe the increase in "SET response" when the three
+# recoil components (ZB, underlying event and hard recoil) are put together.
+#
+alpha_SETresponse:   1.0
+SETresponse_Model: 2
+
+#
+# electron cluster phi shift within module
+# because of our EM reconstruction algorithm, non-fiducial electrons may 
+# be reconstructed in the fiducial region
+#
+# Added PhiModEfficiency control parameter, if it is set to true
+#   for events pass phi crack efficiency, the electron detector phi will be shifted;
+#   for events not pass phi crack efficiency, the electron detector phi will be modified so that
+#   to have fmod(detphi_smear*16/TMath::Pi(), 1.0)==0, and later this electron will be removed
+#   by PMCSEMObj::IsCC function 
+#
+PhiModCorrection: TRUE
+PhiModEfficiency: TRUE
+phimodshift_file: ../geant/presel_deltaphi_scatter_CC.C
+# use Jan's modified phi crack efficiency
+phicrackeff_file: ../geant/hPhiCrackEff_fudge060.C    
+#phicrackeff_file: ../geant/hPhiCrackEff.C
+
+# study phimod efficiency by removing cuts at 0.1 and 0.9 and binning mass, etc in phimod
+StudyPhiMod:	FALSE
+
+#
+# Efficiency histograms
+#
+# TrigFrac_V* are the fractions of integrated luminosity for different trigger lists
+# The sum of all TrigFrac_V* should be 1.
+# TrigEff_Smear_Option = 0 will read the histograms
+# TrigEff_Smear_Option = 1 will use the parameterized function (vs pT)
+# DO NOT NEED TRIGGER EFFICIENCY FOR TUNING GEANT MC
+#
+TrigEff_Smear_Option:  1
+
+#
+TrigFrac_ListOne:   0.25
+TrigFrac_ListTwo:   0.25
+TrigFrac_ListThree: 0.25
+TrigFrac_ListFour:  0.25
+
+# use histograms
+TrigFrac_V8_10:   0.20
+TrigFrac_V11:     0.20
+TrigFrac_V12:     0.20
+TrigFrac_V13:     0.20
+TrigFrac_V14:     0.20
+trigeff_V8_10_file: ../p17/v8_10.C
+trigeff_V11_file:   ../p17/v11.C
+trigeff_V12_file:   ../p17/v12.C
+trigeff_V13_file:   ../p17/v13.C
+trigeff_V14_file:   ../p17/v14.C
+
+#
+# Turn-on curve parameterization: 0.5 * eff_p2 * (1. + TMath::Erf((pT-eff_p0)/(sqrt(2)*eff_p1)))*(1. + TMath::Erf((pT-eff_p4)/(sqrt(2)*eff_p3)))
+# for ListOne, ListTwo, ListThree
+# Turn-on curve parameterization: 0.5*p2*(1+Erf((x-p0)/(sqrt(2)*p1)))
+# for v8-10, v11, 12, v13 and v14
+
+TrigEff_P0:   5., 5., 5., 5.
+TrigEff_P1:   1., 1., 1., 1.
+TrigEff_P2:   0.5, 0.5, 0.5, 0.5
+TrigEff_P3:   1., 1., 1., 1.
+TrigEff_P4:   0., 0., 0., 0.
+
+#
+# use the following switch to control whether you want to study systematic uncertainty
+# due to trigger efficiency (only when TrigEff_Smear_Option == 1)
+#
+Study_TrigEff_Systematics: FALSE
+
+TrigEff_P0_Uncertainty:  0, 0, 0, 0
+TrigEff_P1_Uncertainty:  0, 0, 0, 0
+TrigEff_P2_Uncertainty:  0, 0, 0, 0
+TrigEff_P3_Uncertainty:  0, 0, 0, 0
+TrigEff_P4_Uncertainty:  0, 0, 0, 0
+
+# simulate pT dependence of all selection efficiencies
+simulate_pT_dependence:   TRUE
+
+# preselection efficiency
+preseff_file: ../geant/presel_eff_deteta_Geant.C
+
+# EMID efficiency
+# if simulate_pT_dependence=true, the efficiency is parameterized as a function of physics eta and pT
+# parameters specified by CCideff_pTphyEta_ParameterA and CCideff_pTphyEta_ParameterB
+ideff_file: ../geant/hmtrk_eff_deteta_Geant.C
+CCideff_pTphyEta_ParameterA: 0.960752, 0.935628, 0.956475, 0.941551, 0.966146, 0.944593, 0.951234, 0.954544, 0.941166, 0.949688, 0.949117, 0.953432, 0.995572
+CCideff_pTphyEta_ParameterB: 0.00617872, 0.0127849, 0.00693006, 0.0107674, 0.00404146, 0.00992553, 0.00726131, 0.00660748, 0.0103668, 0.00862918, 0.00969189, 0.0089545, -0.00305014
+
+CCcluseff_pTphyEta_ParameterA: 0.816389, 0.666761, 0.721002, 0.755523, 0.828329, 0.809941, 0.754901, 0.770943, 0.791455, 0.766115, 0.713922, 0.776331, 0.728021
+CCcluseff_pTphyEta_ParameterB: -0.0110016, 0.0315309, 0.0186728, 0.0109008, -0.00943125, -0.00418324, 0.0112516, 0.00748059, 0.000990698, 0.0064425, 0.0188134, -0.00196118, 0.0130963
+
+# if simulate_pT_dependence = false, trkeff_file_deteta only applied for EC electrons and trkeff_file only applied for CC electron 
+# if simulate_pT_dependence = true, besides these two files, we also applied pT dependence of track matching efficiency on CC electrons
+# using numbers specified by CCtrkeff_pTphyEta_ParameterA and CCtrkeff_pTphyEta_ParameterB
+trkeff_file:         ../geant/trkEffVsEtaZvtx_36bin_noTrkPtCut_Geant.C
+trkeff_file_EC:      ../geant/trkEffVsEtaZvtx_Geant_EC.C
+simulateTrkVtxDepEC: TRUE
+trkeff_file_deteta:  ../geant/trkEffVsDetEta_Geant.C   
+
+CCtrkeff_pTphyEta_ParameterA: 0.584072, 0.83542, 0.872731, 0.846316, 0.829217, 0.855408, 0.826963, 0.75526, 0.790673, 0.848985, 0.891851, 0.886807, 0.688451
+CCtrkeff_pTphyEta_ParameterB: 0.0723324, 0.03095, 0.016932, 0.00879861, 0.00978266, -0.00030046, -0.00387737, 0.02767, 0.0208915, 0.0110261, 0.0150269, 0.0171533, 0.0528975
+
+# can also include corrections to pT-dependence from Tag/Probe studies:
+#
+# master switches
+apply_HMxeff_ratio:   FALSE
+apply_TRKeff_ratio:   FALSE
+# this is needed because of our messy accounting of efficiencies (factorisation of different efficiencies)
+eff_ratios_Z_includeECtag: FALSE
+eff_ratios_W_includeECtag: TRUE
+# which function ?
+eff_ratios_function: 0
+#
+# and finally the parameterisations
+#
+#hmx eff ratio parameterization
+#hmx cc/ec tag
+CCECtag_CChmxeffratio_pTphyEta_ParameterA:-100.791, -1.27245, -1.22631, 2.2989, 2.43972, 0.672516, 3.00552, 0.606271, 0.453734, 1.92904, 0.668124, 0.587131, 0.161892, 0.118705, 7.58946
+CCECtag_CChmxeffratio_pTphyEta_ParameterB:9.69763, 0.243493, 0.221619, -0.150618, -0.160711, 0.0187887, -0.213826, 0.0452772, 0.0518651, -0.0996315, 0.0314719, 0.0375917, 0.0961385, 0.127015, -0.820492
+CCECtag_CChmxeffratio_pTphyEta_ParameterC:-0.171989, -0.00478889, -0.0041212, 0.00310304, 0.0032405, -0.000122432, 0.00415552, -0.000992179, -0.000949247, 0.00194472, -0.000552001, -0.000667705, -0.00205507, -0.00314352, 0.0186773
+CCECtag_CChmxeffratio_pTphyEta_ParameterD:0.00134529, 4.09739e-05, 3.38291e-05, -2.73875e-05, -2.81783e-05, -6.492e-07, -3.50236e-05, 9.63207e-06, 7.93538e-06, -1.64302e-05, 4.20113e-06, 5.40279e-06, 1.91309e-05, 3.22664e-05, -0.000183802
+CCECtag_CChmxeffratio_pTphyEta_ParameterE:-3.91645e-06, -1.28702e-07, -1.03216e-07, 8.83166e-08, 8.97174e-08, 6.57815e-09, 1.0834e-07, -3.45609e-08, -2.54679e-08, 5.08597e-08, -1.15806e-08, -1.66517e-08, -6.51909e-08, -1.17517e-07, 6.60489e-07
+#
+#hmx cc tag
+CCtag_CChmxeffratio_pTphyEta_ParameterA:-54.2586, -0.683167, -0.09226, 2.26235, 1.2429, -0.297144, 6.31976, -2.73557, -2.27894, 2.77384, -0.819391, 0.640182, 1.17826, 0.232111, -2.77049
+CCtag_CChmxeffratio_pTphyEta_ParameterB:5.25212, 0.180534, 0.101691, -0.150444, -0.0582672, 0.0874735, -0.561296, 0.379931, 0.305931, -0.192396, 0.178605, 0.0303759, -0.0168655, 0.11307, 0.275215
+CCtag_CChmxeffratio_pTphyEta_ParameterC:-0.0929942, -0.00353911, -0.00175358, 0.00315643, 0.00159986, -0.000949095, 0.0108506, -0.00721597, -0.00534128, 0.00379377, -0.00326533, -0.000493649, 0.000247183, -0.00283352, -0.00311797
+CCtag_CChmxeffratio_pTphyEta_ParameterD:0.000726844, 3.00734e-05, 1.3198e-05, -2.82648e-05, -1.65522e-05, 2.95739e-06, -9.13857e-05, 6.06004e-05, 4.14015e-05, -3.23973e-05, 2.62822e-05, 3.60227e-06, -1.28223e-06, 2.9327e-05, 8.76063e-06
+CCtag_CChmxeffratio_pTphyEta_ParameterE:-2.11611e-06, -9.35116e-08, -3.63571e-08, 9.23377e-08, 5.90217e-08, 3.87995e-09, 2.83697e-07, -1.89744e-07, -1.20363e-07, 1.01499e-07, -7.84617e-08, -9.89694e-09, 1.45542e-09, -1.07485e-07, 2.49069e-08
+#
+#trk eff ratio parameterization
+#trk cc/ec tag
+CCECtag_CCtrkeffratio_pTphyEta_ParameterA:-303.401, 19.0263, 2.04039, 5.39194, 3.65997, 2.04269, -1.9256, -8.66944, -3.3653, 1.17587, 6.85404, 4.28111, 0.609777,-12.5476, -76.4711
+CCECtag_CCtrkeffratio_pTphyEta_ParameterB:29.3355, -1.88443, -0.11689, -0.464406, -0.283502, -0.124151, 0.254826, 1.00187, 0.447697, -0.0465144, -0.632724, -0.324912, 0.0410573, 1.56075, 7.84428
+CCECtag_CCtrkeffratio_pTphyEta_ParameterC:-0.525536, 0.0364604, 0.00243244, 0.00908026, 0.00560949, 0.00273642, -0.00386754, -0.0191665, -0.0083126, 0.00150049, 0.0125656, 0.00595309, -0.000820659, -0.032903, -0.149465
+CCECtag_CCtrkeffratio_pTphyEta_ParameterD:0.00415267, -0.000309091, -2.20528e-05, -7.79138e-05, -4.84825e-05, -2.59142e-05, 2.38463e-05, 0.000160925, 6.69773e-05, -1.7694e-05, -0.000108661, -4.80885e-05, 7.05729e-06, 0.00030122, 0.00126316
+CCECtag_CCtrkeffratio_pTphyEta_ParameterE:-1.21912e-05, 9.70293e-07, 7.35971e-08, 2.47551e-07, 1.54192e-07, 8.87706e-08, -4.81005e-08, -5.01254e-07, -1.99068e-07, 6.98774e-08, 3.45754e-07, 1.45043e-07, -2.17965e-08, -1.01233e-06, -3.97818e-06
+#
+#trk cc tag
+CCtag_CCtrkeffratio_pTphyEta_ParameterA:-419.27, 16.4307, 2.53193, 2.31815, -4.53321, -2.93674, 7.21492, -3.32458, -5.37821, -0.15465, 4.65564, -0.0434217, -4.06056, -11.5205, 588.928
+CCtag_CCtrkeffratio_pTphyEta_ParameterB:41.0572, -1.62577, -0.174343, -0.14382, 0.554059, 0.395482, -0.662238, 0.496132, 0.655516, 0.101732, -0.389828, 0.109183, 0.519316, 1.41541, -59.5092
+CCtag_CCtrkeffratio_pTphyEta_ParameterC:-0.74462, 0.0316439, 0.00370393, 0.00294062, -0.0103556, -0.00746843, 0.0128637, -0.0105625, -0.0125797, -0.00175834, 0.00757265, -0.00214078, -0.00986415, -0.0292764, 1.11624
+CCtag_CCtrkeffratio_pTphyEta_ParameterD:0.00596249, -0.000268836, -3.42819e-05, -2.66598e-05, 8.54254e-05, 6.27105e-05, -0.000108595, 9.82491e-05, 0.000106634,1.41182e-05, -6.39072e-05, 1.84185e-05, 8.21251e-05, 0.000263371, -0.00920158
+CCtag_CCtrkeffratio_pTphyEta_ParameterE:-1.77996e-05, 8.42366e-07, 1.16463e-07, 8.99878e-08, -2.62183e-07, -1.97185e-07, 3.37546e-07, -3.35995e-07, -3.36498e-07, -4.40661e-08, 1.985e-07, -5.81983e-08, -2.52996e-07, -8.71438e-07, 2.81551e-05
+
+
+#
+# Underlying event contribution in electron window
+# it is different than energies under electron window for electron energy smearing
+# since here we do not need to consider zero supression effect on real electron energy measurement
+# this variable is really the energy deposition for underlying event + additional collisions inside the electron cone
+# (of course zsup effect on calorimeter tower energy measurement is taken into account)
+#
+ZUparaCorrection: TRUE
+WUparaCorrection: TRUE
+
+#
+# set UParaCorrOption = 0 will use average value, no luminosity and upara dependences applied
+# set UParaCorrOption = 1 will read the histogram for CC region (luminosity and upara dependences applied),
+#    but still use the average value for EC region, no luminosity and upara dependences applied
+#    The histogram is calculated for each tower, need to x13 to get corrections for each electron
+# set UParaCorrOption = 2 will read the average 13 tower Et distribution for different luminosity and uparallel bins
+#    from a root file defined by UParaCorr_13towers_root_filename
+
+UParaCorrOption: 2
+UParaCorr_CC:   0.144
+UParaCorr_EC:   0.
+
+# upara correction histogram (PER tower), upara correction vs luminosity dependence (unit: GeV)
+# and upara correction vs upara (only used for UParaCorrOption=1)
+UParaCorr_CC_Hist: ../geant/UParaCorrPerTower_Geant.C
+UParaCorr_CC_V_Lumi_Hist:  ../p17/delta_Upara_V_Lumi_wen.C
+UParaCorr_CC_V_Lumi_Slope:  0.002543
+
+# upara correction vs uparallel itself (NOTE: corrected back to zero luminosity) 
+# is modelled using a fitted 4-th order polynomial function
+# [0] + [1]/10*upara + [2]/100*upara*upara + [3]/1000*upara*upara*upara + [4]/10000*upara*upara*upara*upara (only used for UParaCorrOption=1)
+UParaCorr_CC_V_UPara_Parameters:  0.004433, 0.003575, 0.01056, -0.00061, -0.004008
+# uncertainty for each parameter: 0.000144, 0.000516 0.00111, 0.000629 0.000897
+
+# root file that contains average Et for 13 towers divided into different luminosity and uparallel bins (only used for UParaCorrOption=2)
+UParaCorr_13towers_root_filename: ../geant/uParaCorr_13towers.root
+
+#
+# Uparallel Efficiency
+#
+WUparaEffCorrection: TRUE
+ZUparaEffCorrection: TRUE
+
+#
+# uparaEffCorrOption=0, use Run I method, 100% efficiency for upara<u0_CC (or u0_EC)
+# and linear function for upara>u0_CC (or u0_EC), used for full MC
+# uparaEffCorrOption=1, use measured uparallel efficiency based on Feng's studies for CC (still use Run I method for EC)
+# the efficiency curve is fitted with two linear functions for Z data and a second order polynomial, used for Data
+# uparaEffCorrOption=2 use physics eta parameterization of W upara slope. (measure u0 and s from Z).
+#
+UparaEffCorrOption: 0
+WUparaEffCorrOption: 2
+
+
+# parameters used for UparaEffCorrOption = 0
+# for Z events
+Z_u0_CC:        1.49
+Z_s_CC:         0.004546
+#Z_u0_CC:        3.29440
+#Z_s_CC:         0.001787
+Z_u0_EC:        2.308
+Z_s_EC:         0.0046
+
+# for W events
+W_u0_CC:        1.49
+W_s_CC:         0.004848
+W_u0_EC:        2.308
+W_s_EC:         0.0046
+# parameters used for WUparaEffCorrOption = 2 (W only)
+W_seta_CC:   	0.0067
+
+# parameters used for UparaEffCorrOption = 1
+# Z efficiency:   1-ZUparaEffCorrParameters_CC[1] * (upara-ZUparaEffCorrParameters_CC[0]) for upara<ZUparaEffCorrParameters_CC[0]
+#            and  1-ZUparaEffCorrParameters_CC[2] * (upara-ZUparaEffCorrParameters_CC[0]) for upara>ZUparaEffCorrParameters_CC[0]
+# W efficiency:   WUparaEffCorrParameters_CC[0] + WUparaEffCorrParameters_CC[1]*upara + WUparaEffCorrParameters_CC[2]*upara*upara
+ZUparaEffCorrParameters_CC: 0.88512, -0.001664, 0.003256
+WUparaEffCorrParameters_CC: 0.96728, 0.000017, -0.00023
+
+#
+# Parameters used for SET efficiency simulation, if switched on
+#
+ZSETEffCorrScaled:      TRUE
+ZSETEffCorrParameters:  -1.56796e-01 1.60620e-01 -3.03136e-01 0. 0.
+WSETEffCorrScaled:      TRUE
+WSETEffCorrParameters:  -7.47780e-02 1.50172e-01 -2.91807e-01 0. 0.
+
+#
+# Apply selection efficiencies
+# No trigger efficiency applied for GEANT MC
+#
+WtrigEffCorrection:     FALSE
+WpreselEffCorrection:   TRUE
+WIDEffCorrection:       TRUE
+WtrkEffCorrection:      TRUE
+WSETEffCorrection:      TRUE
+
+ZtrigEffCorrection:     FALSE
+ZpreselEffCorrection:   TRUE
+ZIDEffCorrection:       TRUE
+ZSETEffCorrection:      TRUE
+
+#
+# track pT cut for the electron 
+# in data, we require a electron with spatial track match, the track must have pT>10 GeV
+# and at least one SMT hit
+# 
+trkpTCut:         10.
+
+# 0 = no requirement, no trk efficiency applied
+# 1=at least one, 2=at least two
+# requirement of electrons in Z events with a track match
+NZTrkMatch:     2
+
+#
+# electron, missing Et cut
+#
+CutMET:    25.
+CutEPT:    25.
+
+#
+# W/Z pT cuts
+#
+CutWUT:        15.   # W boson Ut upper cut
+CutZUT:        15.   # Z boson Ut upper cut
+CutZUT_lower:  0.    # Z boson Ut lower cut
+CutZScalarEt:  10000.     # scalarEt cut
+CutZScalarEt_lower:  0.   # scalarEt lower cut
+CutWScalarEt:  10000.     # scalarEt cut
+CutWScalarEt_lower:  0.   # scalarEt lower cut
+#
+# Z mass cut
+#
+ZMassCut1:   70.
+ZMassCut2:   110.
+
+#
+# W Mt cut
+#
+WMtCut1:    50.
+WMtCut2:    200.
+
+#
+# Cuts
+#
+CutEtaCC:     1.05
+CutEtaECLow:  1.50
+CutEtaECHigh: 2.30
+
+# use different random numbers for TBStudy / ResolutionStudyJan and regular PATHWAY in PassesRecoilCuts
+pedanticRandomRecoil: TRUE
+pedanticRandomEM: TRUE
+
+#
+# determine electron energy scale
+# expert task, please contact with J. Zhu for questions
+# StudyCCScale=TRUE for CC-CC events, StudyCCScale=FALSE for EC-EC events to study energy scale for two regions
+#
+# NOTE: currently create (Bins_ScaleStudy+1)*(Bins_ScaleStudy+1) histograms with 
+# energy scale from (scale_center-(Bins_ScaleStudy/2)*scale_step) to (scale_center+(Bins_ScaleStudy/2)*scale_step)
+# and energy offset from (offset_center-(Bins_ScaleStudy/2)*offset_step) to (offset_center+(Bins_ScaleStudy/2)*offset_step)
+# 
+#  Assume N = 4, then we will have (4+1)*(4+1) = 25 histograms with scale and offset values equal to:
+#      scale_center-2*scale_step,  scale_center-scale_step,  scale_center, scale_center+scale_step,  scale_center+2*scale_step
+#      offset_center-2*offset_step,offset_center-offset_step,offset_center,offset_center+offset_step,offset_center+2*offset_step
+#
+EnergyScaleStudy: FALSE
+EnergyScaleStudyJan:         TRUE
+EnergyScaleStudyJanPedantic: TRUE
+StudyCCScale:     TRUE
+scale_center:     1.003
+offset_center:    -0.275
+scale_step:       0.005
+offset_step:      0.05
+Bins_ScaleStudy:  20    # better to be even number
+
+#
+# determine electron energy resolution (sampling and constant term)
+# StudyCCResolution=TRUE for CC-CC events, StudyCCResolution=FALSE for EC-EC events to study energy resolution for two regions
+#
+# NOTE: currently create (Bins_ResolutionStudy+1)*(Bins_ResolutionStudy+1) histograms with 
+# sampling term from (sampling_center-(Bins_ResolutionStudy/2)*sampling_step) to (sampling_center+(Bins_ResolutionStudy/2)*sampling_step)
+# and constant term from (constant_center-(Bins_ResolutionStudy/2)*constant_step) to (constant_center+(Bins_ResolutionStudy/2)*constant_step)
+# 
+#  Assume N = 4, then we will have (4+1)*(4+1) = 25 histograms with sampling and constant values equal to:
+#      sampling_center-2*sampling_step,sampling_center-sampling_step,sampling_center,sampling_center+sampling_step,sampling_center+2*sampling_step
+#      constant_center-2*constant_step,constant_center-constant_step,constant_center,constant_center+constant_step,constant_center+2*constant_step
+#
+EnergyResolutionStudy:            FALSE
+EnergyResolutionStudyJan:         TRUE
+EnergyResolutionStudyJanPedantic: TRUE
+StudyCCResolution:     TRUE
+SkipSampling:          TRUE
+sampling_center:       0.15
+constant_center:       0.042
+sampling_step:         0.005
+constant_step:         0.01
+Bins_ResolutionStudy:  20    # better to be even number
+
+#
+#  determine hadronic momentum scale
+#
+HadronicMomentumScaleStudy: FALSE
+scale_HAD_A_center:       0.455
+scale_HAD_B_center:       0.053
+scale_HAD_A_step:         0.01
+scale_HAD_B_step:         0.005
+Bins_HadronicScaleStudy:  10    # better to be even number
+
+#
+#  determine hadronic momentum sampling term and number of minbias to overlay
+#
+HadronicMomentumResolutionStudy: FALSE
+sampling_HAD_center:       0.736
+alpha_mb_center:           0.782
+sampling_HAD_step:         0.02
+alpha_mb_step:             0.015
+Bins_HadronicResolutionStudy:  10    # better to be even number
+
+#
+#  determine hadronic momentum scale for bifurcate method
+#
+HadronicMomentumScaleBifurcateStudy:       FALSE
+scale_HAD_bifurcate_A_center:              1.058
+scale_HAD_bifurcate_B_center:              0.338
+scale_HAD_bifurcate_A_step:                0.004
+scale_HAD_bifurcate_B_step:                0.001
+Bins_HadronicScaleBifurcateStudy:          10    # better to be even number
+
+#
+#  determine hadronic momentum resolution for bifurcate method (for hard component)
+#
+HadronicMomentumResolutionBifurcateStudy:  FALSE
+Relsampling_HAD_bifurcate_A_center:        0.850
+Relsampling_HAD_bifurcate_B_center:        0.72
+Relsampling_HAD_bifurcate_A_step:          0.04
+Relsampling_HAD_bifurcate_B_step:          0.01
+Bins_HadronicResolutionBifurcateStudy:     10    # better to be even number
+
+#
+#  determine hadronic momentum resolution for bifurcate method (for hard and soft components)
+#
+HadronicMomentumResolution2BifurcateStudy: FALSE
+Relsampling_HAD_bifurcate2_A_center:       0.850
+alpha_mb2_center:                          0.782
+Relsampling_HAD_bifurcate2_A_step:         0.04
+alpha_mb2_step:                            0.05
+Bins_HadronicResolution2BifurcateStudy:    10    # better to be even number
+
+#
+#  determine hadronic momentum resolution for bifurcate method (for hard and soft components)
+#
+HadronicMomentumResolution3BifurcateStudy: FALSE
+Relsampling_HAD_bifurcate3_A_center:       0.850
+alpha_mb3_center:                          0.782
+alpha_zb3_center:                          1.0
+Relsampling_HAD_bifurcate3_A_step:         0.02
+alpha_mb3_step:                            0.02
+alpha_zb3_step:                            0.008
+Bins_HadronicResolution3BifurcateStudy:    10    # better to be even number
+
+#
+#  determine hadronic phi smearing for bifurcate method
+#
+HadronicPhiSmearingBifurcateStudy:         FALSE
+Relphi_HAD_bifurcate_A_center:             1.
+Relphi_HAD_bifurcate_B_center:             0.
+Relphi_HAD_bifurcate_A_step:               0.01
+Relphi_HAD_bifurcate_B_step:               0.01
+Bins_HadronicPhiSmearingBifurcateStudy:    10    # better to be even number
+
+##################################################################
+#
+# determine all recoil parameters at once for bifurcate method
+#
+# Pre-selected events fot MINUIT fit are stored in the output file
+# for later re-processing. During re-processing current Eta Imbalance and Phi Resolution histograms 
+# are compared to the user-supplied reference histograms and the total Chi**2 is calculated for MINUIT.
+# I. There are 10 methods of computing total Chi**2:
+# method #0 :  calculate CHI2 as a sum of 3 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+#              * chi2 for standard deviations from the expected open angle
+#                between true Z and the recoil (Pi)
+#              from 10 phi resolution histograms.
+# method #1 :  calculate CHI2 bin-by-bin for all 20 histograms
+#              (each histogram = 1 degree of freedom, add up CHI**2/NBINS from 20 histograms)
+#              * 10 histograms of eta imbalances,
+#              * 10 histograms of phi resolutions.
+# method #2 :  calculate CHI2 bin-by-bin for all 20 histograms
+#              (each bin = 1 degree of freedom, add up CHI**2 from all bins of all 20 histograms)
+#              * 10 histograms of eta imbalances,
+#              * 10 histograms of phi resolutions.
+# method #3 :  calculate CHI2 as a sum of 5 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+#              * chi2 for MEAN values from 10 xi imbalance histograms,
+#              * chi2 for RMS values from 10 xi imbalance histograms,
+#              * chi2 for standard deviations from the expected open angle
+#                between true Z and the recoil (Pi) from 10 phi resolution histograms.
+# method #4 :  calculate CHI2 from:
+#              * chi2 for MEAN values from 10 eta imbalance histograms.
+# method #5 :  calculate CHI2 as a sum of 2 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for MEAN values from 10 xi imbalance histograms.
+# method #6 :  calculate CHI2 from:
+#              * chi2 for RMS values from 10 eta imbalance histograms.
+# method #7 :  calculate CHI2 as a sum of 2 components:
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 xi imbalance histograms.
+# method #8 :  calculate CHI2 from:
+#              * chi2 for standard deviations from the expected open angle
+#                between true Z and the recoil (Pi) from 10 phi resolution histograms.
+# method #9 :  calculate CHI2 from a sum of 2 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+# method #10:  calculate CHI2 from a sum of 4 components:
+#              * chi2 for MEAN values from 10 eta imbalance histograms,
+#              * chi2 for MEAN values from 10 xi imbalance histograms,
+#              * chi2 for RMS values from 10 eta imbalance histograms,
+#              * chi2 for RMS values from 10 xi imbalance histograms.
+# II. If Zminuit_UseMasterSlaveMode=TRUE then job no.1 acts as a master
+# and jobs 2...N as slaves. Slave jobs process their respective
+# event buffer files, fill the relevant histograms and write them
+# to designated temporary rootuples. Master job reads partial
+# results at each iteration. Only master job actually caclulates
+# the total CHI2 beeing minimized and produces fit results.
+# Files specified by parameters: 'Zminuit_MasterSlave_REQ', 
+# 'Zminuit_MasterSlave_ACK_i', 'Zminuit_MasterSlave_DONE_i' and
+# 'Zminuit_MasterSlave_RESULT_i' have to be seen by all jobs.
+# Sequence of events at each iteration:
+# 1. Master job broadcasts list of parameters for which CHI2 has to
+#    be calculated by writing them to 'Zminuit_MasterSlave_REQ' file.
+# 2. As soon as 'Zminuit_MasterSlave_REQ' file shows up, all the
+#    jobs read its content, delete previous results stored in 
+#    'Zminuit_MasterSlave_RESULT_i' files, delete 
+#    'Zminuit_MasterSlave_DONE_i' files and create empty 
+#    'Zminuit_MasterSlave_ACK_i' files.
+# 3. Upon checking that all 'Zminuit_MasterSlave_ACK_i' exist, 
+#    the master job deletes 'Zminuit_MasterSlave_REQ' file and 
+#    creates empty 'Zminuit_MasterSlave_START' file.
+# 4. As soon as 'Zminuit_MasterSlave_START' file shows up all the
+#    jobs delete 'Zminuit_MasterSlave_ACK_i' files and then begin 
+#    processing a new request. Upon completion they write histograms
+#    to 'Zminuit_MasterSlave_RESULT_i' rootuple and create an empty
+#    file 'Zminuit_MasterSlave_DONE_i'.
+# 5. Master jobs checks if all 'Zminuit_MasterSlave_DONE_i' do exist
+#    and removes 'Zminuit_MasterSlave_START' file, adds 
+#    corresponding histograms from 'Zminuit_MasterSlave_RESULT_i'
+#    rootuples and computes CHI2 as usual. Now it's ready
+#    for the next iteration.
+#
+HadronicMomentum_AllAtOnce_BifurcateStudy: FALSE
+Zminuit_Reference_FileName: /rooms/wmass/MC/GeantMC_Output/Zee_newRecoil_2trkmatch/Zee_15GeV_Good_20070822135642-75733.d0cabsrv1.fnal.gov/result.root
+Zminuit_Reference_Dir:                  ZCand_Hist
+Zminuit_Reference_Prefix_Phi:           ZCandDeltaPhi_Z_Recoil_bin_
+Zminuit_Reference_Prefix_EtaImbalance:  ZCandEtaImBalance_bin_
+Zminuit_Reference_Prefix_XiImbalance:   ZCandXiImBalance_bin_
+Zminuit_ChiSquare_Method:               9
+Zminuit_Skip_Znunu_Randomization: TRUE  # If TRUE then will use a randomized hard recoil component from
+                                        # pure Z->nu+nu model (without improved paramterization) stored in the event buffer file.
+                                        # During re-reprocessing such a vector will be modified according to the current improved
+                                        # parameterization paramters. This option allows one to save time and avoid unnecessary
+                                        # statistical fluctuations between subsequent MINUIT steps.
+Zminuit_Skip_Event_Reprocessing: FALSE  # If TRUE then the code will stop after event preselection and skip MINUIT part
+Zminuit_Skip_Event_Preselection: TRUE   # If TRUE then the code will skip reading input PYTHIA files and proceed directly
+                                        # to MINUIT by re-using an existing event buffer file
+Zminuit_Skip_UParaEfficiency: FALSE     # skip passesUParaEff() check during MINUIT reporcessing part?
+Zminuit_Skip_UParaEfficiency_Randomization: TRUE  # If FALSE then will randomize U_parallel corr. eff. while
+                                                  # calling passesUParaEff() check during MINUIT reporcessing part.
+                                                  # If TRUE then will use 2 random numbers stored during event
+                                                  # preselection in the event buffer file.
+Zminuit_UseGradient: TRUE               # also calculate derivatives at each MINUIT step?
+Zminuit_UseRAM: TRUE                    # store all pre-selected events in RAM memory?
+Zminuit_UseFittedMeanWidth: FALSE       # use fitted mean and width of imbalance distributions?
+Zminuit_UseAbsDeltaPhiImbal: TRUE       # use |Phi(Recoil)-Phi(Z)| or Phi(Recoil)-Phi(Z) for phi imbalance?
+Zminuit_ProgressReport_FileName:        Zminuit_results.dat
+Zminuit_EventBuffer_FileName:           Zminuit_events.bin
+Zminuit_UseMasterSlaveMode:             FALSE
+Zminuit_MasterSlave_Njobs:              1
+Zminuit_MasterSlave_Job:                1 # 1=master, 2...N=slaves
+Zminuit_MasterSlave_REQ:                Zminuit_MasterSlave_REQ
+Zminuit_MasterSlave_START:              Zminuit_MasterSlave_START
+Zminuit_MasterSlave_QUIT:               Zminuit_MasterSlave_QUIT
+Zminuit_MasterSlave_ACK_prefix:         Zminuit_MasterSlave_ACK
+Zminuit_MasterSlave_DONE_prefix:        Zminuit_MasterSlave_DONE
+Zminuit_MasterSlave_RESULT_prefix:      Zminuit_MasterSlave_RESULT
+Zminuit_START_Relscale_A:    1.0 # RelScale_A=1.0435 +- 0.0065 --> Jun's talk 04/04/2008
+Zminuit_START_Relscale_B:    0.3 # RelScale_B=0.2753 +- 0.0341 --> Jun's talk 04/04/2008
+Zminuit_START_Relsampling_A: 1.0 # RelSampl_A=0.7987 +- 0.0290 --> Jun's talk 04/04/2008
+Zminuit_START_Relsampling_B: 0.0 # RelSampl_B=1.2026 +- 0.2271 --> Jun's talk 04/04/2008
+Zminuit_START_Relphi_A:      1.0 # fixed
+Zminuit_START_Relphi_B:      0.0 # fixed
+Zminuit_START_Alpha_MB:      1.0 # Alpha_MB=0.8154 +- 0.0245 --> Jun's talk 04/04/2008
+Zminuit_RANGE_Unlimited:     FALSE
+Zminuit_RANGE_Relscale_A:    0.0 10.0
+Zminuit_RANGE_Relscale_B:    -10.0 10.0
+Zminuit_RANGE_Relsampling_A: 0.0 10.0
+Zminuit_RANGE_Relsampling_B: -10.0 10.0
+Zminuit_RANGE_Relphi_A:      1.0  1.0 # fixed
+Zminuit_RANGE_Relphi_B:      0.0  0.0 # fixed
+Zminuit_RANGE_Alpha_MB:      0.0 10.0
+Zminuit_STEP_Relscale_A:     0.00065  # 0.1*sigma from Jun's fit
+Zminuit_STEP_Relscale_B:     0.0034   # 0.1*sigma from Jun's fit
+Zminuit_STEP_Relsampling_A:  0.0029   # 0.1*sigma from Jun's fit
+Zminuit_STEP_Relsampling_B:  0.023    # 0.1*sigma from Jun's fit
+Zminuit_STEP_Relphi_A:       0.0      # fixed
+Zminuit_STEP_Relphi_B:       0.0      # fixed
+Zminuit_STEP_Alpha_MB:       0.0025   # 0.1*sigma from Jun's fit
+Zminuit_do_SCAN:             FALSE    # perform scan of a single parameter ?
+Zminuit_do_SCAN_IPAR:        0        # parameter to be scanned: 0=RelScaleA, 1=RelScaleB, ...
+Zminuit_do_SCAN_NSTEPS:      3        # number of steps for the scan (>=2)
+Zminuit_do_SEEK:             FALSE    # perform random seek inside the hypercube?
+Zminuit_do_SEEK_RndStart:    FALSE    # use a random starting point rather than START value?
+Zminuit_do_SEEK_NITER:       50000    # approximate number of steps for this random seek
+Zminuit_do_SEEK_NEVENTS:     250000   # max. number of events to be used during this random seek
+Zminuit_do_SIMPLEX:          FALSE    # use SIMPLEX method? 
+Zminuit_do_SIMPLEX_NITER:    5000     # approximate number of steps for the SIMPLEX method
+Zminuit_do_SIMPLEX_TOLER:    0.01     # tolerance parameter of the SIMPLEX method
+Zminuit_do_MINIMIZE:         TRUE     # use MINIMIZE (MIGRAD+SIMPLEX) method?
+Zminuit_do_MINIMIZE_NITER:   1000     # approximate number of steps for the MINIMIZE method
+Zminuit_do_MINIMIZE_TOLER:   0.1      # tolerance parameter of the MINIMIZE method
+Zminuit_do_MINIMIZE_EPS:     1e-6     # FCN machine precision parameter of the MINIMIZE method
+Zminuit_do_MINOS:            TRUE     # call MINOS after MIGRAD?
+Zminuit_do_MINOS_NITER:      1000     # approximate number of steps for MINOS
+
+##################################################################
+# momentum scale study (determine A, B and C)
+momentumScaleStudy:    TRUE
+
+# smear track pT
+SmearTrkpT:  TRUE
+
+# parameters used for smearing tracks either for electrons or muons
+# no energy loss simulation yet (effect should be very small)
+TrackRadLength: 0.017
+A:        0.0017
+B:        0.0215
+C:        0.997
+
+# whether we want to add bremsstrahlung simulation for electron pT
+# for muon, we did not simulate this because the brem effect is tiny
+bremSim:    TRUE
+
+#
+# step sizes for A, B and C
+#
+A_step:   0.0001
+B_step:   0.001
+C_step:   0.0005
+
+# parameters used for J/Psi->mumu analysis
+CutJPsiMuPT:           2.5
+
+# parameters used for Z->mumu analysis
+CutZMuPT:              20.
+
+#
+# output file
+#
+output_file_jpsimumu: result_jpsimumu.root
+output_file_zmumu: result_zmumu.root
+output_file_znunu: result_znunu.root
+
+#
+# ZNuNuAnalysis
+#
+ZNuNu_NuLoose_nMin:   0
+ZNuNu_NuLoose_EtaMax: 2.5
+ZNuNu_NuLoose_PtMin:  0.0
+ZNuNu_NuTight_nMin:   2
+ZNuNu_NuTight_EtaMax: 1.3
+ZNuNu_NuTight_PtMin:  0.0
+ZNuNu_UtCutMin:       0.0
+ZNuNu_UtCutMax:       1000000000.0
+ZNuNu_SETCutMin:      0.0
+ZNuNu_SETCutMax:      1000000000.0
+ZNuNu_dumpRecoilInfo: false
+ZNuNu_dumpRecoilFile: znunu_recoil_dump.txt
+
+# Parameters for TB Asym Correction
+TBCorrection: false
+TBCorrection_Option: 0
+
+# only for TBCorrection_Option: 1
+TBApplyLast:  false
+TBPhi_response_Hard_Only: false
+TBPhi_response_Soft_Only: true
+TBalpha: 0.0221854
+TBbeta:  0.604193
+TBStudy: false
+TBmodel_patrice: false
+tb_alpha_center: 0.0206
+tb_beta_center: .877
+tbalpha_step: 0.0002
+tbbeta_step: 0.01
+Bins_TBStudy: 10
+
+# only for TBCorrection_Option: 2
+TBLibrary_file: tblib_data_zbphi.root
+               # Don't forget to setenv/export $TBLibraryRootPath,
+               # Otherwise it will choose the runtime directory.
+
+#Keep a final comment to avoid last-line-carraige-return issues

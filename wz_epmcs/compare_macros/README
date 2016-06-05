@@ -1,0 +1,65 @@
+This contains the technical proceedure to produce background files for the wenu data plots.  For plotting instructions, see the help associated with the wenucomp or zeecomp programs.
+
+Format: I try to keep naming consistent from generation to plotting.  Abreviations represeting kinematic cuts are given in background_options.txt.  Translations:
+lumi: as in name (aka lumi02 is lumi < 2, lumi > 0)
+|deteta|: as in name, where last bin ranges from 0.8 to 1.05
+recoilpt: as in name where cuts are <10, <20, <30
+phimod: values in name refer to value given for ElecPhiMod_cut in code, [0.75], [0.7], [0.6], [0.50], intended to correspond to [0.125, 0.875], [0.15, 0.85], [0.20, 0.80], [0.25, 0.75]
+recoil phi: bins correspond in order to: 0, 0.78; 0.78,1.57; 1.57, 2.35;, 2.35, 3.14;, 3.14, 3.92;, 3.92, 4.71;, 4.71, 5.47; 5.47, 6.28;
+ept: electron pt > X
+
+1. Making input files
+PMCS:
+Each cut must be run for wresbos and wtaunu options in submit_pmcs.  No special parameters file flags except for the cut selections.
+
+CAFE:
+Wenu is run as normal, with the special cut selections as above
+
+For the Z background estimation, we run EMMET (aka wenu) samples with the config file modified from the default as follows:
+myname.dump_W_ZeeBkg:     true 
+When these files are hadded, the -T option must be turned on to keep the files from getting too big
+
+QCD: track match efficiency requires the same files as the regular track match efficiency estimate, but processed for pt and eta, see /work/rebel-clued0/jenny/extratrkmatchstudies/fakerate_v2.
+
+2. Processing input files
+
+a) determine total number of cafe wenu events, using WCandMt_Spatial_Match_0 (for zee bkgd).
+
+b) hadd each sample, using -T option for Zee background files
+
+c) copy the Zee background files to compare_macros directory
+
+d) run convert_pmcs_to_background_file.py over the wtaunu pmcs files- when I ran it didn't seem to like the settings I had in bash mode.  Takes in pmcs wenu files as well.
+
+e) run CalcWtaubkgdfrac.C to determine wtaunu background fraction, copy the cout information to the background parameters.master file
+
+f) run CalcZeebkgdfrac.C to determine wtaunu background fraction, copy the cout information to the background parameters.master file.  Needs input .txt file with option name, cut string, and wenu candicates value from (a)
+
+
+QCD fake rate:
+Way back when we first did the QCD background to begin with we decided to do it in pT and eta. What I do is fill 2  2D histograms with pT and phys eta. These get divided and the result is sliced into bins of eta and then fit with a pol4. 
+
+Then plot_util gets the background. There is no shape file like there is for the zee and the wtaunu. The QCD background is calculated on the fly bin by bin in plot_util. 
+
+
+To do the QCD background, take a look here, for example: 
+/prj_root/7010/wz_write/rominsky/run2b4_EMJET_qcd_bkgd
+
+You do the following: 
+>setup root v5_26_00 -q GCC_3_4_6 ( YOU HAVE TO SET THIS ONE UP :) )
+
+> root -l result.root
+
+> .x runfr2d.C
+>.q
+
+This produces an output file (for example):
+hist_fr_pteta_run2b4_phimod75.root
+
+Then you set this name in fit_FR_Mandy.C and do this: 
+
+>root -l fit_FR_Mandy.C 
+
+Now, this gives you the Fake rate. To get the Eff, you do the same first step, but then you would run fit_Eff_Jenny.C, changing the input file as appropriate. 
+
+Now, we haven't been changing the efficiency, since when you and I started talking about this, we weren't sure there would be enough statistics. 

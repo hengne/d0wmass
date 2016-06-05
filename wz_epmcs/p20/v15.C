@@ -1,0 +1,62 @@
+{
+//========= Macro generated from object: v15_Pt/v15 trigger efficiency vs Pt
+//========= by ROOT version5.22/00a
+   Double_t xAxis1[35] = {0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 45, 50, 55, 60, 65, 70, 75, 80}; 
+   
+   TH1 *v15_Pt = new TH1D("v15_Pt","v15 trigger efficiency vs Pt",34, xAxis1);
+   v15_Pt->SetBinContent(7,0.0144928);
+   v15_Pt->SetBinContent(9,0.0192308);
+   v15_Pt->SetBinContent(10,0.137931);
+   v15_Pt->SetBinContent(11,0.460526);
+   v15_Pt->SetBinContent(12,0.910959);
+   v15_Pt->SetBinContent(13,0.951923);
+   v15_Pt->SetBinContent(14,0.954);
+   v15_Pt->SetBinContent(15,0.961661);
+   v15_Pt->SetBinContent(16,0.97628);
+   v15_Pt->SetBinContent(17,0.97723);
+   v15_Pt->SetBinContent(18,0.981279);
+   v15_Pt->SetBinContent(19,0.974293);
+   v15_Pt->SetBinContent(20,0.980198);
+   v15_Pt->SetBinContent(21,0.980383);
+   v15_Pt->SetBinContent(22,0.984764);
+   v15_Pt->SetBinContent(23,0.985127);
+   v15_Pt->SetBinContent(24,0.990031);
+   v15_Pt->SetBinContent(25,0.987811);
+   v15_Pt->SetBinContent(26,0.989956);
+   v15_Pt->SetBinContent(27,0.990662);
+   v15_Pt->SetBinContent(28,0.993348);
+   v15_Pt->SetBinContent(29,0.993468);
+   v15_Pt->SetBinContent(30,0.99593);
+   v15_Pt->SetBinContent(31,0.995548);
+   v15_Pt->SetBinContent(32,0.993255);
+   v15_Pt->SetBinContent(33,1);
+   v15_Pt->SetBinContent(34,0.995475);
+   v15_Pt->SetBinError(7,0.0143874);
+   v15_Pt->SetBinError(9,0.0134668);
+   v15_Pt->SetBinError(10,0.0261413);
+   v15_Pt->SetBinError(11,0.03301);
+   v15_Pt->SetBinError(12,0.0166668);
+   v15_Pt->SetBinError(13,0.0104887);
+   v15_Pt->SetBinError(14,0.00936846);
+   v15_Pt->SetBinError(15,0.00767436);
+   v15_Pt->SetBinError(16,0.00537689);
+   v15_Pt->SetBinError(17,0.00459477);
+   v15_Pt->SetBinError(18,0.00378542);
+   v15_Pt->SetBinError(19,0.00401204);
+   v15_Pt->SetBinError(20,0.00318034);
+   v15_Pt->SetBinError(21,0.00296204);
+   v15_Pt->SetBinError(22,0.00236126);
+   v15_Pt->SetBinError(23,0.00215332);
+   v15_Pt->SetBinError(24,0.00160903);
+   v15_Pt->SetBinError(25,0.00169641);
+   v15_Pt->SetBinError(26,0.00144242);
+   v15_Pt->SetBinError(27,0.000542982);
+   v15_Pt->SetBinError(28,0.000527447);
+   v15_Pt->SetBinError(29,0.000939657);
+   v15_Pt->SetBinError(30,0.00128443);
+   v15_Pt->SetBinError(31,0.00198672);
+   v15_Pt->SetBinError(32,0.00336129);
+   v15_Pt->SetBinError(34,0.00451464);
+   v15_Pt->SetEntries(34);
+   v15_Pt->Draw("");
+}

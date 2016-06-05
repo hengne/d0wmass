@@ -1,0 +1,62 @@
+{
+//========= Macro generated from object: v16a_Pt/v16 E1_SHT25  trigger efficiency vs Pt
+//========= by ROOT version5.22/00a
+   Double_t xAxis3[35] = {0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 45, 50, 55, 60, 65, 70, 75, 80}; 
+   
+   TH1 *v16a_Pt = new TH1D("v16a_Pt","v16 E1_SHT25  trigger efficiency vs Pt",34, xAxis3);
+   v16a_Pt->SetBinContent(7,0.0144928);
+   v16a_Pt->SetBinContent(9,0.0192308);
+   v16a_Pt->SetBinContent(10,0.137931);
+   v16a_Pt->SetBinContent(11,0.45614);
+   v16a_Pt->SetBinContent(12,0.910959);
+   v16a_Pt->SetBinContent(13,0.951923);
+   v16a_Pt->SetBinContent(14,0.954);
+   v16a_Pt->SetBinContent(15,0.963259);
+   v16a_Pt->SetBinContent(16,0.97628);
+   v16a_Pt->SetBinContent(17,0.97723);
+   v16a_Pt->SetBinContent(18,0.981279);
+   v16a_Pt->SetBinContent(19,0.974293);
+   v16a_Pt->SetBinContent(20,0.980198);
+   v16a_Pt->SetBinContent(21,0.979927);
+   v16a_Pt->SetBinContent(22,0.984764);
+   v16a_Pt->SetBinContent(23,0.985127);
+   v16a_Pt->SetBinContent(24,0.990031);
+   v16a_Pt->SetBinContent(25,0.987811);
+   v16a_Pt->SetBinContent(26,0.989956);
+   v16a_Pt->SetBinContent(27,0.99063);
+   v16a_Pt->SetBinContent(28,0.993348);
+   v16a_Pt->SetBinContent(29,0.993468);
+   v16a_Pt->SetBinContent(30,0.99593);
+   v16a_Pt->SetBinContent(31,0.995548);
+   v16a_Pt->SetBinContent(32,0.993255);
+   v16a_Pt->SetBinContent(33,1);
+   v16a_Pt->SetBinContent(34,0.995475);
+   v16a_Pt->SetBinError(7,0.0143874);
+   v16a_Pt->SetBinError(9,0.0134668);
+   v16a_Pt->SetBinError(10,0.0261413);
+   v16a_Pt->SetBinError(11,0.0329857);
+   v16a_Pt->SetBinError(12,0.0166668);
+   v16a_Pt->SetBinError(13,0.0104887);
+   v16a_Pt->SetBinError(14,0.00936846);
+   v16a_Pt->SetBinError(15,0.00751902);
+   v16a_Pt->SetBinError(16,0.00537689);
+   v16a_Pt->SetBinError(17,0.00459477);
+   v16a_Pt->SetBinError(18,0.00378542);
+   v16a_Pt->SetBinError(19,0.00401204);
+   v16a_Pt->SetBinError(20,0.00318034);
+   v16a_Pt->SetBinError(21,0.00299559);
+   v16a_Pt->SetBinError(22,0.00236126);
+   v16a_Pt->SetBinError(23,0.00215332);
+   v16a_Pt->SetBinError(24,0.00160903);
+   v16a_Pt->SetBinError(25,0.00169641);
+   v16a_Pt->SetBinError(26,0.00144242);
+   v16a_Pt->SetBinError(27,0.000543899);
+   v16a_Pt->SetBinError(28,0.000527447);
+   v16a_Pt->SetBinError(29,0.000939657);
+   v16a_Pt->SetBinError(30,0.00128443);
+   v16a_Pt->SetBinError(31,0.00198672);
+   v16a_Pt->SetBinError(32,0.00336129);
+   v16a_Pt->SetBinError(34,0.00451464);
+   v16a_Pt->SetEntries(34);
+   v16a_Pt->Draw("");
+}

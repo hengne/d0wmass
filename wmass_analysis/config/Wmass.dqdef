@@ -1,0 +1,123 @@
+@ date: 15 May 08
+@ valid for the run range 151817-241889 (19 APR 2002 - 30 Apr 2008)
+@
+@ includes data quality information for
+@ CALon, CALoff, CALT (=CAL-L1), CFT, CTT, MUO & SMT
+
+@ require version 2.0 or greater
+"version" = 2.0
+
+@@@@@ define run range
+
+@ -a => Run2a
+@       "run range" = 151817 ; 219000
+@ -b => Run2b prior to Aug 2007 shutdown
+@       "run range" = 219001 ; 234913
+@ -c => Run2 post Aug 2007 shutdown thru 30 Apr 08
+@       "run range" = 237342 ; 241889
+@       240768 - 14 Mar 08 - V16 Trigger list went online.
+@ CAUTION-CAUTION-CAUTION
+@  1) All of the "online" checks have been made for the entire data set
+@     listed above.
+@  2) no-cert.badruns: HOWEVER, because TMBs and RecoCert files were not
+@     available for all of it, not all of the runs have had full (mostly)
+@     calorimeter "offline" DQ checks done
+@  3) cal-prelim.badruns: In addition there is a possible new or resurfaced
+@     noise source in the calorimeter that may or may not effect an analysis.
+@  no-cert.badruns is included by default in the total badruns list and
+@  may be commented out for testing purposes and if you have determined that
+@  the result is adequate for your needs. cal-prelim.badruns is off by
+@  default, but can be turned on by removing the "@" comment character below.
+@  In either case, if a change is made that fact MUST be reported to your EB.
+@ CAUTION-CAUTION-CAUTION
+
+"run range" = 151817 ; 241889
+
+@@@@@ Runs lists
+
+@ use bad runs only:
+@ -1=use bad/0=use both/1=use good
+"run list mode" = -1
+
+@ load bad runs from textfiles
+@ -a => Run2a
+@ -b => Run2b pre Aug 07 shutdown
+@ -c => Run2b post Aug 07 shutdown
+
+"bad runs file" = "dq_defs/common/caloff-b.badruns"
+"bad runs file" = "dq_defs/common/caloff-c.badruns"
+"bad runs file" = "dq_defs/common/calon-a.badruns"
+"bad runs file" = "dq_defs/common/calon-b.badruns"
+"bad runs file" = "dq_defs/common/calon-c.badruns"
+"bad runs file" = "dq_defs/common/calt-b.badruns"
+"bad runs file" = "dq_defs/common/calt-c.badruns"
+"bad runs file" = "dq_defs/common/cft-a.badruns"
+"bad runs file" = "dq_defs/common/cft-b.badruns"
+"bad runs file" = "dq_defs/common/cft-c.badruns"
+@"bad runs file" = "dq_defs/common/ctt-b.badruns"
+@"bad runs file" = "dq_defs/common/ctt-c.badruns"
+@"bad runs file" = "dq_defs/common/muo-a.badruns"
+@"bad runs file" = "dq_defs/common/muo-b.badruns"
+@"bad runs file" = "dq_defs/common/muo-c.badruns"
+"bad runs file" = "dq_defs/common/smt-a.badruns"
+"bad runs file" = "dq_defs/common/smt-b.badruns"
+"bad runs file" = "dq_defs/common/smt-c.badruns"
+
+@ Comment out the following to re-enable these categories of badruns.
+@ no-cert are runs that were not in SAM at the cutoff for DQ and
+@   therefore do not have full Calorimeter offline DQ done.
+@ cal-prelim are runs with a possible new or resurfaced noise source.
+@   these are under investigation. Some or all of them may be able to
+@   be resurrected.
+@ spc- are special and other types of runs that should not be in any
+@   analyses, but might be useful for studies.
+
+"bad runs file" = "dq_defs/common/no-cert.badruns"
+@"bad runs file" = "dq_defs/common/cal-prelim.badruns"
+"bad runs file" = "dq_defs/common/spc-a.badruns"
+"bad runs file" = "dq_defs/common/spc-b.badruns"
+"bad runs file" = "dq_defs/common/spc-c.badruns"
+
+@ Uncomment the following to add Run2a ctt and/or ctt crate 13 (hex) to
+@ your criteria. ONLY use cttx13 for TRIGGER STUDIES, NOT for analyzes.
+
+@"bad runs file" = "dq_defs/common/ctt-a.badruns"
+@"bad runs file" = "dq_defs/common/cttx13-a.badruns"
+@"bad runs file" = "dq_defs/common/cttx13-b.badruns"
+@"bad runs file" = "dq_defs/common/cttx13-c.badruns"
+
+@ can also give it good runs list
+@"good runs file" = "[name].goodruns"
+
+@@@@@ LBNs lists
+
+@ define lbn range (implicitly defined by run range)
+"lbn range" = 1 ; 9000000
+
+@ use bad lbns only:
+@ -1=use bad/0=use both/1=use good
+"lbn list mode" = -1
+
+@ load bad LBNs from textfiles
+@ CAL only for now.
+
+"bad lbns file" = "dq_defs/common/caloff-a.badlbns"
+"bad lbns file" = "dq_defs/common/caloff-b.badlbns"
+"bad lbns file" = "dq_defs/common/caloff-c.badlbns"
+
+@ can also give it good lbns list
+@"good lbns file" = "[name].goodlbns"
+
+@@@@@ Event based calo checks
+@@@@@ NOTE: This system does NOT adjust the luminosity for the
+@@@@@       loss of these events! You must do that yourself.
+
+@ Turn on/off event based calo checks
+@ 1=on/0=off
+
+"check cal_empty_crate" = 1
+"check cal_ring_of_fire" = 1
+"check cal_noon_noise" = 1
+"check cal_coherent_noise" = 1
+"check cal_sca_failure" = 1
+"check cal_spanish_fan" = 1

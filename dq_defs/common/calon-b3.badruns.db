@@ -1,0 +1,51 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >=255328 and q.run_number <= 262856) and (q.qual_group = 'CAL' and q.quality = 'BAD' and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') order by q.run_number asc ;
+    255470 CAL        BAD                  official/global_CMT
+    255519 CAL        BAD                  official/global_CMT
+    255520 CAL        BAD                  official/global_CMT
+    255581 CAL        BAD                  official/global_CMT
+    255638 CAL        BAD                  official/global_CMT
+    255645 CAL        BAD                  official/global_CMT
+    255652 CAL        BAD                  official/global_CMT
+    255653 CAL        BAD                  official/global_CMT
+    255655 CAL        BAD                  official/global_CMT
+    256975 CAL        BAD                  official/global_CMT
+    257339 CAL        BAD                  official/global_CMT
+    257467 CAL        BAD                  official/global_CMT
+    257479 CAL        BAD                  official/global_CMT
+    257596 CAL        BAD                  official/global_CMT
+    257597 CAL        BAD                  official/global_CMT
+    257598 CAL        BAD                  official/global_CMT
+    257686 CAL        BAD                  official/global_CMT
+    257702 CAL        BAD                  official/global_CMT
+    257817 CAL        BAD                  official/global_CMT
+    258246 CAL        BAD                  official/global_CMT
+    258247 CAL        BAD                  official/global_CMT
+    258248 CAL        BAD                  official/global_CMT
+    258249 CAL        BAD                  official/global_CMT
+    258345 CAL        BAD                  official/global_CMT
+    258523 CAL        BAD                  official/global_CMT
+    258524 CAL        BAD                  official/global_CMT
+    258525 CAL        BAD                  official/global_CMT
+    259227 CAL        BAD                  official/global_CMT
+    259228 CAL        BAD                  official/global_CMT
+    259286 CAL        BAD                  official/global_CMT
+    259287 CAL        BAD                  official/global_CMT
+    259288 CAL        BAD                  official/global_CMT
+    259289 CAL        BAD                  official/global_CMT
+    259292 CAL        BAD                  official/global_CMT
+    259595 CAL        BAD                  official/global_CMT
+    260765 CAL        BAD                  official/global_CMT
+    260766 CAL        BAD                  official/global_CMT
+    260767 CAL        BAD                  official/global_CMT
+    261060 CAL        BAD                  official/global_CMT
+    261077 CAL        BAD                  official/global_CMT
+    261078 CAL        BAD                  official/global_CMT
+    261079 CAL        BAD                  official/global_CMT
+    261163 CAL        BAD                  official/global_CMT
+    262513 CAL        BAD                  official/global_CMT
+
+44 rows selected.
+
+SQL>
+SQL> spool off

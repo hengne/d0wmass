@@ -1,0 +1,110 @@
+EffName : eff_ptturn_L2_CC
+EffType : Binned
+EffVarNames : pt
+EffVersion : 0
+ObjQuality : matched
+ObjType : jet
+ObjVersion : -1 
+RunRangeHigh : 13611601
+RunRangeLow : 0
+BinEdgesX : 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 
+BinVal : 0 0 0 0
+BinVal : 1 1.72505e-05 0 0
+BinVal : 2 0.00468212 0 0
+BinVal : 3 0.0319898 0 0
+BinVal : 4 0.0851748 0 0
+BinVal : 5 0.154334 0 0
+BinVal : 6 0.229857 0 0
+BinVal : 7 0.305468 0 0
+BinVal : 8 0.377647 0 0
+BinVal : 9 0.444644 0 0
+BinVal : 10 0.505761 0 0
+BinVal : 11 0.560897 0 0
+BinVal : 12 0.610273 0 0
+BinVal : 13 0.654272 0 0
+BinVal : 14 0.69335 0 0
+BinVal : 15 0.727976 0 0
+BinVal : 16 0.758611 0 0
+BinVal : 17 0.785687 0 0
+BinVal : 18 0.8096 0 0
+BinVal : 19 0.830712 0 0
+BinVal : 20 0.849346 0 0
+BinVal : 21 0.865792 0 0
+BinVal : 22 0.880307 0 0
+BinVal : 23 0.893118 0 0
+BinVal : 24 0.904428 0 0
+BinVal : 25 0.914414 0 0
+BinVal : 26 0.923232 0 0
+BinVal : 27 0.931021 0 0
+BinVal : 28 0.937903 0 0
+BinVal : 29 0.943985 0 0
+BinVal : 30 0.949362 0 0
+BinVal : 31 0.954115 0 0
+BinVal : 32 0.958319 0 0
+BinVal : 33 0.962038 0 0
+BinVal : 34 0.965328 0 0
+BinVal : 35 0.96824 0 0
+BinVal : 36 0.970818 0 0
+BinVal : 37 0.973101 0 0
+BinVal : 38 0.975123 0 0
+BinVal : 39 0.976914 0 0
+BinVal : 40 0.9785 0 0
+BinVal : 41 0.979907 0 0
+BinVal : 42 0.981153 0 0
+BinVal : 43 0.982258 0 0
+BinVal : 44 0.983238 0 0
+BinVal : 45 0.984107 0 0
+BinVal : 46 0.984878 0 0
+BinVal : 47 0.985562 0 0
+BinVal : 48 0.986169 0 0
+BinVal : 49 0.986707 0 0
+BinVal : 50 0.987185 0 0
+BinVal : 51 0.98761 0 0
+BinVal : 52 0.987987 0 0
+BinVal : 53 0.988321 0 0
+BinVal : 54 0.988618 0 0
+BinVal : 55 0.988882 0 0
+BinVal : 56 0.989117 0 0
+BinVal : 57 0.989325 0 0
+BinVal : 58 0.989511 0 0
+BinVal : 59 0.989675 0 0
+BinVal : 60 0.989821 0 0
+BinVal : 61 0.989951 0 0
+BinVal : 62 0.990067 0 0
+BinVal : 63 0.99017 0 0
+BinVal : 64 0.990261 0 0
+BinVal : 65 0.990342 0 0
+BinVal : 66 0.990415 0 0
+BinVal : 67 0.990479 0 0
+BinVal : 68 0.990536 0 0
+BinVal : 69 0.990587 0 0
+BinVal : 70 0.990632 0 0
+BinVal : 71 0.990673 0 0
+BinVal : 72 0.990709 0 0
+BinVal : 73 0.99074 0 0
+BinVal : 74 0.990769 0 0
+BinVal : 75 0.990794 0 0
+BinVal : 76 0.990817 0 0
+BinVal : 77 0.990837 0 0
+BinVal : 78 0.990854 0 0
+BinVal : 79 0.99087 0 0
+BinVal : 80 0.990884 0 0
+BinVal : 81 0.990897 0 0
+BinVal : 82 0.990908 0 0
+BinVal : 83 0.990918 0 0
+BinVal : 84 0.990927 0 0
+BinVal : 85 0.990935 0 0
+BinVal : 86 0.990942 0 0
+BinVal : 87 0.990948 0 0
+BinVal : 88 0.990954 0 0
+BinVal : 89 0.990959 0 0
+BinVal : 90 0.990963 0 0
+BinVal : 91 0.990967 0 0
+BinVal : 92 0.990971 0 0
+BinVal : 93 0.990974 0 0
+BinVal : 94 0.990977 0 0
+BinVal : 95 0.990979 0 0
+BinVal : 96 0.990982 0 0
+BinVal : 97 0.990984 0 0
+BinVal : 98 0.990985 0 0
+BinVal : 99 0.990987 0 0

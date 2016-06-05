@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.20">
+ <TITLE>User Guide to Common Analysis Format</TITLE>
+ <LINK HREF="UserGuide-1.html" REL=next>
+
+
+</HEAD>
+<BODY>
+<A HREF="UserGuide-1.html">Next</A>
+Previous
+Contents
+<HR>
+<H1>User Guide to Common Analysis Format</H1>
+
+<H2>Reiner Hauser, <CODE>rhauser@fnal.gov</CODE></H2>v0.2, 2 February 2005
+<HR>
+<EM>This document describes how to use the D0 Common Analysis Format (CAF).</EM>
+<HR>
+<P>
+<H2><A NAME="toc1">1.</A> <A HREF="UserGuide-1.html">Introduction</A></H2>
+
+<P>
+<H2><A NAME="toc2">2.</A> <A HREF="UserGuide-2.html">Getting Started</A></H2>
+
+<UL>
+<LI><A NAME="toc2.1">2.1</A> <A HREF="UserGuide-2.html#ss2.1">Setting up the Release <B>[BEGINNER]</B></A>
+<LI><A NAME="toc2.2">2.2</A> <A HREF="UserGuide-2.html#ss2.2">One-time Preparations <B>[BEGINNER]</B></A>
+<LI><A NAME="toc2.3">2.3</A> <A HREF="UserGuide-2.html#ss2.3">Simple Examples <B>[BEGINNER]</B></A>
+<LI><A NAME="toc2.4">2.4</A> <A HREF="UserGuide-2.html#ss2.4">Explicit Loading of the CAF Classes <B>[ADVANCED]</B></A>
+</UL>
+<P>
+<H2><A NAME="toc3">3.</A> <A HREF="UserGuide-3.html">Using the CAF Environment (Cafe)</A></H2>
+
+<UL>
+<LI><A NAME="toc3.1">3.1</A> <A HREF="UserGuide-3.html#ss3.1">The <CODE>cafe::Event</CODE> Class <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc3.2">3.2</A> <A HREF="UserGuide-3.html#ss3.2">Using the <CODE>cafe::Event</CODE> Class <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc3.3">3.3</A> <A HREF="UserGuide-3.html#ss3.3"><CODE>cafe::Event</CODE> and User Defined Classes <B>[ADVANCED]</B> </A>
+</UL>
+<P>
+<H2><A NAME="toc4">4.</A> <A HREF="UserGuide-4.html">The CAF Environment Framework</A></H2>
+
+<UL>
+<LI><A NAME="toc4.1">4.1</A> <A HREF="UserGuide-4.html#ss4.1">Concepts <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc4.2">4.2</A> <A HREF="UserGuide-4.html#ss4.2">Writing your own Processors <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc4.3">4.3</A> <A HREF="UserGuide-4.html#ss4.3">Input Specifications <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc4.4">4.4</A> <A HREF="UserGuide-4.html#ss4.4">Run Specifications <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc4.5">4.5</A> <A HREF="UserGuide-4.html#ss4.5">Non-Persistent Data in <CODE>cafe:Event</CODE>  <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc4.6">4.6</A> <A HREF="UserGuide-4.html#ss4.6">Tagging Events <B>[BEGINNER]</B> </A>
+</UL>
+<P>
+<H2><A NAME="toc5">5.</A> <A HREF="UserGuide-5.html">Configuration Files </A></H2>
+
+<UL>
+<LI><A NAME="toc5.1">5.1</A> <A HREF="UserGuide-5.html#ss5.1">Syntax <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc5.2">5.2</A> <A HREF="UserGuide-5.html#ss5.2">Access from User Code <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc5.3">5.3</A> <A HREF="UserGuide-5.html#ss5.3">Specifying <CODE>Groups</CODE> <B>[ADVANCED]</B></A>
+<LI><A NAME="toc5.4">5.4</A> <A HREF="UserGuide-5.html#ss5.4">Including Configuration Files</A>
+</UL>
+<P>
+<H2><A NAME="toc6">6.</A> <A HREF="UserGuide-6.html">Extending the CAF Tree <B>[ADVANCED]</B></A></H2>
+
+<P>
+<H2><A NAME="toc7">7.</A> <A HREF="UserGuide-7.html">Available <CODE>Processors</CODE> <B>[BEGINNER]</B> </A></H2>
+
+<UL>
+<LI><A NAME="toc7.1">7.1</A> <A HREF="UserGuide-7.html#ss7.1">Creating Histograms <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc7.2">7.2</A> <A HREF="UserGuide-7.html#ss7.2">Hist2D and Hist3D</A>
+<LI><A NAME="toc7.3">7.3</A> <A HREF="UserGuide-7.html#ss7.3">Selecting Events <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc7.4">7.4</A> <A HREF="UserGuide-7.html#ss7.4">Selecting Events by Trigger <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc7.5">7.5</A> <A HREF="UserGuide-7.html#ss7.5">Adding Friends <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc7.6">7.6</A> <A HREF="UserGuide-7.html#ss7.6">Conditional Execution <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc7.7">7.7</A> <A HREF="UserGuide-7.html#ss7.7">Permutations <B>[ADVANCED]</B></A>
+<LI><A NAME="toc7.8">7.8</A> <A HREF="UserGuide-7.html#ss7.8">Creating Subsets of Particles <B>[ADVANCED]</B></A>
+<LI><A NAME="toc7.9">7.9</A> <A HREF="UserGuide-7.html#ss7.9">Writing out Events <B>[BEGINNER]</B> </A>
+<LI><A NAME="toc7.10">7.10</A> <A HREF="UserGuide-7.html#ss7.10">Controller/Group <B>[ADVANCED]</B></A>
+</UL>
+<P>
+<H2><A NAME="toc8">8.</A> <A HREF="UserGuide-8.html">A Quick Tour through Typical Use Cases</A></H2>
+
+<UL>
+<LI><A NAME="toc8.1">8.1</A> <A HREF="UserGuide-8.html#ss8.1">Making a Selection by Triggers</A>
+<LI><A NAME="toc8.2">8.2</A> <A HREF="UserGuide-8.html#ss8.2">Making a Selection by Physics Objects</A>
+<LI><A NAME="toc8.3">8.3</A> <A HREF="UserGuide-8.html#ss8.3">Creating a Histogram</A>
+<LI><A NAME="toc8.4">8.4</A> <A HREF="UserGuide-8.html#ss8.4">Writing Events</A>
+</UL>
+<P>
+<H2><A NAME="toc9">9.</A> <A HREF="UserGuide-9.html">Appendix</A></H2>
+
+<UL>
+<LI><A NAME="toc9.1">9.1</A> <A HREF="UserGuide-9.html#ss9.1">Using the <CODE>cafe::Event</CODE> with <CODE>TSelector</CODE> <B>[ADVANCED]</B></A>
+<LI><A NAME="toc9.2">9.2</A> <A HREF="UserGuide-9.html#ss9.2">Controllers <B>[ADVANCED]</B></A>
+<LI><A NAME="toc9.3">9.3</A> <A HREF="UserGuide-9.html#ss9.3">The default <CODE>RunController</CODE> <B>[ADVANCED]</B></A>
+</UL>
+<HR>
+<A HREF="UserGuide-1.html">Next</A>
+Previous
+Contents
+</BODY>
+</HTML>

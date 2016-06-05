@@ -1,0 +1,95 @@
+#! /bin/bash
+
+if [ $# -ne 5 ]
+then
+    echo "usage: $0 PASS SKIM DEF TRIG BADRUNS"
+    echo ""
+    echo "PASS    - CSG Pass of the dataset, run genLBNtables for a list of available passes"
+    echo "SKIM    - datasets parent CSG skim, run genLBNtables for a list of available skims"
+    echo "DEF     - dataset definition for which to calculate luminosity"
+    echo "TRIG    - trigger used for the luminosity calculations, be sure to pick one which"
+    echo "          is available over the full run-range of your dataset"
+    echo "BADRUNS - file containing a list of bad runs files used seperately to calculate"
+    echo "          the luminosity"
+    echo ""
+    echo "This script will go through all the necessary steps to calculate the luminosity"
+    echo "over the full range of runs in a dataset."
+    echo "Fed the names of bad run lists, it will determine the luminosity which remains after"
+    echo "their exclusion."
+    echo "You can feed a superset of bad runs, bad lbns, and good runs by creating a"
+    echo "badRunsList, badLBNList, and/or goodRunsList file in the directory"
+    echo ""
+    exit 1
+fi
+
+
+. /etc/bashrc
+. /fnal/ups/etc/setups.sh
+
+setup D0RunII p21.03.00
+setup sam
+setup lm_tools
+
+PASS=${1}
+SKIM=${2}
+DEF=${3}
+TRIG=${4}
+BADRUNS=${5}
+
+TO="jonckheere@fnal.gov"
+
+
+echo | mail -s "dq_checker.sh ${DEF} ${TRIG} starting" ${TO}
+
+echo "Pass:    ${PASS}"
+echo "Skim:    ${SKIM}"
+echo "Def:     ${DEF}"
+echo "Trig:    ${TRIG}"
+echo "Badruns: ${BADRUNS}"
+
+genLBNtables -format CAF -pass ${PASS} -skim ${SKIM} -defname ${DEF}
+
+ls ${SKIM} | sed -e 's/.parentage//' > ${SKIM}.files
+
+rm -f runrange
+ls ${SKIM} | sed -e "s#.*#cat ${SKIM}/\0 | cut -f3 -d' ' | sort -n -u >> runrange#" | sh
+cat runrange | sort -n -u | sed -e "s/.*/${TRIG} \0 \0/" > tmp
+mv -f tmp runrange
+
+getLuminosity --stage3 --runrange ${SKIM}.files ./${SKIM}/ runrange > output.lumi
+
+cat output.lumi | grep recorded | grep "with bad" | sed -e 's/^.*[0-9]-//; s/ and.*://; s/ pb.*//' > ${SKIM}.run_lum
+
+SUM="0.0"
+NRUNS=0
+while read RUN LUM
+do
+    LUM=`echo ${LUM} | sed -e 's/\(.*\)e\(.*\)/scale=10; \1 * 10^\2/' | bc`
+    SUM="${SUM} + ${LUM}"
+    ((NRUNS+=1))
+done < ${SKIM}.run_lum
+echo -n "Total Luminosity: "
+echo ${SUM} | bc
+echo "Total Runs: ${NRUNS}"
+
+for RUNLIST in `cat ${BADRUNS}`
+do
+    SUM="0.0"
+    NRUNS=0
+    while read RUN LUM
+    do
+        grep -q ${RUN} ${RUNLIST}
+        if [ $? -ne 0 ] 
+        then
+            LUM=`echo ${LUM} | sed -e 's/\(.*\)e\(.*\)/scale=10; \1 * 10^\2/' | bc`
+            SUM="${SUM} + ${LUM}"
+            ((NRUNS+=1))
+        fi
+    done < ${SKIM}.run_lum
+
+    echo -n "${RUNLIST} Remaining Luminosity: "
+    echo ${SUM} | bc
+    echo "${RUNLIST} Remaining Runs: ${NRUNS}"
+done
+
+echo | mail -s "dq_checker.sh ${PASS} ${SKIM} ${DEF} ${TRIG} done" ${TO}

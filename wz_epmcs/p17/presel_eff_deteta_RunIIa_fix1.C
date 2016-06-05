@@ -1,0 +1,80 @@
+{
+//=========Macro generated from canvas: eff_canvas/gerrors2
+//=========  (Tue Oct 23 10:47:39 2007) by ROOT version4.04/02b
+   TCanvas *eff_canvas = new TCanvas("eff_canvas", "gerrors2",558,24,700,500);
+   gStyle->SetOptFit(1);
+   eff_canvas->Range(-3.75,-0.1312,3.75,1.1808);
+   eff_canvas->SetFillColor(0);
+   eff_canvas->SetBorderMode(0);
+   eff_canvas->SetBorderSize(2);
+   eff_canvas->SetFrameBorderMode(0);
+   eff_canvas->SetFrameBorderMode(0);
+   
+   TH1 *PreSelEffDetEta = new TH1D("PreSelEffDetEta","PreSelEffDetEta",31,-3,3);
+   PreSelEffDetEta->SetBinContent(5,0.974684);
+   PreSelEffDetEta->SetBinContent(6,0.992095);
+   PreSelEffDetEta->SetBinContent(7,0.994094);
+   PreSelEffDetEta->SetBinContent(8,0.992991);
+   PreSelEffDetEta->SetBinContent(11,0.996016);
+   PreSelEffDetEta->SetBinContent(12,0.997871);
+   PreSelEffDetEta->SetBinContent(13,0.998694);
+   PreSelEffDetEta->SetBinContent(14,0.996795);
+   PreSelEffDetEta->SetBinContent(15,0.995428);
+   PreSelEffDetEta->SetBinContent(16,0.99434);
+   PreSelEffDetEta->SetBinContent(17,0.995009);
+   PreSelEffDetEta->SetBinContent(18,0.997576);
+   PreSelEffDetEta->SetBinContent(19,0.996651);
+   PreSelEffDetEta->SetBinContent(20,0.99664);
+   PreSelEffDetEta->SetBinContent(21,0.99609);
+   PreSelEffDetEta->SetBinContent(24,0.996667);
+   PreSelEffDetEta->SetBinContent(25,0.990654);
+   PreSelEffDetEta->SetBinContent(26,0.986254);
+   PreSelEffDetEta->SetBinContent(27,0.980519);
+   PreSelEffDetEta->SetBinError(5,0.012497);
+   PreSelEffDetEta->SetBinError(6,0.00556764);
+   PreSelEffDetEta->SetBinError(7,0.00339947);
+   PreSelEffDetEta->SetBinError(8,0.00285151);
+   PreSelEffDetEta->SetBinError(11,0.00198806);
+   PreSelEffDetEta->SetBinError(12,0.00122797);
+   PreSelEffDetEta->SetBinError(13,0.000923115);
+   PreSelEffDetEta->SetBinError(14,0.00143108);
+   PreSelEffDetEta->SetBinError(15,0.00172416);
+   PreSelEffDetEta->SetBinError(16,0.00188144);
+   PreSelEffDetEta->SetBinError(17,0.00176005);
+   PreSelEffDetEta->SetBinError(18,0.00121065);
+   PreSelEffDetEta->SetBinError(19,0.00149519);
+   PreSelEffDetEta->SetBinError(20,0.00150021);
+   PreSelEffDetEta->SetBinError(21,0.00195121);
+   PreSelEffDetEta->SetBinError(24,0.00192129);
+   PreSelEffDetEta->SetBinError(25,0.00415999);
+   PreSelEffDetEta->SetBinError(26,0.00682545);
+   PreSelEffDetEta->SetBinError(27,0.011137);
+   PreSelEffDetEta->SetEntries(62);
+   
+   TPaveStats *ptstats = new TPaveStats(0.78,0.755,0.98,0.995,"brNDC");
+   ptstats->SetName("stats");
+   ptstats->SetBorderSize(1);
+   ptstats->SetTextAlign(12);
+   TText *text = ptstats->AddText("PreSelEffDetEta");
+   text->SetTextSize(0.0552);
+   text = ptstats->AddText("Entries = 62     ");
+   text = ptstats->AddText("Mean  = -5.454e-05");
+   text = ptstats->AddText("RMS   =  1.285");
+   ptstats->SetOptStat(1111);
+   ptstats->SetOptFit(111);
+   ptstats->Draw();
+   PreSelEffDetEta->GetListOfFunctions()->Add(ptstats);
+   ptstats->SetParent(PreSelEffDetEta->GetListOfFunctions());
+   PreSelEffDetEta->GetXaxis()->SetTitle("det eta");
+   PreSelEffDetEta->GetYaxis()->SetTitle("Eff");
+   PreSelEffDetEta->Draw("");
+   
+   TPaveText *pt = new TPaveText(0.01,0.939068,0.163621,0.995,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(1);
+   text = pt->AddText("PreSelEffDetEta");
+   pt->Draw();
+   eff_canvas->Modified();
+   eff_canvas->cd();
+   eff_canvas->SetSelected(eff_canvas);
+}

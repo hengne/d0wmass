@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.20">
+ <TITLE>User Guide to Common Analysis Format: Using the CAF Environment (Cafe)</TITLE>
+ <LINK HREF="UserGuide-4.html" REL=next>
+ <LINK HREF="UserGuide-2.html" REL=previous>
+ <LINK HREF="UserGuide.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="UserGuide-4.html">Next</A>
+<A HREF="UserGuide-2.html">Previous</A>
+<A HREF="UserGuide.html#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3.</A> <A HREF="UserGuide.html#toc3">Using the CAF Environment (Cafe)</A></H2>
+
+
+<P>The CAF environment is a set of classes which make it easier to work with
+the objects in the common analysis format. More specifically, it includes
+an <CODE>Event</CODE> class that integrates all the various branches and provides
+type safe access to all the physics objects. In addition it has framework classes
+which make it easy to break your analysis into little packages and 
+run them in any given order, share code with others etc.</P>
+<P>You can use many of the CAFE classes in an interactive session as well, which
+is the way we introduce most of them here.</P>
+
+<H2><A NAME="ss3.1">3.1</A> <A HREF="UserGuide.html#toc3.1">The <CODE>cafe::Event</CODE> Class <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>The <CODE>cafe::Event</CODE> class provides easy access to all common physics
+objects used in an analysis. Here is one way to use it:</P>
+<P>
+<PRE>
+root [0] cafe::Event event;  
+root [1] TFile file("input.root");
+root [2] TTree *tree = (TTree *)file.Get("TMBTree");
+root [3] event.setBranchAddresses(tree);
+</PRE>
+</P>
+<P>Now every call to <CODE>tree-&gt;GetEntry(i)</CODE> will fill the <CODE>event</CODE> object.</P>
+<P>In practice, you only have to call <CODE>tree-&gt;LoadTree(i)</CODE>. This avoids
+that the full event is read at once. Instead the <CODE>Event</CODE> class will read
+the data as you ask for it, which can speed up processing tremendously.</P>
+
+<H2><A NAME="ss3.2">3.2</A> <A HREF="UserGuide.html#toc3.2">Using the <CODE>cafe::Event</CODE> Class <B>[BEGINNER]</B> </A>
+</H2>
+
+
+<P>The interface of this class provides methods to access all common physics objects.
+Here is how the interface looks like:</P>
+<P>
+<PRE>
+    class Event : public EventBase {
+    public:
+        Event();
+        
+        Collection&lt;TMBMuon>      getMuons()    const;
+        Collection&lt;TMBEMCluster> getEMcellNN()  const;
+        Collection&lt;TMBEMCluster> getEMscone()  const;
+        Collection&lt;TMBJet>       getJCCA()     const;
+        Collection&lt;TMBJet>       getJCCB()     const;
+        Collection&lt;TMBJet>       getJets(const std::string&amp; name) const;
+        Collection&lt;TMBTrack>     getTracks()   const;
+        Collection&lt;TMBVertex>    getPrimaryVertices() const;
+        // [...many more]
+
+        const TMBMet    *getMet() const;
+        const TMBGlobal *getGlobal() const;
+</PRE>
+</P>
+<P>For a simple object that has its own branch (like <CODE>TMBGlobal</CODE>) we can just ask
+for a pointer to it. For branches which consist of multiple objects (e.g. all muons), the
+class returns a <CODE>Collection&lt;T&gt;</CODE> object. This is a lightweight wrapper
+around the internal <CODE>TClonesArray</CODE> implementation that makes it look like an STL container.
+The usual methods like <CODE>begin(), end()</CODE> and <CODE>size()</CODE> are available, as well
+as  the <CODE>[]</CODE> operator.</P>
+<P>
+<PRE>
+root [4] tree->GetEntry(0);
+root [5] event.getMuons().size();
+(const unsigned int)5
+root [6] cafe::Collection&lt;TMBMuon> muons = event.getMuons();
+root [7] muons.size()
+(const unsigned int)5
+root [8] const TMBMuon&amp; muon = muons[0]
+root [9] muon.Pt()
+1.9234234
+</PRE>
+</P>
+<P>Don't be afraid to copy <CODE>Collection</CODE> objects around, internally they are not more than
+a pointer and all the data actually remains in the original <CODE>Event</CODE> object.</P>
+<P>If you have a function like</P>
+<P>
+<PRE>
+#include "cafe/Event.hpp"
+#include &lt;iostream>
+
+bool doSomething(cafe::Event&amp; event)
+{
+    const TMBGlobal *global = event.getGlobal();
+    std::cout &lt;&lt; "Event = " &lt;&lt; global->evtno() 
+              &lt;&lt; std::endl;
+    return true;
+}
+</PRE>
+</P>
+<P>you can call it now like this:</P>
+<P>
+<PRE>
+root [...] .L do_something.C+
+root [...] for(Int_t i = 0; i &lt; tree->GetEntriesFast(); i++) { 
+           tree->LoadTree(i); do_something(event); event.clear();
+           }
+</PRE>
+</P>
+
+
+<H2><A NAME="ExtendEvent"></A> <A NAME="ss3.3">3.3</A> <A HREF="UserGuide.html#toc3.3"><CODE>cafe::Event</CODE> and User Defined Classes <B>[ADVANCED]</B> </A>
+</H2>
+
+
+<P>By default, the <CODE>Event</CODE> class knows only about the objects and branches which
+are part of the CAF classes. In fact <CODE>Event</CODE>  is only a convenience class for
+the user. Actually, its base class <CODE>EventBase</CODE> doesn't know anything about the 
+CAF classes at all.</P>
+<P>However, it has methods to access arbitrary branches, e.g. for non-standard 
+objects that are not part of the default CAF format.</P>
+
+<H3>Simple Objects</H3>
+
+<P>Let's assume that you've added a new branch to your root file which contains variables
+very specific to your analysis. These definitions will never go into the tree use
+for central production. We first consider the simply case where all these variables
+are in one object:</P>
+<P>
+<PRE>
+    class MyVariables : public TObject { 
+    public:
+          MyVariables();
+          int   myVariableA();
+          float myVariableB();
+    private:
+          // ... variables
+          int   _A;
+          float _B;
+    public:
+          ClassDef(MyVariables, 1);
+    };
+</PRE>
+</P>
+<P>The name of branch you've chosen to save it in is "MyAnalysis". We explain later
+how to add a branch to a CAF file, for now we assume your input file already contains
+these data.</P>
+<P>You can access it after you filled the event like this:</P>
+<P>
+<PRE>
+    tree->LoadTree(0);
+    const MyVariables *var = event.get&lt;MyVariables>("MyAnalysis");
+</PRE>
+</P>
+<P>The result will be a NULL pointer if the branch does not exist. </P>
+<P>If you don't like the use of templated member functions and specifying the branch name
+every time, you should probably write a little helper function:</P>
+<P>
+<PRE>
+ const MyVariables *getMyVariables(const cafe::Event&amp; event)
+ {
+    event.get&lt;MyVariables>("MyAnalysis");
+ }
+</PRE>
+</P>
+<P>and use that in your code. </P>
+
+<H3><CODE>TClonesArray</CODE>s of Objects</H3>
+
+
+<P>If you want to store a branch with more than one object, you should preferably put
+it into a <CODE>TClonesArray</CODE>. The recipe is very similar to the one above, except that
+now you call <CODE>getCollection()</CODE> and the return type is a <CODE>Collection&lt;T&gt;</CODE>
+where <CODE>T</CODE> is your type.</P>
+<P>Assuming you have this definition:</P>
+<P>
+<PRE>
+  class MyParticle : public TPhysObject {
+  public:
+       MyParticle();
+       float Pt() const;
+  private:
+       float _pt;
+  public:
+       ClassDef(MyParticle, 1);
+  };
+</PRE>
+</P>
+<P>you would access it like this:</P>
+<P>
+<PRE>
+   Collection&lt;MyParticle> my_particles(event.getCollection&lt;MyParticle>("MyAnalysisParticles"); 
+
+   for(Collection&lt;MyParticle>::iterator it = my_particles.begin();
+       it != my_particles.end();
+       ++it) {
+       float pt = (*it).Pt();
+   }
+</PRE>
+</P>
+
+<P>Finally, if you prefer to use the <CODE>TClonesArray</CODE> directly, you can do this as well:</P>
+<P>
+<PRE>
+   const TClonesArray *tca = event.getClonesArray("MyAnalysisParticles");
+</PRE>
+</P>
+
+<HR>
+<A HREF="UserGuide-4.html">Next</A>
+<A HREF="UserGuide-2.html">Previous</A>
+<A HREF="UserGuide.html#toc3">Contents</A>
+</BODY>
+</HTML>

@@ -1,0 +1,10 @@
+SQL>
+SQL> select q.run_number, q.qual_group, q.quality, r.trig_config_name from runs.runs r, runs.run_quality q where (q.run_number >=255328 and q.run_number <= 262856) and (q.qual_group = 'CTT' and q.quality != 'GOOD' and q.quality != 'REASONABLE' and q.quality != 'UNKNOWN' and r.run_number=q.run_number and r.recording like '1' and r.trig_config_name like 'official/global%') order by q.run_number asc ;
+    256177 CTT        BAD                  official/global_CMT
+    258145 CTT        BAD                  official/global_CMT
+    260856 CTT        BAD                  official/global_CMT
+    260857 CTT        BAD                  official/global_CMT
+    262005 CTT        BAD                  official/global_CMT
+
+SQL>
+SQL> spool off

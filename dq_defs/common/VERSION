@@ -1,0 +1,144 @@
+v2011-09-30
+
+All data up to and including the end of run, 30 Sep 2011
+ range 151817-275727 (19 Apr 2002 - 30 Sep 2011)
+
+    () default status
+    <- value from previous release when different
+badruns
+    3 bsmove-b3.badruns                          (off by default)
+    1 bsmove-b4.badruns                  <- 0    (off by default)
+   34 caloff-2pk.badruns                 new     (off by default)
+  227 caloff-b1.badruns
+    6 caloff-b1.sca.badruns
+  262 caloff-b2.badruns
+    2 caloff-b2.hot.badruns
+   80 caloff-b3.badruns
+   98 caloff-b4.badruns                  <- 50
+   10 caloff-nocert-b1.badruns
+   13 caloff-nocert-b2.badruns
+    2 caloff-nocert-b3.badruns
+   17 caloff-nocert-b4.badruns           <- 8
+   79 caloff-prelim.badruns                      (off by default)
+  757 calon-a.badruns
+    9 calon-b1.badruns
+    9 calon-b2.badruns
+    0 calon-b3.badruns
+    1 calon-b4.badruns
+   19 calt-b1.badruns
+   24 calt-b2.badruns
+    0 calt-b3.badruns
+    1 calt-b4.badruns
+  112 cft-a.badruns
+    9 cft-b1.badruns
+   28 cft-b2.badruns
+    1 cft-b3.badruns
+   12 cft-b4.badruns                     <- 1
+  116 cps-b2.badruns                             (off by default)
+    0 cps-b3.badruns                             (off by default)
+    0 cps-b4.badruns                             (off by default)
+  318 ctt-a.badruns                              (off by default)
+   34 ctt-b1.badruns
+   50 ctt-b2.badruns
+    5 ctt-b3.badruns
+   16 ctt-b4.badruns                     <- 8
+    7 ctt-nocert-b1.badruns
+    0 ctt-nocert-b2.badruns
+    0 ctt-nocert-b3.badruns
+    9 ctt-nocert-b4.badruns
+ 1604 cttx13-a.badruns                           (off by default)
+   43 cttx13-b1.badruns                          (off by default)
+    8 cttx13-b2.badruns                          (off by default)
+    1 cttx13-b3.badruns                          (off by default)
+    7 cttx13-b4.badruns                  <- 4    (off by default)
+   12 fps-b3.badruns                             (off by default)
+    0 fps-b4.badruns                             (off by default)
+    2 l1caltrk-b4.badruns
+    1 l1muon-b4.badruns                  <- new
+  554 muo-a.badruns
+  172 muo-b1.badruns
+  124 muo-b2.badruns
+   35 muo-b3.badruns
+  139 muo-b4.badruns                     <- 35
+  720 smt-a.badruns
+  160 smt-b1.badruns
+   94 smt-b2.badruns
+   25 smt-b3.badruns
+   95 smt-b4.badruns                     <- 85
+   15 solenoid-b2.badruns
+    8 solenoid-b3.badruns
+    8 solenoid-b4.badruns                <- 7
+  104 spc-a.badruns
+   17 spc-b1.badruns
+   67 spc-b2.badruns
+    5 spc-b3.badruns
+    7 spc-b4.badruns                     <- 2
+    2 stt-b3.badruns                            (off by default)
+    0 stt-b4.badruns                            (off by default)
+    6 toroid-b2.badruns
+    3 toroid-b3.badruns
+    8 toroid-b4.badruns                  <- 7
+   15 trigv16.85.badruns                 <- new
+    6 trigv16.85.badruns                 <- new
+
+badlbns
+65628 caloff-a.badlbns
+  807 caloff-b1.badlbns
+ 2491 caloff-b2.badlbns
+ 2152 caloff-b2.hot.badlbns
+  584 caloff-b3.badlbns
+ 1408 caloff-b4.badlbns                  <- 991
+   50 cft-b2.badlbns
+   17 cft-b3.badlbns
+   18 cft-b4.badlbns                     <- 0
+   38 ctt-b4.badlbns
+   36 l1cal-b3.badlbns
+   37 l1cal-b4.badlbns                   <- 0
+    6 muo-b2.badlbns
+   19 muo-b3.badlbns
+   13 muo-b4.badlbns                     <- 0
+  147 smt-b3.badlbns
+  270 smt-b4.badlbns                     <- 164
+   18 solenoid-b2.badlbns
+    5 solenoid-b3.badlbns
+   23 solenoid-b4.badlbns                <- 0
+    2 spc-b4.badlns                      <- new
+   28 toroid-b4.badlnbs                  <- new
+
+
+Specific sql queries can be found in
+   dq_defs/scripts/dq_sql.sh
+
+ALL detectors list only recorded & official/global% runs
+     (in runs db)
+ALL detectors are broken into 
+  Run2a   (-a)
+  Run2b-1 (-b1) pre 2007 shutdown
+  Run2b-2 (-b2) post 2007 shutdown
+  Run2b-3 (-b3) post 2009 shutdown
+  Run2b-4 (-b4) post 2010 shutdown
+
+  in the RunsDQDB
+SMT and MUO require            != REASONABLE
+CALon, CFT and CALT require     = BAD
+CFT-a (Run2a) require           = BAD
+CFT-b1 (Run2b) require         != GOOD and != REASONABLE
+
+CTTx13 are any recorded runs that do *NOT* contain crate 19 (decimal)
+       in the RunsDB or are not marked as "GOOD" or "REASONABLE" in
+       par_name cr13stat.
+
+CTT    starts with run 179038 and
+       are != GOOD and != REASONABLE and != UNKNOWN
+       ctt-nocert*.badruns are run = UNKNOWN
+
+CALoff is produced by Ken and Lidjia which are then added to what
+   was there previously.
+
+
+Any run that is certified by CALoff overrides the CALon determination.
+Runs that are overridden are listed in:
+  calon-*.badruns.over
+so may be added back in as badruns in the dqdefs file.
+
+AMJ

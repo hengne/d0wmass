@@ -1,0 +1,26 @@
+/CalGeom_p17mc.txt/1.1/Fri Apr 13 21:09:20 2007//
+/MC_Data_LumiRatio.C/1.2/Mon Jul 28 00:41:34 2008//
+/UParaCorrPerTower.C/1.1/Wed Apr 18 19:36:46 2007//
+/Wmass.dqdef/1.1/Wed Jul 16 19:22:25 2008//
+/Wmass_runIIb.dqdef.runIIb/1.4/Mon Oct 12 19:17:51 2009//
+/Wmass_runIIb3and4upto_March18_2011.dqdef.runIIb/1.1/Wed Aug  3 21:15:37 2011//
+/Wmass_runIIbfinal.dqdef.runIIb/1.3/Thu May  3 15:34:48 2012//
+/beamspot.dat/1.2/Mon Nov 12 18:09:50 2007//
+/cafe.config/1.69/Fri Jan  8 18:04:40 2010//
+/cafe.config.RatioMethod/1.1/Thu Nov 20 22:20:09 2008//
+/cafe.config.geant/1.48/Fri Jan  8 18:04:40 2010//
+/cafe.config.skim/1.2/Mon Oct  8 13:17:00 2007//
+/cafe_runIIb.config.geant.runIIb/1.53/Fri Mar 21 17:09:37 2014//
+/cafe_runIIb.config.runIIb/1.37/Wed Sep 18 20:39:07 2013//
+/cafe_runIIb.config.skim.runIIb/1.1/Fri Jan 16 22:25:33 2009//
+/calogeometry_2005.dat/1.1/Sun Apr  3 19:52:51 2005//
+/config_051910_fakean/1.1/Wed May 23 16:56:44 2012//
+/config_051910_fakeanTEST/1.1/Wed May 23 16:56:44 2012//
+/config_051910_fakeanW/1.1/Wed May 23 16:56:44 2012//
+/config_051910_fakean~/1.1/Wed May 23 16:56:44 2012//
+/goodMCEvents.txt/1.1/Tue Aug 21 23:29:08 2007//
+/trigs.map/1.2/Tue Sep 12 20:25:25 2006//
+/trigs_RunIIb.map/1.4/Thu Oct 13 10:30:07 2011//
+D/Calib_RunIIb4////
+D/Data_FullMC_Reweight////
+D/lumi_dq////

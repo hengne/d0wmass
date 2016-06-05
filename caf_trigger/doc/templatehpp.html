@@ -1,0 +1,70 @@
+<html>
+
+<head>
+<title>caf_trigger: a D0 software package</title>
+
+<link rel="stylesheet" type="text/css"
+href="d0.css" />
+
+</head>
+
+<body>
+
+<h1>Template processor header code</h1>
+
+<p>
+As with the .cpp file, the full header file is not shown here, but rather the portions that will require study.
+</p>
+
+<p class="code">
+<pre>
+//Inherits from probProcessor
+class probTemplate : public probProcessor
+{
+public:
+    probTemplate(const char *name);
+
+    //Define your effInfo objects here
+    void defineEffInfo(std::map< std::string, eff_utils::EffInfo > &effInfo);
+
+    
+////////////////////////////////////////////////////////////
+    
+
+    //These methods define the probability calculations
+    double calcProb(std::string version);
+
+    double P_Template(std::string version);
+
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+    ClassDef(probTemplate, 0);
+};
+</pre>
+</p>
+
+<p>
+There's only one thing in this file that requires one to tinker, and that is the <a href="#probmethods">location of the probability methods</a> within the header file. Specifically, the sections between lines of
+<br>
+////////////////////////////////////////////////////////////
+<br>
+<br>
+One should place ones methods within this section. It will allow one a better organizational structure to ones probability processor.
+<br>
+<br>
+////////////////////////////////////////////////////////////
+<br>
+////////////////////////////////////////////////////////////
+<br>
+
+</p>
+
+<p>
+Of course, one must change the names of the processor and methods (from probTemplate) in order to create a new processor as per the instructions.
+</p>
+
+</body>
+
+</html>

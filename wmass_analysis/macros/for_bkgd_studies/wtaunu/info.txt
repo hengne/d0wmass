@@ -1,0 +1,1 @@
+This is a purely MC based analysis. The macro (wtaunu_analysis.C) is used to determine the background fraction for a variety of mass points. The root files included are the generated wtaunu and the generated wenu samples. 

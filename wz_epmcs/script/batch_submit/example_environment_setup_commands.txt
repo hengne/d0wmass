@@ -1,0 +1,9 @@
+setup D0RunII p21.26.00 -O SRT_QUAL=maxopt
+setup lhapdf -q GCC3_4_3
+setenv LINK_SHARED yes
+
+#for data.  Library directories may be different if library locations have changed or if you are not running over resbos files.  
+setenv ZBLibraryRootPath /prj_root/3103/wz2_write/ddboline/RunIIb34 
+setenv MBLibraryRootPath /rooms/wmass 
+setenv TBLibraryRootPath /rooms/wmass/hengne/TBLibrary 
+setenv HRLibraryRootPath /rooms/wmass/jenny/MC/HRLibrary
